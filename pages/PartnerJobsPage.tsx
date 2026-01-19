@@ -176,76 +176,66 @@ const JobCard: React.FC<{
     return (
         <article 
             onClick={onView}
-            className="group relative bg-gradient-to-br from-white to-slate-50 rounded-3xl border-2 border-slate-200 hover:border-primary-400 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden"
+            className="group relative bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer overflow-hidden"
         >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary-100/30 to-primary-200/30 rounded-bl-full"></div>
-            
-            <div className="relative p-6">
-                <div className="flex items-start justify-between mb-4">
-                    <div className="flex flex-wrap gap-2">
-                        <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold ${config.bgColor} ${config.color}`}>
-                            <div className={`w-2 h-2 rounded-full ${config.dotColor}`}></div>
+            <div className="p-4">
+                <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex flex-wrap gap-1.5">
+                        <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-bold ${config.bgColor} ${config.color}`}>
+                            <div className={`w-1.5 h-1.5 rounded-full ${config.dotColor}`}></div>
                             {job.status}
                         </span>
-                        <span className="px-3 py-1.5 text-xs font-bold rounded-lg bg-blue-100 text-blue-700">
+                        <span className="px-2 py-1 text-[10px] font-bold rounded-md bg-blue-100 text-blue-700">
                             {job.type}
                         </span>
                     </div>
                 </div>
 
-                <div className="mb-4">
-                    <h3 className="text-xl font-black text-slate-900 group-hover:text-primary-700 transition-colors mb-2">
+                <div className="mb-2">
+                    <h3 className="text-sm font-bold text-slate-900 group-hover:text-primary-700 transition-colors line-clamp-2 leading-snug">
                         {job.title}
                     </h3>
-                    <p className="text-sm text-slate-500 line-clamp-2">{job.description}</p>
+                    <p className="text-xs text-slate-500 line-clamp-2 mt-1">{job.description}</p>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 mb-5">
-                    <div className="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg">
-                        <MapPinIcon className="w-4 h-4 text-slate-400"/>
-                        <span className="font-semibold">{job.location}</span>
+                <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
+                    <div className="flex items-center gap-1">
+                        <MapPinIcon className="w-3.5 h-3.5 text-slate-400"/>
+                        <span className="font-medium">{job.location}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg">
-                        <CalendarDaysIcon className="w-4 h-4 text-slate-400"/>
-                        <span className="font-semibold">{job.created}</span>
+                    <div className="flex items-center gap-1">
+                        <CalendarDaysIcon className="w-3.5 h-3.5 text-slate-400"/>
+                        <span className="font-medium">{job.created}</span>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 mb-5">
+                <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
                     {job.salary && (
-                        <div className="bg-white rounded-2xl p-3 border-2 border-primary-200">
-                            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Lohn</div>
-                            <div className="text-sm font-black text-primary-600 truncate">{job.salary}</div>
-                        </div>
+                        <div className="font-bold text-primary-600 truncate">{job.salary}</div>
                     )}
-                    <div className="bg-white rounded-2xl p-3 border-2 border-slate-200">
-                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Bewerbungen</div>
-                        <div className="flex items-center gap-2 text-lg">
-                            <UsersIcon className="w-5 h-5 text-slate-400" />
-                            <span className="font-black text-slate-900">{job.applicants}</span>
-                        </div>
+                    <div className="flex items-center gap-1 ml-auto">
+                        <UsersIcon className="w-3.5 h-3.5 text-slate-400" />
+                        <span className="font-medium text-slate-600">{job.applicants} Bewerbungen</span>
                     </div>
                 </div>
 
                 <div className="flex items-center gap-2" onClick={e => e.stopPropagation()}>
                     <button 
                         onClick={onView}
-                        className="flex-1 py-3 rounded-2xl font-black text-sm bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 text-white hover:from-primary-700 hover:via-primary-800 hover:to-primary-900 shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                        className="flex-1 py-2 rounded-xl font-bold text-xs bg-primary-600 text-white hover:bg-primary-700 shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
                     >
-                        <EyeIcon className="w-5 h-5"/>
+                        <EyeIcon className="w-4 h-4"/>
                         Details
                     </button>
                     <button 
                         onClick={onDelete}
-                        className="p-3 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-colors border-2 border-slate-200 hover:border-red-200" 
+                        className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors border border-slate-200 hover:border-red-200" 
                         title="Löschen"
                     >
-                        <TrashIcon className="w-5 h-5"/>
+                        <TrashIcon className="w-4 h-4"/>
                     </button>
                 </div>
             </div>
-
-            <div className="absolute inset-0 rounded-3xl border-2 border-primary-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
         </article>
     );
 };

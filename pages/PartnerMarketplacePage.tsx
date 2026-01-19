@@ -186,82 +186,72 @@ const ListingCard: React.FC<{
     return (
         <article 
             onClick={onView}
-            className="group relative bg-gradient-to-br from-white to-slate-50 rounded-3xl border-2 border-slate-200 hover:border-primary-400 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden"
+            className="group relative bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer overflow-hidden"
         >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary-100/30 to-primary-200/30 rounded-bl-full"></div>
-            
-            <div className="relative p-6">
-                <div className="flex items-start justify-between mb-4">
-                    <div className="flex flex-wrap gap-2">
-                        <span className={`px-3 py-1.5 text-xs uppercase font-black tracking-wider rounded-lg ${item.type === 'Miet-Inserat' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'}`}>
+            <div className="p-4">
+                <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex flex-wrap gap-1.5">
+                        <span className={`px-2 py-1 text-[10px] uppercase font-bold tracking-wider rounded-md ${item.type === 'Miet-Inserat' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'}`}>
                             {item.type === 'Miet-Inserat' ? 'Mieten' : 'Kaufen'}
                         </span>
-                        <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold ${config.bgColor} ${config.color}`}>
-                            <div className={`w-2 h-2 rounded-full ${config.dotColor}`}></div>
+                        <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-bold ${config.bgColor} ${config.color}`}>
+                            <div className={`w-1.5 h-1.5 rounded-full ${config.dotColor}`}></div>
                             {config.title}
                         </span>
                     </div>
                 </div>
 
-                <div className="flex gap-4 mb-4">
-                    <div className="w-24 h-24 rounded-2xl overflow-hidden bg-slate-100 flex-shrink-0 border-2 border-slate-200">
+                <div className="flex gap-3 mb-3">
+                    <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0 border border-slate-200">
                         {item.images[0] ? (
                             <img src={item.images[0]} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center text-slate-300">
-                                <PhotoIcon className="w-10 h-10"/>
+                                <PhotoIcon className="w-6 h-6"/>
                             </div>
                         )}
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{item.category}</p>
-                        <h3 className="text-lg font-black text-slate-900 group-hover:text-primary-700 transition-colors line-clamp-2 mb-2">
+                        <p className="text-[10px] font-bold text-primary-600 uppercase tracking-wider">{item.category}</p>
+                        <h3 className="text-sm font-bold text-slate-900 group-hover:text-primary-700 transition-colors line-clamp-2 leading-snug">
                             {item.name}
                         </h3>
-                        <div className="flex items-center gap-1.5 text-sm text-slate-500">
-                            <MapPinIcon className="w-4 h-4 flex-shrink-0"/>
-                            <span className="truncate font-semibold">{item.location}</span>
+                        <div className="flex items-center gap-1 text-xs text-slate-500 mt-1">
+                            <MapPinIcon className="w-3.5 h-3.5 flex-shrink-0"/>
+                            <span className="truncate font-medium">{item.location}</span>
                         </div>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 mb-5">
-                    <div className="bg-white rounded-2xl p-3 border-2 border-primary-200">
-                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Preis</div>
-                        <div className="text-lg font-black text-primary-600">{item.price}</div>
-                    </div>
-                    <div className="bg-white rounded-2xl p-3 border-2 border-slate-200">
-                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Statistik</div>
-                        <div className="flex items-center gap-3 text-sm">
-                            <span className="flex items-center gap-1 text-slate-700 font-bold">
-                                <EyeIcon className="w-4 h-4 text-slate-400" />{item.views}
-                            </span>
-                            <span className="flex items-center gap-1 text-slate-700 font-bold">
-                                <UsersIcon className="w-4 h-4 text-slate-400" />{item.inquiries}
-                            </span>
-                        </div>
+                <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
+                    <div className="font-bold text-primary-600">{item.price}</div>
+                    <div className="flex items-center gap-2 ml-auto">
+                        <span className="flex items-center gap-1 text-slate-600 font-medium">
+                            <EyeIcon className="w-3.5 h-3.5 text-slate-400" />{item.views}
+                        </span>
+                        <span className="flex items-center gap-1 text-slate-600 font-medium">
+                            <UsersIcon className="w-3.5 h-3.5 text-slate-400" />{item.inquiries}
+                        </span>
                     </div>
                 </div>
 
                 <div className="flex items-center gap-2" onClick={e => e.stopPropagation()}>
                     <button 
                         onClick={onView}
-                        className="flex-1 py-3 rounded-2xl font-black text-sm bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 text-white hover:from-primary-700 hover:via-primary-800 hover:to-primary-900 shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                        className="flex-1 py-2 rounded-xl font-bold text-xs bg-primary-600 text-white hover:bg-primary-700 shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
                     >
-                        <EyeIcon className="w-5 h-5"/>
+                        <EyeIcon className="w-4 h-4"/>
                         Details
                     </button>
                     <button 
                         onClick={onDelete}
-                        className="p-3 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-colors border-2 border-slate-200 hover:border-red-200" 
+                        className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors border border-slate-200 hover:border-red-200" 
                         title="Löschen"
                     >
-                        <TrashIcon className="w-5 h-5"/>
+                        <TrashIcon className="w-4 h-4"/>
                     </button>
                 </div>
             </div>
-
-            <div className="absolute inset-0 rounded-3xl border-2 border-primary-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
         </article>
     );
 };
