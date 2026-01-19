@@ -20,7 +20,6 @@ const navLinks = [
     { name: 'Lead-Marktplatz', icon: BuildingOffice2Icon, href: '/partner/requests' },
     { name: 'Kunden', icon: UsersIcon, href: '/partner/requests?view=purchased' },
     { name: 'Inserate', icon: ClipboardDocumentListIcon, href: '/partner/marketplace' },
-    { name: 'Stellen', icon: BriefcaseIcon, href: '/partner/jobs' },
 ];
 
 const PartnerHeader: React.FC = () => {
