@@ -536,93 +536,77 @@ const ProvidersPage: React.FC = () => {
             </section>
 
             
-            <section id="how-it-works" className="py-20 sm:py-28 bg-white relative overflow-hidden">
+            <section id="how-it-works" className="py-20 sm:py-28 bg-gradient-to-br from-primary-950 via-slate-900 to-slate-900 relative overflow-hidden">
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary-500/10 rounded-full blur-[120px]"></div>
+                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-green-500/10 rounded-full blur-[100px]"></div>
+                </div>
+
                 <div className="container mx-auto px-6 max-w-6xl relative z-10">
                     <div className="text-center mx-auto mb-16">
-                        <span className="inline-block px-4 py-1.5 bg-primary-100 text-primary-700 text-xs font-bold uppercase tracking-widest rounded-full mb-4">
+                        <span className="inline-block px-4 py-1.5 bg-white/10 text-primary-300 text-xs font-bold uppercase tracking-widest rounded-full mb-4 border border-white/10">
                             Ihr Weg zum Erfolg
                         </span>
-                        <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+                        <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-white">
                            {t.howItWorksTitle}
                         </h2>
-                         <p className="mt-4 text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                         <p className="mt-4 text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto">
                            {t.howItWorksSubtitle}
                         </p>
                     </div>
 
-                    <div className="relative max-w-5xl mx-auto">
-                        <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 -translate-y-1/2">
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
-                            <svg className="absolute left-[16%] top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 text-slate-300" viewBox="0 0 32 32" fill="none">
-                                <circle cx="16" cy="16" r="4" fill="currentColor"/>
-                            </svg>
-                            <svg className="absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 text-slate-300" viewBox="0 0 32 32" fill="none">
-                                <circle cx="16" cy="16" r="4" fill="currentColor"/>
-                            </svg>
-                            <svg className="absolute left-[84%] top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 text-slate-300" viewBox="0 0 32 32" fill="none">
-                                <circle cx="16" cy="16" r="4" fill="currentColor"/>
-                            </svg>
-                        </div>
-
-                        <div className="grid lg:grid-cols-3 gap-6 lg:gap-12">
+                    <div className="relative">
+                        <div className="hidden lg:flex items-center justify-center gap-0 max-w-5xl mx-auto">
                             {howItWorksSteps.map((step, index) => (
-                                <div key={step.title} className="relative group">
-                                    <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-primary-200 transition-all duration-300 h-full">
-                                        <div className="flex items-center gap-4 mb-6">
-                                            <div className="relative">
-                                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-50 to-green-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                    <svg className="w-10 h-10" viewBox="0 0 40 40" fill="none">
-                                                        {index === 0 && (
-                                                            <>
-                                                                <circle cx="20" cy="20" r="14" stroke="#22c55e" strokeWidth="2" fill="#f0fdf4"/>
-                                                                <circle cx="20" cy="20" r="8" stroke="#86efac" strokeWidth="1.5" fill="#dcfce7"/>
-                                                                <circle cx="20" cy="20" r="3" fill="#22c55e"/>
-                                                                <line x1="20" y1="10" x2="20" y2="4" stroke="#22c55e" strokeWidth="2" strokeLinecap="round"/>
-                                                                <line x1="30" y1="20" x2="36" y2="20" stroke="#22c55e" strokeWidth="2" strokeLinecap="round"/>
-                                                                <line x1="20" y1="30" x2="20" y2="36" stroke="#22c55e" strokeWidth="2" strokeLinecap="round"/>
-                                                                <line x1="10" y1="20" x2="4" y2="20" stroke="#22c55e" strokeWidth="2" strokeLinecap="round"/>
-                                                            </>
-                                                        )}
-                                                        {index === 1 && (
-                                                            <>
-                                                                <rect x="8" y="4" width="24" height="32" rx="3" fill="#f0fdf4" stroke="#22c55e" strokeWidth="2"/>
-                                                                <line x1="12" y1="12" x2="28" y2="12" stroke="#86efac" strokeWidth="2" strokeLinecap="round"/>
-                                                                <line x1="12" y1="18" x2="24" y2="18" stroke="#86efac" strokeWidth="2" strokeLinecap="round"/>
-                                                                <line x1="12" y1="24" x2="20" y2="24" stroke="#86efac" strokeWidth="2" strokeLinecap="round"/>
-                                                                <path d="M24 28 L28 32 L36 24" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                                                            </>
-                                                        )}
-                                                        {index === 2 && (
-                                                            <>
-                                                                <circle cx="20" cy="20" r="16" fill="#f0fdf4" stroke="#22c55e" strokeWidth="2"/>
-                                                                <path d="M12 20 L17 25 L28 14" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                                                            </>
-                                                        )}
-                                                    </svg>
-                                                </div>
-                                                <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-primary-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
+                                <div key={step.title} className="flex items-center">
+                                    <div className="flex flex-col items-center text-center w-64">
+                                        <div className="relative mb-6">
+                                            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary-500/20 to-green-500/20 border-2 border-primary-400/30 flex items-center justify-center backdrop-blur-sm">
+                                                <span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary-300 to-green-300">
                                                     {index + 1}
-                                                </div>
+                                                </span>
                                             </div>
-                                            <h3 className="text-xl font-bold text-slate-900 flex-1">{step.title.replace(/^\d+\.\s*/, '')}</h3>
+                                            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary-500 rounded-full">
+                                                <span className="text-[10px] font-bold text-white uppercase tracking-wider">Schritt</span>
+                                            </div>
                                         </div>
-                                        <p className="text-slate-600 leading-relaxed">{step.description}</p>
+                                        <h3 className="text-lg font-bold text-white mb-2">{step.title.replace(/^\d+\.\s*/, '')}</h3>
+                                        <p className="text-slate-400 text-sm leading-relaxed px-2">{step.description}</p>
                                     </div>
                                     
                                     {index < howItWorksSteps.length - 1 && (
-                                        <div className="hidden lg:flex absolute top-1/2 -right-6 transform -translate-y-1/2 z-10">
-                                            <svg className="w-6 h-6 text-primary-400" viewBox="0 0 24 24" fill="none">
-                                                <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <div className="flex items-center px-4">
+                                            <div className="w-16 h-0.5 bg-gradient-to-r from-primary-500 to-green-500"></div>
+                                            <svg className="w-6 h-6 text-green-400 -ml-1" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
                                             </svg>
                                         </div>
                                     )}
                                 </div>
                             ))}
                         </div>
+
+                        <div className="lg:hidden space-y-6">
+                            {howItWorksSteps.map((step, index) => (
+                                <div key={step.title} className="flex items-start gap-5">
+                                    <div className="flex-shrink-0">
+                                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500/20 to-green-500/20 border-2 border-primary-400/30 flex items-center justify-center">
+                                            <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary-300 to-green-300">
+                                                {index + 1}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="flex-1 pt-1">
+                                        <h3 className="text-lg font-bold text-white mb-1">{step.title.replace(/^\d+\.\s*/, '')}</h3>
+                                        <p className="text-slate-400 text-sm leading-relaxed">{step.description}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
                     <div className="mt-16 text-center">
-                        <Link to="/register" className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-gradient-to-r from-primary-600 to-green-600 rounded-xl hover:from-primary-700 hover:to-green-700 transition-all shadow-lg shadow-primary-500/30 hover:-translate-y-1">
+                        <Link to="/register" className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-primary-950 bg-gradient-to-r from-primary-300 to-green-300 rounded-xl hover:from-primary-200 hover:to-green-200 transition-all shadow-lg shadow-primary-500/20 hover:-translate-y-1">
                             Jetzt kostenlos starten
                             <ArrowRightIcon className="w-5 h-5 ml-2" />
                         </Link>
