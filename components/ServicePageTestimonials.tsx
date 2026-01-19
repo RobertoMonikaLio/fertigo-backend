@@ -113,7 +113,7 @@ const TestimonialCard: React.FC<{ testimonial: typeof testimonialsData[0] }> = (
 const ServicePageTestimonials: React.FC = () => {
     return (
         <section className="py-16 sm:py-20 bg-slate-50">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-6 max-w-5xl">
                 <div className="text-center max-w-3xl mx-auto mb-12">
                     <h2 className="text-4xl font-extrabold tracking-tight text-slate-900">
                         Das sagen unsere Kunden

@@ -157,7 +157,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({
 
     return (
         <section ref={ref} className={`${bgColor} py-16 sm:py-20 overflow-hidden`}>
-            <div className="container mx-auto px-6 max-w-7xl">
+            <div className="container mx-auto px-6 max-w-5xl">
                 <div className={`flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 transition-all duration-1000 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
                     <div>
                         <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-3">
