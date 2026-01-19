@@ -1,0 +1,439 @@
+
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useAppContext, Request } from './AppContext';
+import { 
+    ArrowLeftIcon, PhoneIcon, MailIcon, MapPinIcon, 
+    CalendarDaysIcon, BanknotesIcon, TagIcon, 
+    CheckCircleIcon, UserIcon,
+    ChevronDownIcon, BellIcon, ChatBubbleLeftRightIcon, 
+    TestsiegerIcon, XCircleIcon, PaperClipIcon, ListBulletIcon,
+    BriefcaseIcon, HomeModernIcon, EyeIcon, ToolboxIcon,
+    ExclamationTriangleIcon, PaperAirplaneIcon, SpinnerIcon, XMarkIcon, ArrowRightIcon
+} from '../components/icons';
+import QualityScoreIndicator from '../components/QualityScoreIndicator';
+
+type Status = 'Neu' | 'Kontaktiert' | 'Angebot gesendet' | 'In Verhandlung' | 'Gewonnen' | 'Verloren / Abgelehnt';
+
+const statusConfig: { [key in Status]: { icon: React.ReactNode; color: string; bgColor: string; title: string } } = {
+    'Neu': { icon: <BellIcon className="w-4 h-4" />, color: 'text-blue-700', bgColor: 'bg-blue-50', title: 'Neu' },
+    'Kontaktiert': { icon: <ChatBubbleLeftRightIcon className="w-4 h-4" />, color: 'text-cyan-700', bgColor: 'bg-cyan-50', title: 'Kontaktiert' },
+    'Angebot gesendet': { icon: <PaperAirplaneIcon className="w-4 h-4" />, color: 'text-purple-700', bgColor: 'bg-purple-50', title: 'Angebot gesendet' },
+    'In Verhandlung': { icon: <BanknotesIcon className="w-4 h-4" />, color: 'text-orange-700', bgColor: 'bg-orange-50', title: 'In Verhandlung' },
+    'Gewonnen': { icon: <TestsiegerIcon className="w-4 h-4" />, color: 'text-green-700', bgColor: 'bg-green-50', title: 'Gewonnen' },
+    'Verloren / Abgelehnt': { icon: <XCircleIcon className="w-4 h-4" />, color: 'text-red-700', bgColor: 'bg-red-50', title: 'Verloren' },
+};
+
+const StatusDropdown: React.FC<{ currentStatus: Status; onStatusChange: (newStatus: Status) => void; }> = ({ currentStatus, onStatusChange }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const currentConfig = statusConfig[currentStatus] || statusConfig['Neu'];
+
+    return (
+        <div className="relative min-w-[200px]">
+            <button 
+                onClick={() => setIsOpen(!isOpen)} 
+                className={`w-full flex items-center justify-between px-4 py-2.5 rounded-lg border transition-all bg-white shadow-sm ${isOpen ? 'border-primary-500 ring-1 ring-primary-200' : 'border-slate-300 hover:border-slate-400'}`}
+            >
+                <div className="flex items-center gap-3">
+                    <div className={`p-1.5 rounded-md ${currentConfig.bgColor} ${currentConfig.color}`}>
+                        {currentConfig.icon}
+                    </div>
+                    <span className="font-semibold text-slate-700 text-sm">{currentConfig.title}</span>
+                </div>
+                <ChevronDownIcon className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {isOpen && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-50 overflow-hidden animate-fade-in">
+                    <ul className="divide-y divide-slate-100">
+                        {Object.keys(statusConfig).map(status => {
+                            const config = statusConfig[status as Status];
+                            const isSelected = currentStatus === status;
+                            return (
+                                <li key={status}>
+                                    <button 
+                                        onClick={() => { onStatusChange(status as Status); setIsOpen(false); }} 
+                                        className={`w-full text-left flex items-center justify-between px-4 py-3 text-sm hover:bg-slate-50 transition-colors ${isSelected ? 'bg-primary-50/50' : ''}`}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <div className={`${config.color}`}>
+                                                {config.icon}
+                                            </div>
+                                            <span className={`font-medium ${isSelected ? 'text-primary-800' : 'text-slate-700'}`}>{config.title}</span>
+                                        </div>
+                                        {isSelected && <CheckCircleIcon className="w-5 h-5 text-primary-600" />}
+                                    </button>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
+            )}
+        </div>
+    );
+};
+
+const PartnerRequestDetailPage: React.FC<{ requestId: string }> = ({ requestId }) => {
+    const { requests, purchasedLeadIds, updateRequestStatus, purchaseLead, leadPurchaseCounts } = useAppContext();
+    const [isBuying, setIsBuying] = useState(false);
+    const request = requests.find(r => r.id.toString() === requestId);
+    const isPurchased = request ? purchasedLeadIds.includes(request.id) : false;
+
+    if (!request) {
+        return (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="bg-slate-100 p-4 rounded-full mb-4">
+                    <ArrowLeftIcon className="w-8 h-8 text-slate-400"/>
+                </div>
+                <h2 className="text-2xl font-bold text-slate-800">Anfrage nicht gefunden</h2>
+                <p className="text-slate-500 mt-2 mb-6">Die gesuchte Anfrage existiert nicht oder Sie haben keinen Zugriff.</p>
+                <Link to="/partner/requests" className="bg-primary text-white px-6 py-2.5 rounded-lg font-bold hover:bg-primary/90 transition-colors">
+                    Zurück zum Marktplatz
+                </Link>
+            </div>
+        );
+    }
+
+    const handleStatusChange = (newStatus: Status) => {
+        updateRequestStatus(request.id, newStatus);
+    };
+
+    const handleBuyLead = () => {
+        setIsBuying(true);
+        setTimeout(() => {
+            purchaseLead(request.id);
+            setIsBuying(false);
+        }, 1000);
+    };
+
+    // If the lead is NOT purchased, we show a limited view
+    if (!isPurchased) {
+        const purchaseCount = leadPurchaseCounts[request.id] || 0;
+        const isSoldOut = purchaseCount >= 5;
+        const availableCount = 5 - purchaseCount;
+
+        return (
+            <div className="max-w-5xl mx-auto py-8 animate-fade-in">
+                {/* Header */}
+                <header className="bg-white p-6 border border-slate-200 rounded-2xl flex justify-between items-start mb-8 shadow-sm">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">{request.service}</span>
+                            <span className="text-slate-300">|</span>
+                            <span className="text-sm text-slate-500 flex items-center gap-1"><MapPinIcon className="w-3 h-3"/> {request.location}</span>
+                        </div>
+                        <h2 className="text-2xl font-bold text-slate-900">{request.title}</h2>
+                        <div className="flex items-center gap-4 mt-2 text-sm text-slate-500 font-medium">
+                            <div className="flex items-center gap-1.5"><CalendarDaysIcon className="w-4 h-4" /> {request.date}</div>
+                        </div>
+                    </div>
+                    <Link to="/partner/requests" className="p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors" title="Schliessen"><XMarkIcon className="w-6 h-6" /></Link>
+                </header>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Left Column: Project Data */}
+                    <div className="lg:col-span-2 space-y-6">
+                         {/* Project Details Card */}
+                        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                            <h3 className="flex items-center gap-3 font-bold text-slate-800 text-lg mb-5 pb-2 border-b border-slate-100">
+                                <HomeModernIcon className="w-5 h-5 text-primary-600"/>
+                                <span>Projektdaten</span>
+                            </h3>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+                                <div className="flex flex-col gap-1">
+                                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Qualität</span>
+                                    <div className="flex items-center gap-2">
+                                        <QualityScoreIndicator score={request.qualityScore} />
+                                    </div>
+                                </div>
+                                {request.details.map(d => (
+                                    <div key={d.label} className="flex flex-col gap-1">
+                                        <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{d.label}</span>
+                                        <div className="text-slate-800 font-medium">{d.value}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        
+                        {/* Description Card */}
+                        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                            <h3 className="flex items-center gap-3 font-bold text-slate-800 text-lg mb-4 pb-2 border-b border-slate-100">
+                                <ListBulletIcon className="w-5 h-5 text-primary-600"/>
+                                <span>Beschreibung</span>
+                            </h3>
+                            <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">{request.description}</p>
+                        </div>
+                    </div>
+
+                    {/* Right Column: Action & Preview */}
+                    <div className="lg:col-span-1">
+                        <div className="space-y-6 lg:sticky lg:top-6">
+                            <div className="bg-white rounded-xl border-2 border-primary-600 shadow-xl overflow-hidden">
+                                <div className="bg-primary-50 p-4 text-center border-b border-primary-100">
+                                    <p className="text-primary-800 font-bold text-lg">Interessiert?</p>
+                                    <p className="text-primary-600/80 text-sm">Sichern Sie sich diesen Auftrag.</p>
+                                </div>
+                                <div className="p-6 text-center">
+                                    {isSoldOut ? (
+                                        <div className="p-4 bg-red-50 text-red-700 rounded-xl border border-red-100 mb-4">
+                                            <p className="font-bold flex items-center justify-center gap-2"><XCircleIcon className="w-5 h-5"/> Ausverkauft</p>
+                                            <p className="text-sm mt-1">Das Limit von 5 Käufern ist erreicht.</p>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="flex justify-between items-center mb-6 px-2">
+                                                <div className="text-left">
+                                                    <p className="text-xs font-bold text-slate-500 uppercase">Preis</p>
+                                                    <p className="text-2xl font-extrabold text-slate-900">CHF {request.price.toFixed(0)}</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="text-xs font-bold text-slate-500 uppercase">Verfügbar</p>
+                                                    <p className={`text-xl font-bold ${availableCount <= 2 ? 'text-orange-600' : 'text-green-600'}`}>{availableCount} <span className="text-sm text-slate-400 font-normal">/ 5</span></p>
+                                                </div>
+                                            </div>
+                                            <button onClick={handleBuyLead} disabled={isBuying} className="w-full flex items-center justify-center gap-2 bg-primary-600 text-white font-bold px-5 py-4 rounded-xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/30 transform hover:-translate-y-0.5 disabled:bg-primary-400 disabled:cursor-wait">
+                                                {isBuying ? (<><SpinnerIcon className="w-5 h-5 animate-spin"/> Verarbeite...</>) : (<>Lead jetzt kaufen <ArrowRightIcon className="w-5 h-5"/></>)}
+                                            </button>
+                                            <p className="text-xs text-slate-400 mt-4">Preis exkl. MwSt. • Sofortiger Zugriff</p>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // --- CRM VIEW FOR PURCHASED LEAD ---
+    return (
+        <div className="max-w-7xl mx-auto animate-fade-in">
+            {/* Breadcrumb & Header */}
+            <div className="mb-8">
+                <Link to="/partner/requests?view=purchased" className="inline-flex items-center gap-2 text-sm font-bold text-slate-700 bg-white border border-slate-300 px-4 py-2.5 rounded-lg hover:bg-slate-50 hover:border-primary-500 hover:text-primary-700 transition-all shadow-sm mb-6 group">
+                    <ArrowLeftIcon className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-slate-400 group-hover:text-primary-500" />
+                    Zurück zu meinen Leads
+                </Link>
+                
+                <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                    <div>
+                        <div className="flex items-center gap-3 text-sm text-slate-500 mb-2">
+                            <span className="bg-slate-100 px-2 py-0.5 rounded text-slate-600 font-medium">Auftrag #{request.id}</span>
+                        </div>
+                        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">{request.title}</h1>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <div className="hidden md:block text-right mr-2">
+                            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Aktueller Status</p>
+                        </div>
+                        <StatusDropdown currentStatus={request.status as Status} onStatusChange={handleStatusChange} />
+                    </div>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                
+                {/* LEFT COLUMN: CUSTOMER CARD */}
+                <div className="lg:col-span-1 space-y-6">
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
+                        <div className="bg-slate-50 border-b border-slate-100 p-6 flex flex-col items-center text-center">
+                            <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-white text-3xl font-bold mb-4 shadow-md">
+                                {request.customerInfo.name.charAt(0)}
+                            </div>
+                            <h2 className="text-xl font-bold text-slate-900">{request.customerInfo.name}</h2>
+                            <p className="text-slate-500 text-sm mt-1">{request.location}</p>
+                        </div>
+                        
+                        <div className="p-6 space-y-4">
+                            <div className="grid grid-cols-2 gap-3">
+                                <a href={`tel:${request.customerInfo.mobile || request.customerInfo.phone}`} className="flex flex-col items-center justify-center p-3 bg-primary-50 hover:bg-primary-100 rounded-xl border border-primary-100 hover:border-primary-200 transition-all group cursor-pointer">
+                                    <div className="bg-white p-2 rounded-full shadow-sm mb-2 group-hover:scale-110 transition-transform">
+                                        <PhoneIcon className="w-5 h-5 text-primary-600"/>
+                                    </div>
+                                    <span className="text-xs font-bold text-primary-800">Anrufen</span>
+                                </a>
+                                <a href={`mailto:${request.customerInfo.email}`} className="flex flex-col items-center justify-center p-3 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 hover:border-slate-300 transition-all group cursor-pointer">
+                                    <div className="bg-white p-2 rounded-full shadow-sm mb-2 group-hover:scale-110 transition-transform">
+                                        <MailIcon className="w-5 h-5 text-slate-600"/>
+                                    </div>
+                                    <span className="text-xs font-bold text-slate-700">E-Mail</span>
+                                </a>
+                            </div>
+
+                            <div className="pt-4 border-t border-slate-100 space-y-4">
+                                <div className="flex items-start gap-3">
+                                    <MapPinIcon className="w-5 h-5 text-slate-400 mt-0.5 flex-shrink-0"/>
+                                    <div>
+                                        <p className="text-xs font-bold text-slate-400 uppercase">Adresse</p>
+                                        <p className="text-sm text-slate-700 font-medium">{request.customerInfo.address}</p>
+                                        <a 
+                                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(request.customerInfo.address)}`}
+                                            target="_blank" 
+                                            rel="noreferrer"
+                                            className="text-xs text-primary-600 hover:underline mt-1 inline-block"
+                                        >
+                                            Auf Karte öffnen
+                                        </a>
+                                    </div>
+                                </div>
+                                {(request.customerInfo.phone || request.customerInfo.mobile) && (
+                                    <div className="flex items-start gap-3">
+                                        <PhoneIcon className="w-5 h-5 text-slate-400 mt-0.5 flex-shrink-0"/>
+                                        <div>
+                                            <p className="text-xs font-bold text-slate-400 uppercase">Telefon</p>
+                                            <p className="text-sm text-slate-700 font-medium">{request.customerInfo.mobile || request.customerInfo.phone}</p>
+                                        </div>
+                                    </div>
+                                )}
+                                <div className="flex items-start gap-3">
+                                    <MailIcon className="w-5 h-5 text-slate-400 mt-0.5 flex-shrink-0"/>
+                                    <div>
+                                        <p className="text-xs font-bold text-slate-400 uppercase">E-Mail</p>
+                                        <p className="text-sm text-slate-700 font-medium break-all">{request.customerInfo.email}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* RIGHT COLUMN: PROJECT DETAILS */}
+                <div className="lg:col-span-2 space-y-8">
+                    
+                    {/* Description Box */}
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+                        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                            <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
+                                <ListBulletIcon className="w-6 h-6" />
+                            </div>
+                            <h2 className="text-xl font-bold text-slate-900">Auftragsbeschreibung</h2>
+                        </div>
+                        <div className="prose prose-slate max-w-none">
+                            <p className="text-slate-700 leading-relaxed whitespace-pre-wrap text-base">
+                                {request.description}
+                            </p>
+                        </div>
+                        
+                        {/* Additional Notes Highlight */}
+                        {request.additionalNotes && (
+                            <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
+                                <ExclamationTriangleIcon className="w-6 h-6 text-amber-500 flex-shrink-0 mt-0.5" />
+                                <div>
+                                    <h4 className="font-bold text-amber-800 text-sm uppercase mb-1">Zusätzliche Hinweise vom Kunden</h4>
+                                    <p className="text-amber-900 text-sm whitespace-pre-wrap">{request.additionalNotes}</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Execution Details (New Section) */}
+                    {(request.onSiteVisit || request.materialProcurement || request.onSiteService !== undefined) && (
+                        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
+                                <BriefcaseIcon className="w-4 h-4 text-primary-600"/> Ausführungsdetails
+                            </h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                {request.onSiteVisit && (
+                                    <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                        <div className="flex items-center gap-2 mb-1 text-slate-500 text-xs font-bold uppercase">
+                                            <EyeIcon className="w-4 h-4" /> Besichtigung
+                                        </div>
+                                        <p className="font-semibold text-slate-800 text-sm">{request.onSiteVisit}</p>
+                                    </div>
+                                )}
+                                {request.materialProcurement && (
+                                    <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                        <div className="flex items-center gap-2 mb-1 text-slate-500 text-xs font-bold uppercase">
+                                            <ToolboxIcon className="w-4 h-4" /> Material
+                                        </div>
+                                        <p className="font-semibold text-slate-800 text-sm">{request.materialProcurement}</p>
+                                    </div>
+                                )}
+                                {request.onSiteService !== undefined && (
+                                    <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                        <div className="flex items-center gap-2 mb-1 text-slate-500 text-xs font-bold uppercase">
+                                            <MapPinIcon className="w-4 h-4" /> Vor-Ort-Service
+                                        </div>
+                                        <p className="font-semibold text-slate-800 text-sm">{request.onSiteService ? 'Zwingend erforderlich' : 'Nicht zwingend'}</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Details Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        {/* Key Data */}
+                        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
+                                <TagIcon className="w-4 h-4 text-primary-600"/> Eckdaten
+                            </h3>
+                            <div className="mb-6 p-4 bg-primary-50 rounded-xl border border-primary-100 flex items-center gap-4">
+                                <div className="w-10 h-10 bg-white rounded-lg border border-primary-100 flex items-center justify-center text-primary-600 shadow-sm">
+                                    <CalendarDaysIcon className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-bold text-primary-800 uppercase tracking-wider mb-0.5">Erstellt am</p>
+                                    <p className="text-lg font-extrabold text-slate-900">{request.date}</p>
+                                </div>
+                            </div>
+                            
+                            {request.budget && (
+                                <div className="mb-6 pb-4 border-b border-slate-100">
+                                     <span className="text-xs font-medium text-slate-500 mb-1 block">Kundenbudget (Schätzung)</span>
+                                     <span className="font-bold text-slate-800 text-lg">{request.budget}</span>
+                                </div>
+                            )}
+
+                            <ul className="space-y-4">
+                                {request.details.map((detail, idx) => (
+                                    <li key={idx} className="flex flex-col pb-3 border-b border-slate-50 last:border-0 last:pb-0">
+                                        <span className="text-xs font-medium text-slate-500 mb-1">{detail.label}</span>
+                                        <span className="font-semibold text-slate-800">{detail.value}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                            
+                            <div className="mt-6 pt-4 border-t border-slate-100">
+                                <div className="flex flex-col gap-1">
+                                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Qualität des Leads</span>
+                                    <QualityScoreIndicator score={request.qualityScore} />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Files */}
+                        {request.files && request.files.length > 0 && (
+                            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 h-fit">
+                                <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                    <PaperClipIcon className="w-5 h-5 text-slate-400"/>
+                                    Anhänge ({request.files.length})
+                                </h3>
+                                <div className="grid grid-cols-1 gap-3">
+                                    {request.files.map((file, idx) => (
+                                        <a 
+                                            key={idx} 
+                                            href={file.url} 
+                                            className="group flex items-center gap-3 p-3 rounded-xl border border-slate-200 hover:border-primary-300 hover:bg-primary-50/30 transition-all"
+                                        >
+                                            <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-white group-hover:text-primary-600 transition-colors text-slate-500">
+                                                <PaperClipIcon className="w-5 h-5"/>
+                                            </div>
+                                            <div className="min-w-0">
+                                                <p className="text-sm font-medium text-slate-700 truncate group-hover:text-primary-700">{file.name}</p>
+                                                <p className="text-xs text-slate-400">Dokument ansehen</p>
+                                            </div>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default PartnerRequestDetailPage;

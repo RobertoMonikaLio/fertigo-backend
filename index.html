@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="de" style="scroll-behavior: smooth;" class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fertigo | Handwerker & Offerten in der Schweiz</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Vergleichen Sie kostenlose Offerten von über 2'500 geprüften Dienstleistern in der Schweiz. Beschreiben Sie Ihr Projekt und erhalten Sie Angebote für Handwerker, Umzug, Reinigung und mehr. Sparen Sie Zeit und Geld mit Fertigo." />
+    <meta name="keywords" content="Fertigo, Offertenvergleich Schweiz, Handwerker Offerten, Zügeln, Umzugsfirma, Reinigungsfirma, Maler, Gipser, Bodenleger, Plattenleger, Gartenbau, Sanitär, Elektriker, Schreiner, Küchenbau, Badezimmerumbau, Fassadenbau, Dachdecker, Hauswartung, Entsorgung, Offerten einholen, Preise vergleichen, Handwerker finden, Dienstleister Schweiz, geprüfte Firmen, Baumaschinen mieten, Baumaschinen kaufen, Jobportal Handwerk, Handwerker Jobs" />
+    <meta name="author" content="Fertigo" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://fertigo.ch/" />
+    <meta property="og:title" content="Fertigo | Handwerker & Offerten in der Schweiz" />
+    <meta property="og:description" content="Vergleichen Sie kostenlose Offerten von über 2'500 geprüften Dienstleistern in der Schweiz. Beschreiben Sie Ihr Projekt und erhalten Sie Angebote für Handwerker, Umzug, Reinigung und mehr. Sparen Sie Zeit und Geld mit Fertigo." />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=75&w=1200&auto=format&fit=crop" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://fertigo.ch/" />
+    <meta property="twitter:title" content="Fertigo | Handwerker & Offerten in der Schweiz" />
+    <meta property="twitter:description" content="Vergleichen Sie kostenlose Offerten von über 2'500 geprüften Dienstleistern in der Schweiz. Beschreiben Sie Ihr Projekt und erhalten Sie Angebote für Handwerker, Umzug, Reinigung und mehr. Sparen Sie Zeit und Geld mit Fertigo." />
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=75&w=1200&auto=format&fit=crop" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": {
+                '50': '#f0fdf4',
+                '100': '#dcfce7',
+                '200': '#bbf7d0',
+                '300': '#86efac',
+                '400': '#4ade80',
+                '500': '#22c55e',
+                '600': '#16a34a',
+                '700': '#15803d',
+                '800': '#166534',
+                '900': '#14532d',
+                '950': '#052e16',
+                DEFAULT: '#16a34a'
+              },
+              "secondary": "#FFB900",
+              "background-light": "#F5F7FA",
+              "background-dark": "#101922",
+              "text-light": "#333333",
+              "text-dark": "#F5F7FA",
+              "card-light": "#ffffff",
+              "card-dark": "#192734",
+              "border-light": "#E1E4E8",
+              "border-dark": "#333333",
+              "surface-light": "#FFFFFF",
+              "surface-dark": "#192734",
+              "status-green": "#28a745",
+              "status-yellow": "#ffc107",
+              "status-blue": "#0d9488"
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Inter', 'sans-serif'],
+              title: ['DM Sans', 'sans-serif'],
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem",
+              "lg": "0.75rem",
+              "xl": "1rem",
+              "full": "9999px"
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-in-out',
+              'kenburns': 'kenburns 30s ease-in-out infinite alternate',
+              'scroll-left': 'scroll-left 40s linear infinite',
+              'scroll-right': 'scroll-right 40s linear infinite',
+              'grow-up': 'grow-up 0.5s ease-out forwards',
+              'grow-right': 'grow-right 0.5s ease-out forwards',
+              'slide-in-up': 'slideInUp 0.5s ease-out forwards',
+              'slide-out-down': 'slideOutDown 0.5s ease-in forwards',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              kenburns: {
+                '0%': { transform: 'scale(1) translate(0, 0)', 'transform-origin': 'center' },
+                '100%': { transform: 'scale(1.1) translate(-2%, 1%)', 'transform-origin': 'center' },
+              },
+              'scroll-left': {
+                '0%': { transform: 'translateX(0)' },
+                '100%': { transform: 'translateX(-100%)' },
+              },
+              'scroll-right': {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(0)' },
+              },
+              'grow-up': {
+                '0%': { transform: 'scaleY(0)', 'transform-origin': 'bottom' },
+                '100%': { transform: 'scaleY(1)', 'transform-origin': 'bottom' },
+              },
+              'grow-right': {
+                '0%': { transform: 'scaleX(0)', 'transform-origin': 'left' },
+                '100%': { transform: 'scaleX(1)', 'transform-origin': 'left' },
+              },
+              slideInUp: {
+                '0%': { transform: 'translateY(100%)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              slideOutDown: {
+                '0%': { transform: 'translateY(0)', opacity: '1' },
+                '100%': { transform: 'translateY(100%)', opacity: '0' },
+              },
+            },
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^6.25.1",
+    "react-router": "https://aistudiocdn.com/react-router@^6.25.1",
+    "react-intersection-observer": "https://aistudiocdn.com/react-intersection-observer@^9.13.0",
+    "zustand": "https://aistudiocdn.com/zustand@^4.5.4",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.1.1",
+    "express": "https://aistudiocdn.com/express@^5.1.0",
+    "mongoose": "https://aistudiocdn.com/mongoose@^9.0.0",
+    "dotenv": "https://aistudiocdn.com/dotenv@^17.2.3",
+    "cors": "https://aistudiocdn.com/cors@^2.8.5",
+    "jsonwebtoken": "https://aistudiocdn.com/jsonwebtoken@^9.0.2",
+    "bcryptjs": "https://aistudiocdn.com/bcryptjs@^3.0.3"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+<link rel="stylesheet" href="/styles/animations.css">
+</head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
