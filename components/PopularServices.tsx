@@ -91,35 +91,35 @@ const PopularServices: React.FC = () => {
                 </div>
 
                 {/* --- NEW MOBILE VIEW --- */}
-                <div className="lg:hidden space-y-4">
+                <div className="lg:hidden space-y-3">
                     <button onClick={() => handleServiceClick(services[0].name)} className="group bg-white w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200/50 transition-all duration-300 active:scale-95">
                         <div className="bg-white">
                             <img src={`https://img.freepik.com/free-vector/hand-drawn-flat-design-moving-house-illustration_23-2149429584.jpg`} alt={services[0].name} className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105" />
                         </div>
-                        <div className="p-4 flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                {React.cloneElement(services[0].icon, { className: "w-7 h-7" })}
-                                <h3 className="text-lg font-bold text-slate-800">{services[0].name}</h3>
+                        <div className="p-3 flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                {React.cloneElement(services[0].icon, { className: "w-6 h-6" })}
+                                <h3 className="text-base font-bold text-slate-800">{services[0].name}</h3>
                             </div>
-                            <ArrowRightIcon className="w-5 h-5 text-slate-400 group-hover:text-primary-600 transition-transform group-hover:translate-x-1" />
+                            <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:text-primary-600 transition-transform group-hover:translate-x-1" />
                         </div>
                     </button>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-3">
                         <SmallServiceCard service={services[1]} />
                         <SmallServiceCard service={services[2]} />
                         <SmallServiceCard service={services[3]} />
-                        <Link to="/services" className="group bg-slate-100 p-4 rounded-2xl border border-slate-200 shadow-md flex flex-col items-center justify-center text-center hover:bg-slate-200 transition-colors">
-                            <div className="w-10 h-10 flex items-center justify-center bg-white rounded-full mb-2 shadow-sm">
-                                <ArrowRightIcon className="w-5 h-5 text-slate-600 group-hover:text-primary-600 transition-colors" />
+                        <Link to="/services" className="group bg-slate-100 p-3 rounded-2xl border border-slate-200 shadow-md flex flex-col items-center justify-center text-center hover:bg-slate-200 transition-colors">
+                            <div className="w-8 h-8 flex items-center justify-center bg-white rounded-full mb-1.5 shadow-sm">
+                                <ArrowRightIcon className="w-4 h-4 text-slate-600 group-hover:text-primary-600 transition-colors" />
                             </div>
-                            <h4 className="font-bold text-sm text-slate-800 leading-tight">Alle Services</h4>
+                            <h4 className="font-bold text-xs text-slate-800 leading-tight">Alle Services</h4>
                         </Link>
                     </div>
                 </div>
 
                 {/* Desktop grid view */}
-                <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {services.slice(0, 6).map((service, index) => {
                         const baseUrl = `${service.image.split('?')[0]}?auto=format&fit=crop&q=75&fm=webp`;
                         const isPopular = index < 3; // Top 3 services are popular
@@ -133,7 +133,7 @@ const PopularServices: React.FC = () => {
                                 className="group text-left bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.03] hover:border-primary-300 flex flex-col animate-fade-in"
                                 style={{ animationDelay: `${index * 100}ms` }}
                             >
-                                <div className="relative overflow-hidden h-64">
+                                <div className="relative overflow-hidden h-48">
                                     <img
                                         src={`${baseUrl}&w=400`}
                                         srcSet={`${baseUrl}&w=400 400w, ${baseUrl}&w=800 800w`}
@@ -143,7 +143,7 @@ const PopularServices: React.FC = () => {
                                         loading="lazy"
                                         decoding="async"
                                         width="400"
-                                        height="256"
+                                        height="192"
                                     />
                                     {/* Popular Badge */}
                                     {isPopular && (
@@ -168,15 +168,15 @@ const PopularServices: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="p-5 flex flex-col flex-grow">
-                                    <div className="flex items-center gap-3 mb-3">
-                                        {React.cloneElement(service.icon, { className: 'w-7 h-7' })}
-                                        <h3 className="text-lg font-bold text-slate-900">{service.name}</h3>
+                                <div className="p-4 flex flex-col flex-grow">
+                                    <div className="flex items-center gap-3 mb-2">
+                                        {React.cloneElement(service.icon, { className: 'w-6 h-6' })}
+                                        <h3 className="text-base font-bold text-slate-900">{service.name}</h3>
                                     </div>
-                                    <p className="text-slate-600 text-sm flex-grow mb-4">{service.description}</p>
-                                    <div className="mt-auto font-bold text-primary-700 flex items-center gap-2 group-hover:text-primary-800 transition-colors text-sm">
+                                    <p className="text-slate-600 text-xs flex-grow mb-3 line-clamp-2">{service.description}</p>
+                                    <div className="mt-auto font-bold text-primary-700 flex items-center gap-2 group-hover:text-primary-800 transition-colors text-xs">
                                         {t.startRequest}
-                                        <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                                        <ArrowRightIcon className="w-3 h-3 transition-transform group-hover:translate-x-1" />
                                     </div>
                                 </div>
                             </button>
