@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { StarIcon, ShieldCheckIcon, QuoteIcon, MapPinIcon, ChevronLeftIcon, ChevronRightIcon, ArrowRightIcon } from './icons';
+import React, { useState, useEffect } from 'react';
+import { StarIcon, ChevronLeftIcon, ChevronRightIcon, QuoteIcon } from './icons';
 import { useAppContext } from '../pages/AppContext';
 import { useInView } from 'react-intersection-observer';
 
@@ -15,31 +15,23 @@ export interface TestimonialData {
 const translations = {
     de: {
         defaultTitle: "Das sagen unsere Kunden",
-        defaultSubtitle: "Echte Erfahrungen. Echte Projekte.",
-        verified: "Verifiziertes Projekt",
-        next: "Nächste Bewertung",
-        prev: "Vorherige Bewertung"
+        defaultSubtitle: "Echte Erfahrungen von echten Menschen",
+        verified: "Verifiziert",
     },
     fr: {
         defaultTitle: "Ce que disent nos clients",
-        defaultSubtitle: "Expériences réelles. Projets réels.",
-        verified: "Projet vérifié",
-        next: "Avis suivant",
-        prev: "Avis précédent"
+        defaultSubtitle: "Expériences réelles de vraies personnes",
+        verified: "Vérifié",
     },
     it: {
         defaultTitle: "Cosa dicono i nostri clienti",
-        defaultSubtitle: "Esperienze reali. Progetti reali.",
-        verified: "Progetto verificato",
-        next: "Recensione successiva",
-        prev: "Recensione precedente"
+        defaultSubtitle: "Esperienze reali da persone reali",
+        verified: "Verificato",
     },
     en: {
         defaultTitle: "What our customers say",
-        defaultSubtitle: "Real experiences. Real projects.",
-        verified: "Verified Project",
-        next: "Next review",
-        prev: "Previous review"
+        defaultSubtitle: "Real experiences from real people",
+        verified: "Verified",
     }
 };
 
@@ -50,7 +42,7 @@ const defaultTestimonials: TestimonialData[] = [
         role: 'Privatperson',
         review: 'Ich war überwältigt von der Professionalität. Innerhalb von 3 Stunden hatte ich 6 Angebote und der Umzug lief absolut reibungslos.',
         rating: 5,
-        image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2158&auto=format&fit=crop'
+        image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop'
     },
     {
         name: 'Michael Roth',
@@ -58,7 +50,7 @@ const defaultTestimonials: TestimonialData[] = [
         role: 'Eigenheimbesitzer',
         review: 'Die Sanierung meiner Wohnung war dank Fertigo ein voller Erfolg. Qualität und Preis waren perfekt abgestimmt.',
         rating: 5,
-        image: 'https://images.unsplash.com/photo-1581094794329-cd56b5095bb4?q=80&w=2668&auto=format&fit=crop'
+        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop'
     },
     {
         name: 'Lisa Meyer',
@@ -66,7 +58,7 @@ const defaultTestimonials: TestimonialData[] = [
         role: 'Praxisinhaberin',
         review: 'Super zuverlässig. Ich habe eine Reinigungsfirma für meine Praxis gesucht und wurde sofort fündig. Top Service!',
         rating: 5,
-        image: 'https://images.unsplash.com/photo-1584622050111-993a426fbf0a?q=80&w=2670&auto=format&fit=crop'
+        image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop'
     },
     {
         name: 'Familie Baumann',
@@ -74,7 +66,7 @@ const defaultTestimonials: TestimonialData[] = [
         role: 'Familie',
         review: 'Unsere neue Küche ist ein Traum! Von der Planung bis zur Montage lief alles reibungslos und professionell.',
         rating: 5,
-        image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2670&auto=format&fit=crop'
+        image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop'
     },
     {
         name: 'Reto B.',
@@ -82,7 +74,7 @@ const defaultTestimonials: TestimonialData[] = [
         role: 'Vermieter',
         review: 'Der Parkettboden sieht fantastisch aus. Super Beratung bei der Materialauswahl und eine sehr saubere Ausführung.',
         rating: 4,
-        image: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?q=80&w=2574&auto=format&fit=crop'
+        image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop'
     },
     {
         name: 'Thomas F.',
@@ -90,7 +82,7 @@ const defaultTestimonials: TestimonialData[] = [
         role: 'Gartenbesitzer',
         review: 'Unser Garten wurde in eine Oase verwandelt. Das Team war pünktlich, kompetent und hat unsere Erwartungen weit übertroffen.',
         rating: 5,
-        image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=2670&auto=format&fit=crop'
+        image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop'
     }
 ];
 
@@ -102,40 +94,8 @@ interface TestimonialsProps {
     showSocialProof?: boolean;
 }
 
-// Kompakte Karte für horizontale Anordnung
-const InlineCard: React.FC<{ 
-    testimonial: TestimonialData; 
-    index: number;
-    inView: boolean;
-}> = ({ testimonial, index, inView }) => {
-    return (
-        <div 
-            className={`flex-shrink-0 w-full md:w-96 bg-white rounded-2xl p-6 shadow-lg border border-slate-200 hover:shadow-xl transition-all duration-500 hover:-translate-y-2 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-            style={{ transitionDelay: `${index * 100}ms` }}
-        >
-            {/* Review Text */}
-            <p className="text-base md:text-lg font-bold text-slate-800 leading-relaxed mb-6 min-h-[80px]">
-                "{testimonial.review}"
-            </p>
-            
-            {/* Rating - Als Text */}
-            <div className="mb-4">
-                <div className="text-xl text-yellow-500 mb-1">
-                    {'★'.repeat(testimonial.rating)}{'☆'.repeat(5 - testimonial.rating)}
-                </div>
-                <span className="text-sm font-black text-slate-600">{testimonial.rating}.0</span>
-            </div>
-            
-            {/* Autor Name */}
-            <div className="pt-4 border-t border-slate-100">
-                <div className="font-black text-slate-900 text-sm">{testimonial.name}</div>
-            </div>
-        </div>
-    );
-};
-
 const Testimonials: React.FC<TestimonialsProps> = ({
-    bgColor = 'bg-slate-50',
+    bgColor = 'bg-white',
     testimonials = defaultTestimonials,
     title,
     subtitle,
@@ -145,93 +105,184 @@ const Testimonials: React.FC<TestimonialsProps> = ({
     const { ref, inView } = useInView({
         triggerOnce: true,
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px',
     });
 
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-    const scrollLeft = () => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollBy({ left: -400, behavior: 'smooth' });
-        }
+    useEffect(() => {
+        if (!isAutoPlaying) return;
+        const interval = setInterval(() => {
+            setActiveIndex((prev) => (prev + 1) % testimonials.length);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [isAutoPlaying, testimonials.length]);
+
+    const goToPrev = () => {
+        setIsAutoPlaying(false);
+        setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
     };
 
-    const scrollRight = () => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollBy({ left: 400, behavior: 'smooth' });
-        }
+    const goToNext = () => {
+        setIsAutoPlaying(false);
+        setActiveIndex((prev) => (prev + 1) % testimonials.length);
     };
+
+    const activeTestimonial = testimonials[activeIndex];
 
     return (
-        <section ref={ref} className={`${bgColor} py-20 sm:py-24 md:py-32 overflow-hidden relative`}>
-            {/* Hintergrund */}
+        <section ref={ref} className={`${bgColor} py-16 sm:py-20 overflow-hidden relative`}>
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-primary-100/20 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-0 left-0 w-80 h-80 bg-primary-50/30 rounded-full blur-3xl"></div>
+                <div className="absolute top-20 left-10 w-72 h-72 bg-primary-100/30 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary-50/40 rounded-full blur-3xl"></div>
             </div>
 
-            <div className="container mx-auto px-6 max-w-6xl relative z-10">
-                {/* Header */}
-                <div className={`text-center mb-16 transition-all duration-1000 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                    <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-50 border border-primary-200 text-primary-700 text-xs font-black uppercase tracking-wider mb-6">
-                        <StarIcon className="w-4 h-4 text-primary-600" />
-                        <span>KUNDENBEWERTUNGEN</span>
-                    </div>
-                    <h2 className="font-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-6 leading-tight">
+            <div className="container mx-auto px-6 max-w-5xl relative z-10">
+                <div className={`text-center mb-12 transition-all duration-1000 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                    <span className="inline-block px-4 py-1.5 bg-primary-100 text-primary-700 text-sm font-semibold rounded-full mb-4">
+                        Kundenstimmen
+                    </span>
+                    <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4">
                         {title || t.defaultTitle}
                     </h2>
-                    <p className="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
                         {subtitle || t.defaultSubtitle}
                     </p>
                 </div>
 
-                {/* Horizontale Scroll-Container mit Navigation */}
-                <div className="relative mb-16">
-                    {/* Navigation Buttons */}
-                    <button
-                        onClick={scrollLeft}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white shadow-2xl border border-slate-200 flex items-center justify-center hover:bg-primary-50 transition-all hover:scale-110 hidden md:flex"
-                        aria-label={t.prev}
-                    >
-                        <ChevronLeftIcon className="w-6 h-6 text-slate-700" />
-                    </button>
-                    <button
-                        onClick={scrollRight}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white shadow-2xl border border-slate-200 flex items-center justify-center hover:bg-primary-50 transition-all hover:scale-110 hidden md:flex"
-                        aria-label={t.next}
-                    >
-                        <ChevronRightIcon className="w-6 h-6 text-slate-700" />
-                    </button>
+                <div className={`transition-all duration-1000 delay-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                    <div className="relative bg-gradient-to-br from-slate-50 to-white rounded-3xl p-8 md:p-12 shadow-xl border border-slate-100">
+                        <QuoteIcon className="absolute top-6 left-6 w-12 h-12 text-primary-200 opacity-50" />
+                        
+                        <div className="relative z-10">
+                            <div className="flex flex-col md:flex-row items-center gap-8">
+                                <div className="flex-shrink-0">
+                                    <div className="relative">
+                                        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden ring-4 ring-primary-100 shadow-lg">
+                                            <img
+                                                src={activeTestimonial.image}
+                                                alt={activeTestimonial.name}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                        <div className="absolute -bottom-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md flex items-center gap-1">
+                                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                            </svg>
+                                            {t.verified}
+                                        </div>
+                                    </div>
+                                </div>
 
-                    {/* Scroll Container */}
-                    <div 
-                        ref={scrollContainerRef}
-                        className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide pb-4"
-                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                    >
+                                <div className="flex-1 text-center md:text-left">
+                                    <div className="flex justify-center md:justify-start gap-1 mb-4">
+                                        {[...Array(5)].map((_, i) => (
+                                            <StarIcon
+                                                key={i}
+                                                className={`w-5 h-5 ${i < activeTestimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-slate-300'}`}
+                                            />
+                                        ))}
+                                    </div>
+
+                                    <blockquote className="text-lg md:text-xl lg:text-2xl text-slate-700 font-medium leading-relaxed mb-6">
+                                        "{activeTestimonial.review}"
+                                    </blockquote>
+
+                                    <div>
+                                        <div className="font-bold text-slate-900 text-lg">{activeTestimonial.name}</div>
+                                        <div className="text-slate-500 text-sm">
+                                            {activeTestimonial.role} · {activeTestimonial.location}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-200">
+                            <div className="flex gap-2">
+                                {testimonials.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => {
+                                            setIsAutoPlaying(false);
+                                            setActiveIndex(index);
+                                        }}
+                                        className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                                            index === activeIndex
+                                                ? 'bg-primary-600 w-8'
+                                                : 'bg-slate-300 hover:bg-slate-400'
+                                        }`}
+                                        aria-label={`Gehe zu Bewertung ${index + 1}`}
+                                    />
+                                ))}
+                            </div>
+
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={goToPrev}
+                                    className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center hover:bg-primary-50 hover:border-primary-300 transition-all shadow-sm"
+                                    aria-label="Vorherige Bewertung"
+                                >
+                                    <ChevronLeftIcon className="w-5 h-5 text-slate-600" />
+                                </button>
+                                <button
+                                    onClick={goToNext}
+                                    className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center hover:bg-primary-50 hover:border-primary-300 transition-all shadow-sm"
+                                    aria-label="Nächste Bewertung"
+                                >
+                                    <ChevronRightIcon className="w-5 h-5 text-slate-600" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="hidden md:grid grid-cols-6 gap-3 mt-6">
                         {testimonials.map((testimonial, index) => (
-                            <InlineCard
+                            <button
                                 key={index}
-                                testimonial={testimonial}
-                                index={index}
-                                inView={inView}
-                            />
+                                onClick={() => {
+                                    setIsAutoPlaying(false);
+                                    setActiveIndex(index);
+                                }}
+                                className={`relative rounded-xl overflow-hidden transition-all duration-300 ${
+                                    index === activeIndex
+                                        ? 'ring-2 ring-primary-500 ring-offset-2 scale-105'
+                                        : 'opacity-60 hover:opacity-100 grayscale hover:grayscale-0'
+                                }`}
+                            >
+                                <img
+                                    src={testimonial.image}
+                                    alt={testimonial.name}
+                                    className="w-full aspect-square object-cover"
+                                />
+                                {index === activeIndex && (
+                                    <div className="absolute inset-0 bg-primary-500/20"></div>
+                                )}
+                            </button>
                         ))}
                     </div>
                 </div>
 
+                <div className={`mt-12 grid grid-cols-3 gap-4 transition-all duration-1000 delay-400 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                    <div className="text-center p-4 rounded-2xl bg-slate-50">
+                        <div className="text-2xl md:text-3xl font-black text-primary-600">4.9</div>
+                        <div className="flex justify-center gap-0.5 my-1">
+                            {[...Array(5)].map((_, i) => (
+                                <StarIcon key={i} className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                            ))}
+                        </div>
+                        <div className="text-xs text-slate-500">Durchschnitt</div>
+                    </div>
+                    <div className="text-center p-4 rounded-2xl bg-slate-50">
+                        <div className="text-2xl md:text-3xl font-black text-primary-600">2'500+</div>
+                        <div className="text-xs text-slate-500 mt-1">Bewertungen</div>
+                    </div>
+                    <div className="text-center p-4 rounded-2xl bg-slate-50">
+                        <div className="text-2xl md:text-3xl font-black text-primary-600">98%</div>
+                        <div className="text-xs text-slate-500 mt-1">Zufriedenheit</div>
+                    </div>
+                </div>
             </div>
-
-            {/* CSS für scrollbar-hide */}
-            <style>{`
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-                .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-            `}</style>
         </section>
     );
 };
