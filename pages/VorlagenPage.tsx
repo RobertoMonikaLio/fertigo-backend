@@ -164,16 +164,31 @@ const VorlagenPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-b from-white to-slate-50">
             {/* Hero Section */}
-            <section className="bg-gradient-to-br from-primary-600 via-primary-500 to-primary-600 text-white py-16 md:py-24">
-                <div className="container mx-auto px-6 max-w-6xl">
+            <section className="relative overflow-hidden text-white py-16 md:py-24">
+                {/* Background Video */}
+                <div className="absolute inset-0 z-0">
+                    <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="w-full h-full object-cover"
+                    >
+                        <source src="/hero-background.mp4" type="video/mp4" />
+                    </video>
+                    {/* Overlay to make text readable */}
+                    <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-[2px]"></div>
+                </div>
+
+                <div className="container mx-auto px-6 max-w-6xl relative z-10">
                     <div className="text-center max-w-3xl mx-auto">
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-4">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-4 drop-shadow-lg">
                             {t.title}
                         </h1>
-                        <p className="text-xl md:text-2xl text-primary-50 mb-6">
+                        <p className="text-xl md:text-2xl text-primary-50 mb-6 font-semibold drop-shadow-md">
                             {t.subtitle}
                         </p>
-                        <p className="text-lg text-primary-100">
+                        <p className="text-lg text-primary-100 font-medium drop-shadow-sm">
                             {t.description}
                         </p>
                     </div>
