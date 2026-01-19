@@ -11,7 +11,7 @@ const CompetitorComparison = lazy(() => import('../components/CompetitorComparis
 const WhyChooseFertigo = lazy(() => import('../components/WhyChooseFertigo'));
 const PopularServices = lazy(() => import('../components/PopularServices'));
 const Testimonials = lazy(() => import('../components/Testimonials'));
-const PartnerLogos = lazy(() => import('../components/PartnerLogos'));
+
 const FAQ = lazy(() => import('../components/FAQ'));
 const CTA = lazy(() => import('../components/CTA'));
 
@@ -166,19 +166,6 @@ const TestimonialsSkeleton: React.FC = () => (
     </div>
 );
 
-const PartnerLogosSkeleton: React.FC = () => (
-    <div className="bg-slate-50 py-16 sm:py-20 animate-pulse">
-        <div className="container mx-auto px-6">
-            <div className="h-6 w-3/4 bg-slate-200 rounded-md mx-auto mb-12"></div>
-            <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-8">
-                {[...Array(5)].map((_, i) => (
-                    <div key={i} className="h-8 w-24 bg-slate-200 rounded-md"></div>
-                ))}
-            </div>
-        </div>
-    </div>
-);
-
 const CTASkeleton: React.FC = () => (
     <div className="bg-slate-900 py-20 animate-pulse">
         <div className="container mx-auto px-6 text-center">
@@ -232,9 +219,7 @@ const HomePage: React.FC = () => {
             <LazyLoad fallback={<FeaturesSkeleton />}>
                 <FAQ />
             </LazyLoad>
-            <LazyLoad fallback={<PartnerLogosSkeleton />}>
-                <PartnerLogos />
-            </LazyLoad>
+
             <LazyLoad fallback={<CTASkeleton />}>
                 <CTA />
             </LazyLoad>
