@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { StarIcon, ChevronLeftIcon, ChevronRightIcon } from './icons';
 import { useAppContext } from '../pages/AppContext';
 import { useInView } from 'react-intersection-observer';
@@ -8,9 +8,9 @@ export interface TestimonialData {
     location: string;
     review: string;
     rating: number;
-    image?: string;
     role?: string;
     service?: string;
+    initials?: string;
 }
 
 const translations = {
@@ -36,6 +36,15 @@ const translations = {
     }
 };
 
+const avatarColors = [
+    'bg-primary-500',
+    'bg-emerald-500',
+    'bg-violet-500',
+    'bg-amber-500',
+    'bg-rose-500',
+    'bg-cyan-500',
+];
+
 const defaultTestimonials: TestimonialData[] = [
     {
         name: 'Sarah Keller',
@@ -44,7 +53,6 @@ const defaultTestimonials: TestimonialData[] = [
         service: 'Umzug',
         review: 'Ich war überwältigt von der Professionalität. Innerhalb von 3 Stunden hatte ich 6 Angebote und der Umzug lief absolut reibungslos.',
         rating: 5,
-        image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop'
     },
     {
         name: 'Michael Roth',
@@ -53,7 +61,6 @@ const defaultTestimonials: TestimonialData[] = [
         service: 'Sanierung',
         review: 'Die Sanierung meiner Wohnung war dank Fertigo ein voller Erfolg. Qualität und Preis waren perfekt abgestimmt.',
         rating: 5,
-        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop'
     },
     {
         name: 'Lisa Meyer',
@@ -62,7 +69,6 @@ const defaultTestimonials: TestimonialData[] = [
         service: 'Reinigung',
         review: 'Super zuverlässig. Ich habe eine Reinigungsfirma für meine Praxis gesucht und wurde sofort fündig. Top Service!',
         rating: 5,
-        image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop'
     },
     {
         name: 'Familie Baumann',
@@ -71,7 +77,6 @@ const defaultTestimonials: TestimonialData[] = [
         service: 'Küchenbau',
         review: 'Unsere neue Küche ist ein Traum! Von der Planung bis zur Montage lief alles reibungslos und professionell.',
         rating: 5,
-        image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop'
     },
     {
         name: 'Reto B.',
@@ -80,7 +85,6 @@ const defaultTestimonials: TestimonialData[] = [
         service: 'Bodenleger',
         review: 'Der Parkettboden sieht fantastisch aus. Super Beratung bei der Materialauswahl und eine sehr saubere Ausführung.',
         rating: 4,
-        image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop'
     },
     {
         name: 'Thomas F.',
@@ -89,9 +93,16 @@ const defaultTestimonials: TestimonialData[] = [
         service: 'Gartenbau',
         review: 'Unser Garten wurde in eine Oase verwandelt. Das Team war pünktlich, kompetent und hat unsere Erwartungen weit übertroffen.',
         rating: 5,
-        image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop'
     }
 ];
+
+const getInitials = (name: string) => {
+    const parts = name.split(' ');
+    if (parts.length >= 2) {
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.slice(0, 2).toUpperCase();
+};
 
 interface TestimonialsProps {
     bgColor?: string;
@@ -136,7 +147,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollRef.current) {
-            const scrollAmount = 340;
+            const scrollAmount = 380;
             scrollRef.current.scrollBy({
                 left: direction === 'left' ? -scrollAmount : scrollAmount,
                 behavior: 'smooth'
@@ -157,22 +168,14 @@ const Testimonials: React.FC<TestimonialsProps> = ({
                         </p>
                     </div>
                     
-                    <div className="flex items-center gap-6">
-                        <div className="flex items-center gap-2">
-                            <div className="flex -space-x-2">
-                                {testimonials.slice(0, 4).map((t, i) => (
-                                    <img
-                                        key={i}
-                                        src={t.image}
-                                        alt=""
-                                        className="w-8 h-8 rounded-full border-2 border-white object-cover"
-                                    />
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1.5 px-4 py-2 bg-white rounded-full shadow-sm border border-slate-200">
+                            <div className="flex gap-0.5">
+                                {[...Array(5)].map((_, i) => (
+                                    <StarIcon key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                                 ))}
                             </div>
-                            <div className="text-sm">
-                                <span className="font-bold text-slate-900">4.9</span>
-                                <span className="text-slate-500"> von 5</span>
-                            </div>
+                            <span className="font-bold text-slate-900 ml-1">4.9</span>
                         </div>
                         
                         <div className="hidden sm:flex gap-2">
@@ -210,27 +213,17 @@ const Testimonials: React.FC<TestimonialsProps> = ({
                     {testimonials.map((testimonial, index) => (
                         <div
                             key={index}
-                            className="flex-shrink-0 w-[320px] snap-start"
+                            className="flex-shrink-0 w-[350px] snap-start"
                         >
-                            <div className="h-full bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-lg hover:border-primary-200 transition-all duration-300 group">
-                                <div className="flex items-start justify-between mb-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="relative">
-                                            <img
-                                                src={testimonial.image}
-                                                alt={testimonial.name}
-                                                className="w-12 h-12 rounded-full object-cover"
+                            <div className="h-full bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-lg hover:border-primary-200 transition-all duration-300 flex flex-col">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="flex gap-0.5">
+                                        {[...Array(5)].map((_, i) => (
+                                            <StarIcon
+                                                key={i}
+                                                className={`w-4 h-4 ${i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-slate-200'}`}
                                             />
-                                            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-                                                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div className="font-semibold text-slate-900">{testimonial.name}</div>
-                                            <div className="text-xs text-slate-500">{testimonial.location}</div>
-                                        </div>
+                                        ))}
                                     </div>
                                     {testimonial.service && (
                                         <span className="px-2.5 py-1 bg-primary-50 text-primary-700 text-xs font-medium rounded-full">
@@ -239,24 +232,21 @@ const Testimonials: React.FC<TestimonialsProps> = ({
                                     )}
                                 </div>
 
-                                <div className="flex gap-0.5 mb-3">
-                                    {[...Array(5)].map((_, i) => (
-                                        <StarIcon
-                                            key={i}
-                                            className={`w-4 h-4 ${i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-slate-200'}`}
-                                        />
-                                    ))}
-                                </div>
-
-                                <p className="text-slate-600 text-sm leading-relaxed line-clamp-4">
+                                <p className="text-slate-700 leading-relaxed flex-grow mb-5">
                                     "{testimonial.review}"
                                 </p>
 
-                                <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
-                                    <span className="text-xs text-slate-400">{testimonial.role}</span>
-                                    <div className="flex items-center gap-1 text-xs text-green-600">
-                                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
+                                    <div className={`w-10 h-10 rounded-full ${avatarColors[index % avatarColors.length]} flex items-center justify-center text-white font-semibold text-sm`}>
+                                        {getInitials(testimonial.name)}
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="font-semibold text-slate-900 text-sm">{testimonial.name}</div>
+                                        <div className="text-xs text-slate-500">{testimonial.role} · {testimonial.location}</div>
+                                    </div>
+                                    <div className="flex items-center gap-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                         </svg>
                                         {t.verified}
                                     </div>
