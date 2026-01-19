@@ -536,51 +536,65 @@ const ProvidersPage: React.FC = () => {
             </section>
 
             
-            <section id="how-it-works" className="py-20 sm:py-24 bg-white">
-                <div className="container mx-auto px-6 max-w-6xl">
+            <section id="how-it-works" className="py-20 sm:py-28 bg-gradient-to-br from-primary-900 via-primary-950 to-slate-900 relative overflow-hidden">
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+                    <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-green-500/10 rounded-full blur-3xl"></div>
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]"></div>
+                </div>
+
+                <div className="container mx-auto px-6 max-w-5xl relative z-10">
                     <div className="text-center mx-auto mb-16">
-                        <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">
+                        <span className="inline-block px-4 py-1.5 bg-primary-500/20 text-primary-300 text-xs font-bold uppercase tracking-widest rounded-full mb-4">
+                            Ihr Weg zum Erfolg
+                        </span>
+                        <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-white">
                            {t.howItWorksTitle}
                         </h2>
-                         <p className="mt-4 text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                         <p className="mt-4 text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto">
                            {t.howItWorksSubtitle}
                         </p>
                     </div>
 
-                    {/* Desktop View */}
-                    <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
+                    <div className="relative flex flex-col items-center">
                         {howItWorksSteps.map((step, index) => (
-                            <div key={step.title} className="relative text-center flex flex-col items-center group">
+                            <div key={step.title} className="relative flex flex-col items-center w-full max-w-md">
+                                <div className="group relative w-full">
+                                    <div className="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-green-500 rounded-2xl opacity-0 group-hover:opacity-100 blur transition duration-500"></div>
+                                    <div className="relative bg-slate-800/80 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 lg:p-8 hover:border-primary-500/50 transition-all duration-300">
+                                        <div className="flex items-center gap-4 mb-4">
+                                            <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-primary-500 to-green-500 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-primary-500/30">
+                                                {index + 1}
+                                            </div>
+                                            <div className="w-12 h-12 rounded-lg bg-slate-700/50 flex items-center justify-center">
+                                                {React.cloneElement(step.icon as React.ReactElement, { className: 'w-6 h-6 text-primary-400' })}
+                                            </div>
+                                        </div>
+                                        <h3 className="text-lg lg:text-xl font-bold text-white mb-2">{step.title.replace(/^\d+\.\s*/, '')}</h3>
+                                        <p className="text-slate-400 leading-relaxed text-sm lg:text-base">{step.description}</p>
+                                    </div>
+                                </div>
+                                
                                 {index < howItWorksSteps.length - 1 && (
-                                    <div aria-hidden="true" className="hidden md:block absolute top-10 left-full transform -translate-y-1/2 ml-4 -translate-x-1/2 text-slate-200">
-                                        <ArrowRightIcon className="w-8 h-8" />
+                                    <div className="flex flex-col items-center py-4">
+                                        <div className="w-0.5 h-8 bg-gradient-to-b from-primary-500 to-primary-600"></div>
+                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-green-500 flex items-center justify-center shadow-lg shadow-primary-500/40 my-2">
+                                            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                            </svg>
+                                        </div>
+                                        <div className="w-0.5 h-8 bg-gradient-to-b from-primary-600 to-primary-500"></div>
                                     </div>
                                 )}
-                                <div className="mb-6 flex items-center justify-center h-20 w-20 rounded-2xl bg-primary-50 text-primary-600 group-hover:bg-primary-100 group-hover:scale-110 transition-all duration-300">
-                                    {React.cloneElement(step.icon as React.ReactElement, { className: 'w-10 h-10' })}
-                                </div>
-                                <h3 className="text-xl font-bold text-slate-900 mb-3">{step.title}</h3>
-                                <p className="text-slate-600 leading-relaxed">{step.description}</p>
                             </div>
                         ))}
                     </div>
 
-                    {/* --- NEW Mobile View - Vertical Timeline --- */}
-                    <div className="md:hidden relative max-w-xs mx-auto px-2">
-                        <div className="absolute left-10 top-10 bottom-10 w-0.5 bg-slate-200" aria-hidden="true"></div>
-                        <div className="space-y-12">
-                            {howItWorksSteps.map((step, index) => (
-                                <div key={index} className="relative flex items-start gap-6">
-                                    <div className="flex-shrink-0 w-20 h-20 rounded-full bg-white text-primary-600 flex items-center justify-center border-4 border-white ring-4 ring-slate-200 shadow-md z-10">
-                                        {React.cloneElement(step.icon as React.ReactElement, { className: 'w-10 h-10' })}
-                                    </div>
-                                    <div className="pt-2">
-                                        <h3 className="text-lg font-bold text-slate-900 mb-1">{step.title}</h3>
-                                        <p className="text-slate-600 text-sm leading-relaxed">{step.description}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                    <div className="mt-12 text-center">
+                        <Link to="/register" className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-primary-900 bg-gradient-to-r from-primary-300 to-green-300 rounded-xl hover:from-primary-200 hover:to-green-200 transition-all shadow-lg shadow-primary-500/30 hover:-translate-y-1">
+                            Jetzt kostenlos starten
+                            <ArrowRightIcon className="w-5 h-5 ml-2" />
+                        </Link>
                     </div>
                 </div>
             </section>
