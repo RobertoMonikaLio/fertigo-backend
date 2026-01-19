@@ -210,195 +210,201 @@ const PartnerRequestDetailPage: React.FC<{ requestId: string }> = ({ requestId }
     const currentConfig = statusConfig[request.status as Status] || statusConfig['Neu'];
     
     return (
-        <div className="max-w-4xl mx-auto animate-fade-in">
-            {/* Header Bar */}
-            <div className="flex items-center justify-between mb-6">
-                <Link to="/partner/requests?view=purchased" className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors text-sm font-medium">
+        <div className="max-w-6xl mx-auto animate-fade-in">
+            {/* Top Navigation */}
+            <div className="flex items-center justify-between mb-4">
+                <Link to="/partner/requests?view=purchased" className="inline-flex items-center gap-2 px-3 py-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all text-sm font-medium">
                     <ArrowLeftIcon className="w-4 h-4" />
-                    Zurück
+                    Meine Leads
                 </Link>
-                <StatusDropdown currentStatus={request.status as Status} onStatusChange={handleStatusChange} />
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                    <span>Lead #{request.id}</span>
+                    <span>•</span>
+                    <span>{request.date}</span>
+                </div>
             </div>
 
-            {/* Main Card */}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
-                {/* Hero Section */}
-                <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 p-6 text-white">
-                    <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-2">
-                                <span className="px-2 py-0.5 bg-white/20 rounded text-xs font-medium">{request.service}</span>
-                                <span className="text-slate-400 text-xs">#{request.id}</span>
+            {/* Two Column Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Left Column - Main Content */}
+                <div className="lg:col-span-2 space-y-4">
+                    {/* Title Card */}
+                    <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+                        <div className="flex items-start justify-between gap-4 mb-4">
+                            <div>
+                                <span className="inline-block px-2.5 py-1 bg-primary-100 text-primary-700 rounded-md text-xs font-bold mb-2">{request.service}</span>
+                                <h1 className="text-xl font-bold text-slate-900 leading-tight">{request.title}</h1>
                             </div>
-                            <h1 className="text-xl font-bold mb-2 line-clamp-2">{request.title}</h1>
-                            <div className="flex items-center gap-3 text-slate-300 text-sm">
-                                <span className="flex items-center gap-1">
-                                    <MapPinIcon className="w-3.5 h-3.5" />
-                                    {request.location}
-                                </span>
-                                <span className="flex items-center gap-1">
-                                    <CalendarDaysIcon className="w-3.5 h-3.5" />
-                                    {request.date}
-                                </span>
-                            </div>
-                        </div>
-                        <div className="text-right flex-shrink-0">
                             <QualityScoreIndicator score={request.qualityScore} />
                         </div>
-                    </div>
-                </div>
-
-                {/* Customer Contact Strip */}
-                <div className="bg-primary-50 border-b border-primary-100 p-4">
-                    <div className="flex flex-wrap items-center justify-between gap-4">
-                        <div className="flex items-center gap-3">
-                            <div className="w-11 h-11 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white font-bold shadow-md">
-                                {request.customerInfo.name.charAt(0)}
-                            </div>
-                            <div>
-                                <h2 className="font-bold text-slate-900">{request.customerInfo.name}</h2>
-                                <p className="text-xs text-slate-500">{request.customerInfo.address}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <a 
-                                href={`tel:${request.customerInfo.mobile || request.customerInfo.phone}`} 
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-sm font-bold transition-colors shadow-sm"
-                            >
-                                <PhoneIcon className="w-4 h-4"/>
-                                Anrufen
-                            </a>
-                            <a 
-                                href={`mailto:${request.customerInfo.email}`} 
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-sm font-bold transition-colors border border-slate-200"
-                            >
-                                <MailIcon className="w-4 h-4"/>
-                                E-Mail
-                            </a>
-                            <a 
-                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(request.customerInfo.address)}`}
-                                target="_blank" 
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-sm font-bold transition-colors border border-slate-200"
-                            >
-                                <MapPinIcon className="w-4 h-4"/>
-                                Karte
-                            </a>
+                        <div className="flex items-center gap-4 text-sm text-slate-500">
+                            <span className="flex items-center gap-1.5">
+                                <MapPinIcon className="w-4 h-4 text-slate-400" />
+                                {request.location}
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                                <CalendarDaysIcon className="w-4 h-4 text-slate-400" />
+                                {request.date}
+                            </span>
                         </div>
                     </div>
-                </div>
 
-                {/* Content */}
-                <div className="p-6 space-y-6">
-                    {/* Description */}
-                    <div>
-                        <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-                            <ListBulletIcon className="w-4 h-4 text-primary-600"/> 
+                    {/* Description Card */}
+                    <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+                        <h2 className="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <ListBulletIcon className="w-5 h-5 text-primary-600"/>
                             Projektbeschreibung
-                        </h3>
-                        <p className="text-slate-600 leading-relaxed whitespace-pre-wrap text-sm bg-slate-50 rounded-xl p-4 border border-slate-100">
+                        </h2>
+                        <p className="text-slate-600 leading-relaxed whitespace-pre-wrap">
                             {request.description}
                         </p>
-                        
                         {request.additionalNotes && (
-                            <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
-                                <ExclamationTriangleIcon className="w-5 h-5 text-amber-500 flex-shrink-0" />
-                                <div>
-                                    <p className="text-xs font-bold text-amber-800 mb-1">Wichtiger Hinweis</p>
-                                    <p className="text-sm text-amber-900">{request.additionalNotes}</p>
-                                </div>
+                            <div className="mt-4 p-3 bg-amber-50 border-l-4 border-amber-400 rounded-r-lg">
+                                <p className="text-xs font-bold text-amber-700 uppercase tracking-wide mb-1">Hinweis</p>
+                                <p className="text-sm text-amber-800">{request.additionalNotes}</p>
                             </div>
                         )}
                     </div>
 
-                    {/* Details Grid */}
-                    <div>
-                        <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-                            <HomeModernIcon className="w-4 h-4 text-primary-600"/> 
+                    {/* Details Card */}
+                    <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+                        <h2 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <HomeModernIcon className="w-5 h-5 text-primary-600"/>
                             Projektdetails
-                        </h3>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                        </h2>
+                        <div className="space-y-3">
                             {request.budget && (
-                                <div className="p-3 bg-green-50 rounded-xl border border-green-100">
-                                    <p className="text-[10px] font-bold text-green-600 uppercase mb-1">Budget</p>
-                                    <p className="text-sm font-bold text-green-900">{request.budget}</p>
+                                <div className="flex items-center justify-between py-2.5 border-b border-slate-100">
+                                    <span className="text-slate-500 text-sm">Budget</span>
+                                    <span className="font-bold text-green-600">{request.budget}</span>
                                 </div>
                             )}
                             {request.details.map((detail, idx) => (
-                                <div key={idx} className="p-3 bg-slate-50 rounded-xl border border-slate-100">
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">{detail.label}</p>
-                                    <p className="text-sm font-semibold text-slate-800">{detail.value}</p>
+                                <div key={idx} className="flex items-center justify-between py-2.5 border-b border-slate-100 last:border-0">
+                                    <span className="text-slate-500 text-sm">{detail.label}</span>
+                                    <span className="font-semibold text-slate-800">{detail.value}</span>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    {/* Execution Details */}
-                    {(request.onSiteVisit || request.materialProcurement || request.onSiteService !== undefined) && (
-                        <div>
-                            <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-                                <BriefcaseIcon className="w-4 h-4 text-primary-600"/> 
-                                Ausführung
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {request.onSiteVisit && (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-100">
-                                        <EyeIcon className="w-3.5 h-3.5"/>
-                                        {request.onSiteVisit}
-                                    </span>
-                                )}
-                                {request.materialProcurement && (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 text-purple-700 rounded-full text-xs font-medium border border-purple-100">
-                                        <ToolboxIcon className="w-3.5 h-3.5"/>
-                                        {request.materialProcurement}
-                                    </span>
-                                )}
-                                {request.onSiteService !== undefined && (
-                                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border ${request.onSiteService ? 'bg-orange-50 text-orange-700 border-orange-100' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
-                                        <MapPinIcon className="w-3.5 h-3.5"/>
-                                        {request.onSiteService ? 'Vor-Ort erforderlich' : 'Remote möglich'}
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Files */}
-                    {request.files && request.files.length > 0 && (
-                        <div>
-                            <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-                                <PaperClipIcon className="w-4 h-4 text-primary-600"/> 
-                                Anhänge
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {request.files.map((file, idx) => (
-                                    <a 
-                                        key={idx} 
-                                        href={file.url} 
-                                        className="inline-flex items-center gap-2 px-3 py-2 bg-slate-50 hover:bg-primary-50 rounded-lg border border-slate-200 hover:border-primary-200 transition-all text-sm font-medium text-slate-700 hover:text-primary-700"
-                                    >
-                                        <PaperClipIcon className="w-4 h-4"/>
-                                        {file.name}
-                                    </a>
-                                ))}
-                            </div>
+                    {/* Execution & Files */}
+                    {(request.onSiteVisit || request.materialProcurement || request.onSiteService !== undefined || (request.files && request.files.length > 0)) && (
+                        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+                            {(request.onSiteVisit || request.materialProcurement || request.onSiteService !== undefined) && (
+                                <div className="mb-5">
+                                    <h2 className="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                                        <BriefcaseIcon className="w-5 h-5 text-primary-600"/>
+                                        Ausführung
+                                    </h2>
+                                    <div className="flex flex-wrap gap-2">
+                                        {request.onSiteVisit && (
+                                            <div className="flex items-center gap-2 px-3 py-2 bg-blue-50 rounded-lg">
+                                                <EyeIcon className="w-4 h-4 text-blue-600"/>
+                                                <span className="text-sm font-medium text-blue-800">{request.onSiteVisit}</span>
+                                            </div>
+                                        )}
+                                        {request.materialProcurement && (
+                                            <div className="flex items-center gap-2 px-3 py-2 bg-purple-50 rounded-lg">
+                                                <ToolboxIcon className="w-4 h-4 text-purple-600"/>
+                                                <span className="text-sm font-medium text-purple-800">{request.materialProcurement}</span>
+                                            </div>
+                                        )}
+                                        {request.onSiteService !== undefined && (
+                                            <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${request.onSiteService ? 'bg-orange-50' : 'bg-slate-100'}`}>
+                                                <MapPinIcon className={`w-4 h-4 ${request.onSiteService ? 'text-orange-600' : 'text-slate-500'}`}/>
+                                                <span className={`text-sm font-medium ${request.onSiteService ? 'text-orange-800' : 'text-slate-700'}`}>
+                                                    {request.onSiteService ? 'Vor-Ort erforderlich' : 'Remote möglich'}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                            {request.files && request.files.length > 0 && (
+                                <div>
+                                    <h2 className="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                                        <PaperClipIcon className="w-5 h-5 text-primary-600"/>
+                                        Anhänge ({request.files.length})
+                                    </h2>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                        {request.files.map((file, idx) => (
+                                            <a 
+                                                key={idx} 
+                                                href={file.url} 
+                                                className="flex items-center gap-3 p-3 bg-slate-50 hover:bg-primary-50 rounded-lg border border-slate-200 hover:border-primary-300 transition-all group"
+                                            >
+                                                <div className="w-10 h-10 bg-slate-200 group-hover:bg-primary-100 rounded-lg flex items-center justify-center transition-colors">
+                                                    <PaperClipIcon className="w-5 h-5 text-slate-500 group-hover:text-primary-600"/>
+                                                </div>
+                                                <span className="text-sm font-medium text-slate-700 group-hover:text-primary-700 truncate">{file.name}</span>
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
 
-                {/* Footer with Contact Info */}
-                <div className="bg-slate-50 border-t border-slate-100 p-4">
-                    <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-600">
-                        {(request.customerInfo.phone || request.customerInfo.mobile) && (
-                            <a href={`tel:${request.customerInfo.mobile || request.customerInfo.phone}`} className="flex items-center gap-2 hover:text-primary-600 transition-colors">
-                                <PhoneIcon className="w-4 h-4"/>
-                                {request.customerInfo.mobile || request.customerInfo.phone}
+                {/* Right Column - Sidebar */}
+                <div className="lg:col-span-1 space-y-4">
+                    {/* Status Card */}
+                    <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+                        <h2 className="font-bold text-slate-800 mb-3 text-sm uppercase tracking-wide">Status</h2>
+                        <StatusDropdown currentStatus={request.status as Status} onStatusChange={handleStatusChange} />
+                    </div>
+
+                    {/* Customer Card */}
+                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-5 text-white shadow-lg">
+                        <h2 className="font-bold mb-4 text-sm uppercase tracking-wide text-slate-300">Kunde</h2>
+                        <div className="flex items-center gap-3 mb-5">
+                            <div className="w-14 h-14 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full flex items-center justify-center text-xl font-bold shadow-lg">
+                                {request.customerInfo.name.charAt(0)}
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-lg">{request.customerInfo.name}</h3>
+                                <p className="text-slate-400 text-sm">{request.customerInfo.address}</p>
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <a 
+                                href={`tel:${request.customerInfo.mobile || request.customerInfo.phone}`} 
+                                className="flex items-center gap-3 w-full px-4 py-3 bg-primary-600 hover:bg-primary-500 rounded-lg transition-colors font-bold text-sm"
+                            >
+                                <PhoneIcon className="w-5 h-5"/>
+                                <span>{request.customerInfo.mobile || request.customerInfo.phone}</span>
                             </a>
-                        )}
-                        <a href={`mailto:${request.customerInfo.email}`} className="flex items-center gap-2 hover:text-primary-600 transition-colors">
-                            <MailIcon className="w-4 h-4"/>
-                            {request.customerInfo.email}
-                        </a>
+                            <a 
+                                href={`mailto:${request.customerInfo.email}`} 
+                                className="flex items-center gap-3 w-full px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg transition-colors font-medium text-sm"
+                            >
+                                <MailIcon className="w-5 h-5"/>
+                                <span className="truncate">{request.customerInfo.email}</span>
+                            </a>
+                            <a 
+                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(request.customerInfo.address)}`}
+                                target="_blank" 
+                                rel="noreferrer"
+                                className="flex items-center gap-3 w-full px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg transition-colors font-medium text-sm"
+                            >
+                                <MapPinIcon className="w-5 h-5"/>
+                                <span>Route anzeigen</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Quick Info */}
+                    <div className="bg-slate-50 rounded-xl border border-slate-200 p-4">
+                        <div className="flex items-center gap-3 text-sm">
+                            <div className={`p-2 rounded-lg ${currentConfig.bgColor} ${currentConfig.color}`}>
+                                {currentConfig.icon}
+                            </div>
+                            <div>
+                                <p className="text-slate-500 text-xs">Aktueller Status</p>
+                                <p className="font-semibold text-slate-800">{currentConfig.title}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
