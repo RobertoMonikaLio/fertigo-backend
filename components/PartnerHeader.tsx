@@ -135,16 +135,28 @@ const PartnerHeader: React.FC = () => {
                         
                         <Link 
                             to="/partner/billing"
-                            className={`hidden lg:flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-bold transition-colors shadow-sm border ${
-                                isBalanceLow
-                                    ? 'bg-yellow-50 text-yellow-800 border-yellow-200 hover:bg-yellow-100'
-                                    : 'bg-green-50 text-green-800 border-green-200 hover:bg-green-100'
-                            }`}
+                            className="hidden lg:flex items-center gap-3 group"
                             title={isBalanceLow ? "Ihr Guthaben ist niedrig. Jetzt aufladen!" : "Guthaben verwalten"}
                         >
-                            {isBalanceLow && <ExclamationTriangleIcon className="w-4 h-4" />}
-                            <BanknotesIcon className="w-4 h-4" />
-                            <span>CHF {currentBalance.toFixed(2)}</span>
+                            <div className={`relative flex items-center gap-2.5 px-4 py-2 rounded-xl transition-all duration-300 ${
+                                isBalanceLow
+                                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-105'
+                                    : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-105'
+                            }`}>
+                                {isBalanceLow && (
+                                    <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500 border border-white"></span>
+                                    </span>
+                                )}
+                                <div className={`p-1.5 rounded-lg ${isBalanceLow ? 'bg-white/20' : 'bg-white/20'}`}>
+                                    <BanknotesIcon className="w-4 h-4" />
+                                </div>
+                                <div className="flex flex-col items-start leading-none">
+                                    <span className="text-[10px] font-medium opacity-80 uppercase tracking-wide">Guthaben</span>
+                                    <span className="text-sm font-black">CHF {currentBalance.toFixed(2)}</span>
+                                </div>
+                            </div>
                         </Link>
                         
                         <div className="relative" ref={notificationRef}>
@@ -200,28 +212,37 @@ const PartnerHeader: React.FC = () => {
                     <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-full hover:bg-white hover:shadow-sm transition-all text-slate-500"><XMarkIcon className="w-6 h-6"/></button>
                  </div>
                  
-                 <nav className="flex-1 overflow-y-auto p-4 space-y-2">
-                    <div className="mb-6">
-                        <p className="px-4 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Finanzen</p>
-                        <Link 
-                            to="/partner/billing"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className={`flex items-center gap-3 p-3 rounded-xl font-semibold transition-all border ${
-                                isBalanceLow
-                                    ? 'bg-yellow-50 text-yellow-800 border-yellow-200'
-                                    : 'bg-green-50 text-green-800 border-green-200'
-                            }`}
-                        >
-                            <div className={`p-2 rounded-lg ${isBalanceLow ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}`}>
-                                <BanknotesIcon className="w-5 h-5" />
-                            </div>
-                            <div className="flex-1">
-                                <span className="text-xs font-bold opacity-80">Verfügbares Guthaben</span>
-                                <span className="block text-lg font-bold">CHF {currentBalance.toFixed(2)}</span>
-                            </div>
-                            {isBalanceLow && <ExclamationTriangleIcon className="w-5 h-5" />}
-                        </Link>
-                    </div>
+                   <nav className="flex-1 overflow-y-auto p-4 space-y-2">
+                      <div className="mb-6">
+                          <p className="px-4 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Finanzen</p>
+                          <Link 
+                              to="/partner/billing"
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              className={`relative flex items-center gap-4 p-4 rounded-2xl font-semibold transition-all overflow-hidden ${
+                                  isBalanceLow
+                                      ? 'bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 text-white'
+                                      : 'bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white'
+                              }`}
+                          >
+                              <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+                              <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full"></div>
+                              <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-white/10 rounded-full"></div>
+                              
+                              <div className={`relative z-10 p-3 rounded-xl ${isBalanceLow ? 'bg-white/20' : 'bg-white/20'}`}>
+                                  <BanknotesIcon className="w-6 h-6" />
+                              </div>
+                              <div className="relative z-10 flex-1">
+                                  <span className="text-xs font-bold opacity-80 uppercase tracking-wide">Verfügbares Guthaben</span>
+                                  <span className="block text-2xl font-black mt-0.5">CHF {currentBalance.toFixed(2)}</span>
+                              </div>
+                              {isBalanceLow && (
+                                  <div className="relative z-10 flex flex-col items-center">
+                                      <ExclamationTriangleIcon className="w-6 h-6 animate-bounce" />
+                                      <span className="text-[10px] font-bold mt-1">Niedrig</span>
+                                  </div>
+                              )}
+                          </Link>
+                      </div>
 
                     <div>
                         <p className="px-4 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Menu</p>
