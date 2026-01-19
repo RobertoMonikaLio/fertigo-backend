@@ -59,17 +59,17 @@ const Hero: React.FC = () => {
     ];
 
     return (
-        <section className="relative bg-[#a8d5ba] lg:pt-20 lg:pb-20 overflow-hidden">
+        <section className="relative bg-[#f5f5f5] lg:pt-20 lg:pb-20 overflow-hidden">
 
-            {/* Desktop Background - Mint Green matching mascot */}
+            {/* Desktop Background - Off-white matching mascot image */}
             <div className="hidden lg:block absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 bg-[#a8d5ba]"></div>
+                <div className="absolute inset-0 bg-[#f5f5f5]"></div>
             </div>
 
-            {/* --- UPDATED MOBILE HERO with MINT GREEN BACKGROUND --- */}
+            {/* --- UPDATED MOBILE HERO with OFF-WHITE BACKGROUND --- */}
             <div className="lg:hidden relative min-h-[70vh] flex flex-col text-slate-900 overflow-hidden">
-                {/* Mint Green Background matching mascot */}
-                <div className="absolute inset-0 bg-[#a8d5ba]"></div>
+                {/* Off-white Background matching mascot image */}
+                <div className="absolute inset-0 bg-[#f5f5f5]"></div>
 
                 {/* Content */}
                 <div className="relative z-10 p-6 pb-8 animate-fade-in flex-grow flex flex-col">
