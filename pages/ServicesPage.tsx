@@ -182,15 +182,60 @@ const ServicesPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-white">
-            <div className="bg-gradient-to-b from-primary-50 to-white pt-24 pb-8">
-                <div className="container mx-auto px-6 max-w-5xl">
-                    <div className="max-w-3xl">
-                        <h1 className="font-title text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4">
-                            Unsere Dienstleistungen
-                        </h1>
-                        <p className="text-lg md:text-xl text-slate-600">
-                            Entdecken Sie über 50 professionelle Services für Ihr nächstes Projekt.
-                        </p>
+            <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pt-28 pb-16 overflow-hidden">
+                <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl"></div>
+                    <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-500/15 rounded-full blur-3xl"></div>
+                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50"></div>
+                </div>
+                
+                <div className="container mx-auto px-6 max-w-6xl relative z-10">
+                    <div className="flex flex-col lg:flex-row items-center gap-12">
+                        <div className="flex-1 text-center lg:text-left">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 rounded-full mb-6">
+                                <span className="w-2 h-2 bg-primary-400 rounded-full animate-pulse"></span>
+                                <span className="text-primary-300 text-sm font-semibold">Über 50 Services</span>
+                            </div>
+                            <h1 className="font-title text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                                Alle Dienstleistungen
+                                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-300">auf einen Blick</span>
+                            </h1>
+                            <p className="text-lg md:text-xl text-slate-300 max-w-xl mb-8">
+                                Von Bau über Reinigung bis IT – finden Sie den perfekten Service für Ihr Projekt und erhalten Sie kostenlose Offerten.
+                            </p>
+                            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                                <button
+                                    onClick={() => openQuoteModal({})}
+                                    className="px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-bold rounded-xl hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg shadow-primary-500/30 flex items-center gap-2"
+                                >
+                                    Offerte anfragen
+                                    <ArrowRightIcon className="w-5 h-5" />
+                                </button>
+                                <div className="flex items-center gap-3 text-slate-400 text-sm">
+                                    <CheckCircleIcon className="w-5 h-5 text-emerald-400" />
+                                    <span>100% kostenlos</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div className="flex-shrink-0 grid grid-cols-3 gap-3">
+                            {[
+                                { icon: <ColoredWrenchScrewdriverIcon className="w-6 h-6" />, label: 'Handwerk' },
+                                { icon: <ColoredSparklesIcon className="w-6 h-6" />, label: 'Reinigung' },
+                                { icon: <ColoredTruckIcon className="w-6 h-6" />, label: 'Umzug' },
+                                { icon: <ColoredLeafIcon className="w-6 h-6" />, label: 'Garten' },
+                                { icon: <ColoredLightbulbIcon className="w-6 h-6" />, label: 'Elektro' },
+                                { icon: <ColoredPaintRollerIcon className="w-6 h-6" />, label: 'Maler' },
+                            ].map((item, i) => (
+                                <div 
+                                    key={i}
+                                    className="w-24 h-24 bg-white/5 backdrop-blur border border-white/10 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-white/10 hover:border-primary-500/50 transition-all cursor-pointer"
+                                >
+                                    {item.icon}
+                                    <span className="text-xs text-slate-400">{item.label}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
