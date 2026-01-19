@@ -189,18 +189,15 @@ const PurchasedLeadCard: React.FC<{
                 </div>
 
                 {lead.customer && (
-                    <div className="bg-slate-50 rounded-2xl p-4 mb-4 border border-slate-200">
-                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Kunde</div>
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <UserIcon className="w-5 h-5 text-primary-600"/>
-                            </div>
-                            <div className="min-w-0 flex-1">
-                                <p className="font-bold text-slate-700 truncate">{lead.customer}</p>
-                                {lead.customerEmail && (
-                                    <p className="text-xs text-slate-500 truncate">{lead.customerEmail}</p>
-                                )}
-                            </div>
+                    <div className="flex items-center gap-2 bg-slate-50 rounded-lg px-3 py-2 mb-3 border border-slate-200">
+                        <div className="w-7 h-7 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <UserIcon className="w-3.5 h-3.5 text-primary-600"/>
+                        </div>
+                        <div className="min-w-0 flex-1">
+                            <p className="text-sm font-bold text-slate-700 truncate">{lead.customer}</p>
+                            {lead.customerEmail && (
+                                <p className="text-[11px] text-slate-500 truncate">{lead.customerEmail}</p>
+                            )}
                         </div>
                     </div>
                 )}
