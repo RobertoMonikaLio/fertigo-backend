@@ -85,7 +85,7 @@ const Hero: React.FC = () => {
                     {/* Mobile Mascot - Peaking in */}
                     <div className="absolute right-[-20px] bottom-[200px] w-48 h-48 pointer-events-none animate-float lg:hidden">
                         <img
-                            src="/images/Gemini_Generated_Image_6iuvj6iuvj6iuvj6-removebg-preview-1768829294450.png"
+                            src="/images/ferti-mascot.png"
                             alt="Ferti Maskottchen"
                             className="w-full h-full object-contain drop-shadow-2xl"
                         />
@@ -229,7 +229,7 @@ const Hero: React.FC = () => {
                     <div className="relative flex items-center justify-center">
                         <div className="relative animate-float lg:-mt-32">
                             <img
-                                src="/images/Gemini_Generated_Image_6iuvj6iuvj6iuvj6-removebg-preview-1768829294450.png"
+                                src="/images/ferti-mascot.png"
                                 alt="Ferti Maskottchen"
                                 className="w-full max-w-lg drop-shadow-2xl transform transition-transform duration-700 hover:scale-105"
                             />
