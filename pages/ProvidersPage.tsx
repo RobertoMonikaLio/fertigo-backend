@@ -1,8 +1,4 @@
-
-
-
-
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     ArrowRightIcon,
@@ -273,9 +269,9 @@ export const providersData = [
     }
 ];
 
-const OnboardingStep2Icon = () => ( <svg viewBox="0 0 140 100" className="w-auto h-20 text-primary-800"><g fill="none" stroke="#166534" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="20" y="15" width="100" height="70" rx="8" fill="#dcfce7"/><circle cx="50" cy="40" r="12" fill="#fff"/><path d="M35 70 a15 15 0 0 1 30 0" fill="#fff"/><path d="M75 35 h35 M75 55 h25" /></g></svg> );
-const OnboardingStep3Icon = () => ( <svg viewBox="0 0 140 100" className="w-auto h-20 text-primary-800"><g fill="none" stroke="#166534" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M70 15 L110 35 L70 95 L30 35 Z" fill="#dcfce7"/><path d="M55 50 l10 10 l20 -20" stroke="#22c55e" strokeWidth="5"/></g></svg> );
-const OnboardingStep4Icon = () => ( <svg viewBox="0 0 140 100" className="w-auto h-20 text-primary-800"><g fill="none" stroke="#166534" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M40 80 L70 20 L100 80 Z" fill="#dcfce7"/><path d="M55 70 h30" /><path d="M70 20 L60 10" /><path d="M70 20 L80 10" /><path d="M50 90 a20 20 0 0 1 40 0" strokeDasharray="5 5"/></g></svg> );
+const OnboardingStep2Icon = () => (<svg viewBox="0 0 140 100" className="w-auto h-20 text-primary-800"><g fill="none" stroke="#166534" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="20" y="15" width="100" height="70" rx="8" fill="#dcfce7" /><circle cx="50" cy="40" r="12" fill="#fff" /><path d="M35 70 a15 15 0 0 1 30 0" fill="#fff" /><path d="M75 35 h35 M75 55 h25" /></g></svg>);
+const OnboardingStep3Icon = () => (<svg viewBox="0 0 140 100" className="w-auto h-20 text-primary-800"><g fill="none" stroke="#166534" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M70 15 L110 35 L70 95 L30 35 Z" fill="#dcfce7" /><path d="M55 50 l10 10 l20 -20" stroke="#22c55e" strokeWidth="5" /></g></svg>);
+const OnboardingStep4Icon = () => (<svg viewBox="0 0 140 100" className="w-auto h-20 text-primary-800"><g fill="none" stroke="#166534" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M40 80 L70 20 L100 80 Z" fill="#dcfce7" /><path d="M55 70 h30" /><path d="M70 20 L60 10" /><path d="M70 20 L80 10" /><path d="M50 90 a20 20 0 0 1 40 0" strokeDasharray="5 5" /></g></svg>);
 
 // --- MOCK LIVE FEED DATA ---
 const feedItems = [
@@ -290,13 +286,13 @@ const DashboardIllustration: React.FC<{ className?: string }> = ({ className }) 
     <svg viewBox="0 0 200 120" className={className} xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{stopColor: '#bbf7d0', stopOpacity: 1}} />
-                <stop offset="100%" style={{stopColor: '#16a34a', stopOpacity: 1}} />
+                <stop offset="0%" style={{ stopColor: '#bbf7d0', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#16a34a', stopOpacity: 1 }} />
             </linearGradient>
         </defs>
         {/* Main Frame */}
         <rect x="2" y="2" width="196" height="116" rx="8" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="2" />
-        
+
         {/* Header */}
         <path d="M 2 10 a 8 8 0 0 1 8 -8 H 190 a 8 8 0 0 1 8 8 V 20 H 2 Z" fill="#f1f5f9" stroke="#e2e8f0" strokeWidth="2" />
         <circle cx="15" cy="11" r="3" fill="#ef4444" />
@@ -339,7 +335,7 @@ const FeedCard: React.FC<{ item: typeof feedItems[0] }> = ({ item }) => (
         <div className="flex-1 min-w-0">
             <h4 className="font-bold text-white text-sm truncate">{item.title}</h4>
             <div className="flex items-center text-xs text-slate-400 gap-2 mt-1">
-                <span className="flex items-center gap-1"><MapPinIcon className="w-3 h-3"/> {item.location}</span>
+                <span className="flex items-center gap-1"><MapPinIcon className="w-3 h-3" /> {item.location}</span>
             </div>
         </div>
         <div className="text-right">
@@ -349,11 +345,7 @@ const FeedCard: React.FC<{ item: typeof feedItems[0] }> = ({ item }) => (
     </div>
 );
 
-const mobileHowItWorksIcons = [
-    <MagnifyingGlassIcon className="w-7 h-7 text-primary-700" />,
-    <ClipboardDocumentListIcon className="w-7 h-7 text-primary-700" />,
-    <TestsiegerIcon className="w-7 h-7 text-primary-700" />
-];
+
 
 const ProvidersPage: React.FC = () => {
     const { language } = useAppContext();
@@ -372,11 +364,37 @@ const ProvidersPage: React.FC = () => {
         { icon: <TestsiegerIcon className="w-8 h-8 text-primary-700" />, title: t.howItWorksStep3, description: t.howItWorksStep3Desc },
     ];
 
+    const [activeStep, setActiveStep] = useState(0);
+    const stepsContainerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (!stepsContainerRef.current) return;
+            
+            const steps = stepsContainerRef.current.children;
+            const viewportHeight = window.innerHeight;
+            const triggerPoint = viewportHeight * 0.5; // Active when element is at 50% of viewport
+
+            for (let i = 0; i < steps.length; i++) {
+                const step = steps[i] as HTMLElement;
+                const rect = step.getBoundingClientRect();
+                
+                if (rect.top <= triggerPoint && rect.bottom >= triggerPoint) {
+                    setActiveStep(i);
+                    break;
+                }
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     const dashboardFeatures = [
-        { icon: <Squares2X2Icon className="w-8 h-8 text-primary-700"/>, title: t.feature1Title, description: t.feature1Desc },
-        { icon: <PencilSquareIcon className="w-8 h-8 text-primary-700"/>, title: t.feature2Title, description: t.feature2Desc },
-        { icon: <AdjustmentsHorizontalIcon className="w-8 h-8 text-primary-700"/>, title: t.feature3Title, description: t.feature3Desc },
-        { icon: <ChatBubbleLeftRightIcon className="w-8 h-8 text-primary-700"/>, title: t.feature4Title, description: t.feature4Desc },
+        { icon: <Squares2X2Icon className="w-8 h-8 text-primary-700" />, title: t.feature1Title, description: t.feature1Desc },
+        { icon: <PencilSquareIcon className="w-8 h-8 text-primary-700" />, title: t.feature2Title, description: t.feature2Desc },
+        { icon: <AdjustmentsHorizontalIcon className="w-8 h-8 text-primary-700" />, title: t.feature3Title, description: t.feature3Desc },
+        { icon: <ChatBubbleLeftRightIcon className="w-8 h-8 text-primary-700" />, title: t.feature4Title, description: t.feature4Desc },
     ];
 
     const onboardingSteps = [
@@ -384,12 +402,12 @@ const ProvidersPage: React.FC = () => {
         { icon: <OnboardingStep3Icon />, title: t.onboardingStep2, description: t.onboardingStep2Desc },
         { icon: <OnboardingStep4Icon />, title: t.onboardingStep3, description: t.onboardingStep3Desc },
     ];
-    
+
     return (
         <div className="bg-white">
             {/* DARK HERO */}
             <section className="relative overflow-hidden bg-primary-950 pt-40 pb-20 lg:pt-40 lg:pb-32">
-                
+
                 {/* Background Decor */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     <div className="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] bg-primary-800/20 rounded-full blur-[100px]"></div>
@@ -414,25 +432,25 @@ const ProvidersPage: React.FC = () => {
 
                 <div className="max-w-6xl mx-auto px-6 relative z-10 lg:z-10">
                     <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                        
+
                         {/* Left Column: Text & Value Prop */}
                         <div className="relative z-20 text-center lg:text-left animate-fade-in">
                             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 backdrop-blur-md shadow-sm text-primary-300 text-xs font-bold uppercase tracking-wider mb-8">
                                 <BriefcaseIcon className="w-4 h-4" />
                                 {t.heroBadge}
                             </div>
-                            
+
                             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6 leading-[1.15]">
-                                {t.heroTitle} <br/>
+                                {t.heroTitle} <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-green-300">
                                     {t.heroTitleHighlight}
                                 </span>
                             </h1>
-                            
+
                             <p className="text-lg text-slate-400 mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
                                 {t.heroSubtitle}
                             </p>
-                            
+
                             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                                 <Link to="/register" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-900/50 hover:-translate-y-1 ring-1 ring-white/20">
                                     {t.heroCta}
@@ -443,9 +461,9 @@ const ProvidersPage: React.FC = () => {
                             <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-8 text-sm text-slate-400 font-medium">
                                 <div className="flex items-center gap-3">
                                     <div className="flex -space-x-3">
-                                        {[1,2,3].map(i => (
+                                        {[1, 2, 3].map(i => (
                                             <div key={i} className="w-9 h-9 rounded-full bg-slate-700 border-2 border-slate-900 flex items-center justify-center text-xs text-white font-bold">
-                                                <UserIcon className="w-4 h-4 text-slate-400"/>
+                                                <UserIcon className="w-4 h-4 text-slate-400" />
                                             </div>
                                         ))}
                                         <div className="w-9 h-9 rounded-full bg-primary-600 border-2 border-slate-900 flex items-center justify-center text-xs text-white font-bold">+2k</div>
@@ -454,7 +472,7 @@ const ProvidersPage: React.FC = () => {
                                 </div>
                                 <div className="hidden sm:block w-1 h-1 bg-slate-600 rounded-full"></div>
                                 <div className="flex items-center gap-2">
-                                    <CheckCircleIcon className="w-5 h-5 text-green-500"/>
+                                    <CheckCircleIcon className="w-5 h-5 text-green-500" />
                                     <span>Täglich neue Leads</span>
                                 </div>
                             </div>
@@ -463,7 +481,7 @@ const ProvidersPage: React.FC = () => {
                         {/* Right Column: Live Feed Visual (DESKTOP ONLY) */}
                         <div className="hidden lg:flex relative animate-fade-in [animation-delay:200ms] lg:h-[600px] items-center">
                             <div className="absolute -inset-4 bg-gradient-to-b from-primary-500/20 to-transparent rounded-[3rem] blur-3xl"></div>
-                            
+
                             <div className="relative w-full max-w-md mx-auto">
                                 {/* Phone/App Container */}
                                 <div className="bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl shadow-black/50 overflow-hidden relative min-h-[500px]">
@@ -476,7 +494,7 @@ const ProvidersPage: React.FC = () => {
                                         </div>
                                         <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Live Feed</div>
                                     </div>
-                                    
+
                                     {/* Feed Content with Animation */}
                                     <div className="p-4 relative h-[450px] overflow-hidden">
                                         <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-slate-900 to-transparent z-10"></div>
@@ -485,7 +503,7 @@ const ProvidersPage: React.FC = () => {
                                                 Jetzt Zugriff sichern
                                             </Link>
                                         </div>
-                                        
+
                                         <div className="animate-scroll-up space-y-4">
                                             {/* Doubled list for seamless loop */}
                                             {[...feedItems, ...feedItems, ...feedItems].map((item, idx) => (
@@ -494,7 +512,7 @@ const ProvidersPage: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 {/* Decorative Floating Elements */}
                                 <div className="absolute -right-8 top-1/4 bg-white p-3 rounded-xl shadow-xl animate-float hidden sm:block">
                                     <div className="flex items-center gap-2">
@@ -521,7 +539,7 @@ const ProvidersPage: React.FC = () => {
                         ))}
                     </div>
 
-                     {/* OPTIMIZED Mobile View - 2x2 Grid */}
+                    {/* OPTIMIZED Mobile View - 2x2 Grid */}
                     <div className="lg:hidden grid grid-cols-2 gap-4">
                         {stats.map((stat, i) => (
                             <div key={i} className="bg-slate-50 p-4 rounded-xl border border-slate-200/60 shadow-sm text-center">
@@ -536,79 +554,86 @@ const ProvidersPage: React.FC = () => {
                 </div>
             </section>
 
-            
-            <section id="how-it-works" className="py-24 sm:py-32 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
-                <div className="container mx-auto px-6 max-w-6xl relative z-10">
-                    <div className="text-center mb-20">
-                        <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-                            {t.howItWorksTitle}
-                        </h2>
-                        <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
-                            {t.howItWorksSubtitle}
-                        </p>
-                    </div>
 
-                    <div className="grid lg:grid-cols-3 gap-8 lg:gap-6">
-                        {howItWorksSteps.map((step, index) => (
-                            <div key={index} className="relative group">
-                                {index < howItWorksSteps.length - 1 && (
-                                    <div className="hidden lg:block absolute top-16 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-primary-200 to-transparent z-0"></div>
-                                )}
-                                
-                                <div className="relative bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-primary-900/10 transition-all duration-500 hover:-translate-y-2 z-10">
-                                    <div className="flex items-center gap-4 mb-6">
-                                        <div className="relative">
-                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center shadow-lg shadow-primary-500/30 group-hover:scale-110 transition-transform duration-300">
-                                                <span className="text-2xl font-black text-white">{index + 1}</span>
-                                            </div>
-                                            <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white flex items-center justify-center">
-                                                <CheckIcon className="w-3 h-3 text-white" />
-                                            </div>
+            {/* STICKY SCROLL PROCESS SECTION */}
+            <section id="how-it-works" className="relative bg-white py-24 lg:py-32">
+                <div className="container mx-auto px-6">
+                    <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+                        {/* Sticky Left Column */}
+                        <div className="lg:w-1/3 lg:h-screen lg:sticky lg:top-0 flex flex-col justify-center py-10 self-start">
+                            <span className="inline-block py-1 px-3 w-fit rounded-full bg-primary-50 text-primary-600 text-sm font-semibold tracking-wide mb-6 border border-primary-100">
+                                PROZESS
+                            </span>
+                            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight leading-tight">
+                                {t.howItWorksTitle}
+                            </h2>
+                            <p className="text-xl text-slate-600 leading-relaxed mb-10">
+                                {t.howItWorksSubtitle}
+                            </p>
+                            
+                            {/* Step Indicators (Desktop) */}
+                            <div className="hidden lg:flex flex-col gap-6">
+                                {howItWorksSteps.map((step, idx) => (
+                                    <div 
+                                        key={idx}
+                                        onClick={() => {
+                                            const element = stepsContainerRef.current?.children[idx];
+                                            element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                        }}
+                                        className={`cursor-pointer transition-all duration-300 flex items-center gap-4 p-4 rounded-xl border ${activeStep === idx ? 'bg-primary-50 border-primary-100 shadow-sm' : 'bg-transparent border-transparent hover:bg-slate-50'}`}
+                                    >
+                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${activeStep === idx ? 'bg-primary-600 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                            {idx + 1}
                                         </div>
-                                        <div className="flex-1">
-                                            <span className="text-xs font-bold text-primary-600 uppercase tracking-widest">Schritt {index + 1}</span>
-                                        </div>
+                                        <span className={`font-bold transition-colors ${activeStep === idx ? 'text-primary-900' : 'text-slate-500'}`}>
+                                            {step.title.replace(/^[0-9]+\.\s*,?\s*/, '')}
+                                        </span>
                                     </div>
-                                    
-                                    <h3 className="text-xl font-bold text-slate-900 mb-3">
-                                        {step.title.replace(/^\d+\.\s*/, '')}
-                                    </h3>
-                                    <p className="text-slate-500 leading-relaxed">
-                                        {step.description}
-                                    </p>
+                                ))}
+                            </div>
+                            
+                             <div className="mt-10">
+                                <Link to="/register" className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-full font-bold hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                                    <span>Jetzt Partner werden</span>
+                                    <ArrowRightIcon className="w-5 h-5" />
+                                </Link>
+                            </div>
+                        </div>
 
-                                    <div className="mt-6 pt-6 border-t border-slate-100">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
-                                                {step.icon}
+                        {/* Scrollable Right Column */}
+                        <div className="lg:w-2/3" ref={stepsContainerRef}>
+                            {howItWorksSteps.map((step, idx) => (
+                                <div key={idx} className="min-h-[80vh] flex items-center py-10 lg:py-0 mb-10 lg:mb-0">
+                                    <div className={`w-full p-8 md:p-12 rounded-3xl border transition-all duration-500 ${activeStep === idx ? 'bg-white border-primary-100 shadow-2xl scale-100 ring-1 ring-primary-50' : 'bg-slate-50 border-slate-100 shadow-none scale-95 opacity-70 grayscale'}`}>
+                                        <div className="flex items-center justify-between mb-8">
+                                            <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center">
+                                                {React.cloneElement(step.icon as React.ReactElement, { className: 'w-8 h-8 text-primary-600' })}
                                             </div>
-                                            <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
-                                                <div 
-                                                    className="h-full bg-gradient-to-r from-primary-400 to-green-400 rounded-full transition-all duration-1000"
-                                                    style={{ width: `${(index + 1) * 33}%` }}
-                                                ></div>
+                                            <span className="text-6xl font-black text-slate-100 select-none">0{idx + 1}</span>
+                                        </div>
+                                        
+                                        <h3 className="text-3xl font-bold text-slate-900 mb-6">
+                                            {step.title.replace(/^[0-9]+\.\s*,?\s*/, '')}
+                                        </h3>
+                                        <p className="text-xl text-slate-600 leading-relaxed mb-8">
+                                            {step.description}
+                                        </p>
+                                        
+                                        <div className="h-64 rounded-2xl bg-slate-100 w-full overflow-hidden relative group">
+                                            <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-slate-200"></div>
+                                            {/* Abstract Visualization */}
+                                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-white rounded-full shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                                                 {React.cloneElement(step.icon as React.ReactElement, { className: 'w-12 h-12 text-primary-400' })}
                                             </div>
-                                            <span className="text-xs font-bold text-slate-400">{(index + 1) * 33}%</span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="mt-16 text-center">
-                        <Link 
-                            to="/register" 
-                            className="inline-flex items-center gap-3 px-8 py-4 bg-primary-600 text-white font-bold rounded-2xl hover:bg-primary-700 transition-all shadow-xl shadow-primary-600/30 hover:shadow-primary-600/40 hover:-translate-y-1"
-                        >
-                            Jetzt kostenlos starten
-                            <ArrowRightIcon className="w-5 h-5" />
-                        </Link>
-                        <p className="mt-4 text-sm text-slate-400">Keine Kreditkarte erforderlich</p>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
-            
+
             <section className="py-20 md:py-24 lg:py-32 bg-slate-50">
                 <div className="container mx-auto px-6 max-w-5xl">
                     <div>
@@ -651,7 +676,7 @@ const ProvidersPage: React.FC = () => {
                     </div>
                 </div>
             </section>
-            
+
             <div className="hidden lg:block">
                 <LazyLoad fallback={<div></div>}>
                     <ROICalculator />
@@ -661,8 +686,8 @@ const ProvidersPage: React.FC = () => {
             <LazyLoad fallback={<div></div>}>
                 <ForProvidersSection />
             </LazyLoad>
-            
-            {/* Animation Keyframes */}
+
+            {/* Zen Animation Engine */}
             <style>{`
                 .no-scrollbar::-webkit-scrollbar { display: none; }
                 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -675,8 +700,308 @@ const ProvidersPage: React.FC = () => {
                 }
                 @keyframes float { 0% { transform: translate(0, 0); } 50% { transform: translate(0, -10px); } 100% { transform: translate(0, 0); } }
                 .animate-float { animation: float 6s ease-in-out infinite; }
-                .animate-bounce-slow { animation: float 4s ease-in-out infinite; }
+                @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                .animate-bounce-slow { animation: bounce-slow 3s ease-in-out infinite; }
+                
+                /* Zen-specific animations */
+                @keyframes breathe {
+                    0%, 100% { 
+                        transform: translate(-50%, -50%) scale(1); 
+                        opacity: 0.2; 
+                    }
+                    50% { 
+                        transform: translate(-50%, -50%) scale(1.2); 
+                        opacity: 0.1; 
+                    }
+                }
+                
+                @keyframes fade-in-up {
+                    0% { 
+                        opacity: 0; 
+                        transform: translateY(30px); 
+                    }
+                    100% { 
+                        opacity: 1; 
+                        transform: translateY(0); 
+                    }
+                }
+                
+                @keyframes subtle-glow {
+                    0%, 100% { 
+                        box-shadow: 0 0 0 0 rgba(148, 163, 184, 0.1); 
+                    }
+                    50% { 
+                        box-shadow: 0 0 20px 5px rgba(148, 163, 184, 0.05); 
+                    }
+                }
+                
+                @keyframes text-reveal {
+                    0% { 
+                        opacity: 0; 
+                        transform: translateY(10px); 
+                    }
+                    100% { 
+                        opacity: 1; 
+                        transform: translateY(0); 
+                    }
+                }
+                
+                @keyframes line-grow {
+                    0% { 
+                        width: 0; 
+                    }
+                    100% { 
+                        width: 100%; 
+                    }
+                }
+                
+                .animate-breathe {
+                    animation: breathe 8s ease-in-out infinite;
+                }
+                
+                .animate-fade-in-up {
+                    animation: fade-in-up 1.2s ease-out forwards;
+                }
+                
+                .animate-subtle-glow {
+                    animation: subtle-glow 4s ease-in-out infinite;
+                }
+                
+                .animate-text-reveal {
+                    animation: text-reveal 0.8s ease-out forwards;
+                }
+                
+                .animate-line-grow {
+                    animation: line-grow 1.5s ease-out forwards;
+                }
+                
+                /* Zen states */
+                .zen-element {
+                    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                
+                .zen-element:hover {
+                    transform: translateY(-2px);
+                }
+                
+                .zen-focus {
+                    outline: none;
+                    border-color: #475569;
+                }
+                
+                .zen-focus:focus {
+                    border-color: #1e293b;
+                    box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.1);
+                }
+                
+                /* Staggered animations for zen flow */
+                .stagger-zen-1 { animation-delay: 0.2s; }
+                .stagger-zen-2 { animation-delay: 0.4s; }
+                .stagger-zen-3 { animation-delay: 0.6s; }
+                
+                /* Minimalist button states */
+                .zen-button {
+                    position: relative;
+                    overflow: hidden;
+                    transition: all 0.7s ease;
+                }
+                
+                .zen-button::before {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 0;
+                    height: 0;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.1);
+                    transform: translate(-50%, -50%);
+                    transition: width 0.7s, height 0.7s;
+                }
+                
+                .zen-button:hover::before {
+                    width: 300px;
+                    height: 300px;
+                }
+                
+                /* Calming typography */
+                .zen-heading {
+                    letter-spacing: -0.02em;
+                    line-height: 1.1;
+                }
+                
+                .zen-text {
+                    line-height: 1.7;
+                    letter-spacing: 0.01em;
+                }
+                
+                /* Subtle borders */
+                .zen-border {
+                    border: 1px solid #e2e8f0;
+                    transition: border-color 0.7s ease;
+                }
+                
+                .zen-border:hover {
+                    border-color: #cbd5e1;
+                }
             `}</style>
+            
+            {/* Zen Experience JavaScript */}
+            <script dangerouslySetInnerHTML={{
+                __html: `
+                    class ZenExperience {
+                        constructor() {
+                            this.currentStep = 0;
+                            this.isScrolling = false;
+                            this.init();
+                        }
+                        
+                        init() {
+                            this.bindEvents();
+                            this.initAnimations();
+                            this.startBreathing();
+                        }
+                        
+                        bindEvents() {
+                            // Smooth scroll for exploration buttons
+                            const exploreButtons = document.querySelectorAll('.group');
+                            exploreButtons.forEach((button, index) => {
+                                button.addEventListener('click', () => this.exploreStep(index));
+                            });
+                            
+                            // Scroll-based progress
+                            window.addEventListener('scroll', () => this.handleScroll());
+                            
+                            // Keyboard navigation
+                            document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+                        }
+                        
+                        initAnimations() {
+                            // Staggered fade-in for steps
+                            const steps = document.querySelectorAll('.relative.mb-32');
+                            steps.forEach((step, index) => {
+                                step.style.opacity = '0';
+                                step.style.transform = 'translateY(30px)';
+                                
+                                setTimeout(() => {
+                                    step.style.transition = 'all 1.2s ease-out';
+                                    step.style.opacity = '1';
+                                    step.style.transform = 'translateY(0)';
+                                }, index * 300);
+                            });
+                            
+                            // Animate connection lines
+                            const lines = document.querySelectorAll('.w-px.bg-slate-200');
+                            lines.forEach((line, index) => {
+                                const height = line.parentElement.offsetHeight - 128; // Subtract spacing
+                                line.style.height = '0';
+                                line.style.transition = 'height 1.5s ease-out';
+                                line.style.transitionDelay = \`\${index * 0.5 + 1}s\`;
+                                
+                                setTimeout(() => {
+                                    line.style.height = \`\${height}px\`;
+                                }, 100);
+                            });
+                        }
+                        
+                        startBreathing() {
+                            // Enhanced breathing animation
+                            const breatheCircle = document.querySelector('.animate-breathe');
+                            if (breatheCircle) {
+                                // Add subtle color variation
+                                setInterval(() => {
+                                    const hue = 200 + Math.sin(Date.now() * 0.0001) * 20;
+                                    breatheCircle.style.backgroundColor = \`hsl(\${hue}, 20%, 95%)\`;
+                                }, 50);
+                            }
+                        }
+                        
+                        exploreStep(stepIndex) {
+                            // Smooth scroll to step
+                            const steps = document.querySelectorAll('.relative.mb-32');
+                            const targetStep = steps[stepIndex];
+                            
+                            if (targetStep) {
+                                targetStep.scrollIntoView({ 
+                                    behavior: 'smooth', 
+                                    block: 'center' 
+                                });
+                                
+                                // Highlight the step temporarily
+                                this.highlightStep(stepIndex);
+                            }
+                        }
+                        
+                        highlightStep(stepIndex) {
+                            const steps = document.querySelectorAll('.relative.mb-32');
+                            const step = steps[stepIndex];
+                            
+                            if (step) {
+                                // Add subtle glow
+                                step.style.boxShadow = '0 0 30px rgba(148, 163, 184, 0.2)';
+                                
+                                setTimeout(() => {
+                                    step.style.boxShadow = 'none';
+                                }, 2000);
+                            }
+                        }
+                        
+                        handleScroll() {
+                            if (this.isScrolling) return;
+                            
+                            this.isScrolling = true;
+                            
+                            // Update current step based on scroll position
+                            const steps = document.querySelectorAll('.relative.mb-32');
+                            const scrollPosition = window.scrollY + window.innerHeight / 2;
+                            
+                            steps.forEach((step, index) => {
+                                const stepTop = step.offsetTop;
+                                const stepBottom = stepTop + step.offsetHeight;
+                                
+                                if (scrollPosition >= stepTop && scrollPosition <= stepBottom) {
+                                    if (this.currentStep !== index) {
+                                        this.currentStep = index;
+                                        this.updateStepIndicator(index);
+                                    }
+                                }
+                            });
+                            
+                            setTimeout(() => {
+                                this.isScrolling = false;
+                            }, 100);
+                        }
+                        
+                        updateStepIndicator(stepIndex) {
+                            // Update visual indicators
+                            const stepNumbers = document.querySelectorAll('.w-16.h-16.rounded-full');
+                            stepNumbers.forEach((number, index) => {
+                                if (index <= stepIndex) {
+                                    number.style.borderColor = '#475569';
+                                    number.querySelector('span').style.color = '#1e293b';
+                                } else {
+                                    number.style.borderColor = '#e2e8f0';
+                                    number.querySelector('span').style.color = '#94a3b8';
+                                }
+                            });
+                        }
+                        
+                        handleKeyboard(e) {
+                            // Arrow key navigation
+                            if (e.key === 'ArrowDown' && this.currentStep < 2) {
+                                this.exploreStep(this.currentStep + 1);
+                            } else if (e.key === 'ArrowUp' && this.currentStep > 0) {
+                                this.exploreStep(this.currentStep - 1);
+                            }
+                        }
+                    }
+                    
+                    // Initialize zen experience when DOM is ready
+                    document.addEventListener('DOMContentLoaded', () => {
+                        new ZenExperience();
+                    });
+                `
+            }} />
         </div>
     );
 };
