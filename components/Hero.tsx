@@ -59,47 +59,31 @@ const Hero: React.FC = () => {
     ];
 
     return (
-        <section className="relative bg-white lg:bg-slate-50 lg:pt-20 lg:pb-20 overflow-hidden">
+        <section className="relative bg-white lg:pt-20 lg:pb-20 overflow-hidden">
 
-            {/* Desktop Background Video */}
-            <div className="hidden lg:block absolute inset-0 overflow-hidden pointer-events-none">
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="absolute inset-0 w-full h-full object-cover"
-                >
-                    <source src="/assets/hero-background.mp4" type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px]"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/70 to-transparent"></div>
+            {/* Desktop Background - Pure White */}
+            <div className="hidden lg:block absolute inset-0 pointer-events-none">
+                <div className="absolute inset-0 bg-white"></div>
             </div>
 
-            {/* --- UPDATED MOBILE HERO with REAL IMAGE --- */}
-            <div className="lg:hidden relative min-h-[70vh] flex flex-col text-white overflow-hidden shadow-lg">
-                {/* Background Image */}
-                <img
-                    src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&q=80&w=800"
-                    alt="Modernes Wohnzimmer"
-                    className="absolute inset-0 w-full h-full object-cover"
-                    loading="eager"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-black/20"></div>
+            {/* --- UPDATED MOBILE HERO with WHITE BACKGROUND --- */}
+            <div className="lg:hidden relative min-h-[70vh] flex flex-col text-slate-900 overflow-hidden">
+                {/* Pure White Background */}
+                <div className="absolute inset-0 bg-white"></div>
 
                 {/* Content */}
                 <div className="relative z-10 p-6 pb-8 animate-fade-in flex-grow flex flex-col">
                     <div className="flex-grow flex flex-col justify-center">
-                        <h1 className="text-[32px] font-black leading-tight tracking-tight mb-2 text-white" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+                        <h1 className="text-[32px] font-black leading-tight tracking-tight mb-2 text-slate-900">
                             Handwerker & Dienstleistungen in der Schweiz – einfach vergleichen
                         </h1>
-                        <p className="text-slate-200 mb-6 max-w-xs" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
+                        <p className="text-slate-600 mb-6 max-w-xs">
                             Erhalten Sie kostenlos mehrere Offerten von geprüften Fachbetrieben aus Ihrer Region.
                         </p>
                     </div>
 
                     {/* Mobile Mascot - Peaking in */}
-                    <div className="absolute right-[-20px] bottom-[120px] w-48 h-48 pointer-events-none animate-float opacity-90 lg:hidden">
+                    <div className="absolute right-[-20px] bottom-[120px] w-48 h-48 pointer-events-none animate-float lg:hidden">
                         <img
                             src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_u7h3fvu7h3fvu7h3-1768827359155.png?width=400&height=400&resize=contain"
                             alt="Ferti Maskottchen"
@@ -110,7 +94,7 @@ const Hero: React.FC = () => {
                     <div>
                         <button
                             onClick={() => openQuoteModal()}
-                            className="w-full bg-primary-600 text-white font-black text-base py-3.5 rounded-xl shadow-[0_0_20px_rgba(34,197,94,0.4)] flex items-center justify-center gap-3 transition-all duration-300 active:scale-95 group"
+                            className="w-full bg-primary-600 text-white font-black text-base py-3.5 rounded-xl shadow-[0_10px_20px_rgba(34,197,94,0.3)] flex items-center justify-center gap-3 transition-all duration-300 active:scale-95 group"
                         >
                             <span>Jetzt kostenlose Offerten erhalten</span>
                             <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
@@ -125,8 +109,8 @@ const Hero: React.FC = () => {
                                     <StarIcon className="w-4 h-4" />
                                     <StarIcon className="w-4 h-4" />
                                 </div>
-                                <p className="text-xs font-medium text-slate-300">
-                                    <span className="font-bold text-white">4.9 / 5</span> bei über <span className="font-bold text-white">5'000+</span> Kunden
+                                <p className="text-xs font-medium text-slate-500">
+                                    <span className="font-bold text-slate-900">4.9 / 5</span> bei über <span className="font-bold text-slate-900">5'000+</span> Kunden
                                 </p>
                             </div>
                         </div>
@@ -136,18 +120,18 @@ const Hero: React.FC = () => {
 
                 {/* Bottom Bar */}
                 <div className="relative z-10 mt-auto p-6 w-full">
-                    <div className="pt-4 border-t border-slate-400/20 flex justify-around items-start gap-4 text-center text-xs font-semibold text-white">
+                    <div className="pt-4 border-t border-slate-200 flex justify-around items-start gap-4 text-center text-xs font-semibold text-slate-600">
                         <div className="flex flex-col items-center gap-2">
                             <span className="text-2xl h-6 flex items-center" role="img" aria-label="Geprüfte Qualität">🏅</span>
-                            <span className="leading-tight">Geprüfte Firmen</span>
+                            <span className="leading-tight text-slate-900">Geprüfte Firmen</span>
                         </div>
                         <div className="flex flex-col items-center gap-2">
                             <span className="text-2xl h-6 flex items-center" role="img" aria-label="Geld Ersparnis">💰</span>
-                            <span className="leading-tight">100% Kostenlos</span>
+                            <span className="leading-tight text-slate-900">100% Kostenlos</span>
                         </div>
                         <div className="flex flex-col items-center gap-2">
                             <SwissFlagIcon className="w-6 h-6" />
-                            <span className="leading-tight">Schweizweit</span>
+                            <span className="leading-tight text-slate-900">Schweizweit</span>
                         </div>
                     </div>
                 </div>
