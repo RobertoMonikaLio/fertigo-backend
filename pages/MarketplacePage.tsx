@@ -257,7 +257,7 @@ const MarketplacePage: React.FC = () => {
 
         <div id="equipment"></div>
 
-      <div className="container mx-auto px-6 max-w-7xl py-12">
+      <div className="container mx-auto px-6 max-w-5xl py-12">
         <div className="flex flex-col lg:flex-row gap-10">
           <aside className="lg:w-72 flex-shrink-0">
             <div className="lg:sticky lg:top-36">
