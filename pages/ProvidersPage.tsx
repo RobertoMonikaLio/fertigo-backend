@@ -536,10 +536,25 @@ const ProvidersPage: React.FC = () => {
             </section>
 
             
-            <section id="how-it-works" className="py-20 sm:py-28 bg-gradient-to-br from-slate-50 to-white relative overflow-hidden">
+            <section id="how-it-works" className="py-20 sm:py-28 bg-white relative overflow-hidden">
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-primary-100/50 rounded-full blur-3xl"></div>
-                    <div className="absolute bottom-0 left-0 w-80 h-80 bg-green-100/50 rounded-full blur-3xl"></div>
+                    <svg className="absolute top-0 left-0 w-full h-full opacity-[0.03]" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <defs>
+                            <pattern id="grid-pattern" width="10" height="10" patternUnits="userSpaceOnUse">
+                                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-primary-900"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100" height="100" fill="url(#grid-pattern)" />
+                    </svg>
+                    <svg className="absolute -top-20 -right-20 w-[500px] h-[500px] text-primary-100 opacity-50" viewBox="0 0 200 200">
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4"/>
+                        <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+                        <circle cx="100" cy="100" r="40" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 2"/>
+                    </svg>
+                    <svg className="absolute -bottom-10 -left-10 w-[400px] h-[400px] text-green-100 opacity-50" viewBox="0 0 200 200">
+                        <polygon points="100,10 190,60 190,140 100,190 10,140 10,60" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+                        <polygon points="100,30 170,70 170,130 100,170 30,130 30,70" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 3"/>
+                    </svg>
                 </div>
 
                 <div className="container mx-auto px-6 max-w-6xl relative z-10">
@@ -555,52 +570,111 @@ const ProvidersPage: React.FC = () => {
                         </p>
                     </div>
 
-                    <div className="relative">
-                        <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-primary-200 via-primary-400 to-green-400 -translate-y-1/2 rounded-full"></div>
+                    <div className="relative max-w-4xl mx-auto">
+                        <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary-200 via-primary-400 to-green-400"></div>
                         
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6 relative">
+                        <div className="space-y-8 lg:space-y-0">
                             {howItWorksSteps.map((step, index) => (
                                 <div key={step.title} className="relative">
-                                    <div className="lg:hidden flex items-center gap-4 mb-4">
-                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-green-500 flex items-center justify-center text-white font-black text-lg shadow-lg">
-                                            {index + 1}
+                                    <div className="lg:hidden">
+                                        <div className="flex items-start gap-4">
+                                            <div className="relative flex flex-col items-center">
+                                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500 to-green-500 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-primary-500/30">
+                                                    {index + 1}
+                                                </div>
+                                                {index < howItWorksSteps.length - 1 && (
+                                                    <div className="flex flex-col items-center mt-4">
+                                                        <div className="w-0.5 h-6 bg-gradient-to-b from-primary-400 to-primary-300"></div>
+                                                        <svg className="w-6 h-6 text-primary-500 my-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                                        </svg>
+                                                        <div className="w-0.5 h-6 bg-gradient-to-b from-primary-300 to-primary-400"></div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="flex-1 pb-8">
+                                                <div className="bg-gradient-to-br from-slate-50 to-white rounded-2xl p-5 border border-slate-200 shadow-md">
+                                                    <div className="w-12 h-12 rounded-xl bg-white border border-primary-100 flex items-center justify-center mb-4 shadow-sm">
+                                                        {React.cloneElement(step.icon as React.ReactElement, { className: 'w-6 h-6 text-primary-600' })}
+                                                    </div>
+                                                    <h3 className="text-lg font-bold text-slate-900 mb-2">{step.title.replace(/^\d+\.\s*/, '')}</h3>
+                                                    <p className="text-slate-600 text-sm leading-relaxed">{step.description}</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="flex-1 h-1 bg-gradient-to-r from-primary-300 to-green-300 rounded-full"></div>
-                                        {index < howItWorksSteps.length - 1 && (
-                                            <svg className="w-6 h-6 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                            </svg>
-                                        )}
                                     </div>
 
-                                    <div className="hidden lg:flex justify-center mb-8">
-                                        <div className="relative">
+                                    <div className={`hidden lg:grid grid-cols-[1fr_auto_1fr] gap-8 items-center ${index > 0 ? 'mt-[-2rem]' : ''}`}>
+                                        <div className={`${index % 2 === 0 ? 'order-1' : 'order-3'}`}>
+                                            <div className={`group bg-white rounded-2xl p-8 border border-slate-200 shadow-lg hover:shadow-xl hover:border-primary-300 transition-all duration-300 ${index % 2 === 0 ? 'mr-8' : 'ml-8'}`}>
+                                                <div className="flex items-center gap-4 mb-4">
+                                                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-50 to-green-50 border border-primary-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                                        {React.cloneElement(step.icon as React.ReactElement, { className: 'w-7 h-7 text-primary-600' })}
+                                                    </div>
+                                                    <h3 className="text-xl font-bold text-slate-900">{step.title.replace(/^\d+\.\s*/, '')}</h3>
+                                                </div>
+                                                <p className="text-slate-600 leading-relaxed">{step.description}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="order-2 relative flex flex-col items-center">
                                             <div className="w-16 h-16 rounded-full bg-white border-4 border-primary-400 flex items-center justify-center text-primary-600 font-black text-2xl shadow-xl shadow-primary-200/50 z-10 relative">
                                                 {index + 1}
                                             </div>
                                             {index < howItWorksSteps.length - 1 && (
-                                                <div className="absolute top-1/2 left-full -translate-y-1/2 flex items-center" style={{ width: 'calc(100% + 5rem)' }}>
-                                                    <svg className="w-8 h-8 text-primary-500 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                                    </svg>
+                                                <div className="flex flex-col items-center mt-4">
+                                                    <div className="w-0.5 h-12 bg-gradient-to-b from-primary-400 to-primary-300"></div>
+                                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-100 to-green-100 flex items-center justify-center my-2 shadow-md">
+                                                        <svg className="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                                        </svg>
+                                                    </div>
+                                                    <div className="w-0.5 h-12 bg-gradient-to-b from-primary-300 to-primary-400"></div>
                                                 </div>
                                             )}
                                         </div>
-                                    </div>
 
-                                    <div className="group bg-white rounded-2xl p-6 lg:p-8 border border-slate-200 shadow-lg hover:shadow-xl hover:border-primary-300 transition-all duration-300 hover:-translate-y-1">
-                                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-50 to-green-50 border border-primary-100 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-                                            {React.cloneElement(step.icon as React.ReactElement, { className: 'w-7 h-7 text-primary-600' })}
+                                        <div className={`${index % 2 === 0 ? 'order-3' : 'order-1'}`}>
+                                            <div className={`flex items-center ${index % 2 === 0 ? 'justify-start ml-8' : 'justify-end mr-8'}`}>
+                                                <svg className="w-32 h-32 text-primary-100" viewBox="0 0 100 100">
+                                                    {index === 0 && (
+                                                        <>
+                                                            <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" strokeWidth="2"/>
+                                                            <circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" strokeWidth="2"/>
+                                                            <line x1="50" y1="35" x2="50" y2="15" stroke="currentColor" strokeWidth="2"/>
+                                                            <line x1="65" y1="50" x2="85" y2="50" stroke="currentColor" strokeWidth="2"/>
+                                                            <circle cx="50" cy="50" r="5" fill="currentColor"/>
+                                                        </>
+                                                    )}
+                                                    {index === 1 && (
+                                                        <>
+                                                            <rect x="20" y="20" width="60" height="60" rx="5" fill="none" stroke="currentColor" strokeWidth="2"/>
+                                                            <line x1="30" y1="35" x2="70" y2="35" stroke="currentColor" strokeWidth="2"/>
+                                                            <line x1="30" y1="50" x2="60" y2="50" stroke="currentColor" strokeWidth="2"/>
+                                                            <line x1="30" y1="65" x2="50" y2="65" stroke="currentColor" strokeWidth="2"/>
+                                                            <path d="M 65 55 L 75 65 L 90 45" fill="none" stroke="currentColor" strokeWidth="3"/>
+                                                        </>
+                                                    )}
+                                                    {index === 2 && (
+                                                        <>
+                                                            <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" strokeWidth="2"/>
+                                                            <path d="M 35 50 L 45 60 L 70 35" fill="none" stroke="currentColor" strokeWidth="4"/>
+                                                            <circle cx="50" cy="15" r="3" fill="currentColor"/>
+                                                            <circle cx="85" cy="50" r="3" fill="currentColor"/>
+                                                            <circle cx="50" cy="85" r="3" fill="currentColor"/>
+                                                            <circle cx="15" cy="50" r="3" fill="currentColor"/>
+                                                        </>
+                                                    )}
+                                                </svg>
+                                            </div>
                                         </div>
-                                        <h3 className="text-xl font-bold text-slate-900 mb-3">{step.title.replace(/^\d+\.\s*/, '')}</h3>
-                                        <p className="text-slate-600 leading-relaxed">{step.description}</p>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    <div className="mt-14 text-center">
+                    <div className="mt-16 text-center">
                         <Link to="/register" className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-gradient-to-r from-primary-600 to-green-600 rounded-xl hover:from-primary-700 hover:to-green-700 transition-all shadow-lg shadow-primary-500/30 hover:-translate-y-1">
                             Jetzt kostenlos starten
                             <ArrowRightIcon className="w-5 h-5 ml-2" />
