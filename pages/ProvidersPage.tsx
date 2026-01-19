@@ -555,100 +555,154 @@ const ProvidersPage: React.FC = () => {
             </section>
 
 
-            {/* HORIZONTAL TIMELINE PROCESS SECTION */}
-            <section id="how-it-works" className="relative bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 py-24 lg:py-32 overflow-hidden">
-                {/* Background Elements */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-[120px]"></div>
-                    <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px]"></div>
-                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02]"></div>
+            {/* INTERACTIVE BENTO GRID PROCESS SECTION */}
+            <section id="how-it-works" className="relative bg-white py-24 lg:py-32 overflow-hidden">
+                {/* Subtle Background Pattern */}
+                <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary-100/40 rounded-full blur-[150px]"></div>
+                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-100/30 rounded-full blur-[100px]"></div>
                 </div>
 
                 <div className="container mx-auto px-6 relative z-10">
                     {/* Header */}
-                    <div className="text-center mb-20">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-primary-400 text-sm font-semibold tracking-wide mb-6">
-                            <RocketLaunchIcon className="w-4 h-4" />
-                            EINFACHER PROZESS
-                        </span>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6">
+                    <div className="max-w-3xl mb-16 lg:mb-20">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-12 h-1 bg-primary-500 rounded-full"></div>
+                            <span className="text-primary-600 font-bold text-sm uppercase tracking-wider">Prozess</span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight mb-6">
                             {t.howItWorksTitle}
                         </h2>
-                        <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-xl text-slate-600 leading-relaxed">
                             {t.howItWorksSubtitle}
                         </p>
                     </div>
 
-                    {/* Timeline Container */}
-                    <div className="relative max-w-5xl mx-auto">
-                        {/* Horizontal Line (Desktop) */}
-                        <div className="hidden lg:block absolute top-[100px] left-0 right-0 h-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
-                        <div className="hidden lg:block absolute top-[100px] left-[16.666%] right-[16.666%] h-1">
-                            <div className="h-full bg-gradient-to-r from-primary-500 via-emerald-500 to-primary-500 rounded-full animate-pulse"></div>
-                        </div>
-
-                        {/* Steps Grid */}
-                        <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
-                            {howItWorksSteps.map((step, idx) => (
-                                <div key={idx} className="relative group">
-                                    {/* Step Number Circle */}
-                                    <div className="flex justify-center mb-8">
-                                        <div className="relative">
-                                            {/* Glow Effect */}
-                                            <div className="absolute inset-0 bg-primary-500/30 rounded-full blur-xl group-hover:bg-primary-500/50 transition-all duration-500"></div>
-                                            {/* Circle */}
-                                            <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-primary-500 to-emerald-500 p-[3px] group-hover:scale-110 transition-transform duration-500">
-                                                <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center">
-                                                    <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary-400 to-emerald-400">
-                                                        {idx + 1}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            {/* Connector Dots (Mobile) */}
-                                            {idx < howItWorksSteps.length - 1 && (
-                                                <div className="lg:hidden absolute -bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
-                                                    <div className="w-1 h-1 rounded-full bg-slate-600"></div>
-                                                    <div className="w-1 h-1 rounded-full bg-slate-600"></div>
-                                                    <div className="w-1 h-1 rounded-full bg-slate-600"></div>
-                                                </div>
-                                            )}
-                                        </div>
+                    {/* Bento Grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+                        {/* Step 1 - Large Card */}
+                        <div className="lg:col-span-7 group">
+                            <div className="relative h-full bg-gradient-to-br from-primary-600 to-primary-700 rounded-[2rem] p-8 lg:p-10 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-primary-500/20 hover:-translate-y-1">
+                                {/* Decorative Elements */}
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                                <div className="absolute bottom-0 left-0 w-40 h-40 bg-primary-400/20 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
+                                
+                                {/* Step Indicator */}
+                                <div className="flex items-center gap-4 mb-8">
+                                    <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                                        <span className="text-2xl font-black text-white">01</span>
                                     </div>
+                                    <div className="flex-1 h-[2px] bg-gradient-to-r from-white/40 to-transparent rounded-full"></div>
+                                </div>
 
-                                    {/* Card */}
-                                    <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-500 group-hover:-translate-y-2">
-                                        {/* Icon */}
-                                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500/20 to-emerald-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                                            {React.cloneElement(step.icon as React.ReactElement, { className: 'w-7 h-7 text-primary-400' })}
-                                        </div>
+                                {/* Icon */}
+                                <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                    <MagnifyingGlassIcon className="w-8 h-8 text-white" />
+                                </div>
 
-                                        {/* Title */}
-                                        <h3 className="text-xl font-bold text-white mb-4 group-hover:text-primary-300 transition-colors">
-                                            {step.title.replace(/^[0-9]+\.\s*,?\s*/, '')}
-                                        </h3>
+                                {/* Content */}
+                                <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">
+                                    {t.howItWorksStep1.replace(/^[0-9]+\.\s*/, '')}
+                                </h3>
+                                <p className="text-primary-100 text-lg leading-relaxed max-w-md">
+                                    {t.howItWorksStep1Desc}
+                                </p>
 
-                                        {/* Description */}
-                                        <p className="text-slate-400 leading-relaxed">
-                                            {step.description}
-                                        </p>
-
-                                        {/* Bottom Accent */}
-                                        <div className="absolute bottom-0 left-8 right-8 h-1 bg-gradient-to-r from-transparent via-primary-500/50 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                {/* Floating Badge */}
+                                <div className="absolute bottom-8 right-8 lg:bottom-10 lg:right-10">
+                                    <div className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/20">
+                                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                                        <span className="text-sm font-medium text-white">Live Leads</span>
                                     </div>
                                 </div>
-                            ))}
+                            </div>
                         </div>
 
-                        {/* CTA */}
-                        <div className="mt-16 text-center">
-                            <Link 
-                                to="/register" 
-                                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-bold rounded-2xl hover:from-primary-600 hover:to-emerald-600 transition-all shadow-xl shadow-primary-500/25 hover:shadow-primary-500/40 hover:-translate-y-1"
-                            >
-                                Jetzt kostenlos starten
-                                <ArrowRightIcon className="w-5 h-5" />
-                            </Link>
-                            <p className="mt-4 text-sm text-slate-500">Keine Kreditkarte erforderlich</p>
+                        {/* Step 2 - Tall Card */}
+                        <div className="lg:col-span-5 group">
+                            <div className="relative h-full bg-slate-900 rounded-[2rem] p-8 lg:p-10 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-900/30 hover:-translate-y-1 min-h-[320px]">
+                                {/* Grid Pattern */}
+                                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:2rem_2rem]"></div>
+                                
+                                {/* Glow */}
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-emerald-500/20 rounded-full blur-[60px]"></div>
+
+                                {/* Step Indicator */}
+                                <div className="relative flex items-center gap-4 mb-8">
+                                    <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/10">
+                                        <span className="text-2xl font-black text-white">02</span>
+                                    </div>
+                                </div>
+
+                                {/* Icon */}
+                                <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-emerald-500/30">
+                                    <PencilSquareIcon className="w-8 h-8 text-white" />
+                                </div>
+
+                                {/* Content */}
+                                <h3 className="relative text-2xl font-bold text-white mb-4">
+                                    {t.howItWorksStep2.replace(/^[0-9]+\.\s*/, '')}
+                                </h3>
+                                <p className="relative text-slate-400 leading-relaxed">
+                                    {t.howItWorksStep2Desc}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Step 3 - Wide Card */}
+                        <div className="lg:col-span-12 group">
+                            <div className="relative bg-gradient-to-r from-slate-50 to-slate-100 rounded-[2rem] p-8 lg:p-10 overflow-hidden border border-slate-200/60 transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
+                                {/* Decorative */}
+                                <div className="absolute top-0 right-0 w-96 h-96 bg-primary-200/30 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2"></div>
+
+                                <div className="relative grid lg:grid-cols-2 gap-8 items-center">
+                                    {/* Left Content */}
+                                    <div>
+                                        {/* Step Indicator */}
+                                        <div className="flex items-center gap-4 mb-8">
+                                            <div className="w-14 h-14 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-500/30">
+                                                <span className="text-2xl font-black text-white">03</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <CheckCircleIcon className="w-5 h-5 text-emerald-500" />
+                                                <span className="text-sm font-bold text-emerald-600">Final Step</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Icon */}
+                                        <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 border border-slate-200/60">
+                                            <TestsiegerIcon className="w-8 h-8 text-primary-600" />
+                                        </div>
+
+                                        {/* Content */}
+                                        <h3 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-4">
+                                            {t.howItWorksStep3.replace(/^[0-9]+\.\s*/, '')}
+                                        </h3>
+                                        <p className="text-slate-600 text-lg leading-relaxed max-w-lg">
+                                            {t.howItWorksStep3Desc}
+                                        </p>
+                                    </div>
+
+                                    {/* Right - CTA */}
+                                    <div className="flex flex-col items-start lg:items-end gap-6">
+                                        <div className="flex flex-wrap gap-3">
+                                            {['Keine Verpflichtung', 'Sofort starten', 'Volle Kontrolle'].map((tag, i) => (
+                                                <span key={i} className="px-4 py-2 bg-white rounded-full text-sm font-medium text-slate-700 border border-slate-200/60 shadow-sm">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                        <Link 
+                                            to="/register" 
+                                            className="inline-flex items-center gap-3 px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 hover:-translate-y-1 group/btn"
+                                        >
+                                            Jetzt kostenlos starten
+                                            <ArrowRightIcon className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
