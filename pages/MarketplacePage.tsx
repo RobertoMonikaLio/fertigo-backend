@@ -196,7 +196,7 @@ const MarketplacePage: React.FC = () => {
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05]"></div>
           </div>
 
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="max-w-5xl mx-auto px-6 relative z-10">
             <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
               <div className="flex-1 text-center lg:text-left animate-fade-in">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white text-sm font-bold mb-6">
