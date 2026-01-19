@@ -84,11 +84,15 @@ const Hero: React.FC = () => {
 
                     {/* Mobile Mascot - Peaking in */}
                     <div className="absolute right-[-20px] bottom-[200px] w-48 h-48 pointer-events-none animate-float lg:hidden">
-                        <img
-                            src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_6iuvj6iuvj6iuvj6-removebg-preview-1768829294450.png?width=400&height=400&resize=contain"
-                            alt="Ferti Maskottchen"
+                        <video
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
                             className="w-full h-full object-contain drop-shadow-2xl"
-                        />
+                        >
+                            <source src="/hero-background.mp4" type="video/mp4" />
+                        </video>
                     </div>
 
                     <div>
@@ -228,11 +232,15 @@ const Hero: React.FC = () => {
                     {/* Right Column - Mascot */}
                     <div className="relative flex items-center justify-center">
                         <div className="relative animate-float lg:-mt-32">
-                            <img
-                                src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_6iuvj6iuvj6iuvj6-removebg-preview-1768829294450.png?width=1200&height=1200&resize=contain"
-                                alt="Ferti - Ihr Handwerkerportal Maskottchen"
+                            <video
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
                                 className="w-full max-w-lg drop-shadow-2xl transform transition-transform duration-700 hover:scale-105"
-                            />
+                            >
+                                <source src="/hero-background.mp4" type="video/mp4" />
+                            </video>
                             {/* Decorative elements */}
                             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-3/4 h-8 bg-slate-900/10 rounded-full blur-2xl"></div>
                         </div>
