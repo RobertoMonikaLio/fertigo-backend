@@ -83,7 +83,7 @@ const Hero: React.FC = () => {
                     </div>
 
                     {/* Mobile Mascot - Peaking in */}
-                    <div className="absolute right-[-20px] bottom-[120px] w-48 h-48 pointer-events-none animate-float lg:hidden">
+                    <div className="absolute right-[-20px] bottom-[160px] w-48 h-48 pointer-events-none animate-float lg:hidden">
                         <img
                             src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_6iuvj6iuvj6iuvj6-removebg-preview-1768829294450.png?width=400&height=400&resize=contain"
                             alt="Ferti Maskottchen"
@@ -227,7 +227,7 @@ const Hero: React.FC = () => {
 
                     {/* Right Column - Mascot */}
                     <div className="relative flex items-center justify-center">
-                        <div className="relative animate-float">
+                        <div className="relative animate-float lg:-mt-16">
                             <img
                                 src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_6iuvj6iuvj6iuvj6-removebg-preview-1768829294450.png?width=1200&height=1200&resize=contain"
                                 alt="Ferti - Ihr Handwerkerportal Maskottchen"
