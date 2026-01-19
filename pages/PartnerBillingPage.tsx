@@ -333,85 +333,75 @@ const PartnerBillingPage: React.FC = () => {
                 
                 {/* LEFT COLUMN: Transactions (Main Content) */}
                 <div className="lg:w-2/3 order-2 lg:order-1 space-y-6">
-                     <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-                        <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                            <div>
-                                <h3 className="text-lg font-bold text-slate-800">Transaktionsverlauf</h3>
-                                <p className="text-sm text-slate-500 mt-0.5">{purchaseHistory.length} Einträge</p>
-                            </div>
-                            <div className="flex gap-2">
-                                <select className="text-sm border-slate-200 rounded-lg py-2 pl-3 pr-8 bg-slate-50 focus:ring-primary-500 focus:border-primary-500">
-                                    <option>Alle Transaktionen</option>
-                                    <option>Käufe</option>
-                                    <option>Aufladungen</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div className="divide-y divide-slate-100">
-                            {purchaseHistory.map((item, index) => {
-                                const isTopUp = item.amount > 0;
-                                return (
-                                    <div key={index} className="p-4 hover:bg-slate-50/50 transition-colors group">
-                                        <div className="flex items-start gap-4">
-                                            <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center ${
-                                                isTopUp ? 'bg-green-100' : 'bg-slate-100'
-                                            }`}>
-                                                {isTopUp ? (
-                                                    <BanknotesIcon className="w-5 h-5 text-green-600" />
-                                                ) : (
-                                                    <CreditCardIcon className="w-5 h-5 text-slate-500" />
-                                                )}
-                                            </div>
-                                            
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex items-start justify-between gap-3">
-                                                    <div>
-                                                        <p className="font-semibold text-slate-800">{item.description}</p>
-                                                        <div className="flex items-center gap-2 mt-1">
-                                                            <span className="text-xs text-slate-400">{item.date}</span>
-                                                            <span className="text-slate-300">•</span>
-                                                            <span className="text-xs text-slate-400">{item.invoiceId}</span>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div className="flex items-center gap-3">
-                                                        <span className={`font-bold text-base ${isTopUp ? 'text-green-600' : 'text-slate-700'}`}>
-                                                            {isTopUp ? '+' : ''} CHF {Math.abs(item.amount).toFixed(2)}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div className="flex items-center justify-between mt-3">
-                                                    <StatusBadge status={item.status} />
-                                                    <button className="flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-primary-600 transition-colors opacity-0 group-hover:opacity-100">
-                                                        <ArrowDownTrayIcon className="w-4 h-4"/>
-                                                        <span>PDF</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                        
-                        {purchaseHistory.length === 0 && (
-                            <div className="text-center p-12">
-                                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <CreditCardIcon className="w-8 h-8 text-slate-400" />
-                                </div>
-                                <p className="font-semibold text-slate-700">Noch keine Transaktionen</p>
-                                <p className="text-sm text-slate-500 mt-1">Ihre Transaktionen erscheinen hier</p>
-                            </div>
-                        )}
-                        
-                        <div className="p-4 border-t border-slate-100 bg-slate-50/30 text-center">
-                            <button className="text-sm font-semibold text-primary-600 hover:text-primary-700 flex items-center gap-1 mx-auto">
-                                Alle anzeigen
-                                <ArrowRightIcon className="w-4 h-4" />
+                    <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-xl font-bold text-slate-800">Transaktionen</h3>
+                        <div className="flex items-center gap-2">
+                            <button className="px-3 py-1.5 text-sm font-medium text-slate-600 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors">
+                                Alle
+                            </button>
+                            <button className="px-3 py-1.5 text-sm font-medium text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
+                                Käufe
+                            </button>
+                            <button className="px-3 py-1.5 text-sm font-medium text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
+                                Aufladungen
                             </button>
                         </div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                        {purchaseHistory.map((item, index) => {
+                            const isTopUp = item.amount > 0;
+                            return (
+                                <div key={index} className="bg-white rounded-xl border border-slate-200 p-4 hover:border-slate-300 hover:shadow-sm transition-all group">
+                                    <div className="flex items-center gap-4">
+                                        <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${
+                                            isTopUp 
+                                                ? 'bg-gradient-to-br from-green-400 to-emerald-500' 
+                                                : 'bg-gradient-to-br from-slate-400 to-slate-500'
+                                        }`}>
+                                            {isTopUp ? (
+                                                <BanknotesIcon className="w-6 h-6 text-white" />
+                                            ) : (
+                                                <ArrowDownTrayIcon className="w-6 h-6 text-white" />
+                                            )}
+                                        </div>
+                                        
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-semibold text-slate-800 truncate">{item.description}</p>
+                                            <p className="text-sm text-slate-400 mt-0.5">{item.date}</p>
+                                        </div>
+                                        
+                                        <div className="text-right">
+                                            <p className={`text-lg font-bold ${isTopUp ? 'text-green-600' : 'text-slate-800'}`}>
+                                                {isTopUp ? '+' : '-'} CHF {Math.abs(item.amount).toFixed(2)}
+                                            </p>
+                                            <p className="text-xs text-slate-400 mt-0.5">{item.invoiceId}</p>
+                                        </div>
+                                        
+                                        <button className="p-2 text-slate-300 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all opacity-0 group-hover:opacity-100">
+                                            <ArrowDownTrayIcon className="w-5 h-5"/>
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    
+                    {purchaseHistory.length === 0 && (
+                        <div className="bg-white rounded-xl border border-dashed border-slate-300 p-16 text-center">
+                            <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <CreditCardIcon className="w-10 h-10 text-slate-300" />
+                            </div>
+                            <p className="font-bold text-slate-700 text-lg">Keine Transaktionen</p>
+                            <p className="text-slate-500 mt-1">Ihre Transaktionen erscheinen hier</p>
+                        </div>
+                    )}
+                    
+                    <div className="text-center pt-2">
+                        <button className="text-sm font-semibold text-primary-600 hover:text-primary-700 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg hover:bg-primary-50 transition-colors">
+                            Alle Transaktionen anzeigen
+                            <ArrowRightIcon className="w-4 h-4" />
+                        </button>
                     </div>
                 </div>
 
