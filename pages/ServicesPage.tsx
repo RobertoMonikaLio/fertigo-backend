@@ -183,7 +183,7 @@ const ServicesPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-white">
             <div className="bg-gradient-to-b from-primary-50 to-white pt-24 pb-8">
-                <div className="container mx-auto px-6 max-w-7xl">
+                <div className="container mx-auto px-6 max-w-5xl">
                     <div className="max-w-3xl">
                         <h1 className="font-title text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4">
                             Unsere Dienstleistungen
@@ -353,7 +353,7 @@ const ServicesPage: React.FC = () => {
             </div>
 
             <div className="bg-slate-900 py-16">
-                <div className="container mx-auto px-6 max-w-7xl">
+                <div className="container mx-auto px-6 max-w-5xl">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                         <div className="text-center md:text-left">
                             <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
