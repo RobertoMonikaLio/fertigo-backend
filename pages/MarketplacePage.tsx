@@ -253,30 +253,7 @@ const MarketplacePage: React.FC = () => {
           </div>
         </section>
 
-      <section className="bg-white py-10 border-b border-slate-100">
-        <div className="container mx-auto px-6">
-          <div className="hidden lg:grid grid-cols-4 gap-8 text-center">
-            {stats.map((stat, i) => (
-              <div key={i}>
-                <p className="text-4xl font-black text-primary-600 mb-2 tracking-tight">{stat.value}</p>
-                <p className="text-slate-500 font-bold text-sm uppercase tracking-wide">{stat.label}</p>
-              </div>
-            ))}
-          </div>
 
-          <div className="lg:hidden grid grid-cols-2 gap-4">
-            {stats.map((stat, i) => (
-              <div key={i} className="bg-slate-50 p-4 rounded-xl border border-slate-200/60 shadow-sm text-center">
-                <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                  {stat.icon}
-                </div>
-                <p className="text-xl font-black text-slate-900 tracking-tight">{stat.value}</p>
-                <p className="text-xs text-slate-500 font-bold uppercase tracking-wide mt-1">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
         <div id="equipment"></div>
 
