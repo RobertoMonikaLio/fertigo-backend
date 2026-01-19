@@ -98,6 +98,15 @@ const Hero: React.FC = () => {
                         </p>
                     </div>
 
+                    {/* Mobile Mascot - Peaking in */}
+                    <div className="absolute right-[-20px] bottom-[120px] w-48 h-48 pointer-events-none animate-float opacity-90 lg:hidden">
+                        <img
+                            src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_u7h3fvu7h3fvu7h3-1768827359155.png?width=400&height=400&resize=contain"
+                            alt="Ferti Maskottchen"
+                            className="w-full h-full object-contain drop-shadow-2xl"
+                        />
+                    </div>
+
                     <div>
                         <button
                             onClick={() => openQuoteModal()}
@@ -236,9 +245,9 @@ const Hero: React.FC = () => {
                     <div className="relative flex items-center justify-center">
                         <div className="relative animate-float">
                             <img
-                                src="/assets/ferti-mascot.jpg"
+                                src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_u7h3fvu7h3fvu7h3-1768827359155.png?width=1200&height=1200&resize=contain"
                                 alt="Ferti - Ihr Handwerkerportal Maskottchen"
-                                className="w-full max-w-lg drop-shadow-2xl"
+                                className="w-full max-w-lg drop-shadow-2xl transform transition-transform duration-700 hover:scale-105"
                             />
                             {/* Decorative elements */}
                             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-3/4 h-8 bg-slate-900/10 rounded-full blur-2xl"></div>
