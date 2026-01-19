@@ -81,13 +81,13 @@ const PopularServices: React.FC = () => {
         <section
             ref={ref}
             id="services"
-            className={`py-16 sm:py-20 md:py-24 bg-slate-50 transition-all duration-700 ease-out lg:opacity-100 lg:transform-none ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`py-10 sm:py-12 md:py-14 bg-slate-50 transition-all duration-700 ease-out lg:opacity-100 lg:transform-none ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
         >
             <style>{`.no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }`}</style>
             <div className="container mx-auto px-6 max-w-6xl">
-                <div className="text-center mb-12 md:mb-16">
-                    <h2 className="font-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4 whitespace-nowrap">{t.title}</h2>
-                    <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">{t.subtitle}</p>
+                <div className="text-center mb-8 md:mb-10">
+                    <h2 className="font-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3">{t.title}</h2>
+                    <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">{t.subtitle}</p>
                 </div>
 
                 {/* --- NEW MOBILE VIEW --- */}
@@ -184,7 +184,7 @@ const PopularServices: React.FC = () => {
                     })}
                 </div>
 
-                <div className="text-center mt-12 hidden lg:inline-flex lg:w-full lg:justify-center">
+                <div className="text-center mt-8 hidden lg:inline-flex lg:w-full lg:justify-center">
                     <Link
                         to="/services"
                         className="bg-primary-700 text-white font-bold px-6 py-3 rounded-lg hover:bg-primary-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 inline-flex items-center gap-2 text-base"
