@@ -83,7 +83,7 @@ const Hero: React.FC = () => {
                     </div>
 
                     {/* Mobile Mascot - Peaking in */}
-                    <div className="absolute right-[-20px] bottom-[200px] w-48 h-48 pointer-events-none animate-float lg:hidden">
+                    <div className="absolute right-[-20px] bottom-[250px] w-48 h-48 pointer-events-none animate-float lg:hidden">
                         <img
                             src="/images/ferti-mascot.png"
                             alt="Ferti Maskottchen"
@@ -227,7 +227,7 @@ const Hero: React.FC = () => {
 
                     {/* Right Column - Mascot */}
                     <div className="relative flex items-center justify-center">
-                        <div className="relative animate-float lg:-mt-32">
+                        <div className="relative animate-float lg:-mt-52">
                             <img
                                 src="/images/ferti-mascot.png"
                                 alt="Ferti Maskottchen"
