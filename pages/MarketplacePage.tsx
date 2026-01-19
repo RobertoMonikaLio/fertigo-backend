@@ -278,28 +278,7 @@ const MarketplacePage: React.FC = () => {
         </div>
       </section>
 
-      <div id="equipment" className="sticky top-16 z-40 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-sm">
-        <div className="container mx-auto px-6 max-w-7xl py-4">
-          <div className="relative max-w-md">
-            <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Equipment suchen..."
-              className="w-full pl-12 pr-4 py-3 rounded-full border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:bg-white transition-all"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center transition-colors"
-              >
-                <XMarkIcon className="w-3 h-3 text-slate-600" />
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
+        <div id="equipment"></div>
 
       <div className="container mx-auto px-6 max-w-7xl py-12">
         <div className="flex flex-col lg:flex-row gap-10">
