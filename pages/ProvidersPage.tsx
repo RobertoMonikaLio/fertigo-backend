@@ -555,80 +555,100 @@ const ProvidersPage: React.FC = () => {
             </section>
 
 
-            {/* STICKY SCROLL PROCESS SECTION */}
-            <section id="how-it-works" className="relative bg-white py-24 lg:py-32">
-                <div className="container mx-auto px-6">
-                    <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
-                        {/* Sticky Left Column */}
-                        <div className="lg:w-1/3 lg:h-screen lg:sticky lg:top-0 flex flex-col justify-center py-10 self-start">
-                            <span className="inline-block py-1 px-3 w-fit rounded-full bg-primary-50 text-primary-600 text-sm font-semibold tracking-wide mb-6 border border-primary-100">
-                                PROZESS
-                            </span>
-                            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight leading-tight">
-                                {t.howItWorksTitle}
-                            </h2>
-                            <p className="text-xl text-slate-600 leading-relaxed mb-10">
-                                {t.howItWorksSubtitle}
-                            </p>
-                            
-                            {/* Step Indicators (Desktop) */}
-                            <div className="hidden lg:flex flex-col gap-6">
-                                {howItWorksSteps.map((step, idx) => (
-                                    <div 
-                                        key={idx}
-                                        onClick={() => {
-                                            const element = stepsContainerRef.current?.children[idx];
-                                            element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                        }}
-                                        className={`cursor-pointer transition-all duration-300 flex items-center gap-4 p-4 rounded-xl border ${activeStep === idx ? 'bg-primary-50 border-primary-100 shadow-sm' : 'bg-transparent border-transparent hover:bg-slate-50'}`}
-                                    >
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${activeStep === idx ? 'bg-primary-600 text-white' : 'bg-slate-100 text-slate-400'}`}>
-                                            {idx + 1}
-                                        </div>
-                                        <span className={`font-bold transition-colors ${activeStep === idx ? 'text-primary-900' : 'text-slate-500'}`}>
-                                            {step.title.replace(/^[0-9]+\.\s*,?\s*/, '')}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-                            
-                             <div className="mt-10">
-                                <Link to="/register" className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-full font-bold hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                                    <span>Jetzt Partner werden</span>
-                                    <ArrowRightIcon className="w-5 h-5" />
-                                </Link>
-                            </div>
+            {/* HORIZONTAL TIMELINE PROCESS SECTION */}
+            <section id="how-it-works" className="relative bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 py-24 lg:py-32 overflow-hidden">
+                {/* Background Elements */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-[120px]"></div>
+                    <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px]"></div>
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02]"></div>
+                </div>
+
+                <div className="container mx-auto px-6 relative z-10">
+                    {/* Header */}
+                    <div className="text-center mb-20">
+                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-primary-400 text-sm font-semibold tracking-wide mb-6">
+                            <RocketLaunchIcon className="w-4 h-4" />
+                            EINFACHER PROZESS
+                        </span>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6">
+                            {t.howItWorksTitle}
+                        </h2>
+                        <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                            {t.howItWorksSubtitle}
+                        </p>
+                    </div>
+
+                    {/* Timeline Container */}
+                    <div className="relative max-w-5xl mx-auto">
+                        {/* Horizontal Line (Desktop) */}
+                        <div className="hidden lg:block absolute top-[100px] left-0 right-0 h-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
+                        <div className="hidden lg:block absolute top-[100px] left-[16.666%] right-[16.666%] h-1">
+                            <div className="h-full bg-gradient-to-r from-primary-500 via-emerald-500 to-primary-500 rounded-full animate-pulse"></div>
                         </div>
 
-                        {/* Scrollable Right Column */}
-                        <div className="lg:w-2/3" ref={stepsContainerRef}>
+                        {/* Steps Grid */}
+                        <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
                             {howItWorksSteps.map((step, idx) => (
-                                <div key={idx} className="min-h-[80vh] flex items-center py-10 lg:py-0 mb-10 lg:mb-0">
-                                    <div className={`w-full p-8 md:p-12 rounded-3xl border transition-all duration-500 ${activeStep === idx ? 'bg-white border-primary-100 shadow-2xl scale-100 ring-1 ring-primary-50' : 'bg-slate-50 border-slate-100 shadow-none scale-95 opacity-70 grayscale'}`}>
-                                        <div className="flex items-center justify-between mb-8">
-                                            <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center">
-                                                {React.cloneElement(step.icon as React.ReactElement, { className: 'w-8 h-8 text-primary-600' })}
+                                <div key={idx} className="relative group">
+                                    {/* Step Number Circle */}
+                                    <div className="flex justify-center mb-8">
+                                        <div className="relative">
+                                            {/* Glow Effect */}
+                                            <div className="absolute inset-0 bg-primary-500/30 rounded-full blur-xl group-hover:bg-primary-500/50 transition-all duration-500"></div>
+                                            {/* Circle */}
+                                            <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-primary-500 to-emerald-500 p-[3px] group-hover:scale-110 transition-transform duration-500">
+                                                <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center">
+                                                    <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary-400 to-emerald-400">
+                                                        {idx + 1}
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <span className="text-6xl font-black text-slate-100 select-none">0{idx + 1}</span>
+                                            {/* Connector Dots (Mobile) */}
+                                            {idx < howItWorksSteps.length - 1 && (
+                                                <div className="lg:hidden absolute -bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
+                                                    <div className="w-1 h-1 rounded-full bg-slate-600"></div>
+                                                    <div className="w-1 h-1 rounded-full bg-slate-600"></div>
+                                                    <div className="w-1 h-1 rounded-full bg-slate-600"></div>
+                                                </div>
+                                            )}
                                         </div>
-                                        
-                                        <h3 className="text-3xl font-bold text-slate-900 mb-6">
+                                    </div>
+
+                                    {/* Card */}
+                                    <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-500 group-hover:-translate-y-2">
+                                        {/* Icon */}
+                                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500/20 to-emerald-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                            {React.cloneElement(step.icon as React.ReactElement, { className: 'w-7 h-7 text-primary-400' })}
+                                        </div>
+
+                                        {/* Title */}
+                                        <h3 className="text-xl font-bold text-white mb-4 group-hover:text-primary-300 transition-colors">
                                             {step.title.replace(/^[0-9]+\.\s*,?\s*/, '')}
                                         </h3>
-                                        <p className="text-xl text-slate-600 leading-relaxed mb-8">
+
+                                        {/* Description */}
+                                        <p className="text-slate-400 leading-relaxed">
                                             {step.description}
                                         </p>
-                                        
-                                        <div className="h-64 rounded-2xl bg-slate-100 w-full overflow-hidden relative group">
-                                            <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-slate-200"></div>
-                                            {/* Abstract Visualization */}
-                                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-white rounded-full shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                                                 {React.cloneElement(step.icon as React.ReactElement, { className: 'w-12 h-12 text-primary-400' })}
-                                            </div>
-                                        </div>
+
+                                        {/* Bottom Accent */}
+                                        <div className="absolute bottom-0 left-8 right-8 h-1 bg-gradient-to-r from-transparent via-primary-500/50 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     </div>
                                 </div>
                             ))}
+                        </div>
+
+                        {/* CTA */}
+                        <div className="mt-16 text-center">
+                            <Link 
+                                to="/register" 
+                                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-bold rounded-2xl hover:from-primary-600 hover:to-emerald-600 transition-all shadow-xl shadow-primary-500/25 hover:shadow-primary-500/40 hover:-translate-y-1"
+                            >
+                                Jetzt kostenlos starten
+                                <ArrowRightIcon className="w-5 h-5" />
+                            </Link>
+                            <p className="mt-4 text-sm text-slate-500">Keine Kreditkarte erforderlich</p>
                         </div>
                     </div>
                 </div>
