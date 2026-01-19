@@ -247,34 +247,6 @@ const MarketplacePage: React.FC = () => {
                     alt="Equipment Marktplatz Beaver" 
                     className="relative w-[320px] sm:w-[400px] lg:w-[480px] h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500"
                   />
-                  
-                  <div className="absolute -left-4 top-8 bg-white p-3 rounded-2xl shadow-2xl animate-float">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
-                        <TruckIcon className="w-5 h-5 text-emerald-600" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-slate-900">Baumaschinen</div>
-                        <div className="text-[10px] text-slate-500">120+ verfügbar</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="absolute -right-4 bottom-16 bg-white p-3 rounded-2xl shadow-2xl animate-float [animation-delay:1s]">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center">
-                        <ShieldCheckIcon className="w-5 h-5 text-primary-600" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-slate-900">100% Geprüft</div>
-                        <div className="text-[10px] text-slate-500">Qualitäts-Garantie</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="absolute right-8 top-4 bg-emerald-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg animate-pulse">
-                    Neu: 12 heute
-                  </div>
                 </div>
               </div>
             </div>
