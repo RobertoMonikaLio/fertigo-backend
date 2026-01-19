@@ -189,99 +189,97 @@ const MarketplacePage: React.FC = () => {
         </div>
       )}
 
-      <section className="relative overflow-hidden bg-slate-900 pt-32 pb-20 lg:pt-40 lg:pb-28">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] bg-primary-800/20 rounded-full blur-[100px]"></div>
-          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary-900/20 rounded-full blur-[80px]"></div>
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]"></div>
-        </div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-emerald-700 pt-32 pb-24 lg:pt-36 lg:pb-32">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-emerald-400/20 rounded-full blur-3xl"></div>
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05]"></div>
+          </div>
 
-        <div className="lg:hidden absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none">
-          <img 
-            src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Bildschirm_foto_2026-01-19_um_20.08.12-removebg-preview-1768849801699.png?width=8000&height=8000&resize=contain" 
-            alt="Background Beaver" 
-            className="w-full h-auto object-contain"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-slate-900/40"></div>
-        </div>
-
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div className="relative z-20 text-center lg:text-left animate-fade-in">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 backdrop-blur-md shadow-sm text-primary-300 text-xs font-bold uppercase tracking-wider mb-8">
-                <CubeIcon className="w-4 h-4" />
-                Equipment Marktplatz
-              </div>
-
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6 leading-[1.15]">
-                Professionelles Equipment. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-green-300">
-                  Einfach mieten.
-                </span>
-              </h1>
-
-              <p className="text-lg text-slate-400 mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
-                Finden Sie Baumaschinen, Werkzeuge und Geräte von geprüften Anbietern in Ihrer Nähe. Transparent, günstig und sofort verfügbar.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <a href="#equipment" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-900/50 hover:-translate-y-1 ring-1 ring-white/20">
-                  Equipment durchsuchen
-                  <ArrowRightIcon className="w-5 h-5 ml-2" />
-                </a>
-              </div>
-
-              <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-8 text-sm text-slate-400 font-medium">
-                <div className="flex items-center gap-2">
-                  <CheckCircleIcon className="w-5 h-5 text-green-500" />
-                  <span>Geprüfte Anbieter</span>
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
+              <div className="flex-1 text-center lg:text-left animate-fade-in">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white text-sm font-bold mb-6">
+                  <SparklesIcon className="w-4 h-4" />
+                  Neu: Equipment Marktplatz
                 </div>
-                <div className="hidden sm:block w-1 h-1 bg-slate-600 rounded-full"></div>
-                <div className="flex items-center gap-2">
-                  <CheckCircleIcon className="w-5 h-5 text-green-500" />
-                  <span>Faire Preise</span>
-                </div>
-                <div className="hidden sm:block w-1 h-1 bg-slate-600 rounded-full"></div>
-                <div className="flex items-center gap-2">
-                  <CheckCircleIcon className="w-5 h-5 text-green-500" />
-                  <span>Sofort verfügbar</span>
-                </div>
-              </div>
-            </div>
 
-            <div className="hidden lg:flex relative animate-fade-in [animation-delay:200ms] lg:h-[550px] items-center justify-center">
-              <div className="absolute -inset-4 bg-primary-500/20 rounded-[3rem] blur-3xl"></div>
-              
-              <div className="relative w-full max-w-xl">
-                <img 
-                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Bildschirm_foto_2026-01-19_um_20.08.12-removebg-preview-1768849801699.png?width=8000&height=8000&resize=contain" 
-                  alt="Equipment Marktplatz Beaver" 
-                  className="w-full h-auto drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform -rotate-2 hover:rotate-0 transition-transform duration-700"
-                />
-                
-                <div className="absolute -right-6 top-1/4 bg-white p-3 rounded-xl shadow-xl animate-float hidden xl:block">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-6 leading-[1.1]">
+                  Mieten statt kaufen.
+                  <span className="block text-primary-200">Clever sparen.</span>
+                </h1>
+
+                <p className="text-lg text-white/80 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                  Baumaschinen, Werkzeuge & Geräte von geprüften Anbietern. Sofort verfügbar, faire Preise.
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
+                  <a href="#equipment" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-primary-700 bg-white rounded-2xl hover:bg-primary-50 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
+                    Jetzt entdecken
+                    <ArrowRightIcon className="w-5 h-5 ml-2" />
+                  </a>
+                  <Link to="/register" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white border-2 border-white/30 rounded-2xl hover:bg-white/10 transition-all">
+                    Equipment anbieten
+                  </Link>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-white/70">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-xs font-bold text-slate-900">12 neue heute</span>
+                    <CheckCircleIcon className="w-5 h-5 text-emerald-300" />
+                    <span>500+ Geräte</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircleIcon className="w-5 h-5 text-emerald-300" />
+                    <span>Geprüfte Anbieter</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircleIcon className="w-5 h-5 text-emerald-300" />
+                    <span>Schweizweit</span>
                   </div>
                 </div>
+              </div>
 
-                <div className="absolute -left-10 bottom-1/4 bg-slate-800/90 backdrop-blur border border-white/10 p-4 rounded-2xl shadow-2xl animate-float [animation-delay:1s] hidden xl:block">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center">
-                      <ShieldCheckIcon className="w-6 h-6 text-white" />
+              <div className="flex-shrink-0 relative animate-fade-in [animation-delay:200ms]">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-white/20 rounded-[3rem] blur-2xl scale-90"></div>
+                  <img 
+                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Bildschirm_foto_2026-01-19_um_20.08.12-removebg-preview-1768849801699.png?width=8000&height=8000&resize=contain" 
+                    alt="Equipment Marktplatz Beaver" 
+                    className="relative w-[320px] sm:w-[400px] lg:w-[480px] h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+                  />
+                  
+                  <div className="absolute -left-4 top-8 bg-white p-3 rounded-2xl shadow-2xl animate-float">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
+                        <TruckIcon className="w-5 h-5 text-emerald-600" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-slate-900">Baumaschinen</div>
+                        <div className="text-[10px] text-slate-500">120+ verfügbar</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-xs font-bold text-white uppercase tracking-wider">Geprüft</div>
-                      <div className="text-[10px] text-slate-400">Qualitäts-Garantie</div>
+                  </div>
+
+                  <div className="absolute -right-4 bottom-16 bg-white p-3 rounded-2xl shadow-2xl animate-float [animation-delay:1s]">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center">
+                        <ShieldCheckIcon className="w-5 h-5 text-primary-600" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-slate-900">100% Geprüft</div>
+                        <div className="text-[10px] text-slate-500">Qualitäts-Garantie</div>
+                      </div>
                     </div>
+                  </div>
+
+                  <div className="absolute right-8 top-4 bg-emerald-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg animate-pulse">
+                    Neu: 12 heute
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       <section className="bg-white py-10 border-b border-slate-100">
         <div className="container mx-auto px-6">
