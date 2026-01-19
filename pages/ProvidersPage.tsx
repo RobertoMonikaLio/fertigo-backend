@@ -536,80 +536,112 @@ const ProvidersPage: React.FC = () => {
             </section>
 
             
-            <section id="how-it-works" className="py-20 sm:py-28 bg-gradient-to-br from-primary-950 via-slate-900 to-slate-900 relative overflow-hidden">
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary-500/10 rounded-full blur-[120px]"></div>
-                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-green-500/10 rounded-full blur-[100px]"></div>
+            <section id="how-it-works" className="py-24 sm:py-32 bg-white relative overflow-hidden">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                     style={{ backgroundImage: `radial-gradient(#166534 1px, transparent 1px)`, backgroundSize: '40px 40px' }}>
                 </div>
-
+                
                 <div className="container mx-auto px-6 max-w-6xl relative z-10">
-                    <div className="text-center mx-auto mb-16">
-                        <span className="inline-block px-4 py-1.5 bg-white/10 text-primary-300 text-xs font-bold uppercase tracking-widest rounded-full mb-4 border border-white/10">
-                            Ihr Weg zum Erfolg
-                        </span>
-                        <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-white">
-                           {t.howItWorksTitle}
-                        </h2>
-                         <p className="mt-4 text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto">
-                           {t.howItWorksSubtitle}
-                        </p>
-                    </div>
-
-                    <div className="relative">
-                        <div className="hidden lg:flex items-center justify-center gap-0 max-w-5xl mx-auto">
-                            {howItWorksSteps.map((step, index) => (
-                                <div key={step.title} className="flex items-center">
-                                    <div className="flex flex-col items-center text-center w-64">
-                                        <div className="relative mb-6">
-                                            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary-500/20 to-green-500/20 border-2 border-primary-400/30 flex items-center justify-center backdrop-blur-sm">
-                                                <span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary-300 to-green-300">
-                                                    {index + 1}
-                                                </span>
-                                            </div>
-                                            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary-500 rounded-full">
-                                                <span className="text-[10px] font-bold text-white uppercase tracking-wider">Schritt</span>
-                                            </div>
+                    <div className="flex flex-col lg:flex-row gap-16 items-center">
+                        <div className="lg:w-1/2">
+                            <span className="inline-block px-4 py-1.5 bg-primary-50 text-primary-700 text-xs font-bold uppercase tracking-widest rounded-lg mb-4 border border-primary-100">
+                                Der Prozess
+                            </span>
+                            <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                               In nur <span className="text-primary-600">drei Schritten</span> zum neuen Auftrag
+                            </h2>
+                             <p className="mt-6 text-lg text-slate-600 leading-relaxed max-w-xl">
+                               Wir haben den Prozess so weit optimiert, dass Sie sich auf das Wesentliche konzentrieren können: Ihr Handwerk.
+                            </p>
+                            
+                            <div className="mt-12 space-y-4">
+                                {howItWorksSteps.map((step, index) => (
+                                    <div key={index} className="flex items-start gap-5 p-5 bg-slate-50 rounded-2xl border border-slate-100 group hover:bg-white hover:shadow-xl hover:shadow-primary-900/5 transition-all cursor-default">
+                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg transition-all group-hover:scale-110 ${index === 0 ? 'bg-primary-600 text-white shadow-primary-200' : 'bg-white text-primary-700 border border-slate-100 group-hover:bg-primary-600 group-hover:text-white'}`}>
+                                            {index + 1}
                                         </div>
-                                        <h3 className="text-lg font-bold text-white mb-2">{step.title.replace(/^\d+\.\s*/, '')}</h3>
-                                        <p className="text-slate-400 text-sm leading-relaxed px-2">{step.description}</p>
+                                        <div>
+                                            <h4 className="font-bold text-slate-900 text-lg">{step.title.replace(/^\d+\.\s*/, '')}</h4>
+                                            <p className="text-slate-500 mt-1 leading-relaxed">{step.description}</p>
+                                        </div>
                                     </div>
-                                    
-                                    {index < howItWorksSteps.length - 1 && (
-                                        <div className="flex items-center px-4">
-                                            <div className="w-16 h-0.5 bg-gradient-to-r from-primary-500 to-green-500"></div>
-                                            <svg className="w-6 h-6 text-green-400 -ml-1" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                                            </svg>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                                ))}
+                            </div>
+
+                            <div className="mt-10">
+                                <Link to="/register" className="inline-flex items-center gap-2 text-primary-600 font-bold hover:gap-3 transition-all">
+                                    Jetzt unverbindlich ausprobieren
+                                    <ArrowRightIcon className="w-5 h-5" />
+                                </Link>
+                            </div>
                         </div>
+                        
+                        <div className="lg:w-1/2 relative">
+                            {/* Visual Representation of the Dashboard */}
+                            <div className="relative z-10 bg-slate-900 rounded-[2.5rem] p-8 shadow-2xl border border-slate-800 transform lg:rotate-3 hover:rotate-0 transition-transform duration-500">
+                                <div className="absolute -top-6 -right-6 w-32 h-32 bg-primary-500/20 rounded-full blur-3xl"></div>
+                                <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-green-500/20 rounded-full blur-3xl"></div>
+                                
+                                <div className="space-y-8">
+                                    {/* Step 1 Visual: Lead List */}
+                                    <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50 flex items-center gap-4 animate-pulse">
+                                        <div className="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center">
+                                            <MagnifyingGlassIcon className="w-5 h-5 text-primary-400" />
+                                        </div>
+                                        <div className="flex-1 space-y-2">
+                                            <div className="h-2 w-32 bg-slate-700 rounded-full"></div>
+                                            <div className="h-1.5 w-24 bg-slate-800 rounded-full"></div>
+                                        </div>
+                                        <div className="px-3 py-1 bg-primary-500 rounded-lg text-[10px] font-bold text-white uppercase tracking-wider">NEU</div>
+                                    </div>
 
-                        <div className="lg:hidden space-y-6">
-                            {howItWorksSteps.map((step, index) => (
-                                <div key={step.title} className="flex items-start gap-5">
-                                    <div className="flex-shrink-0">
-                                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500/20 to-green-500/20 border-2 border-primary-400/30 flex items-center justify-center">
-                                            <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary-300 to-green-300">
-                                                {index + 1}
-                                            </span>
+                                    {/* Step 2 Visual: Offer Drafting */}
+                                    <div className="bg-slate-800 p-5 rounded-2xl border border-slate-700 flex items-center gap-4 translate-x-6 shadow-2xl">
+                                        <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
+                                            <PencilSquareIcon className="w-6 h-6 text-green-400" />
+                                        </div>
+                                        <div className="flex-1 space-y-2">
+                                            <div className="h-2.5 w-full bg-slate-600 rounded-full"></div>
+                                            <div className="h-2.5 w-2/3 bg-slate-700 rounded-full"></div>
                                         </div>
                                     </div>
-                                    <div className="flex-1 pt-1">
-                                        <h3 className="text-lg font-bold text-white mb-1">{step.title.replace(/^\d+\.\s*/, '')}</h3>
-                                        <p className="text-slate-400 text-sm leading-relaxed">{step.description}</p>
+
+                                    {/* Step 3 Visual: Success Badge */}
+                                    <div className="bg-primary-600 p-6 rounded-2xl shadow-xl shadow-primary-900/40 flex items-center gap-5 -translate-x-6">
+                                        <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
+                                            <CheckCircleIcon className="w-7 h-7 text-white" />
+                                        </div>
+                                        <div>
+                                            <div className="font-bold text-white text-lg">Auftrag gewonnen!</div>
+                                            <div className="text-primary-100 text-sm">Zahlung erhalten</div>
+                                        </div>
+                                        <div className="ml-auto">
+                                            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                                                <ArrowTrendingUpIcon className="w-4 h-4 text-white" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    </div>
 
-                    <div className="mt-16 text-center">
-                        <Link to="/register" className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-primary-950 bg-gradient-to-r from-primary-300 to-green-300 rounded-xl hover:from-primary-200 hover:to-green-200 transition-all shadow-lg shadow-primary-500/20 hover:-translate-y-1">
-                            Jetzt kostenlos starten
-                            <ArrowRightIcon className="w-5 h-5 ml-2" />
-                        </Link>
+                                {/* Floating UI Elements */}
+                                <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 hidden sm:block animate-bounce-slow">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                                            <BanknotesIcon className="w-5 h-5 text-green-600" />
+                                        </div>
+                                        <div>
+                                            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Umsatz</div>
+                                            <div className="text-lg font-black text-slate-900">+ CHF 4'500</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Decorative background circles */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border border-primary-50 rounded-full -z-10 opacity-60"></div>
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] border border-slate-50 rounded-full -z-10 opacity-40"></div>
+                        </div>
                     </div>
                 </div>
             </section>
