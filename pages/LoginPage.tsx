@@ -51,7 +51,6 @@ const LoginPage: React.FC = () => {
             if (email === "admin@fertigo.ch" && password === "adminpassword") {
                 setLoginState('success');
                 setTimeout(() => {
-                    // HashRouter verwendet # für Routen
                     window.location.hash = '#/admin/dashboard';
                     navigate('/admin/dashboard');
                     setLoginState('idle'); 
@@ -59,7 +58,6 @@ const LoginPage: React.FC = () => {
             } else if (email === "partner@fertigo.ch" && password === "password123") {
                 setLoginState('success');
                 setTimeout(() => {
-                    // HashRouter verwendet # für Routen
                     window.location.hash = '#/partner/requests';
                     navigate('/partner/requests');
                     setLoginState('idle'); 
@@ -85,209 +83,225 @@ const LoginPage: React.FC = () => {
         }
     };
 
-    return (
-        <>
-            {/* --- NEW LIGHT MOBILE VIEW --- */}
-            <div className="lg:hidden min-h-screen bg-slate-50 text-slate-900 flex flex-col p-6 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-5" style={{backgroundImage: "url('https://www.transparenttextures.com/patterns/cubes.png')"}}></div>
-
-                <div className="relative z-10 text-center pt-8">
-                    <Link to="/" className="inline-block">
-                        <span className="font-extrabold text-3xl tracking-tight">Fertigo</span>
-                    </Link>
-                </div>
-                
-                <div className="relative z-10 flex-grow flex flex-col justify-center">
-                    <div className="text-center mb-10">
-                        <h1 className="text-3xl font-bold text-slate-900">Willkommen zurück</h1>
-                        <p className="text-slate-600 mt-2">Melden Sie sich an, um fortzufahren.</p>
-                    </div>
-
-                    <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
-                         <div>
-                            <div className="relative">
-                                <MailIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                                <input 
-                                    id="email-mobile" 
-                                    type="email" 
-                                    value={email}
-                                    onChange={handleEmailChange}
-                                    required 
-                                    className="w-full pl-12 pr-4 py-4 bg-white border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none font-medium text-slate-900 placeholder-slate-500"
-                                    placeholder="E-Mail Adresse"
-                                    aria-invalid={!!error}
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="relative">
-                                <LockClosedIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                                <input 
-                                    id="password-mobile" 
-                                    type={isPasswordVisible ? "text" : "password"}
-                                    value={password}
-                                    onChange={handlePasswordChange}
-                                    required 
-                                    className="w-full pl-12 pr-12 py-4 bg-white border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none font-medium text-slate-900 placeholder-slate-500"
-                                    placeholder="Passwort"
-                                    aria-invalid={!!error}
-                                />
-                                <button 
-                                    type="button"
-                                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                                    aria-label={isPasswordVisible ? "Passwort verbergen" : "Passwort anzeigen"}
-                                >
-                                    {isPasswordVisible ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
-                                </button>
-                            </div>
-                            <div className="text-right mt-2">
-                                <a href="#" className="text-xs font-bold text-primary-600 hover:text-primary-700">Passwort vergessen?</a>
-                            </div>
-                        </div>
-
-                        {error && (
-                            <div role="alert" className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm font-medium flex items-center gap-2 animate-fade-in">
-                                <XCircleIcon className="h-5 w-5" />
-                                {error}
-                            </div>
-                        )}
-
-                        <button 
-                            type="submit" 
-                            disabled={loginState === 'loading' || loginState === 'success'}
-                            className={`w-full py-4 px-4 rounded-xl font-bold text-white shadow-lg flex items-center justify-center gap-2 transition-all transform active:scale-[0.98] ${loginState === 'success' ? 'bg-green-500' : `bg-primary-600 shadow-primary-500/30 hover:bg-primary-700`}`}
-                            aria-busy={loginState === 'loading'}
-                        >
-                            {getButtonContent()}
-                        </button>
-                    </form>
-
-                    <div className="my-6 flex items-center gap-4">
-                        <div className="h-px bg-slate-300 flex-1"></div>
-                        <span className="text-xs font-bold text-slate-500 uppercase">Oder</span>
-                        <div className="h-px bg-slate-300 flex-1"></div>
-                    </div>
-
-                    <button className="w-full py-3.5 px-4 rounded-xl border-2 border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold transition-all flex items-center justify-center gap-3 group">
-                        <GoogleIcon className="w-5 h-5" />
-                        <span>Mit Google anmelden</span>
-                    </button>
-                </div>
-
-                <div className="relative z-10 text-center pb-4">
-                    <p className="text-slate-600 text-sm">
-                        Noch kein Konto? <Link to="/register" className="font-bold text-primary-600 hover:text-primary-700">Jetzt registrieren</Link>
-                    </p>
+    const LoginForm = ({ isMobile = false }: { isMobile?: boolean }) => (
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
+            <div>
+                <label htmlFor={isMobile ? "email-mobile" : "email"} className="block text-sm font-semibold text-slate-700 mb-2">
+                    E-Mail Adresse
+                </label>
+                <div className="relative group">
+                    <MailIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-primary-500 transition-colors" />
+                    <input 
+                        id={isMobile ? "email-mobile" : "email"} 
+                        type="email" 
+                        value={email}
+                        onChange={handleEmailChange}
+                        required 
+                        className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:bg-white focus:ring-0 focus:border-primary-500 transition-all outline-none font-medium text-slate-900 placeholder-slate-400"
+                        placeholder="name@beispiel.ch"
+                        aria-invalid={!!error}
+                    />
                 </div>
             </div>
 
-            {/* --- DESKTOP VIEW --- */}
-            <div className="hidden lg:flex min-h-screen bg-slate-50 items-center justify-center p-4">
-                <div className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-200/60 overflow-hidden">
-                    <div className="p-8 pt-10">
-                        <div className="text-center mb-10">
-                            <Link to="/" className="inline-block mb-4">
-                                <span className="font-extrabold text-3xl text-slate-900 tracking-tight">Fertigo</span>
-                            </Link>
-                            <h1 className="text-2xl font-bold text-slate-800">Willkommen zurück</h1>
-                            <p className="text-slate-500 mt-2">Melden Sie sich an, um fortzufahren.</p>
-                        </div>
+            <div>
+                <div className="flex justify-between items-center mb-2">
+                    <label htmlFor={isMobile ? "password-mobile" : "password"} className="block text-sm font-semibold text-slate-700">
+                        Passwort
+                    </label>
+                    <a href="#" className="text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors">
+                        Vergessen?
+                    </a>
+                </div>
+                <div className="relative group">
+                    <LockClosedIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-primary-500 transition-colors" />
+                    <input 
+                        id={isMobile ? "password-mobile" : "password"} 
+                        type={isPasswordVisible ? "text" : "password"}
+                        value={password}
+                        onChange={handlePasswordChange}
+                        required 
+                        className="w-full pl-12 pr-14 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:bg-white focus:ring-0 focus:border-primary-500 transition-all outline-none font-medium text-slate-900 placeholder-slate-400"
+                        placeholder="••••••••"
+                        aria-invalid={!!error}
+                    />
+                    <button 
+                        type="button"
+                        onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition-all"
+                        aria-label={isPasswordVisible ? "Passwort verbergen" : "Passwort anzeigen"}
+                    >
+                        {isPasswordVisible ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+                    </button>
+                </div>
+            </div>
 
-                        <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-                             <div>
-                                <label htmlFor="email" className="block text-sm font-bold text-slate-700 mb-2">E-Mail Adresse</label>
-                                <div className="relative">
-                                    <MailIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                                    <input 
-                                        id="email" 
-                                        type="email" 
-                                        value={email}
-                                        onChange={handleEmailChange}
-                                        required 
-                                        className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none font-medium text-slate-800"
-                                        placeholder="name@beispiel.ch"
-                                        aria-invalid={!!error}
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <div className="flex justify-between items-center mb-2">
-                                    <label htmlFor="password" className="block text-sm font-bold text-slate-700">Passwort</label>
-                                    <a href="#" className="text-xs font-bold text-primary-600 hover:text-primary-700">Vergessen?</a>
-                                </div>
-                                <div className="relative">
-                                    <LockClosedIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                                    <input 
-                                        id="password" 
-                                        type={isPasswordVisible ? "text" : "password"}
-                                        value={password}
-                                        onChange={handlePasswordChange}
-                                        required 
-                                        className="w-full pl-11 pr-12 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none font-medium text-slate-800"
-                                        placeholder="••••••••"
-                                        aria-invalid={!!error}
-                                    />
-                                    <button 
-                                        type="button"
-                                        onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                                        aria-label={isPasswordVisible ? "Passwort verbergen" : "Passwort anzeigen"}
-                                    >
-                                        {isPasswordVisible ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
-                                    </button>
-                                </div>
-                            </div>
-
-                            {error && (
-                                <div role="alert" className="p-3 rounded-lg bg-red-50 border border-red-100 text-red-600 text-sm font-medium flex items-center gap-2 animate-fade-in">
-                                    <XCircleIcon className="h-5 w-5" />
-                                    {error}
-                                </div>
-                            )}
-
-                            <button 
-                                type="submit" 
-                                disabled={loginState === 'loading' || loginState === 'success'}
-                                className={`w-full py-3.5 px-4 rounded-xl font-bold text-white shadow-lg shadow-primary-500/20 flex items-center justify-center gap-2 transition-all transform active:scale-[0.98] ${loginState === 'success' ? 'bg-green-500 hover:bg-green-600' : 'bg-primary-600 hover:bg-primary-700'}`}
-                                aria-busy={loginState === 'loading'}
-                            >
-                                {getButtonContent()}
-                            </button>
-                        </form>
-
-                        <div className="my-8 flex items-center gap-4">
-                            <div className="h-px bg-slate-200 flex-1"></div>
-                            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Oder</span>
-                            <div className="h-px bg-slate-200 flex-1"></div>
-                        </div>
-
-                        <button className="w-full py-3 px-4 rounded-xl border-2 border-slate-100 hover:border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold transition-all flex items-center justify-center gap-3 group">
-                            <GoogleIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                            <span>Mit Google anmelden</span>
-                        </button>
+            {error && (
+                <div role="alert" className="p-4 rounded-2xl bg-red-50 border-2 border-red-200 text-red-700 text-sm font-medium flex items-center gap-3 animate-shake">
+                    <div className="p-1 bg-red-100 rounded-full">
+                        <XCircleIcon className="h-5 w-5" />
                     </div>
-                    
-                    <div className="bg-slate-50 p-6 text-center border-t border-slate-100">
-                        <p className="text-slate-600 text-sm">
-                            Noch kein Konto? <Link to="/register" className="font-bold text-primary-600 hover:text-primary-700">Jetzt registrieren</Link>
+                    {error}
+                </div>
+            )}
+
+            <button 
+                type="submit" 
+                disabled={loginState === 'loading' || loginState === 'success'}
+                className={`w-full py-4 px-6 rounded-2xl font-bold text-white shadow-xl flex items-center justify-center gap-3 transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed ${loginState === 'success' ? 'bg-emerald-500 shadow-emerald-500/30' : 'bg-gradient-to-r from-primary-600 to-primary-500 shadow-primary-500/30 hover:shadow-primary-500/50'}`}
+                aria-busy={loginState === 'loading'}
+            >
+                {getButtonContent()}
+            </button>
+
+            <div className="relative my-8">
+                <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t-2 border-slate-200"></div>
+                </div>
+                <div className="relative flex justify-center">
+                    <span className="px-4 bg-white text-sm font-semibold text-slate-400 uppercase tracking-wider">oder weiter mit</span>
+                </div>
+            </div>
+
+            <button 
+                type="button"
+                className="w-full py-3.5 px-4 rounded-2xl border-2 border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 text-slate-700 font-semibold transition-all flex items-center justify-center gap-3 group"
+            >
+                <GoogleIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <span>Google</span>
+            </button>
+        </form>
+    );
+
+    return (
+        <div className="min-h-screen flex">
+            <div className="hidden lg:flex lg:w-1/2 xl:w-[55%] bg-gradient-to-br from-primary-600 via-primary-500 to-emerald-400 relative overflow-hidden">
+                <div className="absolute inset-0">
+                    <div className="absolute top-0 left-0 w-96 h-96 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+                    <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-emerald-300/20 rounded-full translate-x-1/4 translate-y-1/4 blur-3xl"></div>
+                    <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                </div>
+                
+                <div className="absolute inset-0 opacity-10">
+                    <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <defs>
+                            <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100" height="100" fill="url(#grid)" />
+                    </svg>
+                </div>
+
+                <div className="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full">
+                    <Link to="/" className="inline-flex items-center gap-3 group">
+                        <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center group-hover:bg-white/30 transition-all">
+                            <span className="text-white font-black text-xl">F</span>
+                        </div>
+                        <span className="font-extrabold text-2xl text-white tracking-tight">Fertigo</span>
+                    </Link>
+
+                    <div className="space-y-8">
+                        <div className="space-y-4">
+                            <h1 className="text-4xl xl:text-5xl font-black text-white leading-tight">
+                                Willkommen im<br />
+                                <span className="text-emerald-200">Partnerportal</span>
+                            </h1>
+                            <p className="text-lg text-white/80 max-w-md leading-relaxed">
+                                Verwalten Sie Ihre Anfragen, Projekte und Abrechnungen an einem zentralen Ort.
+                            </p>
+                        </div>
+
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-center gap-4 p-4 bg-white/10 backdrop-blur-sm rounded-2xl">
+                                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p className="text-white font-semibold">Echtzeit-Übersicht</p>
+                                    <p className="text-white/70 text-sm">Alle Anfragen auf einen Blick</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-4 p-4 bg-white/10 backdrop-blur-sm rounded-2xl">
+                                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p className="text-white font-semibold">Schnelle Reaktion</p>
+                                    <p className="text-white/70 text-sm">Direkt auf Anfragen reagieren</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 text-white/60 text-sm">
+                        <div className="flex -space-x-2">
+                            <div className="w-8 h-8 rounded-full bg-white/20 border-2 border-white/30"></div>
+                            <div className="w-8 h-8 rounded-full bg-white/30 border-2 border-white/30"></div>
+                            <div className="w-8 h-8 rounded-full bg-white/40 border-2 border-white/30"></div>
+                        </div>
+                        <span>Bereits über 100+ Partner vertrauen uns</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="w-full lg:w-1/2 xl:w-[45%] bg-white flex flex-col">
+                <div className="lg:hidden p-6 pb-0">
+                    <Link to="/" className="inline-flex items-center gap-2">
+                        <div className="w-10 h-10 bg-primary-500 rounded-xl flex items-center justify-center">
+                            <span className="text-white font-bold text-lg">F</span>
+                        </div>
+                        <span className="font-extrabold text-xl text-slate-900">Fertigo</span>
+                    </Link>
+                </div>
+
+                <div className="flex-1 flex items-center justify-center p-6 lg:p-12 xl:p-16">
+                    <div className="w-full max-w-md">
+                        <div className="mb-10">
+                            <h2 className="text-3xl font-bold text-slate-900 mb-2">
+                                Willkommen zurück
+                            </h2>
+                            <p className="text-slate-500">
+                                Melden Sie sich an, um fortzufahren.
+                            </p>
+                        </div>
+
+                        <LoginForm />
+
+                        <p className="text-center text-slate-500 mt-8">
+                            Noch kein Konto?{' '}
+                            <Link to="/register" className="font-semibold text-primary-600 hover:text-primary-700 transition-colors">
+                                Jetzt registrieren
+                            </Link>
                         </p>
                     </div>
                 </div>
-                
-                <div className="fixed bottom-4 right-4 bg-slate-800 text-slate-300 p-4 rounded-lg shadow-2xl text-xs space-y-2 opacity-50 hover:opacity-100 transition-opacity hidden lg:block">
-                    <p className="font-bold text-white border-b border-slate-700 pb-1 mb-2">Test Accounts</p>
-                    <div className="cursor-pointer hover:text-white flex items-center gap-2" onClick={() => handleTestLogin('partner')}>
-                        <BriefcaseIcon className="w-4 h-4"/> Partner: partner@fertigo.ch
-                    </div>
-                    <div className="cursor-pointer hover:text-white flex items-center gap-2" onClick={() => handleTestLogin('admin')}>
-                        <ShieldCheckIcon className="w-4 h-4"/> Admin: admin@fertigo.ch
+
+                <div className="hidden lg:block p-6 border-t border-slate-100">
+                    <div className="flex items-center justify-between text-sm text-slate-400">
+                        <span>© 2026 Fertigo. Alle Rechte vorbehalten.</span>
+                        <div className="flex gap-6">
+                            <a href="#" className="hover:text-slate-600 transition-colors">Datenschutz</a>
+                            <a href="#" className="hover:text-slate-600 transition-colors">Impressum</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </>
+            
+            <div className="fixed bottom-4 right-4 bg-slate-900 text-slate-300 p-4 rounded-2xl shadow-2xl text-xs space-y-2 opacity-40 hover:opacity-100 transition-opacity hidden lg:block z-50">
+                <p className="font-bold text-white border-b border-slate-700 pb-2 mb-2">Test Accounts</p>
+                <div className="cursor-pointer hover:text-white flex items-center gap-2 py-1" onClick={() => handleTestLogin('partner')}>
+                    <BriefcaseIcon className="w-4 h-4"/> Partner: partner@fertigo.ch
+                </div>
+                <div className="cursor-pointer hover:text-white flex items-center gap-2 py-1" onClick={() => handleTestLogin('admin')}>
+                    <ShieldCheckIcon className="w-4 h-4"/> Admin: admin@fertigo.ch
+                </div>
+            </div>
+        </div>
     );
 };
 
