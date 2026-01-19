@@ -196,15 +196,13 @@ const MarketplacePage: React.FC = () => {
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]"></div>
         </div>
 
-        <div className="lg:hidden absolute inset-0">
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="animate-scroll-up space-y-4 p-4">
-              {[...items, ...items, ...items].map((item, idx) => (
-                <FeedCard key={idx} item={item} />
-              ))}
-            </div>
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-slate-900/60"></div>
+        <div className="lg:hidden absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none">
+          <img 
+            src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Bildschirm_foto_2026-01-19_um_20.08.12-removebg-preview-1768849801699.png?width=8000&height=8000&resize=contain" 
+            alt="Background Beaver" 
+            className="w-full h-auto object-contain"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-slate-900/40"></div>
         </div>
 
         <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -251,40 +249,32 @@ const MarketplacePage: React.FC = () => {
               </div>
             </div>
 
-            <div className="hidden lg:flex relative animate-fade-in [animation-delay:200ms] lg:h-[550px] items-center">
-              <div className="absolute -inset-4 bg-gradient-to-b from-primary-500/20 to-transparent rounded-[3rem] blur-3xl"></div>
-
-              <div className="relative w-full max-w-md mx-auto">
-                <div className="bg-slate-800 border border-slate-700 rounded-3xl shadow-2xl shadow-black/50 overflow-hidden relative min-h-[480px]">
-                  <div className="bg-slate-900 p-4 border-b border-slate-700 flex justify-between items-center">
-                    <div className="flex gap-2">
-                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    </div>
-                    <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Neue Angebote</div>
-                  </div>
-
-                  <div className="p-4 relative h-[400px] overflow-hidden">
-                    <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-slate-800 to-transparent z-10"></div>
-                    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-800 to-transparent z-10 flex flex-col justify-end items-center pb-4">
-                      <a href="#equipment" className="bg-primary-600 text-white text-sm font-bold py-2.5 px-6 rounded-full shadow-lg hover:bg-primary-500 transition-colors">
-                        Alle Angebote entdecken
-                      </a>
-                    </div>
-
-                    <div className="animate-scroll-up space-y-4">
-                      {[...items, ...items, ...items].map((item, idx) => (
-                        <FeedCard key={idx} item={item} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
+            <div className="hidden lg:flex relative animate-fade-in [animation-delay:200ms] lg:h-[550px] items-center justify-center">
+              <div className="absolute -inset-4 bg-primary-500/20 rounded-[3rem] blur-3xl"></div>
+              
+              <div className="relative w-full max-w-xl">
+                <img 
+                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Bildschirm_foto_2026-01-19_um_20.08.12-removebg-preview-1768849801699.png?width=8000&height=8000&resize=contain" 
+                  alt="Equipment Marktplatz Beaver" 
+                  className="w-full h-auto drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform -rotate-2 hover:rotate-0 transition-transform duration-700"
+                />
+                
                 <div className="absolute -right-6 top-1/4 bg-white p-3 rounded-xl shadow-xl animate-float hidden xl:block">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                     <span className="text-xs font-bold text-slate-900">12 neue heute</span>
+                  </div>
+                </div>
+
+                <div className="absolute -left-10 bottom-1/4 bg-slate-800/90 backdrop-blur border border-white/10 p-4 rounded-2xl shadow-2xl animate-float [animation-delay:1s] hidden xl:block">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center">
+                      <ShieldCheckIcon className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white uppercase tracking-wider">Geprüft</div>
+                      <div className="text-[10px] text-slate-400">Qualitäts-Garantie</div>
+                    </div>
                   </div>
                 </div>
               </div>
