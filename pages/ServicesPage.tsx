@@ -19,7 +19,6 @@ import {
     ColoredDiggerIcon,
     ColoredUserIcon,
     SunIcon,
-    MagnifyingGlassIcon,
     CheckCircleIcon,
 } from '../components/icons';
 import { useAppContext } from './AppContext';
@@ -145,7 +144,6 @@ const categoryGradients: Record<string, string> = {
 
 const ServicesPage: React.FC = () => {
     const { openQuoteModal } = useAppContext();
-    const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
     const servicesByCategory = useMemo(() => {
@@ -160,21 +158,10 @@ const ServicesPage: React.FC = () => {
     }, []);
 
     const filteredServices = useMemo(() => {
-        let services = selectedCategory 
+        return selectedCategory 
             ? servicesByCategory[selectedCategory] 
             : allServicesData;
-
-        if (searchQuery.trim()) {
-            const query = searchQuery.toLowerCase();
-            services = services.filter(service =>
-                service.name.toLowerCase().includes(query) ||
-                service.description.toLowerCase().includes(query) ||
-                service.category.toLowerCase().includes(query)
-            );
-        }
-
-        return services;
-    }, [selectedCategory, searchQuery, servicesByCategory]);
+    }, [selectedCategory, servicesByCategory]);
 
     const handleRequestService = (serviceName: string) => {
         openQuoteModal({ projectTitle: serviceName, service: serviceName });
@@ -240,30 +227,7 @@ const ServicesPage: React.FC = () => {
                 </div>
             </div>
 
-            <div className="sticky top-16 z-40 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-sm">
-                <div className="container mx-auto px-6 max-w-7xl py-4">
-                    <div className="relative max-w-md">
-                        <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <input
-                            type="text"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Service suchen..."
-                            className="w-full pl-12 pr-4 py-3 rounded-full border border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:bg-white transition-all"
-                        />
-                        {searchQuery && (
-                            <button
-                                onClick={() => setSearchQuery('')}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center transition-colors"
-                            >
-                                <svg className="w-3 h-3 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        )}
-                    </div>
-                </div>
-            </div>
+
 
             <div className="container mx-auto px-6 max-w-7xl py-12">
                 <div className="flex flex-col lg:flex-row gap-10">
@@ -334,20 +298,6 @@ const ServicesPage: React.FC = () => {
                             </div>
                         )}
 
-                        {searchQuery && (
-                            <div className="mb-6 flex items-center gap-2 text-slate-600">
-                                <span className="font-semibold text-slate-900">{filteredServices.length}</span>
-                                <span>Ergebnisse für</span>
-                                <span className="font-semibold text-primary-600">"{searchQuery}"</span>
-                                <button 
-                                    onClick={() => setSearchQuery('')}
-                                    className="ml-2 text-sm text-slate-500 hover:text-slate-700 underline"
-                                >
-                                    Zurücksetzen
-                                </button>
-                            </div>
-                        )}
-
                         {filteredServices.length > 0 ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                                 {filteredServices.map((service) => (
@@ -378,18 +328,15 @@ const ServicesPage: React.FC = () => {
                             </div>
                         ) : (
                             <div className="text-center py-16">
-                                <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                    <MagnifyingGlassIcon className="w-10 h-10 text-slate-400" />
-                                </div>
                                 <h3 className="text-xl font-bold text-slate-900 mb-2">Keine Ergebnisse</h3>
                                 <p className="text-slate-500 mb-6 max-w-sm mx-auto">
-                                    Wir konnten keine passenden Dienstleistungen finden. Versuchen Sie einen anderen Suchbegriff.
+                                    Keine Dienstleistungen in dieser Kategorie gefunden.
                                 </p>
                                 <button
-                                    onClick={() => { setSearchQuery(''); setSelectedCategory(null); }}
+                                    onClick={() => setSelectedCategory(null)}
                                     className="px-6 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors"
                                 >
-                                    Filter zurücksetzen
+                                    Alle Services anzeigen
                                 </button>
                             </div>
                         )}
