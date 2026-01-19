@@ -31,7 +31,8 @@ import {
     ClipboardDocumentListIcon,
     PencilIcon,
     EyeIcon,
-    HandshakeIcon
+    HandshakeIcon,
+    CheckIcon
 } from '../components/icons';
 // Fix: Renamed useAppStore to useAppContext to match the exported member from AppContext.
 import { useAppContext } from './AppContext';
