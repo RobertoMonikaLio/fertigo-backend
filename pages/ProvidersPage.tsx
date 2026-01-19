@@ -555,21 +555,28 @@ const ProvidersPage: React.FC = () => {
             </section>
 
 
-            {/* INTERACTIVE BENTO GRID PROCESS SECTION */}
-            <section id="how-it-works" className="relative bg-white py-24 lg:py-32 overflow-hidden">
-                {/* Subtle Background Pattern */}
-                <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
-                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary-100/40 rounded-full blur-[150px]"></div>
-                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-100/30 rounded-full blur-[100px]"></div>
+            {/* ZIG-ZAG PROCESS SECTION */}
+            <section id="how-it-works" className="relative bg-gradient-to-b from-slate-50 to-white py-24 lg:py-32 overflow-hidden">
+                {/* Animated Background */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    <svg className="absolute w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <pattern id="zigzag-pattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+                                <path d="M0 30 L15 15 L30 30 L45 15 L60 30" stroke="currentColor" strokeWidth="1" fill="none" className="text-primary-600"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#zigzag-pattern)" />
+                    </svg>
+                    <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-primary-200/30 rounded-full blur-[120px]"></div>
+                    <div className="absolute -bottom-40 -left-40 w-[400px] h-[400px] bg-emerald-200/20 rounded-full blur-[100px]"></div>
                 </div>
 
                 <div className="container mx-auto px-6 relative z-10">
                     {/* Header */}
-                    <div className="max-w-3xl mb-16 lg:mb-20">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-12 h-1 bg-primary-500 rounded-full"></div>
-                            <span className="text-primary-600 font-bold text-sm uppercase tracking-wider">Prozess</span>
+                    <div className="text-center max-w-3xl mx-auto mb-20">
+                        <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-100 text-primary-700 text-sm font-bold mb-6">
+                            <span className="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></span>
+                            3 EINFACHE SCHRITTE
                         </div>
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight mb-6">
                             {t.howItWorksTitle}
@@ -579,127 +586,209 @@ const ProvidersPage: React.FC = () => {
                         </p>
                     </div>
 
-                    {/* Bento Grid */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-                        {/* Step 1 - Large Card */}
-                        <div className="lg:col-span-7 group">
-                            <div className="relative h-full bg-gradient-to-br from-primary-600 to-primary-700 rounded-[2rem] p-8 lg:p-10 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-primary-500/20 hover:-translate-y-1">
-                                {/* Decorative Elements */}
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                                <div className="absolute bottom-0 left-0 w-40 h-40 bg-primary-400/20 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
-                                
-                                {/* Step Indicator */}
-                                <div className="flex items-center gap-4 mb-8">
-                                    <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                                        <span className="text-2xl font-black text-white">01</span>
-                                    </div>
-                                    <div className="flex-1 h-[2px] bg-gradient-to-r from-white/40 to-transparent rounded-full"></div>
-                                </div>
-
-                                {/* Icon */}
-                                <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                                    <MagnifyingGlassIcon className="w-8 h-8 text-white" />
-                                </div>
-
-                                {/* Content */}
-                                <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">
-                                    {t.howItWorksStep1.replace(/^[0-9]+\.\s*/, '')}
-                                </h3>
-                                <p className="text-primary-100 text-lg leading-relaxed max-w-md">
-                                    {t.howItWorksStep1Desc}
-                                </p>
-
-                                {/* Floating Badge */}
-                                <div className="absolute bottom-8 right-8 lg:bottom-10 lg:right-10">
-                                    <div className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/20">
-                                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                                        <span className="text-sm font-medium text-white">Live Leads</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Step 2 - Tall Card */}
-                        <div className="lg:col-span-5 group">
-                            <div className="relative h-full bg-slate-900 rounded-[2rem] p-8 lg:p-10 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-900/30 hover:-translate-y-1 min-h-[320px]">
-                                {/* Grid Pattern */}
-                                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:2rem_2rem]"></div>
-                                
-                                {/* Glow */}
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-emerald-500/20 rounded-full blur-[60px]"></div>
-
-                                {/* Step Indicator */}
-                                <div className="relative flex items-center gap-4 mb-8">
-                                    <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/10">
-                                        <span className="text-2xl font-black text-white">02</span>
-                                    </div>
-                                </div>
-
-                                {/* Icon */}
-                                <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-emerald-500/30">
-                                    <PencilSquareIcon className="w-8 h-8 text-white" />
-                                </div>
-
-                                {/* Content */}
-                                <h3 className="relative text-2xl font-bold text-white mb-4">
-                                    {t.howItWorksStep2.replace(/^[0-9]+\.\s*/, '')}
-                                </h3>
-                                <p className="relative text-slate-400 leading-relaxed">
-                                    {t.howItWorksStep2Desc}
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Step 3 - Wide Card */}
-                        <div className="lg:col-span-12 group">
-                            <div className="relative bg-gradient-to-r from-slate-50 to-slate-100 rounded-[2rem] p-8 lg:p-10 overflow-hidden border border-slate-200/60 transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
-                                {/* Decorative */}
-                                <div className="absolute top-0 right-0 w-96 h-96 bg-primary-200/30 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2"></div>
-
-                                <div className="relative grid lg:grid-cols-2 gap-8 items-center">
-                                    {/* Left Content */}
-                                    <div>
-                                        {/* Step Indicator */}
-                                        <div className="flex items-center gap-4 mb-8">
-                                            <div className="w-14 h-14 rounded-2xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-500/30">
-                                                <span className="text-2xl font-black text-white">03</span>
+                    {/* Zig-Zag Steps */}
+                    <div className="max-w-6xl mx-auto space-y-8 lg:space-y-0">
+                        
+                        {/* Step 1 - Image Left, Content Right */}
+                        <div className="relative group">
+                            <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                                {/* Visual */}
+                                <div className="relative order-2 lg:order-1">
+                                    <div className="relative bg-gradient-to-br from-primary-500 to-primary-700 rounded-3xl p-8 lg:p-12 shadow-2xl shadow-primary-500/20 overflow-hidden group-hover:shadow-primary-500/30 transition-shadow duration-500">
+                                        {/* Decorative circles */}
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                                        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                                        
+                                        {/* Mock UI */}
+                                        <div className="relative space-y-4">
+                                            <div className="flex items-center justify-between mb-6">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                                                    <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                                                    <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                                                </div>
+                                                <div className="text-xs text-white/60 font-medium">Marktplatz</div>
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <CheckCircleIcon className="w-5 h-5 text-emerald-500" />
-                                                <span className="text-sm font-bold text-emerald-600">Final Step</span>
-                                            </div>
-                                        </div>
-
-                                        {/* Icon */}
-                                        <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 border border-slate-200/60">
-                                            <TestsiegerIcon className="w-8 h-8 text-primary-600" />
-                                        </div>
-
-                                        {/* Content */}
-                                        <h3 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-4">
-                                            {t.howItWorksStep3.replace(/^[0-9]+\.\s*/, '')}
-                                        </h3>
-                                        <p className="text-slate-600 text-lg leading-relaxed max-w-lg">
-                                            {t.howItWorksStep3Desc}
-                                        </p>
-                                    </div>
-
-                                    {/* Right - CTA */}
-                                    <div className="flex flex-col items-start lg:items-end gap-6">
-                                        <div className="flex flex-wrap gap-3">
-                                            {['Keine Verpflichtung', 'Sofort starten', 'Volle Kontrolle'].map((tag, i) => (
-                                                <span key={i} className="px-4 py-2 bg-white rounded-full text-sm font-medium text-slate-700 border border-slate-200/60 shadow-sm">
-                                                    {tag}
-                                                </span>
+                                            {[1,2,3].map((_, i) => (
+                                                <div key={i} className={`bg-white/10 backdrop-blur rounded-xl p-4 border border-white/10 ${i === 0 ? 'ring-2 ring-white/30' : ''}`}>
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                                                            <BriefcaseIcon className="w-5 h-5 text-white" />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <div className="h-3 bg-white/40 rounded w-3/4 mb-2"></div>
+                                                            <div className="h-2 bg-white/20 rounded w-1/2"></div>
+                                                        </div>
+                                                        <div className="text-right">
+                                                            <div className="text-sm font-bold text-white">CHF {1200 + i * 800}</div>
+                                                            <div className="text-xs text-white/50">Zürich</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             ))}
                                         </div>
+                                    </div>
+                                    {/* Connector Line (Desktop) */}
+                                    <div className="hidden lg:block absolute -right-8 top-1/2 w-16 h-[2px] bg-gradient-to-r from-primary-400 to-transparent"></div>
+                                </div>
+                                
+                                {/* Content */}
+                                <div className="order-1 lg:order-2 lg:pl-8">
+                                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-100 text-primary-600 text-2xl font-black mb-6 group-hover:scale-110 transition-transform duration-300">
+                                        01
+                                    </div>
+                                    <h3 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-4">
+                                        {t.howItWorksStep1.replace(/^[0-9]+\.\s*/, '')}
+                                    </h3>
+                                    <p className="text-lg text-slate-600 leading-relaxed mb-6">
+                                        {t.howItWorksStep1Desc}
+                                    </p>
+                                    <div className="flex flex-wrap gap-3">
+                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full text-sm font-medium text-slate-700">
+                                            <CheckIcon className="w-4 h-4 text-emerald-500" />
+                                            Echtzeit-Updates
+                                        </span>
+                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full text-sm font-medium text-slate-700">
+                                            <CheckIcon className="w-4 h-4 text-emerald-500" />
+                                            Geprüfte Leads
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Mobile Connector */}
+                            <div className="lg:hidden flex justify-center my-8">
+                                <div className="w-[2px] h-16 bg-gradient-to-b from-primary-400 to-emerald-400"></div>
+                            </div>
+                        </div>
+
+                        {/* Step 2 - Content Left, Image Right */}
+                        <div className="relative group lg:pt-8">
+                            <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                                {/* Content */}
+                                <div className="lg:pr-8 lg:text-right">
+                                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 text-2xl font-black mb-6 group-hover:scale-110 transition-transform duration-300">
+                                        02
+                                    </div>
+                                    <h3 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-4">
+                                        {t.howItWorksStep2.replace(/^[0-9]+\.\s*/, '')}
+                                    </h3>
+                                    <p className="text-lg text-slate-600 leading-relaxed mb-6">
+                                        {t.howItWorksStep2Desc}
+                                    </p>
+                                    <div className="flex flex-wrap gap-3 lg:justify-end">
+                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full text-sm font-medium text-slate-700">
+                                            <CheckIcon className="w-4 h-4 text-emerald-500" />
+                                            Direkter Kontakt
+                                        </span>
+                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full text-sm font-medium text-slate-700">
+                                            <CheckIcon className="w-4 h-4 text-emerald-500" />
+                                            Alle Details
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Visual */}
+                                <div className="relative">
+                                    <div className="relative bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-3xl p-8 lg:p-12 shadow-2xl shadow-emerald-500/20 overflow-hidden group-hover:shadow-emerald-500/30 transition-shadow duration-500">
+                                        {/* Decorative */}
+                                        <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 -translate-x-1/2"></div>
+                                        
+                                        {/* Mock Offer Form */}
+                                        <div className="relative">
+                                            <div className="flex items-center gap-3 mb-6">
+                                                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                                                    <PencilSquareIcon className="w-5 h-5 text-white" />
+                                                </div>
+                                                <div className="text-white font-bold">Angebot erstellen</div>
+                                            </div>
+                                            <div className="space-y-4">
+                                                <div className="bg-white/10 rounded-xl p-4 border border-white/10">
+                                                    <div className="text-xs text-white/60 mb-2">Kunde</div>
+                                                    <div className="h-3 bg-white/30 rounded w-2/3"></div>
+                                                </div>
+                                                <div className="bg-white/10 rounded-xl p-4 border border-white/10">
+                                                    <div className="text-xs text-white/60 mb-2">Preis</div>
+                                                    <div className="text-2xl font-bold text-white">CHF 2'450.-</div>
+                                                </div>
+                                                <button className="w-full bg-white text-emerald-700 font-bold py-3 rounded-xl hover:bg-white/90 transition-colors">
+                                                    Angebot senden
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Connector Line (Desktop) */}
+                                    <div className="hidden lg:block absolute -left-8 top-1/2 w-16 h-[2px] bg-gradient-to-l from-emerald-400 to-transparent"></div>
+                                </div>
+                            </div>
+                            
+                            {/* Mobile Connector */}
+                            <div className="lg:hidden flex justify-center my-8">
+                                <div className="w-[2px] h-16 bg-gradient-to-b from-emerald-400 to-amber-400"></div>
+                            </div>
+                        </div>
+
+                        {/* Step 3 - Full Width Success */}
+                        <div className="relative group lg:pt-8">
+                            <div className="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-8 lg:p-16 overflow-hidden">
+                                {/* Background Elements */}
+                                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:3rem_3rem]"></div>
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-amber-500/10 rounded-full blur-[100px]"></div>
+                                
+                                <div className="relative grid lg:grid-cols-2 gap-12 items-center">
+                                    {/* Content */}
+                                    <div>
+                                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white text-2xl font-black mb-6 shadow-lg shadow-amber-500/30 group-hover:scale-110 transition-transform duration-300">
+                                            03
+                                        </div>
+                                        <h3 className="text-2xl lg:text-4xl font-bold text-white mb-4">
+                                            {t.howItWorksStep3.replace(/^[0-9]+\.\s*/, '')}
+                                        </h3>
+                                        <p className="text-lg text-slate-400 leading-relaxed mb-8">
+                                            {t.howItWorksStep3Desc}
+                                        </p>
                                         <Link 
                                             to="/register" 
-                                            className="inline-flex items-center gap-3 px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 hover:-translate-y-1 group/btn"
+                                            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-bold rounded-2xl hover:from-primary-600 hover:to-emerald-600 transition-all shadow-xl shadow-primary-500/25 hover:shadow-primary-500/40 hover:-translate-y-1"
                                         >
                                             Jetzt kostenlos starten
-                                            <ArrowRightIcon className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                                            <ArrowRightIcon className="w-5 h-5" />
                                         </Link>
+                                    </div>
+                                    
+                                    {/* Success Visual */}
+                                    <div className="relative flex justify-center">
+                                        <div className="relative">
+                                            {/* Celebration Circles */}
+                                            <div className="absolute -inset-8">
+                                                <div className="absolute top-0 left-1/4 w-4 h-4 bg-amber-400 rounded-full animate-bounce-slow"></div>
+                                                <div className="absolute top-1/4 right-0 w-3 h-3 bg-emerald-400 rounded-full animate-bounce-slow [animation-delay:200ms]"></div>
+                                                <div className="absolute bottom-0 left-0 w-5 h-5 bg-primary-400 rounded-full animate-bounce-slow [animation-delay:400ms]"></div>
+                                            </div>
+                                            
+                                            {/* Success Card */}
+                                            <div className="bg-white rounded-3xl p-8 shadow-2xl">
+                                                <div className="flex items-center justify-center w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full shadow-lg shadow-emerald-500/30">
+                                                    <CheckIcon className="w-10 h-10 text-white" />
+                                                </div>
+                                                <div className="text-center">
+                                                    <div className="text-2xl font-black text-slate-900 mb-2">Auftrag gewonnen!</div>
+                                                    <div className="text-slate-500 mb-4">Malerarbeiten Innen</div>
+                                                    <div className="text-3xl font-black text-emerald-600">CHF 2'450.-</div>
+                                                </div>
+                                                <div className="mt-6 pt-6 border-t border-slate-100 flex items-center justify-center gap-4 text-sm text-slate-500">
+                                                    <div className="flex items-center gap-1">
+                                                        <MapPinIcon className="w-4 h-4" />
+                                                        <span>Zürich</span>
+                                                    </div>
+                                                    <div className="w-1 h-1 bg-slate-300 rounded-full"></div>
+                                                    <div className="flex items-center gap-1">
+                                                        <ClockIcon className="w-4 h-4" />
+                                                        <span>Heute</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
