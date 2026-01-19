@@ -154,69 +154,62 @@ const PurchasedLeadCard: React.FC<{
     const config = statusConfig[lead.status];
     
     return (
-        <article className="group relative bg-gradient-to-br from-white to-slate-50 rounded-3xl border-2 border-slate-200 hover:border-primary-400 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary-100/30 to-primary-200/30 rounded-bl-full"></div>
-            
-            <div className="relative p-6">
-                <div className="flex items-start justify-between mb-4">
-                    <div className="flex flex-wrap gap-2">
-                        <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold ${config.bgColor} ${config.color}`}>
-                            <div className={`w-2 h-2 rounded-full ${config.dotColor}`}></div>
-                            {config.title}
-                        </span>
-                        <span className="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-600">
-                            #{lead.id}
-                        </span>
-                    </div>
+        <article className={`group relative bg-white rounded-2xl border ${config.bgColor.includes('green') ? 'border-green-200' : config.bgColor.includes('blue') ? 'border-blue-200' : config.bgColor.includes('red') ? 'border-red-200' : 'border-slate-200'} shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden`}>
+            <div className="p-4">
+                <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-bold ${config.bgColor} ${config.color}`}>
+                        <div className={`w-1.5 h-1.5 rounded-full ${config.dotColor}`}></div>
+                        {config.title}
+                    </span>
+                    <span className="px-2 py-1 text-[10px] font-bold rounded-md bg-slate-100 text-slate-500">
+                        #{lead.id}
+                    </span>
                 </div>
 
-                <div className="mb-4">
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{lead.service}</p>
-                    <h3 className="text-lg font-black text-slate-900 group-hover:text-primary-700 transition-colors line-clamp-2">
+                <div className="mb-2">
+                    <p className="text-[10px] font-bold text-primary-600 uppercase tracking-wider">{lead.service}</p>
+                    <h3 className="text-sm font-bold text-slate-900 group-hover:text-primary-700 transition-colors line-clamp-2 leading-snug">
                         {lead.title}
                     </h3>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500 mb-4">
-                    <div className="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg">
-                        <MapPinIcon className="w-4 h-4 text-slate-400"/>
-                        <span className="font-semibold">{lead.location}</span>
+                <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
+                    <div className="flex items-center gap-1">
+                        <MapPinIcon className="w-3.5 h-3.5 text-slate-400"/>
+                        <span className="font-medium">{lead.location}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg">
-                        <CalendarDaysIcon className="w-4 h-4 text-slate-400"/>
-                        <span className="font-semibold">{lead.date}</span>
+                    <div className="flex items-center gap-1">
+                        <CalendarDaysIcon className="w-3.5 h-3.5 text-slate-400"/>
+                        <span className="font-medium">{lead.date}</span>
                     </div>
                 </div>
 
                 {lead.customer && (
-                    <div className="flex items-center gap-2 bg-slate-50 rounded-lg px-3 py-2 mb-3 border border-slate-200">
-                        <div className="w-7 h-7 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <UserIcon className="w-3.5 h-3.5 text-primary-600"/>
+                    <div className="flex items-center gap-2 bg-slate-50 rounded-lg px-2.5 py-1.5 mb-3 border border-slate-100">
+                        <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <UserIcon className="w-3 h-3 text-primary-600"/>
                         </div>
                         <div className="min-w-0 flex-1">
-                            <p className="text-sm font-bold text-slate-700 truncate">{lead.customer}</p>
+                            <p className="text-xs font-semibold text-slate-700 truncate">{lead.customer}</p>
                             {lead.customerEmail && (
-                                <p className="text-[11px] text-slate-500 truncate">{lead.customerEmail}</p>
+                                <p className="text-[10px] text-slate-500 truncate">{lead.customerEmail}</p>
                             )}
                         </div>
                     </div>
                 )}
 
-                <div className="mb-5">
-                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Status ändern</div>
+                <div className="mb-3">
                     <StatusDropdown lead={lead} onStatusChange={onStatusChange} />
                 </div>
 
                 <Link 
                     to={`/partner/requests/${lead.id}`}
-                    className="w-full py-3 rounded-2xl font-black text-sm bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 text-white hover:from-primary-700 hover:via-primary-800 hover:to-primary-900 shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                    className="w-full py-2 rounded-xl font-bold text-xs bg-primary-600 text-white hover:bg-primary-700 shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
                 >
-                    <EyeIcon className="w-5 h-5"/>
-                    Details öffnen
+                    <EyeIcon className="w-4 h-4"/>
+                    Details
                 </Link>
             </div>
-
-            <div className="absolute inset-0 rounded-3xl border-2 border-primary-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
         </article>
     );
 };
