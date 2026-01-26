@@ -48,7 +48,6 @@ const PartnerBillingPage = lazy(() => import('./pages/PartnerBillingPage'));
 const PartnerJobsPage = lazy(() => import('./pages/PartnerJobsPage'));
 const PartnerMarketplacePage = lazy(() => import('./pages/PartnerMarketplacePage'));
 const PartnerRequestDetailPage = lazy(() => import('./pages/PartnerRequestDetailPage'));
-const PartnerSettingsPage = lazy(() => import('./pages/PartnerSettingsPage'));
 const PartnerMessagesPage = lazy(() => import('./pages/PartnerMessagesPage'));
 const PartnerRentPage = lazy(() => import('./pages/PartnerRentPage'));
 const PartnerPricingPage = lazy(() => import('./pages/PartnerPricingPage'));
@@ -220,7 +219,6 @@ const AppContent: React.FC = () => {
                             <Route path="/partner/jobs" element={<PartnerJobsPage />} />
                             <Route path="/partner/marketplace" element={<PartnerMarketplacePage />} />
                             <Route path="/partner/marketplace/rent" element={<PartnerRentPage />} />
-                            <Route path="/partner/einstellungen" element={<PartnerSettingsPage />} />
                             <Route path="/partner/messages" element={<PartnerMessagesPage />} />
                             <Route path="/partner/pricing" element={<PartnerPricingPage />} />
                         </Route>

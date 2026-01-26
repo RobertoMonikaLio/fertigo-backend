@@ -263,6 +263,7 @@ const Footer: React.FC = () => {
 
                 </div>
             </div>
+            
             <div className="bg-slate-950/50 py-6">
                 <div className="container mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <p className="text-slate-400 text-xs sm:text-sm text-center sm:text-left">

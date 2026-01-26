@@ -57,7 +57,11 @@ const translations = {
     }
 };
 
-const FAQ: React.FC = () => {
+interface FAQProps {
+    inFooter?: boolean;
+}
+
+const FAQ: React.FC<FAQProps> = ({ inFooter = false }) => {
     const { language } = useAppContext();
     const t = (translations as any)[language] || translations.de;
     const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
@@ -70,11 +74,11 @@ const FAQ: React.FC = () => {
     };
 
     return (
-        <section ref={ref} className="py-16 sm:py-20 md:py-24 bg-slate-50">
+        <section ref={ref} className={`${inFooter ? 'py-12 sm:py-16 bg-slate-50' : 'py-16 sm:py-20 md:py-24 bg-slate-50'}`}>
             <div className="container mx-auto px-6 max-w-6xl">
-                <div className="text-center mb-12 md:mb-16">
-                    <h2 className="font-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4">{t.title}</h2>
-                    <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">{t.subtitle}</p>
+                <div className={`text-center ${inFooter ? 'mb-8 md:mb-10' : 'mb-12 md:mb-16'}`}>
+                    <h2 className={`font-title ${inFooter ? 'text-2xl sm:text-3xl md:text-4xl' : 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl'} font-bold text-slate-900 mb-4`}>{t.title}</h2>
+                    {!inFooter && <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">{t.subtitle}</p>}
                 </div>
 
                 <div className={`space-y-4 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>

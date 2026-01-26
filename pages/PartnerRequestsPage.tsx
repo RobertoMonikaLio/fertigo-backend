@@ -324,6 +324,15 @@ const PartnerRequestsPage: React.FC = () => {
         return ['Alle', ...Array.from(services).sort()];
     }, [requests]);
 
+    const swissCantons = [
+        'Alle Kantone',
+        'Aargau', 'Appenzell Ausserrhoden', 'Appenzell Innerrhoden', 'Basel-Landschaft', 
+        'Basel-Stadt', 'Bern', 'Freiburg', 'Genf', 'Glarus', 'Graubünden', 
+        'Jura', 'Luzern', 'Neuenburg', 'Nidwalden', 'Obwalden', 'Schaffhausen', 
+        'Schwyz', 'Solothurn', 'St. Gallen', 'Tessin', 'Thurgau', 'Uri', 
+        'Waadt', 'Wallis', 'Zug', 'Zürich'
+    ];
+
     useEffect(() => {
         setIsLoading(false);
     }, []);
@@ -404,183 +413,208 @@ const PartnerRequestsPage: React.FC = () => {
 
     return (
         <div className="max-w-7xl mx-auto">
-            <div className="mb-8">
-                <div className="flex gap-2 bg-white rounded-2xl p-1.5 border-2 border-slate-200 shadow-sm inline-flex">
-                    <Link
-                        to="/partner/requests"
-                        className={`px-6 py-3 rounded-xl font-black text-sm transition-all ${
-                            !isPurchasedView 
-                                ? 'bg-primary-600 text-white shadow-lg' 
-                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                        }`}
-                    >
-                        Verfügbare Leads
-                    </Link>
-                    <Link
-                        to="/partner/requests?view=purchased"
-                        className={`px-6 py-3 rounded-xl font-black text-sm transition-all ${
-                            isPurchasedView 
-                                ? 'bg-primary-600 text-white shadow-lg' 
-                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                        }`}
-                    >
-                        Meine Leads
-                    </Link>
+            {/* Modern Filter Section */}
+            <div className="mb-8 space-y-4">
+                {/* Main Search Bar */}
+                <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <MagnifyingGlassIcon className="w-5 h-5 text-slate-400" />
+                    </div>
+                    <input 
+                        type="search" 
+                        placeholder={isPurchasedView ? "Auftrag oder Kunde suchen..." : "Nach Aufträgen suchen..."}
+                        value={searchTerm} 
+                        onChange={e => setSearchTerm(e.target.value)} 
+                        className="w-full h-12 pl-12 pr-4 rounded-full border border-slate-200 bg-white font-medium text-slate-700 placeholder:text-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-all shadow-sm"
+                    />
                 </div>
-            </div>
 
-            <div className="mb-8">
-                <div className="bg-white rounded-2xl border-2 border-slate-200 shadow-lg p-6">
-                    <div className="flex flex-col lg:flex-row gap-4">
-                        <div className="flex-1 relative">
-                            <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-                            <input 
-                                type="search" 
-                                placeholder={isPurchasedView ? "Auftrag oder Kunde suchen..." : "Nach Leads suchen..."}
-                                value={searchTerm} 
-                                onChange={e => setSearchTerm(e.target.value)} 
-                                className="w-full h-14 pl-12 pr-4 rounded-xl border-2 border-slate-200 bg-slate-50 font-semibold text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-100 outline-none transition-all"
-                            />
-                        </div>
-
-                        <div className="flex flex-wrap gap-3">
-                            <div className="relative">
-                                <MapPinIcon className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                                <input 
-                                    type="text" 
-                                    placeholder="Ort" 
-                                    value={locationFilter} 
-                                    onChange={e => setLocationFilter(e.target.value)} 
-                                    className="h-14 pl-10 pr-4 rounded-xl border-2 border-slate-200 bg-slate-50 font-semibold text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-100 outline-none transition-all min-w-[140px]"
-                                />
-                            </div>
-                            
-                            {!isPurchasedView ? (
-                                <>
-                                    <div className="relative">
-                                        <BriefcaseIcon className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                        <select 
-                                            value={serviceFilter} 
-                                            onChange={e => setServiceFilter(e.target.value)} 
-                                            className="h-14 pl-10 pr-10 rounded-xl border-2 border-slate-200 bg-slate-50 font-semibold text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-100 outline-none appearance-none transition-all min-w-[160px]"
-                                        >
-                                            {availableServices.map(s => <option key={s} value={s}>{s}</option>)}
-                                        </select>
-                                        <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                    </div>
-                                    
-                                    <div className="relative">
-                                        <select 
-                                            value={sortOption} 
-                                            onChange={e => setSortOption(e.target.value)} 
-                                            className="h-14 px-4 pr-10 rounded-xl border-2 border-slate-200 bg-slate-50 font-semibold text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-100 outline-none appearance-none transition-all min-w-[180px]"
-                                        >
-                                            <option value="newest">Neueste zuerst</option>
-                                            <option value="price_asc">Preis: Niedrig → Hoch</option>
-                                            <option value="price_desc">Preis: Hoch → Niedrig</option>
-                                            <option value="availability">Höchste Verfügbarkeit</option>
-                                        </select>
-                                        <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <div className="relative">
-                                        <select 
-                                            value={statusFilter} 
-                                            onChange={e => setStatusFilter(e.target.value)} 
-                                            className="h-14 px-4 pr-10 rounded-xl border-2 border-slate-200 bg-slate-50 font-semibold text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-100 outline-none appearance-none transition-all min-w-[180px]"
-                                        >
-                                            <option value="Alle">Alle Status</option>
-                                            {statuses.map(s => <option key={s} value={s}>{statusConfig[s].title}</option>)}
-                                        </select>
-                                        <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                    </div>
-                                    
-                                    <div className="flex items-center gap-1 bg-slate-100 rounded-xl p-1">
-                                        <button 
-                                            onClick={() => setPurchasedViewMode('cards')} 
-                                            className={`p-3 rounded-lg font-black text-sm transition-all ${
-                                                purchasedViewMode === 'cards' 
-                                                    ? 'bg-white text-primary-600 shadow-md' 
-                                                    : 'text-slate-600 hover:text-slate-900'
-                                            }`}
-                                            title="Karten-Ansicht"
-                                        >
-                                            <Squares2X2Icon className="w-5 h-5" />
-                                        </button>
-                                        <button 
-                                            onClick={() => setPurchasedViewMode('table')} 
-                                            className={`p-3 rounded-lg font-black text-sm transition-all ${
-                                                purchasedViewMode === 'table' 
-                                                    ? 'bg-white text-primary-600 shadow-md' 
-                                                    : 'text-slate-600 hover:text-slate-900'
-                                            }`}
-                                            title="Tabellen-Ansicht"
-                                        >
-                                            <ListBulletIcon className="w-5 h-5" />
-                                        </button>
-                                        <button 
-                                            onClick={() => setPurchasedViewMode('board')} 
-                                            className={`px-4 py-2 rounded-lg font-black text-sm transition-all ${
-                                                purchasedViewMode === 'board' 
-                                                    ? 'bg-white text-primary-600 shadow-md' 
-                                                    : 'text-slate-600 hover:text-slate-900'
-                                            }`}
-                                        >
-                                            Board
-                                        </button>
-                                    </div>
-                                </>
-                            )}
-                        </div>
+                {/* Filter Pills Row */}
+                <div className="flex flex-wrap items-center gap-2">
+                    {/* Kanton Filter */}
+                    <div className="relative">
+                        <MapPinIcon className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        <select 
+                            value={locationFilter || 'Alle Kantone'} 
+                            onChange={e => setLocationFilter(e.target.value === 'Alle Kantone' ? '' : e.target.value)} 
+                            className="h-10 pl-9 pr-8 rounded-full bg-white border border-slate-200 hover:border-slate-300 text-sm font-medium text-slate-700 outline-none appearance-none cursor-pointer transition-all shadow-sm"
+                        >
+                            {swissCantons.map(k => <option key={k} value={k}>{k}</option>)}
+                        </select>
+                        <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                     </div>
 
-                    {!isPurchasedView && (
-                        <div className="mt-4 pt-4 border-t border-slate-200">
-                            <button
-                                onClick={() => setShowFilters(!showFilters)}
-                                className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-primary-600 transition-colors"
-                            >
-                                <AdjustmentsHorizontalIcon className="w-4 h-4" />
-                                Erweiterte Filter
-                                <ChevronUpDownIcon className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-                            </button>
+                    {!isPurchasedView ? (
+                        <>
+                            {/* Service Filter */}
+                            <div className="relative">
+                                <select 
+                                    value={serviceFilter} 
+                                    onChange={e => setServiceFilter(e.target.value)} 
+                                    className="h-10 pl-4 pr-8 rounded-full bg-white border border-slate-200 hover:border-slate-300 text-sm font-medium text-slate-700 outline-none appearance-none cursor-pointer transition-all shadow-sm"
+                                >
+                                    {availableServices.map(s => <option key={s} value={s}>{s}</option>)}
+                                </select>
+                                <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            </div>
+
+                            {/* Price Filter */}
+                            <div className="relative">
+                                <button 
+                                    onClick={() => setShowFilters(!showFilters)}
+                                    className={`flex items-center gap-2 h-10 px-4 rounded-full border text-sm font-medium transition-all shadow-sm ${
+                                        priceFilter 
+                                            ? 'bg-primary-50 border-primary-200 text-primary-700' 
+                                            : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700'
+                                    }`}
+                                >
+                                    <BanknotesIcon className="w-4 h-4" />
+                                    {priceFilter ? `Max. CHF ${priceFilter}` : 'Preis'}
+                                </button>
+                            </div>
+
+                            {/* Sort Dropdown */}
+                            <div className="relative ml-auto">
+                                <select 
+                                    value={sortOption} 
+                                    onChange={e => setSortOption(e.target.value)} 
+                                    className="h-10 pl-4 pr-8 rounded-full bg-slate-100 border-0 text-sm font-medium text-slate-600 outline-none appearance-none cursor-pointer transition-all"
+                                >
+                                    <option value="newest">Neueste</option>
+                                    <option value="price_asc">Preis ↑</option>
+                                    <option value="price_desc">Preis ↓</option>
+                                    <option value="availability">Verfügbarkeit</option>
+                                </select>
+                                <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            {/* Status Filter */}
+                            <div className="relative">
+                                <select 
+                                    value={statusFilter} 
+                                    onChange={e => setStatusFilter(e.target.value)} 
+                                    className="h-10 pl-4 pr-8 rounded-full bg-white border border-slate-200 hover:border-slate-300 text-sm font-medium text-slate-700 outline-none appearance-none cursor-pointer transition-all shadow-sm"
+                                >
+                                    <option value="Alle">Alle Status</option>
+                                    {statuses.map(s => <option key={s} value={s}>{statusConfig[s].title}</option>)}
+                                </select>
+                                <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            </div>
                             
-                            {showFilters && (
-                                <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div>
-                                        <label className="block text-xs font-bold text-slate-600 mb-2 uppercase tracking-wider">Max. Lead-Preis (CHF)</label>
-                                        <div className="relative">
-                                            <BanknotesIcon className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                                            <input 
-                                                type="number" 
-                                                placeholder="z.B. 20" 
-                                                value={priceFilter} 
-                                                onChange={e => setPriceFilter(e.target.value)} 
-                                                className="w-full h-12 pl-10 pr-4 rounded-xl border-2 border-slate-200 bg-slate-50 font-semibold text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-100 outline-none transition-all"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                            {/* View Mode Toggle */}
+                            <div className="flex items-center gap-1 bg-slate-100 rounded-full p-1 ml-auto">
+                                <button 
+                                    onClick={() => setPurchasedViewMode('cards')} 
+                                    className={`p-2 rounded-full transition-all ${
+                                        purchasedViewMode === 'cards' 
+                                            ? 'bg-white text-primary-600 shadow-sm' 
+                                            : 'text-slate-500 hover:text-slate-700'
+                                    }`}
+                                    title="Karten"
+                                >
+                                    <Squares2X2Icon className="w-4 h-4" />
+                                </button>
+                                <button 
+                                    onClick={() => setPurchasedViewMode('table')} 
+                                    className={`p-2 rounded-full transition-all ${
+                                        purchasedViewMode === 'table' 
+                                            ? 'bg-white text-primary-600 shadow-sm' 
+                                            : 'text-slate-500 hover:text-slate-700'
+                                    }`}
+                                    title="Liste"
+                                >
+                                    <ListBulletIcon className="w-4 h-4" />
+                                </button>
+                                <button 
+                                    onClick={() => setPurchasedViewMode('board')} 
+                                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                                        purchasedViewMode === 'board' 
+                                            ? 'bg-white text-primary-600 shadow-sm' 
+                                            : 'text-slate-500 hover:text-slate-700'
+                                    }`}
+                                >
+                                    Board
+                                </button>
+                            </div>
+                        </>
                     )}
                 </div>
+
+                {/* Expanded Price Filter */}
+                {!isPurchasedView && showFilters && (
+                    <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200">
+                        <div className="flex items-center gap-4">
+                            <label className="text-sm font-semibold text-slate-600">Max. Lead-Preis:</label>
+                            <div className="flex items-center gap-2">
+                                <span className="text-sm text-slate-500">CHF</span>
+                                <input 
+                                    type="number" 
+                                    placeholder="0" 
+                                    value={priceFilter} 
+                                    onChange={e => setPriceFilter(e.target.value)} 
+                                    className="w-24 h-9 px-3 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none"
+                                />
+                            </div>
+                            <button 
+                                onClick={() => { setPriceFilter(''); setShowFilters(false); }}
+                                className="ml-auto text-sm font-medium text-slate-500 hover:text-slate-700"
+                            >
+                                Zurücksetzen
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
 
-            <div className="mb-6 flex items-center justify-between">
-                <div>
-                    <h2 className="text-2xl font-black text-slate-900">
-                        {filteredRequests.length} {filteredRequests.length === 1 ? 'Lead gefunden' : 'Leads gefunden'}
-                    </h2>
-                    {isPurchasedView ? (
-                        <p className="text-sm text-slate-600 mt-1 font-semibold">
-                            {stats.new} neu • {stats.inProgress} in Bearbeitung • {stats.won} gewonnen
-                        </p>
-                    ) : (
-                        <p className="text-sm text-slate-600 mt-1 font-semibold">Neue Aufträge warten auf Sie</p>
-                    )}
+            {/* Results Header */}
+            <div className="mb-6">
+                <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        {/* Left: Count & Info */}
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl shadow-lg shadow-primary-500/30">
+                                <span className="text-2xl font-black text-white">{filteredRequests.length}</span>
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-bold text-slate-900">
+                                    {filteredRequests.length === 1 ? 'Lead gefunden' : 'Leads gefunden'}
+                                </h2>
+                                <p className="text-sm text-slate-500">
+                                    {isPurchasedView ? 'In Ihrem Portfolio' : 'Verfügbar zum Kaufen'}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Right: Stats Pills */}
+                        {isPurchasedView ? (
+                            <div className="flex items-center gap-2 flex-wrap">
+                                <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-full">
+                                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                    <span className="text-sm font-semibold text-blue-700">{stats.new} Neu</span>
+                                </div>
+                                <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-50 rounded-full">
+                                    <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                                    <span className="text-sm font-semibold text-orange-700">{stats.inProgress} In Bearbeitung</span>
+                                </div>
+                                <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full">
+                                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                                    <span className="text-sm font-semibold text-green-700">{stats.won} Gewonnen</span>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-2 text-sm text-slate-500">
+                                    <span className="relative flex h-2 w-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                    </span>
+                                    Live aktualisiert
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
 

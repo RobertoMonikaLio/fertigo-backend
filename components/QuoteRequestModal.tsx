@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { GoogleGenAI, Type } from "@google/genai";
+import { useAppContext } from '../pages/AppContext';
 import {
     XMarkIcon, ArrowRightIcon, ArrowLeftIcon, CheckCircleIcon, ArrowUpTrayIcon, TrashIcon,
     ColoredWrenchScrewdriverIcon, ColoredPencilIcon,
@@ -22,7 +23,11 @@ import {
     ColoredPaintRollerIcon,
     ColoredLeafIcon,
     ColoredSquares2X2Icon,
-    ColoredTrashIcon
+    ColoredTrashIcon,
+    SparklesIcon,
+    EnvelopeIcon,
+    PhoneIcon,
+    ClipboardDocumentListIcon
 } from './icons';
 
 // --- PLZ to City Mapping ---
@@ -91,19 +96,16 @@ const initialFormData = {
     email: '',
     phone: '',
     mobile: '',
+    showMobileToProviders: true,
     timeline: '',
-    propertyType: '',
     onSiteVisit: '',
-    materialProcurement: '',
     numberOfRooms: '',
     floorFrom: '',
     liftFrom: '',
     floorTo: '',
     liftTo: '',
-    numberOfFurniture: '',
     specialObjects: '',
     dynamicAnswers: {} as Record<string, any>,
-    additionalNotes: '',
     onSiteService: undefined as boolean | undefined,
     position: '',
 };
@@ -178,7 +180,8 @@ const ProgressSidebar: React.FC<{ step: number; service: string; }> = ({ step })
     ];
     
     let currentProgressStep = step;
-    if (step === 5) currentProgressStep = 5; // Success state
+    if (step === 5) currentProgressStep = 5; // Verification state
+    if (step === 6) currentProgressStep = 6; // Success state
 
     const trustPoints = [
         { icon: <TagIcon className="w-5 h-5 text-primary-700" />, text: "100% unverbindlich" },
@@ -266,10 +269,16 @@ const FileUploader: React.FC<{ files: File[]; onFilesChange: (e: React.ChangeEve
 
 
 export default function QuoteRequestModal({ isOpen, onClose, initialData = {} }: QuoteRequestModalProps) {
+    const { addNewRequest } = useAppContext();
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState(initialFormData);
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isSuccess, setIsSuccess] = useState(false);
+    const [verificationCode, setVerificationCode] = useState('');
+    const [generatedCode, setGeneratedCode] = useState('');
+    const [verificationError, setVerificationError] = useState('');
+    const [isResending, setIsResending] = useState(false);
+    const [resendCooldown, setResendCooldown] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
     const [dynamicQuestions, setDynamicQuestions] = useState<any[]>([]);
     const [isGeneratingQuestions, setIsGeneratingQuestions] = useState(false);
@@ -345,7 +354,6 @@ export default function QuoteRequestModal({ isOpen, onClose, initialData = {} }:
 
         if (currentStep === 2) {
             if (!formData.timeline) newErrors.timeline = 'Bitte geben Sie den gewünschten Zeitrahmen an.';
-            if (!formData.propertyType) newErrors.propertyType = 'Bitte wählen Sie den Objekttyp aus.';
             if (!formData.onSiteVisit) newErrors.onSiteVisit = 'Bitte geben Sie an, ob eine Besichtigung möglich ist.';
             
             if (isMoving) {
@@ -380,6 +388,7 @@ export default function QuoteRequestModal({ isOpen, onClose, initialData = {} }:
             if (formData.city.trim().length < 2) newErrors.city = 'Bitte geben Sie einen Ort an.';
             if (!formData.kanton) newErrors.kanton = 'Bitte wählen Sie einen Kanton aus.';
             if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = 'Bitte geben Sie eine gültige E-Mail-Adresse an.';
+            if (formData.mobile.trim().length < 10) newErrors.mobile = 'Bitte geben Sie eine gültige Mobilnummer an.';
         }
 
         setErrors(newErrors);
@@ -441,17 +450,121 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
         setFormData(prev => ({ ...prev, files: prev.files.filter(file => file !== fileToRemove) }));
     };
 
+    const generateVerificationCode = () => {
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        setGeneratedCode(code);
+        setVerificationCode('');
+        setVerificationError('');
+        console.log("Verification code sent to", formData.email, ":", code); // In production, send via email
+        return code;
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!validate(1)) { setStep(1); return; }
         if (!validate(2)) { setStep(2); return; }
         if (!validate(3)) { setStep(3); return; }
 
-        console.log("Submitting form data:", formData);
+        // Generate verification code and go to verification step
+        generateVerificationCode();
         setStep(5);
-        setIsSuccess(true);
-        setTimeout(handleClose, 5000);
+        setResendCooldown(60);
     };
+
+    const handleVerifyCode = () => {
+        if (verificationCode === generatedCode) {
+            console.log("Submitting form data:", formData);
+            
+            // Create the new lead for the Partner Dashboard
+            const today = new Date();
+            const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+            const formattedDate = `${today.getDate()}. ${monthNames[today.getMonth()]} ${today.getFullYear()}`;
+            
+            const isMovingService = formData.service.toLowerCase().includes('umzug');
+            const location = isMovingService 
+                ? `${formData.moveFromZip} ${formData.moveFromCity}` 
+                : `${formData.locationZip} ${formData.locationCity}`;
+            
+            // Build details array
+            const details: { label: string; value: string }[] = [
+                { label: 'Zeitrahmen', value: formData.timeline },
+            ];
+            
+            if (isMovingService) {
+                details.push({ label: 'Von', value: `${formData.moveFromZip} ${formData.moveFromCity}` });
+                details.push({ label: 'Nach', value: `${formData.moveToZip} ${formData.moveToCity}` });
+                if (formData.numberOfRooms) details.push({ label: 'Anzahl Zimmer', value: formData.numberOfRooms });
+                if (formData.floorFrom) details.push({ label: 'Stockwerk (Auszug)', value: formData.floorFrom });
+                if (formData.liftFrom) details.push({ label: 'Lift (Auszug)', value: formData.liftFrom });
+                if (formData.floorTo) details.push({ label: 'Stockwerk (Einzug)', value: formData.floorTo });
+                if (formData.liftTo) details.push({ label: 'Lift (Einzug)', value: formData.liftTo });
+                if (formData.specialObjects) details.push({ label: 'Besondere Objekte', value: formData.specialObjects });
+            }
+            
+            if (formData.onSiteVisit) details.push({ label: 'Besichtigung', value: formData.onSiteVisit });
+            
+            // Add dynamic question answers to details
+            dynamicQuestions.forEach(q => {
+                if (formData.dynamicAnswers[q.key]) {
+                    details.push({ label: q.question, value: String(formData.dynamicAnswers[q.key]) });
+                }
+            });
+            
+            const customerName = formData.anrede === 'Firma' && formData.companyName 
+                ? formData.companyName 
+                : `${formData.firstName} ${formData.lastName}`;
+            
+            const newRequest = {
+                title: `${formData.service} - ${location}`,
+                service: formData.service,
+                customer: customerName,
+                location: location,
+                date: formattedDate,
+                status: 'Neu' as const,
+                price: 15.00, // Default lead price
+                details: details,
+                description: formData.projectDescription || 'Keine Beschreibung angegeben.',
+                files: formData.files.map(f => ({ name: f.name, url: '#' })),
+                customerInfo: {
+                    name: `${formData.firstName} ${formData.lastName}`,
+                    address: `${formData.address}, ${formData.postalCode} ${formData.city}`,
+                    email: formData.email,
+                    phone: formData.phone || null,
+                    mobile: formData.showMobileToProviders ? (formData.mobile || null) : null,
+                },
+                onSiteVisit: formData.onSiteVisit || undefined,
+                qualityScore: Math.floor(Math.random() * 30) + 70, // Random score 70-100
+            };
+            
+            // Add the new request to the Lead Marketplace
+            const newId = addNewRequest(newRequest);
+            console.log("New lead created with ID:", newId);
+            
+            setStep(6);
+            setIsSuccess(true);
+            setTimeout(handleClose, 5000);
+        } else {
+            setVerificationError('Der eingegebene Code ist ungültig. Bitte versuchen Sie es erneut.');
+        }
+    };
+
+    const handleResendCode = () => {
+        if (resendCooldown > 0) return;
+        setIsResending(true);
+        setTimeout(() => {
+            generateVerificationCode();
+            setIsResending(false);
+            setResendCooldown(60);
+        }, 1000);
+    };
+
+    // Countdown timer for resend cooldown
+    React.useEffect(() => {
+        if (resendCooldown > 0) {
+            const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [resendCooldown]);
 
     const handleFieldChange = (field: keyof typeof initialFormData, value: string | boolean) => {
         const newFormData = { ...formData, [field]: value };
@@ -510,7 +623,6 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 <tr><td>Anzahl Zimmer:</td><td>${formData.numberOfRooms}</td></tr>
                 <tr><td>Auszug:</td><td>${formData.floorFrom}. Stock, Lift: ${formData.liftFrom}</td></tr>
                 <tr><td>Einzug:</td><td>${formData.floorTo}. Stock, Lift: ${formData.liftTo}</td></tr>
-                ${formData.numberOfFurniture ? `<tr><td>Anzahl Möbelstücke:</td><td>${formData.numberOfFurniture}</td></tr>` : ''}
                 ${formData.specialObjects ? `<tr><td>Besondere Objekte:</td><td>${formData.specialObjects}</td></tr>` : ''}
             `;
         }
@@ -553,11 +665,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                         <h2>Details</h2>
                         <table>
                             <tr><td>Zeitrahmen:</td><td>${formData.timeline}</td></tr>
-                            <tr><td>Objekttyp:</td><td>${formData.propertyType}</td></tr>
                             <tr><td>Besichtigung möglich:</td><td>${formData.onSiteVisit || 'Keine Angabe'}</td></tr>
-                            <tr><td>Materialbeschaffung:</td><td>${formData.materialProcurement || 'Keine Angabe'}</td></tr>
-                            ${formData.onSiteService !== undefined ? `<tr><td>Vor-Ort-Service:</td><td>${formData.onSiteService ? 'Ja, zwingend' : 'Nein, nicht zwingend'}</td></tr>` : ''}
-                            ${formData.additionalNotes ? `<tr><td>Zusätzliche Hinweise:</td><td>${formData.additionalNotes.replace(/\n/g, '<br>')}</td></tr>` : ''}
                             <tr><td>Dateien:</td><td>${formData.files.length > 0 ? formData.files.map(f => f.name).join(', ') : 'Keine'}</td></tr>
                             ${movingDetailsHtml}
                             ${dynamicDetailsHtml}
@@ -576,7 +684,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                             <tr><td>Adresse:</td><td>${formData.address}<br>${formData.postalCode} ${formData.city}<br>Kanton ${formData.kanton}</td></tr>
                             <tr><td>E-Mail:</td><td>${formData.email}</td></tr>
                             ${formData.phone ? `<tr><td>Telefon:</td><td>${formData.phone}</td></tr>` : ''}
-                            ${formData.mobile ? `<tr><td>Mobile:</td><td>${formData.mobile}</td></tr>` : ''}
+                            ${formData.mobile ? `<tr><td>Mobile:</td><td>${formData.mobile} <em style="color: ${formData.showMobileToProviders ? '#16a34a' : '#64748b'}; font-size: 12px;">(${formData.showMobileToProviders ? 'Sichtbar für Handwerker' : 'Nicht sichtbar für Handwerker'})</em></td></tr>` : ''}
                         </table>
                         
                         <div class="footer">
@@ -614,24 +722,22 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                             <div>
                                 <label htmlFor="modal-service" className="font-semibold text-slate-800 mb-2 block">Dienstleistung</label>
                                 
-                                {/* Popular Services Quick Selection */}
-                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-                                    {popularServicesSelection.map((s) => (
-                                        <button
-                                            key={s.name}
-                                            type="button"
-                                            onClick={() => handleFieldChange('service', s.name)}
-                                            className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all duration-200 ${
-                                                formData.service === s.name
-                                                    ? 'border-primary-600 bg-primary-50 text-primary-800 ring-1 ring-primary-600 shadow-sm'
-                                                    : 'border-slate-200 bg-white hover:border-primary-300 hover:bg-slate-50 text-slate-600'
-                                            }`}
-                                        >
-                                            <div className="mb-2">{s.icon}</div>
-                                            <span className="text-xs font-bold text-center leading-tight">{s.label || s.name}</span>
-                                        </button>
-                                    ))}
-                                </div>
+                                {/* Popular Services Quick Selection - Hidden when service is selected */}
+                                {!formData.service && (
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+                                        {popularServicesSelection.map((s) => (
+                                            <button
+                                                key={s.name}
+                                                type="button"
+                                                onClick={() => handleFieldChange('service', s.name)}
+                                                className="flex flex-col items-center justify-center p-3 rounded-xl border border-slate-200 bg-white hover:border-primary-300 hover:bg-slate-50 text-slate-600 transition-all duration-200"
+                                            >
+                                                <div className="mb-2">{s.icon}</div>
+                                                <span className="text-xs font-bold text-center leading-tight">{s.label || s.name}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
 
                                 <div className="relative">
                                     <BriefcaseIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -740,22 +846,6 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                     {errors.timeline && <div id="timeline-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.timeline}</span></div>}
                                 </div>
                                 <div>
-                                    <label htmlFor="propertyType" className="font-semibold text-slate-800 mb-2 block">Objekttyp</label>
-                                    <div className="relative flex items-center">
-                                        <HomeModernIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
-                                        <select id="propertyType" value={formData.propertyType} onChange={e => handleFieldChange('propertyType', e.target.value)} className={`w-full h-14 text-base pl-11 pr-10 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow appearance-none ${errors.propertyType ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.propertyType} aria-describedby={errors.propertyType ? "propertyType-error" : undefined}>
-                                            <option value="">Bitte wählen...</option>
-                                            <option value="Privatwohnung / Haus">Privatwohnung / Haus</option>
-                                            <option value="Büro / Gewerbe">Büro / Gewerbe</option>
-                                            <option value="Neubau">Neubau</option>
-                                            <option value="Liegenschaft">Ganze Liegenschaft</option>
-                                            <option value="Anderes">Anderes</option>
-                                        </select>
-                                        <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
-                                    </div>
-                                    {errors.propertyType && <div id="propertyType-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.propertyType}</span></div>}
-                                </div>
-                                <div>
                                     <label htmlFor="onSiteVisit" className="font-semibold text-slate-800 mb-2 block">Besichtigungstermin möglich?</label>
                                     <div className="relative flex items-center">
                                         <UsersIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
@@ -768,37 +858,6 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                         <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
                                     </div>
                                     {errors.onSiteVisit && <div id="onSiteVisit-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.onSiteVisit}</span></div>}
-                                </div>
-                                <div>
-                                    <label htmlFor="materialProcurement" className="font-semibold text-slate-800 mb-2 block">Materialbeschaffung (optional)</label>
-                                    <div className="relative flex items-center">
-                                        <ToolboxIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
-                                        <select id="materialProcurement" value={formData.materialProcurement} onChange={e => handleFieldChange('materialProcurement', e.target.value)} className="w-full h-14 text-base pl-11 pr-10 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow appearance-none border-slate-300 focus:border-primary-600 focus:ring-primary-600/50">
-                                            <option value="">Bitte wählen...</option>
-                                            <option value="Wird vom Anbieter beschafft">Wird vom Anbieter beschafft</option>
-                                            <option value="Wird von mir bereitgestellt">Wird von mir bereitgestellt</option>
-                                            <option value="Noch unklar / nach Absprache">Noch unklar / nach Absprache</option>
-                                        </select>
-                                        <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="font-semibold text-slate-800 mb-2 block">Ist ein Vor-Ort-Service zwingend?</label>
-                                    <div className="flex gap-4">
-                                        <label className={`flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer flex-1 transition-all ${formData.onSiteService === true ? 'bg-primary-50 border-primary-500' : 'border-slate-300 bg-white'}`}>
-                                            <input type="radio" name="onSiteService" checked={formData.onSiteService === true} onChange={() => handleFieldChange('onSiteService', true)} className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300" />
-                                            Ja, zwingend
-                                        </label>
-                                        <label className={`flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer flex-1 transition-all ${formData.onSiteService === false ? 'bg-primary-50 border-primary-500' : 'border-slate-300 bg-white'}`}>
-                                            <input type="radio" name="onSiteService" checked={formData.onSiteService === false} onChange={() => handleFieldChange('onSiteService', false)} className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300" />
-                                            Nein, nicht zwingend
-                                        </label>
-                                    </div>
-                                    {errors.onSiteService && <div role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.onSiteService}</span></div>}
-                                </div>
-                                <div>
-                                    <label htmlFor="additionalNotes" className="font-semibold text-slate-800 mb-2 block">Zusätzliche Hinweise (optional)</label>
-                                    <textarea id="additionalNotes" name="additionalNotes" value={formData.additionalNotes} onChange={e => handleFieldChange('additionalNotes', e.target.value)} className="w-full text-base p-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow border-slate-300 focus:border-primary-600 focus:ring-primary-600/50" placeholder="Gibt es Besonderheiten zu beachten? (z.B. Zufahrt, spezielle Materialien, etc.)" rows={3} />
                                 </div>
                             </div>
                             
@@ -823,7 +882,21 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                             <div>
                                                 <label htmlFor="floorFrom" className="font-medium text-slate-800 mb-2 block">Stockwerk (Auszug)</label>
-                                                <input id="floorFrom" value={formData.floorFrom} onChange={e => handleFieldChange('floorFrom', e.target.value)} type="text" placeholder="z.B. 3. Stock oder EG" className={`w-full h-14 text-base px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.floorFrom ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.floorFrom} aria-describedby={errors.floorFrom ? "floorFrom-error" : undefined} />
+                                                <div className="relative">
+                                                    <select id="floorFrom" value={formData.floorFrom} onChange={e => handleFieldChange('floorFrom', e.target.value)} className={`w-full h-14 text-base px-4 pr-10 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow appearance-none ${errors.floorFrom ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.floorFrom} aria-describedby={errors.floorFrom ? "floorFrom-error" : undefined}>
+                                                        <option value="">Wählen...</option>
+                                                        <option value="Untergeschoss">Untergeschoss</option>
+                                                        <option value="Erdgeschoss">Erdgeschoss</option>
+                                                        <option value="Hochparterre">Hochparterre</option>
+                                                        <option value="1. Stock">1. Stock</option>
+                                                        <option value="2. Stock">2. Stock</option>
+                                                        <option value="3. Stock">3. Stock</option>
+                                                        <option value="4. Stock">4. Stock</option>
+                                                        <option value="5. Stock">5. Stock</option>
+                                                        <option value="6. Stock oder höher">6. Stock oder höher</option>
+                                                    </select>
+                                                    <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
+                                                </div>
                                                 {errors.floorFrom && <div id="floorFrom-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.floorFrom}</span></div>}
                                             </div>
                                             <div>
@@ -840,7 +913,21 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                             <div>
                                                 <label htmlFor="floorTo" className="font-medium text-slate-800 mb-2 block">Stockwerk (Einzug)</label>
-                                                <input id="floorTo" value={formData.floorTo} onChange={e => handleFieldChange('floorTo', e.target.value)} type="text" placeholder="z.B. Hochparterre" className={`w-full h-14 text-base px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.floorTo ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.floorTo} aria-describedby={errors.floorTo ? "floorTo-error" : undefined} />
+                                                <div className="relative">
+                                                    <select id="floorTo" value={formData.floorTo} onChange={e => handleFieldChange('floorTo', e.target.value)} className={`w-full h-14 text-base px-4 pr-10 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow appearance-none ${errors.floorTo ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.floorTo} aria-describedby={errors.floorTo ? "floorTo-error" : undefined}>
+                                                        <option value="">Wählen...</option>
+                                                        <option value="Untergeschoss">Untergeschoss</option>
+                                                        <option value="Erdgeschoss">Erdgeschoss</option>
+                                                        <option value="Hochparterre">Hochparterre</option>
+                                                        <option value="1. Stock">1. Stock</option>
+                                                        <option value="2. Stock">2. Stock</option>
+                                                        <option value="3. Stock">3. Stock</option>
+                                                        <option value="4. Stock">4. Stock</option>
+                                                        <option value="5. Stock">5. Stock</option>
+                                                        <option value="6. Stock oder höher">6. Stock oder höher</option>
+                                                    </select>
+                                                    <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
+                                                </div>
                                                 {errors.floorTo && <div id="floorTo-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.floorTo}</span></div>}
                                             </div>
                                             <div>
@@ -853,10 +940,6 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                                 </div>
                                                 {errors.liftTo && <div id="liftTo-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.liftTo}</span></div>}
                                             </div>
-                                        </div>
-                                        <div>
-                                            <label htmlFor="numberOfFurniture" className="font-medium text-slate-800 mb-2 block">Anzahl Möbelstücke (optional)</label>
-                                            <input id="numberOfFurniture" value={formData.numberOfFurniture} onChange={e => handleFieldChange('numberOfFurniture', e.target.value)} type="text" placeholder="z.B. ca. 30" className={`w-full h-14 text-base px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.numberOfFurniture ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} />
                                         </div>
                                         <div>
                                             <label htmlFor="specialObjects" className="font-medium text-slate-800 mb-2 block">Besondere Objekte (optional)</label>
@@ -1032,9 +1115,24 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                 <div>
                                     <div className="relative flex items-center">
                                         <ColoredPhoneIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
-                                        <input name="mobile" value={formData.mobile} onChange={e => handleFieldChange('mobile', e.target.value)} type="tel" placeholder="Mobile (optional)" className="w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow border-slate-300 focus:border-primary-600 focus:ring-primary-600/50"/>
+                                        <input name="mobile" value={formData.mobile} onChange={e => handleFieldChange('mobile', e.target.value)} type="tel" placeholder="Mobile" className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.mobile ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.mobile} aria-describedby={errors.mobile ? "mobile-error" : undefined}/>
                                     </div>
+                                    {errors.mobile && <div id="mobile-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.mobile}</span></div>}
                                 </div>
+                            </div>
+                            <div className="mt-4 p-4 bg-slate-50 rounded-lg border border-slate-200">
+                                <label className="flex items-start gap-3 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.showMobileToProviders}
+                                        onChange={e => handleFieldChange('showMobileToProviders', e.target.checked)}
+                                        className="w-5 h-5 mt-0.5 rounded border-slate-300 text-primary-600 focus:ring-primary-500 cursor-pointer"
+                                    />
+                                    <div>
+                                        <span className="font-medium text-slate-800">Mobilnummer sichtbar?</span>
+                                        <p className="text-sm text-slate-500 mt-0.5">Wenn aktiviert, können interessierte Handwerker Ihre Mobilnummer sehen und Sie direkt kontaktieren.</p>
+                                    </div>
+                                </label>
                             </div>
                         </div>
                          <div className="mt-auto pt-8 flex items-center gap-4">
@@ -1046,82 +1144,277 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
             case 4: // Review
                 return (
                     <div className="flex flex-col h-full animate-fade-in">
-                        <h2 className="text-3xl font-bold text-slate-900 mb-2">Prüfen & Senden</h2>
-                        <p className="text-slate-600 mb-8">Bitte überprüfen Sie Ihre Angaben vor dem Absenden.</p>
+                        {/* Header */}
+                        <div className="flex items-center gap-4 mb-6 pb-4 border-b border-slate-200">
+                            <div className="w-12 h-12 rounded-2xl bg-primary-gradient flex items-center justify-center shadow-md">
+                                <CheckCircleIcon className="w-6 h-6 text-white" />
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-bold text-slate-900">Zusammenfassung</h2>
+                                <p className="text-sm text-slate-500">Überprüfen Sie Ihre Angaben</p>
+                            </div>
+                        </div>
                         
-                        <div className="space-y-6 overflow-y-auto pr-4 -mr-4 flex-grow custom-scrollbar">
-                            <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-                                <div className="flex justify-between items-center mb-3"><h3 className="font-bold text-lg text-slate-800">Projektdaten</h3><button onClick={() => setStep(1)} type="button" className="text-sm font-semibold text-primary-600 hover:text-primary-800 flex items-center gap-1"><PencilIcon className="w-4 h-4"/> Bearbeiten</button></div>
-                                <div className="text-sm space-y-2 text-slate-700">
-                                    <p><strong>Dienstleistung:</strong> {formData.service}</p>
-                                    {isMoving ? (
-                                        <>
-                                            <p><strong>Von:</strong> {formData.moveFromZip} {formData.moveFromCity}</p>
-                                            <p><strong>Nach:</strong> {formData.moveToZip} {formData.moveToCity}</p>
-                                        </>
-                                    ) : (
-                                        <p><strong>Ort:</strong> {formData.locationZip} {formData.locationCity}</p>
-                                    )}
-                                    <p className="break-words"><strong>Beschreibung:</strong> {formData.projectDescription || 'Keine Angabe'}</p>
-                                </div>
+                        <div className="flex-grow overflow-y-auto pr-2 -mr-2 custom-scrollbar space-y-4">
+                            {/* Service Badge */}
+                            <div className="inline-flex items-center gap-2 bg-primary-50 text-primary-700 px-4 py-2 rounded-full text-sm font-medium">
+                                <TagIcon className="w-4 h-4" />
+                                {formData.service}
                             </div>
 
-                             <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-                                 <div className="flex justify-between items-center mb-3"><h3 className="font-bold text-lg text-slate-800">Details</h3><button onClick={() => setStep(2)} type="button" className="text-sm font-semibold text-primary-600 hover:text-primary-800 flex items-center gap-1"><PencilIcon className="w-4 h-4"/> Bearbeiten</button></div>
-                                <div className="text-sm space-y-2 text-slate-700">
-                                    <p><strong>Zeitrahmen:</strong> {formData.timeline}</p>
-                                    <p><strong>Objekttyp:</strong> {formData.propertyType}</p>
-                                    {isMoving && (
-                                        <>
-                                            <p><strong>Anzahl Zimmer:</strong> {formData.numberOfRooms}</p>
-                                            <p><strong>Auszug:</strong> Stockwerk: {formData.floorFrom}, Lift: {formData.liftFrom}</p>
-                                            <p><strong>Einzug:</strong> Stockwerk: {formData.floorTo}, Lift: {formData.liftTo}</p>
-                                            {formData.numberOfFurniture && <p><strong>Anzahl Möbelstücke:</strong> {formData.numberOfFurniture}</p>}
-                                            {formData.specialObjects && <p><strong>Besondere Objekte:</strong> {formData.specialObjects}</p>}
-                                        </>
-                                    )}
-                                    {formData.onSiteVisit && <p><strong>Besichtigung möglich:</strong> {formData.onSiteVisit}</p>}
-                                    {formData.materialProcurement && <p><strong>Materialbeschaffung:</strong> {formData.materialProcurement}</p>}
-                                    {formData.files.length > 0 && <p><strong>Dateien:</strong> {formData.files.map(f => f.name).join(', ')}</p>}
-                                    {dynamicQuestions.map(q => (<p key={q.key}><strong>{q.question}:</strong> {formData.dynamicAnswers[q.key] || 'Nicht beantwortet'}</p>))}
+                            {/* Timeline Style Summary */}
+                            <div className="relative pl-8">
+                                {/* Timeline Line */}
+                                <div className="absolute left-[11px] top-2 bottom-2 w-0.5 bg-slate-200"></div>
+                                
+                                {/* Step 1: Project */}
+                                <div className="relative mb-6">
+                                    <div className="absolute -left-8 w-6 h-6 rounded-full bg-primary-100 border-2 border-primary-500 flex items-center justify-center">
+                                        <span className="text-xs font-bold text-primary-600">1</span>
+                                    </div>
+                                    <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <h3 className="font-semibold text-slate-800">Projekt</h3>
+                                            <button onClick={() => setStep(1)} type="button" className="text-xs text-primary-600 hover:text-primary-700 font-medium">Bearbeiten</button>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3 text-sm">
+                                            <div>
+                                                <span className="text-slate-400 text-xs">Standort</span>
+                                                <p className="font-medium text-slate-700">{isMoving ? `${formData.moveFromCity} → ${formData.moveToCity}` : `${formData.locationZip} ${formData.locationCity}`}</p>
+                                            </div>
+                                            <div>
+                                                <span className="text-slate-400 text-xs">Zeitrahmen</span>
+                                                <p className="font-medium text-slate-700">{formData.timeline}</p>
+                                            </div>
+                                        </div>
+                                        {formData.projectDescription && (
+                                            <div className="mt-3 pt-3 border-t border-slate-100">
+                                                <span className="text-slate-400 text-xs">Beschreibung</span>
+                                                <p className="text-sm text-slate-600 mt-1">{formData.projectDescription}</p>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-                                 <div className="flex justify-between items-center mb-3"><h3 className="font-bold text-lg text-slate-800">Ihre Kontaktdaten</h3><button onClick={() => setStep(3)} type="button" className="text-sm font-semibold text-primary-600 hover:text-primary-800 flex items-center gap-1"><PencilIcon className="w-4 h-4"/> Bearbeiten</button></div>
-                                <div className="text-sm space-y-2 text-slate-700">
-                                    {formData.anrede === 'Firma' ? (
-                                        <>
-                                            {formData.companyName && <p><strong>Firma:</strong> {formData.companyName}</p>}
-                                            <p><strong>Ansprechperson:</strong> {formData.firstName} {formData.lastName}</p>
-                                            {formData.position && <p><strong>Position:</strong> {formData.position}</p>}
-                                        </>
-                                    ) : (
-                                        <>
-                                            <p><strong>Anrede:</strong> {formData.anrede}</p>
-                                            <p><strong>Name:</strong> {formData.firstName} {formData.lastName}</p>
-                                        </>
-                                    )}
-                                    <p>
-                                        <strong>Adresse:</strong><br />
-                                        {formData.address}<br />
-                                        {formData.postalCode} {formData.city}<br/>
-                                        Kanton {formData.kanton}
-                                    </p>
-                                    <p><strong>E-Mail:</strong> {formData.email}</p>
-                                    {formData.phone && <p><strong>Telefon:</strong> {formData.phone}</p>}
-                                    {formData.mobile && <p><strong>Mobile:</strong> {formData.mobile}</p>}
+                                {/* Step 2: Details */}
+                                <div className="relative mb-6">
+                                    <div className="absolute -left-8 w-6 h-6 rounded-full bg-primary-100 border-2 border-primary-500 flex items-center justify-center">
+                                        <span className="text-xs font-bold text-primary-600">2</span>
+                                    </div>
+                                    <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <h3 className="font-semibold text-slate-800">Details</h3>
+                                            <button onClick={() => setStep(2)} type="button" className="text-xs text-primary-600 hover:text-primary-700 font-medium">Bearbeiten</button>
+                                        </div>
+                                        <div className="space-y-2 text-sm">
+                                            {isMoving && (
+                                                <>
+                                                    <div className="flex items-center justify-between py-1.5 border-b border-slate-50">
+                                                        <span className="text-slate-500">Anzahl Zimmer</span>
+                                                        <span className="font-medium text-slate-700">{formData.numberOfRooms}</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between py-1.5 border-b border-slate-50">
+                                                        <span className="text-slate-500">Auszug (Stockwerk)</span>
+                                                        <span className="font-medium text-slate-700">{formData.floorFrom}, Lift: {formData.liftFrom}</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between py-1.5 border-b border-slate-50">
+                                                        <span className="text-slate-500">Einzug (Stockwerk)</span>
+                                                        <span className="font-medium text-slate-700">{formData.floorTo}, Lift: {formData.liftTo}</span>
+                                                    </div>
+                                                    {formData.specialObjects && (
+                                                        <div className="flex items-center justify-between py-1.5 border-b border-slate-50">
+                                                            <span className="text-slate-500">Besondere Objekte</span>
+                                                            <span className="font-medium text-slate-700">{formData.specialObjects}</span>
+                                                        </div>
+                                                    )}
+                                                </>
+                                            )}
+                                            {formData.onSiteVisit && (
+                                                <div className="flex items-center justify-between py-1.5 border-b border-slate-50">
+                                                    <span className="text-slate-500">Besichtigung</span>
+                                                    <span className="font-medium text-slate-700">{formData.onSiteVisit}</span>
+                                                </div>
+                                            )}
+                                            {formData.files.length > 0 && (
+                                                <div className="flex items-center justify-between py-1.5 border-b border-slate-50">
+                                                    <span className="text-slate-500">Hochgeladene Dateien</span>
+                                                    <span className="font-medium text-slate-700">{formData.files.length} Datei(en)</span>
+                                                </div>
+                                            )}
+                                            {dynamicQuestions.map(q => (
+                                                <div key={q.key} className="flex items-center justify-between py-1.5 border-b border-slate-50 gap-4">
+                                                    <span className="text-slate-500">{q.question}</span>
+                                                    <span className="font-medium text-slate-700 text-right">{formData.dynamicAnswers[q.key] || '-'}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Step 3: Contact */}
+                                <div className="relative">
+                                    <div className="absolute -left-8 w-6 h-6 rounded-full bg-primary-100 border-2 border-primary-500 flex items-center justify-center">
+                                        <span className="text-xs font-bold text-primary-600">3</span>
+                                    </div>
+                                    <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <h3 className="font-semibold text-slate-800">Kontaktdaten</h3>
+                                            <button onClick={() => setStep(3)} type="button" className="text-xs text-primary-600 hover:text-primary-700 font-medium">Bearbeiten</button>
+                                        </div>
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center text-slate-600 font-bold text-lg flex-shrink-0">
+                                                {formData.firstName.charAt(0)}{formData.lastName.charAt(0)}
+                                            </div>
+                                            <div className="flex-grow min-w-0">
+                                                {formData.anrede === 'Firma' && formData.companyName && (
+                                                    <p className="text-xs text-slate-500 mb-0.5">{formData.companyName}</p>
+                                                )}
+                                                <p className="font-semibold text-slate-800">{formData.firstName} {formData.lastName}</p>
+                                                {formData.position && <p className="text-xs text-slate-500">{formData.position}</p>}
+                                                <div className="mt-2 text-sm text-slate-600">
+                                                    <p>{formData.address}</p>
+                                                    <p>{formData.postalCode} {formData.city}, {formData.kanton}</p>
+                                                </div>
+                                                <div className="mt-3 pt-3 border-t border-slate-100 space-y-1.5 text-sm">
+                                                    <p className="flex items-center gap-2 text-slate-600">
+                                                        <EnvelopeIcon className="w-4 h-4 text-slate-400" />
+                                                        {formData.email}
+                                                    </p>
+                                                    {formData.phone && (
+                                                        <p className="flex items-center gap-2 text-slate-600">
+                                                            <PhoneIcon className="w-4 h-4 text-slate-400" />
+                                                            {formData.phone}
+                                                        </p>
+                                                    )}
+                                                    {formData.mobile && (
+                                                        <p className="flex items-center gap-2 text-slate-600">
+                                                            <PhoneIcon className="w-4 h-4 text-slate-400" />
+                                                            {formData.mobile}
+                                                            <span className={`text-[10px] px-2 py-0.5 rounded-full ${formData.showMobileToProviders ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'}`}>
+                                                                {formData.showMobileToProviders ? 'Für Handwerker sichtbar' : 'Privat'}
+                                                            </span>
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="mt-auto pt-8 flex items-center gap-4">
-                            <button type="button" onClick={() => setStep(3)} className="bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-lg hover:bg-slate-300 transition-all">Zurück</button>
-                            <button type="button" onClick={handleSubmit} className="flex-1 bg-green-600 text-white font-bold py-3 rounded-lg hover:bg-green-700 transition-all shadow-md text-lg flex items-center justify-center gap-2">Anfrage definitiv absenden<RocketLaunchIcon className="w-5 h-5"/></button>
+                        {/* Footer */}
+                        <div className="mt-6 pt-4 border-t border-slate-200">
+                            <div className="bg-green-50 rounded-xl p-4 mb-4">
+                                <div className="flex items-start gap-3">
+                                    <CheckCircleIcon className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                    <div className="text-sm">
+                                        <p className="font-medium text-green-800">Bereit zum Absenden</p>
+                                        <p className="text-green-700 mt-0.5">Sie erhalten Offerten von geprüften Handwerkern aus Ihrer Region.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <button type="button" onClick={() => setStep(3)} className="px-5 py-3 text-slate-600 font-semibold hover:bg-slate-100 rounded-xl transition-colors">
+                                    Zurück
+                                </button>
+                                <button type="button" onClick={handleSubmit} className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg text-base flex items-center justify-center gap-2">
+                                    <RocketLaunchIcon className="w-5 h-5"/>
+                                    Jetzt Offerten erhalten
+                                </button>
+                            </div>
                         </div>
                     </div>
                 );
-            case 5: // Success
+            case 5: // Verification
+                return (
+                    <div className="flex flex-col h-full animate-fade-in">
+                        {/* Header */}
+                        <div className="text-center mb-8">
+                            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-100 to-primary-100 mb-4">
+                                <EnvelopeIcon className="w-10 h-10 text-primary-600" />
+                            </div>
+                            <h2 className="text-2xl font-bold text-slate-900">E-Mail bestätigen</h2>
+                            <p className="text-slate-500 mt-2 max-w-sm mx-auto">
+                                Wir haben einen 6-stelligen Code an <span className="font-semibold text-slate-700">{formData.email}</span> gesendet.
+                            </p>
+                        </div>
+                        
+                        <div className="flex-grow flex flex-col items-center justify-center">
+                            {/* Code Input */}
+                            <div className="w-full max-w-xs">
+                                <label className="block text-sm font-medium text-slate-700 mb-2 text-center">Bestätigungscode eingeben</label>
+                                <input
+                                    type="text"
+                                    value={verificationCode}
+                                    onChange={(e) => {
+                                        const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                                        setVerificationCode(val);
+                                        setVerificationError('');
+                                    }}
+                                    placeholder="• • • • • •"
+                                    className={`w-full text-center text-3xl font-mono tracking-[0.5em] py-4 px-4 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all ${verificationError ? 'border-red-400 focus:border-red-500 focus:ring-red-500/50' : 'border-slate-300 focus:border-primary-500 focus:ring-primary-500/50'}`}
+                                    maxLength={6}
+                                    autoFocus
+                                />
+                                {verificationError && (
+                                    <p className="text-red-600 text-sm mt-2 text-center flex items-center justify-center gap-1">
+                                        <ExclamationTriangleIcon className="w-4 h-4" />
+                                        {verificationError}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* Verify Button */}
+                            <button
+                                type="button"
+                                onClick={handleVerifyCode}
+                                disabled={verificationCode.length !== 6}
+                                className={`mt-6 w-full max-w-xs py-3.5 rounded-xl font-bold text-white transition-all flex items-center justify-center gap-2 ${verificationCode.length === 6 ? 'bg-primary-600 hover:bg-primary-700 shadow-lg' : 'bg-slate-300 cursor-not-allowed'}`}
+                            >
+                                <CheckCircleIcon className="w-5 h-5" />
+                                Code bestätigen
+                            </button>
+
+                            {/* Resend Code */}
+                            <div className="mt-6 text-center">
+                                <p className="text-sm text-slate-500 mb-2">Keinen Code erhalten?</p>
+                                {resendCooldown > 0 ? (
+                                    <p className="text-sm text-slate-400">
+                                        Erneut senden in <span className="font-mono font-semibold">{resendCooldown}s</span>
+                                    </p>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        onClick={handleResendCode}
+                                        disabled={isResending}
+                                        className="text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors disabled:opacity-50"
+                                    >
+                                        {isResending ? 'Wird gesendet...' : 'Code erneut senden'}
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="mt-6 pt-4 border-t border-slate-200">
+                            <div className="bg-slate-50 rounded-xl p-4 flex items-start gap-3">
+                                <ShieldCheckIcon className="w-5 h-5 text-slate-500 flex-shrink-0 mt-0.5" />
+                                <div className="text-sm text-slate-600">
+                                    <p>Die Verifizierung schützt vor Spam und stellt sicher, dass nur echte Anfragen an unsere Handwerker weitergeleitet werden.</p>
+                                </div>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setStep(4)}
+                                className="mt-4 w-full py-2.5 text-slate-500 hover:text-slate-700 font-medium transition-colors text-sm"
+                            >
+                                ← Zurück zur Übersicht
+                            </button>
+                        </div>
+                    </div>
+                );
+            case 6: // Success
                 return (
                     <div className="m-auto text-center animate-fade-in">
                         <CheckCircleIcon className="w-24 h-24 text-green-500 mx-auto animate-pulse"/>

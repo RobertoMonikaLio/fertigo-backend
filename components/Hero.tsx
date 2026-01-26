@@ -1,10 +1,8 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 // Fix: Renamed useAppStore to useAppContext to match the exported member from AppContext.
 import { useAppContext } from '../pages/AppContext';
 import {
-    CheckCircleIcon,
     SwissFlagIcon,
     ArrowRightIcon,
     StarIcon
@@ -14,230 +12,201 @@ import {
 const Hero: React.FC = () => {
     const { openQuoteModal } = useAppContext();
 
-    // Mock data for the mobile project stream
-    const feedItems = [
-        {
-            type: 'new_request',
-            title: 'Malerarbeiten in Zürich',
-            location: '8004 Zürich',
-            service: 'Malerarbeiten',
-            // icon: <ColoredPaintRollerIcon className="w-6 h-6" />,
-            time: 'vor 5 Min.'
-        },
-        {
-            type: 'completed',
-            title: 'Wohnungsrenovierung',
-            location: 'Bern',
-            image: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=75&w=400&auto=format&fit=crop',
-            review: '"Super Arbeit, sehr sauber und pünktlich."',
-            author: 'Anna M.'
-        },
-        {
-            type: 'new_request',
-            title: 'Umzug von Basel nach Genf',
-            location: '4051 Basel',
-            service: 'Umzug',
-            // icon: <ColoredTruckIcon className="w-6 h-6" />,
-            time: 'vor 12 Min.'
-        },
-        {
-            type: 'completed',
-            title: 'Gartenneugestaltung',
-            location: 'Luzern',
-            image: 'https://images.unsplash.com/photo-1558904541-efa843a96f01?q=75&w=400&auto=format&fit=crop',
-            review: '"Unser Garten sieht wieder fantastisch aus!"',
-            author: 'Peter K.'
-        },
-        {
-            type: 'new_request',
-            title: 'Umzugsreinigung 4.5 Zimmer',
-            location: '8400 Winterthur',
-            service: 'Reinigung',
-            // icon: <ColoredSparklesIcon className="w-6 h-6" />,
-            time: 'vor 28 Min.'
-        }
+    const services = [
+        { name: 'Malerarbeiten', icon: '🎨', color: 'bg-orange-100 text-orange-600' },
+        { name: 'Umzug', icon: '📦', color: 'bg-blue-100 text-blue-600' },
+        { name: 'Reinigung', icon: '✨', color: 'bg-emerald-100 text-emerald-600' },
+        { name: 'Elektriker', icon: '⚡', color: 'bg-yellow-100 text-yellow-600' },
+        { name: 'Sanitär', icon: '🔧', color: 'bg-cyan-100 text-cyan-600' },
+        { name: 'Gartenbau', icon: '🌿', color: 'bg-green-100 text-green-600' },
     ];
 
     return (
-        <section className="relative bg-[#f5f5f5] lg:pt-20 lg:pb-20 overflow-hidden">
-
-            {/* Desktop Background - Off-white matching mascot image */}
-            <div className="hidden lg:block absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 bg-[#f5f5f5]"></div>
+        <section className="relative min-h-screen overflow-hidden">
+            {/* Background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-emerald-100 to-teal-50"></div>
+            
+            {/* Animated Background Elements */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-300/30 rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-20 right-10 w-96 h-96 bg-teal-300/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-200/20 rounded-full blur-3xl"></div>
             </div>
 
-            {/* --- UPDATED MOBILE HERO with OFF-WHITE BACKGROUND --- */}
-            <div className="lg:hidden relative min-h-[70vh] flex flex-col text-slate-900 overflow-hidden">
-                {/* Off-white Background matching mascot image */}
-                <div className="absolute inset-0 bg-[#f5f5f5]"></div>
+            {/* Grid Pattern Overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.05)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
 
-                {/* Content */}
-                <div className="relative z-10 p-6 pb-8 animate-fade-in flex-grow flex flex-col">
-                    <div className="flex-grow flex flex-col justify-center">
-                        <h1 className="text-[32px] font-black leading-tight tracking-tight mb-2 text-slate-900">
-                            Handwerker & Dienstleistungen in der Schweiz – einfach vergleichen
-                        </h1>
-                        <p className="text-slate-600 mb-6 max-w-xs">
-                            Erhalten Sie kostenlos mehrere Offerten von geprüften Fachbetrieben aus Ihrer Region.
-                        </p>
-                    </div>
+            {/* Content */}
+            <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-24 pb-16 lg:pt-32 lg:pb-24">
+                <div className="max-w-6xl mx-auto">
+                    
+                    {/* Main Content Grid */}
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                        
+                        {/* Left Column - Text Content */}
+                        <div className="text-center lg:text-left">
+                            {/* Badge */}
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600 border border-emerald-500 mb-8 shadow-lg">
+                                <SwissFlagIcon className="w-5 h-5" />
+                                <span className="text-white text-sm font-semibold">Nr. 1 Schweizer Handwerker-Plattform</span>
+                            </div>
 
-                    {/* Mobile Mascot - Peaking in */}
-                    <div className="absolute right-[-20px] bottom-[250px] w-48 h-48 pointer-events-none animate-float lg:hidden">
-                        <img
-                            src="/images/ferti-mascot.png"
-                            alt="Ferti Maskottchen"
-                            className="w-full h-full object-contain drop-shadow-2xl"
-                        />
-                    </div>
+                            {/* Headline */}
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-800 leading-[1.1] mb-6">
+                                Finden Sie den
+                                <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">
+                                    perfekten Handwerker
+                                </span>
+                            </h1>
 
-                    <div>
-                        <button
-                            onClick={() => openQuoteModal()}
-                            className="w-full bg-primary-600 text-white font-black text-base py-3.5 rounded-xl shadow-[0_10px_20px_rgba(34,197,94,0.3)] flex items-center justify-center gap-3 transition-all duration-300 active:scale-95 group"
-                        >
-                            <span>Jetzt kostenlose Offerten erhalten</span>
-                            <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                        </button>
+                            {/* Subheadline */}
+                            <p className="text-lg sm:text-xl text-slate-700 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                                Erhalten Sie kostenlos mehrere Offerten von geprüften Fachbetrieben aus Ihrer Region. 
+                                <span className="text-slate-800 font-semibold"> Sparen Sie bis zu 30%.</span>
+                            </p>
 
-                        <div className="mt-4 text-center">
-                            <div className="flex items-center justify-center gap-2">
-                                <div className="flex text-yellow-400">
-                                    <StarIcon className="w-4 h-4" />
-                                    <StarIcon className="w-4 h-4" />
-                                    <StarIcon className="w-4 h-4" />
-                                    <StarIcon className="w-4 h-4" />
-                                    <StarIcon className="w-4 h-4" />
+                            {/* CTA Button */}
+                            <div className="flex justify-center lg:justify-start mb-10">
+                                <button
+                                    onClick={() => openQuoteModal()}
+                                    className="group relative bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-[0_20px_40px_rgba(16,185,129,0.3)] hover:shadow-[0_20px_50px_rgba(16,185,129,0.4)] transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-3"
+                                >
+                                    <span>Kostenlose Offerten erhalten</span>
+                                    <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-400 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity -z-10 blur-xl"></div>
+                                </button>
+                            </div>
+
+                        </div>
+
+                        {/* Right Column - Interactive Cards */}
+                        <div className="relative hidden lg:block">
+                            {/* Main Card - Service Selection */}
+                            <div className="relative bg-white rounded-3xl p-8 shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
+                                <div className="absolute -top-4 -right-4 bg-emerald-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                                    Beliebt
                                 </div>
-                                <p className="text-xs font-medium text-slate-500">
-                                    <span className="font-bold text-slate-900">4.9 / 5</span> bei über <span className="font-bold text-slate-900">5'000+</span> Kunden
-                                </p>
+                                
+                                <h3 className="text-xl font-bold text-slate-900 mb-2">Was brauchen Sie?</h3>
+                                <p className="text-slate-500 mb-6">Wählen Sie eine Kategorie oder beschreiben Sie Ihr Projekt</p>
+                                
+                                {/* Service Grid */}
+                                <div className="grid grid-cols-3 gap-3">
+                                    {services.map((service, i) => (
+                                        <button
+                                            key={i}
+                                            onClick={() => openQuoteModal({ service: service.name })}
+                                            className={`${service.color} p-4 rounded-xl text-center hover:scale-105 transition-transform cursor-pointer`}
+                                        >
+                                            <span className="text-2xl mb-1 block">{service.icon}</span>
+                                            <span className="text-xs font-semibold">{service.name}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Floating Stats Cards */}
+                            <div className="absolute -left-8 -top-20 bg-white rounded-2xl p-4 shadow-xl transform -rotate-6 hover:rotate-0 transition-transform duration-300">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                                        <span className="text-2xl">🏆</span>
+                                    </div>
+                                    <div>
+                                        <div className="text-2xl font-black text-slate-900">2'500+</div>
+                                        <div className="text-sm text-slate-500">Geprüfte Partner</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="absolute -right-4 -bottom-8 bg-white rounded-2xl p-4 shadow-xl transform rotate-6 hover:rotate-0 transition-transform duration-300">
+                                <div className="flex items-center gap-3">
+                                    <div className="flex text-yellow-400">
+                                        <StarIcon className="w-5 h-5" />
+                                        <StarIcon className="w-5 h-5" />
+                                        <StarIcon className="w-5 h-5" />
+                                        <StarIcon className="w-5 h-5" />
+                                        <StarIcon className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <div className="text-xl font-black text-slate-900">4.9/5</div>
+                                        <div className="text-xs text-slate-500">5'000+ Bewertungen</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {/* Bottom Stats Bar */}
+                    <div className="mt-16 lg:mt-24 pt-8 border-t border-emerald-200">
+                        <div className="grid grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-8">
+                            {/* Trust Badges */}
+                            <div className="flex flex-col items-center text-center">
+                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">
+                                    <span className="text-2xl">✅</span>
+                                </div>
+                                <div className="text-sm font-semibold text-slate-700">Geprüfte Firmen</div>
+                            </div>
+                            <div className="flex flex-col items-center text-center">
+                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">
+                                    <span className="text-2xl">💰</span>
+                                </div>
+                                <div className="text-sm font-semibold text-slate-700">100% Kostenlos</div>
+                            </div>
+                            <div className="flex flex-col items-center text-center">
+                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">
+                                    <SwissFlagIcon className="w-6 h-6" />
+                                </div>
+                                <div className="text-sm font-semibold text-slate-700">Schweizweit</div>
+                            </div>
+                            <div className="flex flex-col items-center text-center">
+                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">
+                                    <span className="text-2xl">⚡</span>
+                                </div>
+                                <div className="text-sm font-semibold text-slate-700">Schnelle Antwort</div>
+                            </div>
+                            <div className="flex flex-col items-center text-center">
+                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">
+                                    <span className="text-2xl">🔒</span>
+                                </div>
+                                <div className="text-sm font-semibold text-slate-700">Datenschutz</div>
+                            </div>
+                            <div className="flex flex-col items-center text-center">
+                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">
+                                    <span className="text-2xl">⭐</span>
+                                </div>
+                                <div className="text-sm font-semibold text-slate-700">Top Bewertungen</div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                {/* Bottom Bar */}
-                <div className="relative z-10 mt-auto p-6 w-full">
-                    <div className="pt-4 border-t border-slate-200 flex justify-around items-start gap-4 text-center text-xs font-semibold text-slate-600">
-                        <div className="flex flex-col items-center gap-2">
-                            <span className="text-2xl h-6 flex items-center" role="img" aria-label="Geprüfte Qualität">🏅</span>
-                            <span className="leading-tight text-slate-900">Geprüfte Firmen</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-2">
-                            <span className="text-2xl h-6 flex items-center" role="img" aria-label="Geld Ersparnis">💰</span>
-                            <span className="leading-tight text-slate-900">100% Kostenlos</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-2">
-                            <SwissFlagIcon className="w-6 h-6" />
-                            <span className="leading-tight text-slate-900">Schweizweit</span>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-
-            {/* --- DESKTOP HERO DESIGN with Mascot --- */}
-            <div className="hidden lg:block max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pt-6">
-                    {/* Left Column - Content */}
-                    <div className="relative z-10">
-                        <div className="flex justify-start">
-                            <span className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/90 backdrop-blur-sm border border-primary-100 text-primary-700 text-xs sm:text-sm font-bold mb-6 tracking-wide uppercase shadow-sm">
-                                <SwissFlagIcon className="w-4 h-4 rounded-[1px] shadow-sm" />
-                                Nr. 1 Handwerker-Plattform
-                            </span>
-                        </div>
-
-                        <h1 className="font-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 mb-8 leading-[1.1] drop-shadow-sm">
-                            Finden Sie den
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400"> perfekten Handwerker</span>
-                            <br />für Ihr Projekt
-                        </h1>
-
-                        <p className="text-lg sm:text-xl text-slate-700 mb-10 leading-relaxed font-medium">
-                            Erhalten Sie kostenlos mehrere Offerten von geprüften Fachbetrieben aus Ihrer Region. Vergleichen Sie Preise und sparen Sie bis zu 30%.
-                        </p>
-
-                        <div className="flex flex-col sm:flex-row gap-4 mb-12">
+            {/* Mobile Version */}
+            <div className="lg:hidden relative z-10 px-4 pb-8">
+                {/* Mobile Service Cards */}
+                <div className="relative bg-white rounded-2xl p-6 shadow-xl mb-6 border border-emerald-100">
+                    <h3 className="text-lg font-bold text-slate-900 mb-4">Beliebte Services</h3>
+                    <div className="grid grid-cols-3 gap-2">
+                        {services.slice(0, 6).map((service, i) => (
                             <button
-                                onClick={() => openQuoteModal()}
-                                className="w-full sm:w-auto bg-primary-600 text-white px-10 py-5 rounded-2xl font-bold hover:bg-primary-700 transition-all shadow-[0_10px_30px_rgba(34,197,94,0.3)] hover:shadow-primary-600/40 flex items-center justify-center gap-3 transform hover:-translate-y-1 text-xl animate-pulse-subtle"
+                                key={i}
+                                onClick={() => openQuoteModal({ service: service.name })}
+                                className={`${service.color} p-3 rounded-xl text-center`}
                             >
-                                Jetzt kostenlos Offerten erhalten
-                                <ArrowRightIcon className="w-6 h-6" />
+                                <span className="text-xl mb-1 block">{service.icon}</span>
+                                <span className="text-[10px] font-semibold leading-tight block">{service.name}</span>
                             </button>
-                        </div>
-
-                        <div className="flex flex-wrap gap-x-8 gap-y-4 text-sm font-bold text-slate-700 mb-12">
-                            <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-white/50 shadow-sm">
-                                <CheckCircleIcon className="w-5 h-5 text-green-600" />
-                                <span>Geprüfte Firmen</span>
-                            </div>
-                            <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-white/50 shadow-sm">
-                                <CheckCircleIcon className="w-5 h-5 text-green-600" />
-                                <span>100% Kostenlos</span>
-                            </div>
-                            <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-white/50 shadow-sm">
-                                <CheckCircleIcon className="w-5 h-5 text-green-600" />
-                                <span>Unverbindlich</span>
-                            </div>
-                        </div>
-
-                        {/* Stats Strip - Desktop */}
-                        <div className="border-t border-slate-200/60 pt-10">
-                            <div className="flex items-center gap-12 lg:gap-16">
-                                <div className="flex flex-col items-start">
-                                    <div className="flex items-baseline gap-1">
-                                        <span className="text-4xl font-extrabold text-slate-900">2'500</span>
-                                        <span className="text-2xl font-bold text-primary-600">+</span>
-                                    </div>
-                                    <span className="text-sm font-semibold text-slate-600 mt-1">Geprüfte Firmen</span>
-                                </div>
-
-                                <div className="w-px bg-slate-200 h-10"></div>
-
-                                <div className="flex flex-col items-start">
-                                    <div className="flex items-baseline gap-1">
-                                        <span className="text-4xl font-extrabold text-slate-900">50k</span>
-                                        <span className="text-2xl font-bold text-primary-600">+</span>
-                                    </div>
-                                    <span className="text-sm font-semibold text-slate-600 mt-1">Projekte</span>
-                                </div>
-
-                                <div className="w-px bg-slate-200 h-10"></div>
-
-                                <div className="flex flex-col items-start">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-4xl font-extrabold text-slate-900">4.9</span>
-                                        <div className="flex text-yellow-400">
-                                            <StarIcon className="w-6 h-6 fill-current" />
-                                            <StarIcon className="w-6 h-6 fill-current" />
-                                            <StarIcon className="w-6 h-6 fill-current" />
-                                            <StarIcon className="w-6 h-6 fill-current" />
-                                            <StarIcon className="w-6 h-6 fill-current" />
-                                        </div>
-                                    </div>
-                                    <span className="text-sm font-semibold text-slate-600 mt-1">Kundenbewertung</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Right Column - Mascot */}
-                    <div className="relative flex items-center justify-center">
-                        <div className="relative animate-float lg:-mt-52">
-                            <img
-                                src="/images/ferti-mascot.png"
-                                alt="Ferti Maskottchen"
-                                className="w-full max-w-lg drop-shadow-2xl transform transition-transform duration-700 hover:scale-105"
-                            />
-                            {/* Decorative elements */}
-                            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-3/4 h-8 bg-slate-900/10 rounded-full blur-2xl"></div>
-                        </div>
+                        ))}
                     </div>
                 </div>
+            </div>
+
+            {/* Wave Divider */}
+            <div className="absolute bottom-0 left-0 right-0">
+                <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
+                    <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
+                </svg>
             </div>
         </section>
     );

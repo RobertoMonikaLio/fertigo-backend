@@ -73,6 +73,7 @@ interface AppContextType {
     purchaseLead: (id: number) => void;
     leadPurchaseCounts: LeadPurchaseInfo;
     requests: Request[];
+    addNewRequest: (newRequest: Omit<Request, 'id'>) => number;
     updateRequestStatus: (requestId: number, newStatus: Request['status']) => void;
     quickViewLeadId: number | null;
     isQuickViewOpen: boolean;
@@ -135,6 +136,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         );
     };
 
+    const addNewRequest = (newRequest: Omit<Request, 'id'>): number => {
+        const newId = Math.max(...requests.map(r => r.id), 0) + 1;
+        const requestWithId: Request = { ...newRequest, id: newId };
+        setRequests(prev => [requestWithId, ...prev]);
+        // Initialize purchase count for this new lead
+        setLeadPurchaseCounts(prev => ({ ...prev, [newId]: 0 }));
+        return newId;
+    };
+
     React.useEffect(() => {
         document.documentElement.lang = language;
     }, [language]);
@@ -150,6 +160,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         purchaseLead,
         leadPurchaseCounts,
         requests,
+        addNewRequest,
         updateRequestStatus,
         quickViewLeadId,
         isQuickViewOpen,

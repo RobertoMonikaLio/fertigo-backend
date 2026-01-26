@@ -102,7 +102,7 @@ const MarketplacePage: React.FC = () => {
 
   const filteredItems = useMemo(() => {
     let result = selectedCategory ? itemsByCategory[selectedCategory] : items;
-    
+
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       result = result.filter(item =>
@@ -112,7 +112,7 @@ const MarketplacePage: React.FC = () => {
         item.location.toLowerCase().includes(query)
       );
     }
-    
+
     return result;
   }, [selectedCategory, searchQuery, itemsByCategory]);
 
@@ -151,7 +151,7 @@ const MarketplacePage: React.FC = () => {
                 </div>
               </div>
               <p className="text-slate-600 mb-4">{selected.description}</p>
-              
+
               <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 mb-6">
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-full">
                   <MapPinIcon className="w-4 h-4" />
@@ -168,7 +168,7 @@ const MarketplacePage: React.FC = () => {
                   )}
                 </div>
               </div>
-              
+
               <div className="flex items-center justify-between pt-5 border-t border-slate-100">
                 <div>
                   <p className="text-3xl font-black text-slate-900">CHF {selected.price}</p>
@@ -190,74 +190,72 @@ const MarketplacePage: React.FC = () => {
       )}
 
       <section className="relative overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-emerald-700 pt-32 pb-24 lg:pt-36 lg:pb-32">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-emerald-400/20 rounded-full blur-3xl"></div>
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05]"></div>
-          </div>
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-emerald-400/20 rounded-full blur-3xl"></div>
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05]"></div>
+        </div>
 
-          <div className="max-w-6xl mx-auto px-6 relative z-10">
-            <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
-              <div className="flex-1 text-center lg:text-left animate-fade-in">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white text-sm font-bold mb-6">
-                  <SparklesIcon className="w-4 h-4" />
-                  Neu: Equipment Marktplatz
-                </div>
-
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-6 leading-[1.1]">
-                  Mieten statt kaufen.
-                  <span className="block text-primary-200">Clever sparen.</span>
-                </h1>
-
-                <p className="text-lg text-white/80 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                  Baumaschinen, Werkzeuge & Geräte von geprüften Anbietern. Sofort verfügbar, faire Preise.
-                </p>
-
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
-                  <a href="#equipment" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-primary-700 bg-white rounded-2xl hover:bg-primary-50 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
-                    Jetzt entdecken
-                    <ArrowRightIcon className="w-5 h-5 ml-2" />
-                  </a>
-                  <Link to="/register" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white border-2 border-white/30 rounded-2xl hover:bg-white/10 transition-all">
-                    Equipment anbieten
-                  </Link>
-                </div>
-
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-white/70">
-                  <div className="flex items-center gap-2">
-                    <CheckCircleIcon className="w-5 h-5 text-emerald-300" />
-                    <span>500+ Geräte</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircleIcon className="w-5 h-5 text-emerald-300" />
-                    <span>Geprüfte Anbieter</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircleIcon className="w-5 h-5 text-emerald-300" />
-                    <span>Schweizweit</span>
-                  </div>
-                </div>
+        <div className="max-w-6xl mx-auto px-6 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
+            <div className="flex-1 text-center lg:text-left animate-fade-in">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white text-sm font-bold mb-6">
+                <SparklesIcon className="w-4 h-4" />
+                Neu: Equipment Marktplatz
               </div>
 
-              <div className="flex-shrink-0 relative animate-fade-in [animation-delay:200ms]">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-white/20 rounded-[3rem] blur-2xl scale-90"></div>
-                  <img 
-                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Bildschirm_foto_2026-01-19_um_20.08.12-removebg-preview-1768849801699.png?width=8000&height=8000&resize=contain" 
-                    alt="Equipment Marktplatz Beaver" 
-                    className="relative w-[320px] sm:w-[400px] lg:w-[480px] h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500"
-                  />
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-6 leading-[1.1]">
+                Mieten statt kaufen.
+                <span className="block text-primary-200">Clever sparen.</span>
+              </h1>
+
+              <p className="text-lg text-white/80 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                Baumaschinen, Werkzeuge & Geräte von geprüften Anbietern. Sofort verfügbar, faire Preise.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
+                <a href="#equipment" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-primary-700 bg-white rounded-2xl hover:bg-primary-50 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
+                  Jetzt entdecken
+                  <ArrowRightIcon className="w-5 h-5 ml-2" />
+                </a>
+                <Link to="/register" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white border-2 border-white/30 rounded-2xl hover:bg-white/10 transition-all">
+                  Equipment anbieten
+                </Link>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-white/70">
+                <div className="flex items-center gap-2">
+                  <CheckCircleIcon className="w-5 h-5 text-emerald-300" />
+                  <span>500+ Geräte</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircleIcon className="w-5 h-5 text-emerald-300" />
+                  <span>Geprüfte Anbieter</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircleIcon className="w-5 h-5 text-emerald-300" />
+                  <span>Schweizweit</span>
                 </div>
               </div>
             </div>
+
+            <div className="flex-shrink-0 relative animate-fade-in [animation-delay:200ms]">
+              <div className="relative">
+                <div className="absolute inset-0 bg-white/20 rounded-[3rem] blur-2xl scale-90"></div>
+                <img
+                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Bildschirm_foto_2026-01-19_um_20.08.12-removebg-preview-1768849801699.png?width=8000&height=8000&resize=contain"
+                  alt="Equipment Marktplatz Beaver"
+                  className="relative w-[320px] sm:w-[400px] lg:w-[480px] h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
+      <div id="equipment"></div>
 
-
-        <div id="equipment"></div>
-
-      <div className="container mx-auto px-6 max-w-5xl py-12">
+      <div className="container mx-auto px-6 max-w-6xl py-12">
         <div className="flex flex-col lg:flex-row gap-10">
           <aside className="lg:w-72 flex-shrink-0">
             <div className="lg:sticky lg:top-36">
@@ -265,17 +263,15 @@ const MarketplacePage: React.FC = () => {
               <nav className="space-y-1">
                 <button
                   onClick={() => setSelectedCategory(null)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${
-                    selectedCategory === null
-                      ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30'
-                      : 'text-slate-700 hover:bg-slate-100'
-                  }`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${selectedCategory === null
+                    ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30'
+                    : 'text-slate-700 hover:bg-slate-100'
+                    }`}
                 >
                   <CubeIcon className={`w-5 h-5 ${selectedCategory === null ? 'text-white' : 'text-slate-400'}`} />
                   <span className="font-semibold">Alle Geräte</span>
-                  <span className={`ml-auto text-sm px-2 py-0.5 rounded-full ${
-                    selectedCategory === null ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'
-                  }`}>
+                  <span className={`ml-auto text-sm px-2 py-0.5 rounded-full ${selectedCategory === null ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'
+                    }`}>
                     {items.length}
                   </span>
                 </button>
@@ -288,19 +284,17 @@ const MarketplacePage: React.FC = () => {
                     <button
                       key={category}
                       onClick={() => setSelectedCategory(isActive ? null : category)}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${
-                        isActive
-                          ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30'
-                          : 'text-slate-700 hover:bg-slate-100'
-                      }`}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${isActive
+                        ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30'
+                        : 'text-slate-700 hover:bg-slate-100'
+                        }`}
                     >
                       <span className={isActive ? 'text-white' : 'text-slate-400'}>
                         {categoryIcons[category] || <CubeIcon className="w-5 h-5" />}
                       </span>
                       <span className="font-medium text-sm">{category}</span>
-                      <span className={`ml-auto text-xs px-2 py-0.5 rounded-full ${
-                        isActive ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'
-                      }`}>
+                      <span className={`ml-auto text-xs px-2 py-0.5 rounded-full ${isActive ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'
+                        }`}>
                         {count}
                       </span>
                     </button>
@@ -348,68 +342,75 @@ const MarketplacePage: React.FC = () => {
             )}
 
             {filteredItems.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {filteredItems.map((item, index) => (
                   <button
                     key={item.id}
                     onClick={() => setSelected(item)}
-                    className="group relative bg-white border border-slate-200 rounded-2xl overflow-hidden text-left hover:border-primary-300 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 animate-fade-in"
+                    className="group relative bg-white border border-slate-200 rounded-xl overflow-hidden text-left hover:border-primary-500 hover:ring-1 hover:ring-primary-500 hover:shadow-xl transition-all duration-300 animate-fade-in flex flex-col h-full"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
-                    <div className="relative h-48 overflow-hidden">
+                    {/* Image Section */}
+                    <div className="relative aspect-[3/2] overflow-hidden bg-slate-100">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <div className="absolute top-3 left-3 flex gap-2">
-                        <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${item.available ? 'bg-emerald-500 text-white' : 'bg-slate-500 text-white'}`}>
-                          {item.available ? 'Verfügbar' : 'Reserviert'}
-                        </span>
-                      </div>
-                      {item.verified && (
-                        <div className="absolute top-3 right-3">
-                          <span className="flex items-center gap-1 px-2.5 py-1 bg-primary-500 text-white text-xs font-bold rounded-full shadow-lg">
-                            <ShieldCheckIcon className="w-3.5 h-3.5" />
-                            Geprüft
-                          </span>
-                        </div>
-                      )}
-                      <div className="absolute bottom-3 left-3">
-                        <span className="px-2.5 py-1 bg-white/90 backdrop-blur rounded-full text-xs font-semibold text-slate-700">
-                          {item.category}
+                      <div className="absolute top-3 right-3">
+                        <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide shadow-sm border ${item.available ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
+                          {item.available ? '● Verfügbar' : '○ Reserviert'}
                         </span>
                       </div>
                     </div>
-                    
-                    <div className="p-5">
-                      <div className="flex items-start justify-between mb-2">
-                        <h3 className="text-lg font-bold text-slate-900 group-hover:text-primary-600 transition-colors pr-2">
-                          {item.name}
-                        </h3>
-                        <div className="flex items-center gap-1 px-2 py-0.5 bg-amber-50 rounded-lg flex-shrink-0">
-                          <StarIcon className="w-3.5 h-3.5 text-amber-500" />
-                          <span className="text-xs font-bold text-amber-700">{item.rating}</span>
+
+                    {/* Content Section */}
+                    <div className="p-4 flex flex-col flex-1">
+                      {/* Header */}
+                      <div className="mb-3">
+                        <div className="flex items-start justify-between gap-2 mb-1">
+                          <h3 className="text-base font-bold text-slate-900 leading-tight group-hover:text-primary-700 transition-colors">
+                            {item.name}
+                          </h3>
+                          <div className="flex items-center gap-1 bg-slate-50 border border-slate-100 px-1.5 py-0.5 rounded">
+                            <StarIcon className="w-3 h-3 text-amber-500" />
+                            <span className="text-xs font-bold text-slate-700">{item.rating}</span>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          <span className="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
+                            {item.category}
+                          </span>
+                          <span className="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200 truncate max-w-[120px]">
+                            {item.provider}
+                          </span>
                         </div>
                       </div>
-                      <p className="text-sm text-slate-500 mb-3 line-clamp-1">{item.description}</p>
-                      
-                      <div className="flex items-center gap-2 text-sm text-slate-500 mb-4">
-                        <MapPinIcon className="w-4 h-4" />
-                        <span>{item.location}</span>
-                        <span className="text-slate-300">•</span>
-                        <span className="truncate">{item.provider}</span>
+
+                      {/* Details Grid */}
+                      <div className="grid grid-cols-1 gap-2 py-3 border-t border-dashed border-slate-200 mt-auto">
+                        <div className="flex items-center gap-2 text-xs text-slate-500">
+                          <MapPinIcon className="w-3.5 h-3.5 text-slate-400" />
+                          <span className="truncate">{item.location}</span>
+                        </div>
+                        {item.verified && (
+                          <div className="flex items-center gap-2 text-xs text-primary-700">
+                            <ShieldCheckIcon className="w-3.5 h-3.5" />
+                            <span className="font-medium">Geprüfter Anbieter</span>
+                          </div>
+                        )}
                       </div>
-                      
-                      <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+
+                      {/* Footer */}
+                      <div className="pt-3 mt-1 border-t border-slate-100 flex items-center justify-between">
                         <div>
-                          <span className="text-2xl font-black text-slate-900">CHF {item.price}</span>
-                          <span className="text-sm text-slate-500 ml-1">/Tag</span>
+                          <span className="block text-[10px] uppercase text-slate-400 font-bold tracking-wider">Mietpreis</span>
+                          <span className="text-xl font-black text-slate-900">CHF {item.price}<span className="text-xs font-normal text-slate-400 ml-1">/Tag</span></span>
                         </div>
-                        <span className="flex items-center gap-1 text-primary-600 font-semibold text-sm group-hover:gap-2 transition-all">
+                        <div className="h-9 px-4 rounded-lg bg-slate-900 text-white text-xs font-bold flex items-center gap-2 group-hover:bg-primary-600 transition-colors shadow-sm">
                           Details
-                          <ArrowRightIcon className="w-4 h-4" />
-                        </span>
+                          <ArrowRightIcon className="w-3 h-3" />
+                        </div>
                       </div>
                     </div>
                   </button>
@@ -436,8 +437,8 @@ const MarketplacePage: React.FC = () => {
         </div>
       </div>
 
-        <section className="bg-slate-900 py-16">
-          <div className="container mx-auto px-6 max-w-6xl">
+      <section className="bg-slate-900 py-16">
+        <div className="container mx-auto px-6 max-w-6xl">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="text-center md:text-left">
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">

@@ -139,69 +139,116 @@ const PartnerDashboardPage: React.FC = () => {
                 ))}
             </div>
 
-            {/* Verfügbare Leads zum Kaufen */}
-            <div className="mt-8">
-                <div className="flex items-center justify-between mb-6">
+            {/* Lead-Marktplatz Section */}
+            <div className="mt-10">
+                {/* Section Header */}
+                <div className="flex items-end justify-between mb-6">
                     <div>
-                        <h2 className="text-2xl font-bold text-text-light dark:text-text-dark">Verfügbare Leads</h2>
-                        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Neue Aufträge, die Sie jetzt kaufen können</p>
+                        <div className="flex items-center gap-2 mb-1">
+                            <span className="relative flex h-2.5 w-2.5">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                            </span>
+                            <span className="text-xs font-bold text-green-600 uppercase tracking-wider">Live Marktplatz</span>
+                        </div>
+                        <h2 className="text-2xl font-bold text-text-light dark:text-text-dark">Neue Aufträge in Ihrer Region</h2>
                     </div>
                     <Link 
                         to="/partner/requests" 
-                        className="text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors"
+                        className="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-semibold transition-colors dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300"
                     >
-                        Alle anzeigen →
+                        Alle Leads
+                        <PaperAirplaneIcon className="w-4 h-4" />
                     </Link>
                 </div>
                 
                 {availableLeads.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {availableLeads.map((lead) => (
+                    <div className="space-y-3">
+                        {availableLeads.slice(0, 5).map((lead, index) => (
                             <div
                                 key={lead.id}
-                                className="group bg-white rounded-xl border-2 border-slate-200 hover:border-primary-500 p-5 shadow-sm hover:shadow-lg transition-all duration-300"
+                                onClick={() => openQuickView(lead.id)}
+                                className="group relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-primary-400 dark:hover:border-primary-500 p-4 sm:p-5 cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-primary-500/10"
                             >
-                                <div className="flex items-start justify-between mb-3">
+                                {/* New Badge for first 2 items */}
+                                {index < 2 && (
+                                    <div className="absolute -top-2 -right-2 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg">
+                                        NEU
+                                    </div>
+                                )}
+
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                                    {/* Left: Service Icon */}
+                                    <div className="hidden sm:flex w-14 h-14 bg-gradient-to-br from-primary-100 to-primary-50 dark:from-primary-900/50 dark:to-primary-800/30 rounded-xl items-center justify-center flex-shrink-0">
+                                        <TagIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                                    </div>
+
+                                    {/* Middle: Content */}
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="font-bold text-slate-900 mb-1 truncate group-hover:text-primary-600 transition-colors">
-                                            {lead.title}
-                                        </h3>
-                                        <div className="flex items-center gap-2 text-xs text-slate-500">
-                                            <span>{lead.location}</span>
-                                            <span>•</span>
-                                            <span>{lead.service}</span>
+                                        <div className="flex items-start sm:items-center gap-2 flex-wrap mb-1">
+                                            <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                                {lead.title}
+                                            </h3>
+                                            <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-400">
+                                                {lead.service}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
+                                            <span className="flex items-center gap-1">
+                                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                                {lead.location}
+                                            </span>
+                                            <span className="hidden sm:inline text-slate-300 dark:text-slate-600">|</span>
+                                            <span className="hidden sm:flex items-center gap-1">
+                                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                {lead.date}
+                                            </span>
                                         </div>
                                     </div>
-                                </div>
-                                
-                                <div className="flex items-center justify-between pt-3 border-t border-slate-100 mb-3">
-                                    <div>
-                                        <div className="text-lg font-black text-primary-600">CHF {lead.price.toFixed(0)}</div>
-                                        <div className="text-xs text-slate-500">Lead-Preis</div>
+
+                                    {/* Right: Price & Action */}
+                                    <div className="flex items-center justify-between sm:justify-end gap-4 pt-3 sm:pt-0 border-t sm:border-0 border-slate-100 dark:border-slate-800">
+                                        <div className="text-right">
+                                            <div className="text-xl sm:text-2xl font-black text-primary-600 dark:text-primary-400">
+                                                CHF {lead.price.toFixed(0)}
+                                            </div>
+                                            <div className="text-xs text-slate-400">Lead-Preis</div>
+                                        </div>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                openQuickView(lead.id);
+                                            }}
+                                            className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-primary-600 hover:bg-primary-700 text-white rounded-xl transition-colors shadow-lg shadow-primary-500/30 group-hover:scale-110 transform duration-200"
+                                        >
+                                            <EyeIcon className="w-5 h-5" />
+                                        </button>
                                     </div>
                                 </div>
-
-                                <button
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        openQuickView(lead.id);
-                                    }}
-                                    className="w-full px-4 py-2.5 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-lg font-bold text-sm hover:from-primary-700 hover:to-primary-800 transition-all shadow-md hover:shadow-lg transform hover:scale-105"
-                                >
-                                    Details ansehen →
-                                </button>
                             </div>
                         ))}
-                    </div>
-                ) : (
-                    <div className="bg-white rounded-xl border-2 border-dashed border-slate-300 p-12 text-center">
-                        <p className="font-semibold text-slate-700 mb-2">Aktuell keine neuen Leads verfügbar</p>
-                        <p className="text-sm text-slate-500 mb-4">Schauen Sie später wieder vorbei oder besuchen Sie den Lead-Marktplatz.</p>
+
+                        {/* Show More Link - Mobile */}
                         <Link 
                             to="/partner/requests" 
-                            className="inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-bold text-white hover:bg-primary/90 transition-colors"
+                            className="flex sm:hidden items-center justify-center gap-2 w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-semibold transition-colors"
                         >
+                            Alle {requests.filter(r => !purchasedLeadIds.includes(r.id)).length} Leads anzeigen
+                            <PaperAirplaneIcon className="w-4 h-4" />
+                        </Link>
+                    </div>
+                ) : (
+                    <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 rounded-2xl p-8 sm:p-12 text-center border border-slate-200 dark:border-slate-700">
+                        <div className="w-16 h-16 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <TagIcon className="w-8 h-8 text-slate-400" />
+                        </div>
+                        <p className="font-bold text-slate-700 dark:text-slate-300 mb-2">Keine neuen Leads verfügbar</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-sm mx-auto">Aktuell gibt es keine passenden Aufträge in Ihrer Region. Wir benachrichtigen Sie, sobald neue Leads verfügbar sind.</p>
+                        <Link 
+                            to="/partner/requests" 
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold transition-colors shadow-lg shadow-primary-500/30"
+                        >
+                            <PaperAirplaneIcon className="w-4 h-4" />
                             Zum Marktplatz
                         </Link>
                     </div>

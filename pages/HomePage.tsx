@@ -5,14 +5,11 @@ import StickyCta from '../components/StickyCta';
 
 // Lazy load components that are likely below the fold
 const HowItWorksNew = lazy(() => import('../components/HowItWorksNew'));
-const TrustBar = lazy(() => import('../components/TrustBar'));
-
 const CompetitorComparison = lazy(() => import('../components/CompetitorComparison'));
 const WhyChooseFertigo = lazy(() => import('../components/WhyChooseFertigo'));
 const PopularServices = lazy(() => import('../components/PopularServices'));
 const Testimonials = lazy(() => import('../components/Testimonials'));
 
-const FAQ = lazy(() => import('../components/FAQ'));
 const CTA = lazy(() => import('../components/CTA'));
 
 
@@ -206,18 +203,11 @@ const HomePage: React.FC = () => {
             <LazyLoad fallback={<PopularServicesSkeleton />}>
                 <PopularServices />
             </LazyLoad>
-            <LazyLoad fallback={<SocialProofSkeleton />}>
-                <TrustBar />
-            </LazyLoad>
-
             <LazyLoad fallback={<FeaturesSkeleton />}>
                 <WhyChooseFertigo />
             </LazyLoad>
             <LazyLoad fallback={<TestimonialsSkeleton />}>
                 <Testimonials />
-            </LazyLoad>
-            <LazyLoad fallback={<FeaturesSkeleton />}>
-                <FAQ />
             </LazyLoad>
 
             <LazyLoad fallback={<CTASkeleton />}>

@@ -100,123 +100,377 @@ const ForProvidersSection: React.FC = () => {
             </div>
             
             <div className="container mx-auto px-6 max-w-7xl relative z-10">
-                <div className="text-center mb-16">
+                <div className="text-center mb-20">
                     <div className="inline-flex items-center gap-3 mb-6">
                         <div className="w-3 h-3 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full animate-bounce"></div>
                         <span className="text-orange-700 font-bold tracking-wider uppercase text-sm bg-orange-100 px-4 py-1 rounded-full">FÜR HANDWERKER & DIENSTLEISTER</span>
                         <div className="w-3 h-3 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-full animate-bounce"></div>
                     </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-6 tracking-tight">
+                    <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 mb-6 tracking-tight">
                         So einfach geht's
                     </h2>
-                    <p className="text-xl text-slate-700 max-w-3xl mx-auto font-medium">
+                    <p className="text-xl md:text-2xl text-slate-700 max-w-3xl mx-auto font-medium">
                         In nur 3 Minuten zum ersten Auftrag - so funktioniert unser einfacher Prozess
                     </p>
                 </div>
                 
-                {/* Vertical Accordion Process */}
-                <div className="max-w-4xl mx-auto mb-20">
-                    <div className="space-y-6">
-                        {/* Step 1 - Registration */}
-                        <div className="group bg-white rounded-3xl p-8 shadow-xl border border-orange-100 hover:border-orange-300 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-                            <div className="flex flex-col md:flex-row items-start gap-8">
-                                <div className="flex-shrink-0">
-                                    <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                        <span className="text-3xl font-black text-white">1</span>
-                                    </div>
-                                </div>
-                                <div className="flex-grow">
-                                    <div className="flex items-center gap-4 mb-4">
-                                        <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
-                                            <CheckCircleIcon className="w-6 h-6 text-orange-600" />
+                {/* Modern Card Grid Layout */}
+                <div className="max-w-7xl mx-auto mb-20 relative">
+                    {/* Steps Container - Modern Grid */}
+                    <div className="grid md:grid-cols-3 gap-8 lg:gap-12 relative z-10">
+                        {/* Step 1 - Registration - Left Aligned */}
+                        <div className="step-journey group relative">
+                            <div className="grid lg:grid-cols-2 gap-12 items-center">
+                                {/* Visual Element - Left */}
+                                <div className="relative order-2 lg:order-1">
+                                    {/* Large Number Badge */}
+                                    <div className="relative">
+                                        <div className="w-48 h-48 mx-auto lg:mx-0 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 rounded-[3rem] flex items-center justify-center shadow-2xl shadow-orange-500/50 group-hover:scale-105 group-hover:rotate-3 transition-all duration-700">
+                                            <span className="text-8xl font-black text-white">01</span>
                                         </div>
-                                        <h3 className="text-2xl font-bold text-slate-900">Kostenlos registrieren</h3>
+                                        {/* Animated Rings */}
+                                        <div className="absolute inset-0 rounded-[3rem] border-4 border-orange-400/30 animate-ping"></div>
+                                        <div className="absolute -inset-4 rounded-[3rem] border-2 border-orange-300/20 animate-pulse"></div>
+                                        
+                                        {/* Floating Icon */}
+                                        <div className="absolute -top-8 -right-8 w-24 h-24 bg-white rounded-2xl shadow-xl flex items-center justify-center border-4 border-orange-100 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+                                            <CheckCircleIcon className="w-12 h-12 text-orange-600" />
+                                        </div>
                                     </div>
-                                    <p className="text-slate-700 text-lg mb-6 leading-relaxed">
+                                    
+                                    {/* Decorative Elements */}
+                                    <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-orange-200/20 rounded-full blur-2xl animate-float"></div>
+                                    <div className="absolute top-1/2 -right-12 w-24 h-24 bg-amber-200/20 rounded-full blur-xl animate-float" style={{animationDelay: '1s'}}></div>
+                                </div>
+
+                                {/* Content - Right */}
+                                <div className="order-1 lg:order-2 space-y-6">
+                                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 rounded-full mb-4">
+                                        <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                                        <span className="text-sm font-bold text-orange-700 uppercase tracking-wide">Schritt 1</span>
+                                    </div>
+                                    
+                                    <h3 className="text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
+                                        Kostenlos<br />
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-600">registrieren</span>
+                                    </h3>
+                                    
+                                    <p className="text-lg text-slate-600 leading-relaxed">
                                         Erstellen Sie Ihr Unternehmensprofil in wenigen Minuten. Fügen Sie Ihre Dienstleistungen, Qualifikationen und Portfolio hinzu.
                                     </p>
-                                    <div className="flex flex-wrap gap-3">
-                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
-                                            ⏱️ 3 Minuten
-                                        </span>
-                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
-                                            ✓ Kostenlos
-                                        </span>
-                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
-                                            ✓ Sofort aktiv
-                                        </span>
+
+                                    {/* Feature List */}
+                                    <div className="space-y-4 pt-4">
+                                        <div className="flex items-start gap-4 group/item">
+                                            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center group-hover/item:scale-110 transition-transform">
+                                                <span className="text-xl">⏱️</span>
+                                            </div>
+                                            <div>
+                                                <div className="font-bold text-slate-900">Nur 3 Minuten</div>
+                                                <div className="text-sm text-slate-600">Schnelle Registrierung ohne Komplikationen</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-start gap-4 group/item">
+                                            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center group-hover/item:scale-110 transition-transform">
+                                                <span className="text-xl">✓</span>
+                                            </div>
+                                            <div>
+                                                <div className="font-bold text-slate-900">100% Kostenlos</div>
+                                                <div className="text-sm text-slate-600">Keine versteckten Gebühren oder Abos</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-start gap-4 group/item">
+                                            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center group-hover/item:scale-110 transition-transform">
+                                                <span className="text-xl">⚡</span>
+                                            </div>
+                                            <div>
+                                                <div className="font-bold text-slate-900">Sofort aktiv</div>
+                                                <div className="text-sm text-slate-600">Starten Sie noch heute mit Aufträgen</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        {/* Step 2 - Leads */}
-                        <div className="group bg-white rounded-3xl p-8 shadow-xl border border-amber-100 hover:border-amber-300 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-                            <div className="flex flex-col md:flex-row items-start gap-8">
-                                <div className="flex-shrink-0">
-                                    <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                        <span className="text-3xl font-black text-white">2</span>
+
+                        {/* Step 2 - Leads - Right Aligned (Zigzag) */}
+                        <div className="step-journey group relative">
+                            <div className="grid lg:grid-cols-2 gap-12 items-center">
+                                {/* Content - Left */}
+                                <div className="space-y-6 lg:text-right">
+                                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 rounded-full mb-4 lg:ml-auto">
+                                        <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+                                        <span className="text-sm font-bold text-amber-700 uppercase tracking-wide">Schritt 2</span>
                                     </div>
-                                </div>
-                                <div className="flex-grow">
-                                    <div className="flex items-center gap-4 mb-4">
-                                        <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center group-hover:bg-amber-200 transition-colors duration-300">
-                                            <BanknotesIcon className="w-6 h-6 text-amber-600" />
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-slate-900">Qualifizierte Leads erhalten</h3>
-                                    </div>
-                                    <p className="text-slate-700 text-lg mb-6 leading-relaxed">
+                                    
+                                    <h3 className="text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
+                                        Qualifizierte<br />
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-yellow-600">Leads erhalten</span>
+                                    </h3>
+                                    
+                                    <p className="text-lg text-slate-600 leading-relaxed">
                                         Erhalten Sie täglich neue Anfragen aus Ihrer Region. Alle Leads sind vorab geprüft und haben konkrete Projektanforderungen.
                                     </p>
-                                    <div className="flex flex-wrap gap-3">
-                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 text-amber-700 rounded-full text-sm font-medium">
-                                            📨 Täglich neue Leads
-                                        </span>
-                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 text-amber-700 rounded-full text-sm font-medium">
-                                            ✓ Geprüfte Kunden
-                                        </span>
-                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 text-amber-700 rounded-full text-sm font-medium">
-                                            ✓ Direktkontakt
-                                        </span>
+
+                                    {/* Feature List */}
+                                    <div className="space-y-4 pt-4">
+                                        <div className="flex items-start gap-4 group/item lg:flex-row-reverse">
+                                            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-amber-100 to-amber-50 flex items-center justify-center group-hover/item:scale-110 transition-transform">
+                                                <span className="text-xl">📨</span>
+                                            </div>
+                                            <div className="lg:text-right">
+                                                <div className="font-bold text-slate-900">Täglich neue Leads</div>
+                                                <div className="text-sm text-slate-600">Frische Anfragen direkt in Ihr Dashboard</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-start gap-4 group/item lg:flex-row-reverse">
+                                            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-amber-100 to-amber-50 flex items-center justify-center group-hover/item:scale-110 transition-transform">
+                                                <span className="text-xl">✓</span>
+                                            </div>
+                                            <div className="lg:text-right">
+                                                <div className="font-bold text-slate-900">100% Geprüft</div>
+                                                <div className="text-sm text-slate-600">Nur echte Kunden mit konkreten Projekten</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-start gap-4 group/item lg:flex-row-reverse">
+                                            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-amber-100 to-amber-50 flex items-center justify-center group-hover/item:scale-110 transition-transform">
+                                                <span className="text-xl">📞</span>
+                                            </div>
+                                            <div className="lg:text-right">
+                                                <div className="font-bold text-slate-900">Direkter Kontakt</div>
+                                                <div className="text-sm text-slate-600">Sofortige Kommunikation nach Kauf</div>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+
+                                {/* Visual Element - Right */}
+                                <div className="relative order-2">
+                                    {/* Large Number Badge */}
+                                    <div className="relative">
+                                        <div className="w-48 h-48 mx-auto lg:ml-auto bg-gradient-to-br from-amber-500 via-amber-600 to-yellow-600 rounded-[3rem] flex items-center justify-center shadow-2xl shadow-amber-500/50 group-hover:scale-105 group-hover:-rotate-3 transition-all duration-700">
+                                            <span className="text-8xl font-black text-white">02</span>
+                                        </div>
+                                        {/* Animated Rings */}
+                                        <div className="absolute inset-0 rounded-[3rem] border-4 border-amber-400/30 animate-ping"></div>
+                                        <div className="absolute -inset-4 rounded-[3rem] border-2 border-amber-300/20 animate-pulse"></div>
+                                        
+                                        {/* Floating Icon */}
+                                        <div className="absolute -top-8 -left-8 w-24 h-24 bg-white rounded-2xl shadow-xl flex items-center justify-center border-4 border-amber-100 group-hover:scale-110 group-hover:-rotate-12 transition-all duration-500">
+                                            <BanknotesIcon className="w-12 h-12 text-amber-600" />
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Decorative Elements */}
+                                    <div className="absolute -bottom-12 -right-12 w-32 h-32 bg-amber-200/20 rounded-full blur-2xl animate-float"></div>
+                                    <div className="absolute top-1/2 -left-12 w-24 h-24 bg-yellow-200/20 rounded-full blur-xl animate-float" style={{animationDelay: '1s'}}></div>
                                 </div>
                             </div>
                         </div>
-                        
-                        {/* Step 3 - Orders */}
-                        <div className="group bg-white rounded-3xl p-8 shadow-xl border border-yellow-100 hover:border-yellow-300 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-                            <div className="flex flex-col md:flex-row items-start gap-8">
-                                <div className="flex-shrink-0">
-                                    <div className="w-20 h-20 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                        <span className="text-3xl font-black text-white">3</span>
-                                    </div>
-                                </div>
-                                <div className="flex-grow">
-                                    <div className="flex items-center gap-4 mb-4">
-                                        <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center group-hover:bg-yellow-200 transition-colors duration-300">
-                                            <RocketLaunchIcon className="w-6 h-6 text-yellow-600" />
+
+                        {/* Step 3 - Orders - Left Aligned (Final Step) */}
+                        <div className="step-journey group relative">
+                            <div className="grid lg:grid-cols-2 gap-12 items-center">
+                                {/* Visual Element - Left */}
+                                <div className="relative order-2 lg:order-1">
+                                    {/* Large Number Badge with Success Highlight */}
+                                    <div className="relative">
+                                        <div className="w-48 h-48 mx-auto lg:mx-0 bg-gradient-to-br from-yellow-500 via-yellow-600 to-orange-600 rounded-[3rem] flex items-center justify-center shadow-2xl shadow-yellow-500/50 group-hover:scale-105 group-hover:rotate-3 transition-all duration-700 relative overflow-hidden">
+                                            <span className="text-8xl font-black text-white relative z-10">03</span>
+                                            {/* Success Sparkle Overlay */}
+                                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 to-transparent"></div>
                                         </div>
-                                        <h3 className="text-2xl font-bold text-slate-900">Aufträge sichern & umsetzen</h3>
+                                        {/* Animated Rings */}
+                                        <div className="absolute inset-0 rounded-[3rem] border-4 border-yellow-400/30 animate-ping"></div>
+                                        <div className="absolute -inset-4 rounded-[3rem] border-2 border-yellow-300/20 animate-pulse"></div>
+                                        
+                                        {/* Success Badge */}
+                                        <div className="absolute -top-4 -right-4 px-4 py-2 bg-emerald-500 text-white text-sm font-black rounded-full shadow-xl flex items-center gap-2 animate-bounce">
+                                            <span>✓</span>
+                                            <span>Erfolg!</span>
+                                        </div>
+                                        
+                                        {/* Floating Icon */}
+                                        <div className="absolute -top-8 -right-8 w-24 h-24 bg-white rounded-2xl shadow-xl flex items-center justify-center border-4 border-yellow-100 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+                                            <RocketLaunchIcon className="w-12 h-12 text-yellow-600" />
+                                        </div>
                                     </div>
-                                    <p className="text-slate-700 text-lg mb-6 leading-relaxed">
+                                    
+                                    {/* Decorative Elements */}
+                                    <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-yellow-200/20 rounded-full blur-2xl animate-float"></div>
+                                    <div className="absolute top-1/2 -right-12 w-24 h-24 bg-orange-200/20 rounded-full blur-xl animate-float" style={{animationDelay: '1s'}}></div>
+                                    
+                                    {/* Success Sparkles */}
+                                    <div className="absolute top-0 right-0 text-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-bounce">✨</div>
+                                    <div className="absolute bottom-0 left-0 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-bounce" style={{animationDelay: '0.3s'}}>⭐</div>
+                                </div>
+
+                                {/* Content - Right */}
+                                <div className="order-1 lg:order-2 space-y-6">
+                                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-100 to-emerald-100 rounded-full mb-4">
+                                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                                        <span className="text-sm font-bold text-emerald-700 uppercase tracking-wide">Schritt 3 • Erfolg!</span>
+                                    </div>
+                                    
+                                    <h3 className="text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
+                                        Aufträge sichern<br />
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 via-orange-600 to-emerald-600">& umsetzen</span>
+                                    </h3>
+                                    
+                                    <p className="text-lg text-slate-600 leading-relaxed">
                                         Erstellen Sie professionelle Angebote, gewinnen Sie Aufträge und führen Sie Projekte erfolgreich durch. Alles über eine Plattform.
                                     </p>
-                                    <div className="flex flex-wrap gap-3">
-                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium">
-                                            💼 Sofort Aufträge
-                                        </span>
-                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium">
-                                            ✓ Transparente Abwicklung
-                                        </span>
-                                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium">
-                                            ✓ Zahlungsgarantie
-                                        </span>
+
+                                    {/* Feature List */}
+                                    <div className="space-y-4 pt-4">
+                                        <div className="flex items-start gap-4 group/item">
+                                            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-100 to-orange-50 flex items-center justify-center group-hover/item:scale-110 transition-transform">
+                                                <span className="text-xl">💼</span>
+                                            </div>
+                                            <div>
+                                                <div className="font-bold text-slate-900">Sofort Aufträge</div>
+                                                <div className="text-sm text-slate-600">Gewinnen Sie Projekte direkt nach dem Kontakt</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-start gap-4 group/item">
+                                            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-100 to-orange-50 flex items-center justify-center group-hover/item:scale-110 transition-transform">
+                                                <span className="text-xl">✓</span>
+                                            </div>
+                                            <div>
+                                                <div className="font-bold text-slate-900">Transparente Abwicklung</div>
+                                                <div className="text-sm text-slate-600">Klare Kommunikation und faire Konditionen</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-start gap-4 group/item">
+                                            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-100 to-orange-50 flex items-center justify-center group-hover/item:scale-110 transition-transform">
+                                                <span className="text-xl">🔒</span>
+                                            </div>
+                                            <div>
+                                                <div className="font-bold text-slate-900">Zahlungsgarantie</div>
+                                                <div className="text-sm text-slate-600">Sicherheit für Sie und Ihre Kunden</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    {/* Mobile Vertical Timeline */}
+                    <div className="lg:hidden mt-12 space-y-12 relative">
+                        {/* Vertical Connection Line */}
+                        <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-300 via-amber-300 to-yellow-300 rounded-full"></div>
+
+                        {/* Step 1 Mobile */}
+                        <div className="relative pl-20">
+                            <div className="absolute left-0 top-0 w-16 h-16 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl flex items-center justify-center shadow-xl z-10">
+                                <span className="text-xl font-black text-white">1</span>
+                            </div>
+                            <div className="bg-white rounded-2xl p-6 shadow-lg border border-orange-100">
+                                <div className="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                                    <CheckCircleIcon className="w-7 h-7 text-orange-600" />
+                                </div>
+                                <h3 className="text-xl font-bold text-slate-900 mb-2 text-center">Kostenlos registrieren</h3>
+                                <p className="text-slate-600 text-sm text-center mb-4">Erstellen Sie Ihr Unternehmensprofil in wenigen Minuten.</p>
+                                <div className="flex flex-wrap justify-center gap-2">
+                                    <span className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">⏱️ 3 Min</span>
+                                    <span className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">✓ Kostenlos</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Step 2 Mobile */}
+                        <div className="relative pl-20">
+                            <div className="absolute left-0 top-0 w-16 h-16 bg-gradient-to-br from-amber-500 to-yellow-600 rounded-2xl flex items-center justify-center shadow-xl z-10">
+                                <span className="text-xl font-black text-white">2</span>
+                            </div>
+                            <div className="bg-white rounded-2xl p-6 shadow-lg border border-amber-100">
+                                <div className="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                                    <BanknotesIcon className="w-7 h-7 text-amber-600" />
+                                </div>
+                                <h3 className="text-xl font-bold text-slate-900 mb-2 text-center">Qualifizierte Leads erhalten</h3>
+                                <p className="text-slate-600 text-sm text-center mb-4">Erhalten Sie täglich neue Anfragen aus Ihrer Region.</p>
+                                <div className="flex flex-wrap justify-center gap-2">
+                                    <span className="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">📨 Täglich</span>
+                                    <span className="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">✓ Geprüft</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Step 3 Mobile */}
+                        <div className="relative pl-20">
+                            <div className="absolute left-0 top-0 w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-xl z-10">
+                                <span className="text-xl font-black text-white">3</span>
+                            </div>
+                            <div className="bg-gradient-to-br from-white to-yellow-50 rounded-2xl p-6 shadow-lg border-2 border-yellow-200">
+                                <div className="w-14 h-14 bg-yellow-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                                    <RocketLaunchIcon className="w-7 h-7 text-yellow-600" />
+                                </div>
+                                <h3 className="text-xl font-bold text-slate-900 mb-2 text-center">Aufträge sichern & umsetzen</h3>
+                                <p className="text-slate-600 text-sm text-center mb-4">Erstellen Sie Angebote und gewinnen Sie Aufträge.</p>
+                                <div className="flex flex-wrap justify-center gap-2">
+                                    <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium">💼 Sofort</span>
+                                    <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium">🔒 Garantie</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                {/* Custom Styles */}
+                <style>{`
+                    @keyframes dash-path {
+                        0% {
+                            stroke-dashoffset: 1000;
+                        }
+                        100% {
+                            stroke-dashoffset: 0;
+                        }
+                    }
+                    .animate-dash-path {
+                        animation: dash-path 3s ease-out forwards;
+                    }
+                    .step-journey {
+                        animation: fadeInUp 0.8s ease-out forwards;
+                        opacity: 0;
+                    }
+                    .step-journey:nth-child(1) {
+                        animation-delay: 0.1s;
+                    }
+                    .step-journey:nth-child(2) {
+                        animation-delay: 0.3s;
+                    }
+                    .step-journey:nth-child(3) {
+                        animation-delay: 0.5s;
+                    }
+                    @keyframes fadeInUp {
+                        from {
+                            opacity: 0;
+                            transform: translateY(40px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                    @keyframes float {
+                        0%, 100% {
+                            transform: translateY(0px);
+                        }
+                        50% {
+                            transform: translateY(-20px);
+                        }
+                    }
+                    .animate-float {
+                        animation: float 6s ease-in-out infinite;
+                    }
+                `}</style>
                 
                 {/* Interactive Benefit Cards */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">

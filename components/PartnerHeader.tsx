@@ -3,7 +3,7 @@ import {
     BellIcon, ChevronDownIcon, UserIcon, ExclamationTriangleIcon, Bars3Icon,
     CreditCardIcon, XMarkIcon, ClipboardDocumentListIcon, AdjustmentsHorizontalIcon, 
     BuildingOfficeIcon, ArrowLeftOnRectangleIcon, BuildingOffice2Icon, BriefcaseIcon, BanknotesIcon,
-    Squares2X2Icon, UsersIcon, PhoneIcon, QuestionMarkCircleIcon
+    Squares2X2Icon, UsersIcon, PhoneIcon, QuestionMarkCircleIcon, SparklesIcon, HandshakeIcon, TagIcon
 } from './icons';
 import NotificationDropdown from './NotificationDropdown';
 import { NavLink, Link } from 'react-router-dom';
@@ -17,9 +17,9 @@ interface Notification {
 }
 
 const navLinks = [
-    { name: 'Lead-Marktplatz', icon: BuildingOffice2Icon, href: '/partner/requests' },
+    { name: 'Lead-Marktplatz', icon: SparklesIcon, href: '/partner/requests' },
     { name: 'Kunden', icon: UsersIcon, href: '/partner/requests?view=purchased' },
-    { name: 'Inserate', icon: ClipboardDocumentListIcon, href: '/partner/marketplace' },
+    { name: 'Inserate', icon: TagIcon, href: '/partner/marketplace' },
 ];
 
 const PartnerHeader: React.FC = () => {
@@ -74,13 +74,13 @@ const PartnerHeader: React.FC = () => {
                 className={({ isActive }) => {
                     const baseClasses = "flex items-center gap-3 rounded-md font-semibold transition-colors";
                     const mobileClasses = `${baseClasses} p-4 text-lg ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-700 hover:bg-slate-100'}`;
-                    const desktopClasses = `${baseClasses} px-3 py-2 text-sm ${isActive ? 'text-primary-600' : 'text-slate-600 hover:text-slate-900'}`;
+                    const desktopClasses = `rounded-md font-semibold transition-colors px-3 py-2 text-sm ${isActive ? 'text-primary-600' : 'text-slate-600 hover:text-slate-900'}`;
                     return isMobile ? mobileClasses : desktopClasses;
                 }}
             >
                 {({ isActive }) => (
                     <>
-                        <link.icon className={`w-6 h-6 flex-shrink-0 ${isActive && !isMobile ? 'text-primary-500' : ''}`} />
+                        {isMobile && <link.icon className={`w-6 h-6 flex-shrink-0 ${isActive ? 'text-primary-500' : ''}`} />}
                         <span>{link.name}</span>
                     </>
                 )}
@@ -91,7 +91,8 @@ const PartnerHeader: React.FC = () => {
     return (
         <div className="fixed top-0 left-0 w-full z-40 flex flex-col shadow-sm font-sans">
             {/* Utility Bar */}
-            <div className="h-8 bg-slate-900 text-slate-400 text-xs flex items-center justify-between px-6 border-b border-slate-800 relative z-50">
+            <div className="h-8 bg-slate-900 text-slate-400 text-xs flex items-center justify-center border-b border-slate-800 relative z-50">
+            <div className="w-full max-w-[1400px] mx-auto px-6 flex items-center justify-between">
                 <div className="flex items-center gap-4">
                     <Link to="/partner/settings" className="flex items-center gap-1.5 hover:text-white transition-colors hidden sm:flex">
                          <QuestionMarkCircleIcon className="w-3 h-3" />
@@ -112,9 +113,10 @@ const PartnerHeader: React.FC = () => {
                     </Link>
                 </div>
             </div>
+            </div>
 
             <header className="bg-white border-b border-slate-200 h-16 flex items-center relative z-40">
-                <div className="w-full px-6 flex items-center justify-between">
+                <div className="w-full max-w-[1400px] mx-auto px-6 flex items-center justify-between">
                     {/* Left Side */}
                     <div className="flex items-center gap-6">
                          <Link to="/partner/requests" className="flex items-center gap-2">
@@ -169,22 +171,82 @@ const PartnerHeader: React.FC = () => {
                         
                         <div className="relative" ref={userMenuRef}>
                             <button onClick={() => setIsUserMenuOpen(prev => !prev)} className="flex items-center gap-2 p-1 rounded-full hover:bg-slate-100 transition-colors">
-                                <div className="w-9 h-9 bg-gradient-to-br from-slate-700 to-slate-900 rounded-full flex items-center justify-center font-bold text-white border-2 border-white shadow-sm text-sm">MM</div>
+                                <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center font-bold text-white border-2 border-white shadow-sm text-sm">MM</div>
                                 <ChevronDownIcon className={`w-4 h-4 text-slate-400 transition-transform hidden md:block ${isUserMenuOpen ? 'rotate-180' : ''}`} />
                             </button>
                             {isUserMenuOpen && (
-                                <div className="absolute top-full right-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-2xl z-10 animate-fade-in">
-                                    <div className="p-4 border-b border-slate-200">
-                                        <p className="font-bold text-slate-800">Markus Müller</p>
-                                        <p className="text-xs text-slate-500 truncate font-medium">Maler Müller AG</p>
+                                <div className="absolute top-full right-0 mt-2 w-80 bg-white border border-slate-200 rounded-2xl shadow-2xl z-10 animate-fade-in overflow-hidden">
+                                    {/* Profile Header */}
+                                    <div className="p-5 bg-gradient-to-br from-slate-50 to-slate-100 border-b border-slate-200">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center font-bold text-white text-lg shadow-lg">MM</div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-bold text-slate-900">Markus Müller</p>
+                                                <p className="text-sm text-slate-500 truncate">Maler Müller AG</p>
+                                                <p className="text-xs text-primary-600 font-medium mt-0.5">Verifizierter Partner</p>
+                                            </div>
+                                        </div>
+                                        <Link 
+                                            to="/partner/profile" 
+                                            onClick={() => setIsUserMenuOpen(false)} 
+                                            className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors"
+                                        >
+                                            <UserIcon className="w-4 h-4" />
+                                            Profil anzeigen
+                                        </Link>
                                     </div>
-                                    <ul className="py-2">
-                                        <li><Link to="/partner/profile" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-slate-700 hover:bg-slate-50 font-medium transition-colors"><UserIcon className="w-5 h-5 text-slate-400"/><span>Mein Profil</span></Link></li>
-                                        <li><Link to="/partner/billing" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-slate-700 hover:bg-slate-50 font-medium transition-colors"><CreditCardIcon className="w-5 h-5 text-slate-400"/><span>Abrechnung</span></Link></li>
-                                        <li><Link to="/partner/settings" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-slate-700 hover:bg-slate-50 font-medium transition-colors"><AdjustmentsHorizontalIcon className="w-5 h-5 text-slate-400"/><span>Einstellungen</span></Link></li>
-                                        <div className="border-t border-slate-100 my-1"></div>
-                                        <li><Link to="/login" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-red-600 hover:bg-red-50 font-medium transition-colors"><ArrowLeftOnRectangleIcon className="w-5 h-5 text-red-500"/><span>Abmelden</span></Link></li>
-                                    </ul>
+
+                                    {/* Menu Items */}
+                                    <div className="p-2">
+                                        <p className="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Konto</p>
+                                        <Link to="/partner/profile" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-3 py-2.5 text-slate-700 hover:bg-slate-50 rounded-lg font-medium transition-colors">
+                                            <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center"><BuildingOfficeIcon className="w-4 h-4 text-slate-500"/></div>
+                                            <div>
+                                                <span className="text-sm">Unternehmensprofil</span>
+                                                <p className="text-xs text-slate-400">Firmeninfos bearbeiten</p>
+                                            </div>
+                                        </Link>
+                                        <Link to="/partner/billing" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-3 py-2.5 text-slate-700 hover:bg-slate-50 rounded-lg font-medium transition-colors">
+                                            <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center"><CreditCardIcon className="w-4 h-4 text-slate-500"/></div>
+                                            <div>
+                                                <span className="text-sm">Abrechnung</span>
+                                                <p className="text-xs text-slate-400">Guthaben & Rechnungen</p>
+                                            </div>
+                                        </Link>
+                                        <Link to="/partner/requests?view=purchased" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-3 py-2.5 text-slate-700 hover:bg-slate-50 rounded-lg font-medium transition-colors">
+                                            <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center"><BriefcaseIcon className="w-4 h-4 text-slate-500"/></div>
+                                            <div>
+                                                <span className="text-sm">Meine Aufträge</span>
+                                                <p className="text-xs text-slate-400">Gekaufte Leads verwalten</p>
+                                            </div>
+                                        </Link>
+                                    </div>
+
+                                    <div className="p-2 border-t border-slate-100">
+                                        <p className="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Support</p>
+                                        <a href="#" className="flex items-center gap-3 px-3 py-2.5 text-slate-700 hover:bg-slate-50 rounded-lg font-medium transition-colors">
+                                            <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center"><QuestionMarkCircleIcon className="w-4 h-4 text-slate-500"/></div>
+                                            <div>
+                                                <span className="text-sm">Hilfe & FAQ</span>
+                                                <p className="text-xs text-slate-400">Antworten finden</p>
+                                            </div>
+                                        </a>
+                                        <a href="#" className="flex items-center gap-3 px-3 py-2.5 text-slate-700 hover:bg-slate-50 rounded-lg font-medium transition-colors">
+                                            <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center"><PhoneIcon className="w-4 h-4 text-slate-500"/></div>
+                                            <div>
+                                                <span className="text-sm">Kontakt</span>
+                                                <p className="text-xs text-slate-400">Support kontaktieren</p>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    {/* Logout */}
+                                    <div className="p-2 border-t border-slate-100">
+                                        <Link to="/login" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-3 py-2.5 text-red-600 hover:bg-red-50 rounded-lg font-medium transition-colors">
+                                            <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center"><ArrowLeftOnRectangleIcon className="w-4 h-4 text-red-500"/></div>
+                                            <span className="text-sm">Abmelden</span>
+                                        </Link>
+                                    </div>
                                 </div>
                             )}
                         </div>

@@ -346,67 +346,98 @@ const PartnerMarketplacePage: React.FC = () => {
                 </div>
             )}
 
-            <div className="mb-8">
-                <div className="bg-white rounded-2xl border-2 border-slate-200 shadow-lg p-6">
-                    <div className="flex flex-col lg:flex-row gap-4">
-                        <div className="flex-1 relative">
-                            <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-                            <input 
-                                type="search" 
-                                placeholder="Inserate durchsuchen..."
-                                value={searchTerm} 
-                                onChange={e => setSearchTerm(e.target.value)} 
-                                className="w-full h-14 pl-12 pr-4 rounded-xl border-2 border-slate-200 bg-slate-50 font-semibold text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-100 outline-none transition-all"
-                            />
-                        </div>
-
-                        <div className="flex flex-wrap gap-3">
-                            <div className="relative">
-                                <TagIcon className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                <select 
-                                    value={typeFilter} 
-                                    onChange={e => setTypeFilter(e.target.value)} 
-                                    className="h-14 pl-10 pr-10 rounded-xl border-2 border-slate-200 bg-slate-50 font-semibold text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-100 outline-none appearance-none transition-all min-w-[160px]"
-                                >
-                                    <option value="Alle">Alle Typen</option>
-                                    <option value="Miet-Inserat">Miet-Inserate</option>
-                                    <option value="Verkaufs-Inserat">Verkaufs-Inserate</option>
-                                </select>
-                                <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                            </div>
-                            
-                            <div className="relative">
-                                <select 
-                                    value={statusFilter} 
-                                    onChange={e => setStatusFilter(e.target.value)} 
-                                    className="h-14 px-4 pr-10 rounded-xl border-2 border-slate-200 bg-slate-50 font-semibold text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-100 outline-none appearance-none transition-all min-w-[180px]"
-                                >
-                                    <option value="Alle">Alle Status</option>
-                                    {Object.entries(statusConfig).map(([key, {title}]) => <option key={key} value={key}>{title}</option>)}
-                                </select>
-                                <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                            </div>
-
-                            <button 
-                                onClick={() => setIsCreatingListing(true)} 
-                                className="h-14 px-6 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 text-white font-black rounded-xl hover:from-primary-700 hover:via-primary-800 hover:to-primary-900 shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
-                            >
-                                <PlusIcon className="w-5 h-5" />
-                                Neues Inserat
-                            </button>
-                        </div>
+            {/* Modern Filter Section */}
+            <div className="mb-8 space-y-4">
+                {/* Main Search Bar */}
+                <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <MagnifyingGlassIcon className="w-5 h-5 text-slate-400" />
                     </div>
+                    <input 
+                        type="search" 
+                        placeholder="Inserate durchsuchen..."
+                        value={searchTerm} 
+                        onChange={e => setSearchTerm(e.target.value)} 
+                        className="w-full h-12 pl-12 pr-4 rounded-full border border-slate-200 bg-white font-medium text-slate-700 placeholder:text-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-all shadow-sm"
+                    />
+                </div>
+
+                {/* Filter Pills Row */}
+                <div className="flex flex-wrap items-center gap-2">
+                    {/* Type Filter */}
+                    <div className="relative">
+                        <TagIcon className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        <select 
+                            value={typeFilter} 
+                            onChange={e => setTypeFilter(e.target.value)} 
+                            className="h-10 pl-9 pr-8 rounded-full bg-white border border-slate-200 hover:border-slate-300 text-sm font-medium text-slate-700 outline-none appearance-none cursor-pointer transition-all shadow-sm"
+                        >
+                            <option value="Alle">Alle Typen</option>
+                            <option value="Miet-Inserat">Miet-Inserate</option>
+                            <option value="Verkaufs-Inserat">Verkaufs-Inserate</option>
+                        </select>
+                        <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    </div>
+                    
+                    {/* Status Filter */}
+                    <div className="relative">
+                        <select 
+                            value={statusFilter} 
+                            onChange={e => setStatusFilter(e.target.value)} 
+                            className="h-10 pl-4 pr-8 rounded-full bg-white border border-slate-200 hover:border-slate-300 text-sm font-medium text-slate-700 outline-none appearance-none cursor-pointer transition-all shadow-sm"
+                        >
+                            <option value="Alle">Alle Status</option>
+                            {Object.entries(statusConfig).map(([key, {title}]) => <option key={key} value={key}>{title}</option>)}
+                        </select>
+                        <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    </div>
+
+                    {/* Create Button */}
+                    <button 
+                        onClick={() => setIsCreatingListing(true)} 
+                        className="ml-auto h-10 px-5 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-full transition-all shadow-sm flex items-center gap-2"
+                    >
+                        <PlusIcon className="w-4 h-4" />
+                        Neues Inserat
+                    </button>
                 </div>
             </div>
 
-            <div className="mb-6 flex items-center justify-between">
-                <div>
-                    <h2 className="text-2xl font-black text-slate-900">
-                        {filteredListings.length} {filteredListings.length === 1 ? 'Inserat gefunden' : 'Inserate gefunden'}
-                    </h2>
-                    <p className="text-sm text-slate-600 mt-1 font-semibold">
-                        {stats.active} aktiv • {stats.views.toLocaleString()} Aufrufe • {stats.inquiries} Anfragen
-                    </p>
+            {/* Results Header */}
+            <div className="mb-6">
+                <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        {/* Left: Count & Info */}
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl shadow-lg shadow-primary-500/30">
+                                <span className="text-2xl font-black text-white">{filteredListings.length}</span>
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-bold text-slate-900">
+                                    {filteredListings.length === 1 ? 'Inserat gefunden' : 'Inserate gefunden'}
+                                </h2>
+                                <p className="text-sm text-slate-500">
+                                    Ihre aktiven Angebote
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Right: Stats Pills */}
+                        <div className="flex items-center gap-2 flex-wrap">
+                            <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full">
+                                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                                <span className="text-sm font-semibold text-green-700">{stats.active} Aktiv</span>
+                            </div>
+                            <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-full">
+                                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                <span className="text-sm font-semibold text-blue-700">{stats.views.toLocaleString()} Aufrufe</span>
+                            </div>
+                            <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-50 rounded-full">
+                                <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                                <span className="text-sm font-semibold text-orange-700">{stats.inquiries} Anfragen</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
