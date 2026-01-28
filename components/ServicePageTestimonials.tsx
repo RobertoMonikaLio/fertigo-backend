@@ -115,8 +115,11 @@ const ServicePageTestimonials: React.FC = () => {
         <section className="py-16 sm:py-20 bg-slate-50">
             <div className="container mx-auto px-6 max-w-5xl">
                 <div className="text-center max-w-3xl mx-auto mb-12">
-                    <h2 className="text-4xl font-extrabold tracking-tight text-slate-900">
-                        Das sagen unsere Kunden
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 mb-4">
+                        Das sagen unsere{' '}
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
+                            Kunden
+                        </span>
                     </h2>
                     <p className="text-lg text-slate-600 mt-4">
                         Echte Bewertungen von geprüften Projekten. Sehen Sie, warum Tausende auf OffertenVergleich vertrauen.

@@ -313,15 +313,14 @@ const Header: React.FC = () => {
     const navItems = [
         { name: t.home, to: '/' },
         { name: t.services, to: '/services' },
-        { name: t.marktplatz, to: '/marktplatz' },
         { name: t.becomePartner, to: '/providers' },
         { name: t.vorlagen, to: '/vorlagen' },
+        { name: t.contact, to: '/kontakt' },
     ];
     
     const mobileNavItems = [
         { name: t.home, to: '/', icon: ColoredHomeModernIcon },
         { name: t.services, to: '/services', icon: ColoredSquares2X2Icon },
-        { name: t.marktplatz, to: '/marktplatz', icon: ColoredBuildingOffice2Icon },
         { name: t.becomePartner, to: '/providers', icon: ColoredUserIcon },
         { name: t.vorlagen, to: '/vorlagen', icon: ColoredLightbulbIcon },
         { name: t.aboutUs, to: '/ueber-uns', icon: ColoredBuildingStorefrontIcon },

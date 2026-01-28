@@ -124,179 +124,190 @@ const Testimonials: React.FC<TestimonialsProps> = ({
         threshold: 0.1,
     });
 
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const [canScrollLeft, setCanScrollLeft] = useState(false);
-    const [canScrollRight, setCanScrollRight] = useState(true);
-
-    const checkScroll = () => {
-        if (scrollRef.current) {
-            const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-            setCanScrollLeft(scrollLeft > 0);
-            setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-        }
-    };
+    const items = testimonials.slice(0, 6);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
-        checkScroll();
-        const el = scrollRef.current;
-        if (el) {
-            el.addEventListener('scroll', checkScroll);
-            return () => el.removeEventListener('scroll', checkScroll);
-        }
-    }, []);
+        if (items.length <= 1) return;
+        const id = setInterval(() => {
+            setActiveIndex((prev) => (prev + 1) % items.length);
+        }, 7000);
+        return () => clearInterval(id);
+    }, [items.length]);
 
-    const scroll = (direction: 'left' | 'right') => {
-        if (scrollRef.current) {
-            const scrollAmount = 380;
-            scrollRef.current.scrollBy({
-                left: direction === 'left' ? -scrollAmount : scrollAmount,
-                behavior: 'smooth'
-            });
-        }
-    };
+    const active = items[activeIndex];
 
     return (
         <section ref={ref} className={`${bgColor} py-16 sm:py-20 overflow-hidden`}>
             <div className="container mx-auto px-6 max-w-5xl">
-                <div className={`flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 transition-all duration-1000 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                    <div>
-                        <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-3">
-                            {title || t.defaultTitle}
+                {/* Header */}
+                <div className={`mb-10 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                    <div className="text-center">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 mb-4">
+                            {title ? (
+                                title
+                            ) : (
+                                <>
+                                    Das sagen unsere{' '}
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
+                                        Kunden
+                                    </span>
+                                </>
+                            )}
                         </h2>
-                        <p className="text-base md:text-lg text-slate-600 max-w-xl">
+                        <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
                             {subtitle || t.defaultSubtitle}
                         </p>
                     </div>
-                    
-                    <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-1.5 px-4 py-2 bg-white rounded-full shadow-sm border border-slate-200">
-                            <div className="flex gap-0.5">
-                                {[...Array(5)].map((_, i) => (
-                                    <StarIcon key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                ))}
-                            </div>
-                            <span className="font-bold text-slate-900 ml-1">4.9</span>
-                        </div>
-                        
-                        <div className="hidden sm:flex gap-2">
-                            <button
-                                onClick={() => scroll('left')}
-                                disabled={!canScrollLeft}
-                                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${
-                                    canScrollLeft 
-                                        ? 'border-slate-300 hover:border-primary-500 hover:bg-primary-50 text-slate-600 hover:text-primary-600' 
-                                        : 'border-slate-200 text-slate-300 cursor-not-allowed'
-                                }`}
-                            >
-                                <ChevronLeftIcon className="w-5 h-5" />
-                            </button>
-                            <button
-                                onClick={() => scroll('right')}
-                                disabled={!canScrollRight}
-                                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${
-                                    canScrollRight 
-                                        ? 'border-slate-300 hover:border-primary-500 hover:bg-primary-50 text-slate-600 hover:text-primary-600' 
-                                        : 'border-slate-200 text-slate-300 cursor-not-allowed'
-                                }`}
-                            >
-                                <ChevronRightIcon className="w-5 h-5" />
-                            </button>
-                        </div>
-                    </div>
                 </div>
 
-                <div 
-                    ref={scrollRef}
-                    className={`flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide -mx-6 px-6 transition-all duration-1000 delay-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
-                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                >
-                    {testimonials.map((testimonial, index) => (
-                        <div
-                            key={index}
-                            className="flex-shrink-0 w-[350px] snap-start"
-                        >
-                            <div className="h-full bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-lg hover:border-primary-200 transition-all duration-300 flex flex-col">
-                                <div className="flex items-center justify-between mb-4">
+                {/* Haupt-Testimonial als Slider */}
+                {active && (
+                    <div className={`relative mb-8 transition-all duration-700 delay-100 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                        <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-100/60 via-white to-emerald-50/60 blur-sm opacity-70" />
+                        <div className="relative bg-white rounded-3xl px-6 sm:px-8 py-7 shadow-xl border border-slate-100">
+                            <div className="flex items-center justify-between gap-4 mb-5">
+                                <div className="flex items-center gap-3">
+                                    <div className={`w-10 h-10 rounded-full ${avatarColors[activeIndex % avatarColors.length]} flex items-center justify-center text-white font-semibold text-sm`}>
+                                        {getInitials(active.name)}
+                                    </div>
+                                    <div>
+                                        <div className="font-semibold text-slate-900 text-sm sm:text-base">
+                                            {active.name}
+                                        </div>
+                                        <div className="text-xs text-slate-500">
+                                            {[active.role, active.location].filter(Boolean).join(' · ')}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-xs">
                                     <div className="flex gap-0.5">
                                         {[...Array(5)].map((_, i) => (
                                             <StarIcon
                                                 key={i}
-                                                className={`w-4 h-4 ${i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-slate-200'}`}
+                                                className={`w-3.5 h-3.5 ${i < active.rating ? 'text-yellow-400 fill-yellow-400' : 'text-slate-200'}`}
                                             />
                                         ))}
                                     </div>
-                                    {testimonial.service && (
-                                        <span className="px-2.5 py-1 bg-primary-50 text-primary-700 text-xs font-medium rounded-full">
-                                            {testimonial.service}
-                                        </span>
-                                    )}
-                                </div>
-
-                                <p className="text-slate-700 leading-relaxed flex-grow mb-5">
-                                    "{testimonial.review}"
-                                </p>
-
-                                <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
-                                    <div className={`w-10 h-10 rounded-full ${avatarColors[index % avatarColors.length]} flex items-center justify-center text-white font-semibold text-sm`}>
-                                        {getInitials(testimonial.name)}
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="font-semibold text-slate-900 text-sm">{testimonial.name}</div>
-                                        <div className="text-xs text-slate-500">{testimonial.role} · {testimonial.location}</div>
-                                    </div>
-                                    <div className="flex items-center gap-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        {t.verified}
-                                    </div>
+                                    <span className="font-semibold text-slate-700">4.9/5</span>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
 
-                <div className={`mt-10 flex flex-wrap items-center justify-center gap-6 md:gap-10 transition-all duration-1000 delay-400 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                    <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center">
-                            <svg className="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <div className="text-2xl font-bold text-slate-900">4.9/5</div>
-                            <div className="text-sm text-slate-500">Bewertung</div>
+                            <p className="text-slate-800 text-base sm:text-lg leading-relaxed mb-5">
+                                “{active.review}”
+                            </p>
+
+                            <div className="flex items-center justify-between gap-3 text-[11px]">
+                                <span className="flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full">
+                                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
+                                    {t.verified}
+                                </span>
+                                {active.service && (
+                                    <span className="ml-auto px-2.5 py-1 rounded-full bg-slate-50 text-slate-600 border border-slate-200 font-medium">
+                                        {active.service}
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* Navigation */}
+                            {items.length > 1 && (
+                                <div className="mt-6 flex items-center justify-between">
+                                    <div className="flex gap-1.5">
+                                        {items.map((_, i) => (
+                                            <button
+                                                key={i}
+                                                onClick={() => setActiveIndex(i)}
+                                                className={`h-1.5 rounded-full transition-all duration-200 ${
+                                                    i === activeIndex ? 'w-6 bg-emerald-500' : 'w-2 bg-slate-200'
+                                                }`}
+                                                aria-label={`Testimonial ${i + 1}`}
+                                            />
+                                        ))}
+                                    </div>
+                                    <div className="hidden sm:flex gap-2">
+                                        <button
+                                            onClick={() =>
+                                                setActiveIndex((prev) => (prev - 1 + items.length) % items.length)
+                                            }
+                                            className="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:border-emerald-400 hover:text-emerald-600 hover:bg-emerald-50 transition-all"
+                                            aria-label="Vorherige Bewertung"
+                                        >
+                                            <ChevronLeftIcon className="w-5 h-5" />
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                setActiveIndex((prev) => (prev + 1) % items.length)
+                                            }
+                                            className="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:border-emerald-400 hover:text-emerald-600 hover:bg-emerald-50 transition-all"
+                                            aria-label="Nächste Bewertung"
+                                        >
+                                            <ChevronRightIcon className="w-5 h-5" />
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
-                    
-                    <div className="w-px h-10 bg-slate-200 hidden md:block"></div>
-                    
-                    <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
-                            <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <div className="text-2xl font-bold text-slate-900">2'500+</div>
-                            <div className="text-sm text-slate-500">Zufriedene Kunden</div>
-                        </div>
+                )}
+
+                {/* Kleine „Social Proof“-Karten darunter */}
+                {items.length > 1 && (
+                    <div
+                        className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 transition-all duration-700 delay-150 ${
+                            inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                        }`}
+                    >
+                        {items
+                            .filter((_, i) => i !== activeIndex)
+                            .slice(0, 3)
+                            .map((testimonial, index) => (
+                                <div
+                                    key={testimonial.name + index}
+                                    className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 hover:border-emerald-200 hover:shadow-md transition-all duration-200 flex flex-col h-full"
+                                >
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <div
+                                            className={`w-8 h-8 rounded-full ${
+                                                avatarColors[(activeIndex + index + 1) % avatarColors.length]
+                                            } flex items-center justify-center text-white font-semibold text-[11px]`}
+                                        >
+                                            {getInitials(testimonial.name)}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="font-semibold text-slate-900 text-sm truncate">
+                                                {testimonial.name}
+                                            </div>
+                                            <div className="text-[11px] text-slate-500 truncate">
+                                                {[testimonial.role, testimonial.location].filter(Boolean).join(' · ')}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p className="text-xs text-slate-700 leading-relaxed mb-3 line-clamp-3">
+                                        “{testimonial.review}”
+                                    </p>
+                                    <div className="mt-auto flex items-center justify-between pt-2 border-t border-slate-100">
+                                        <div className="flex gap-0.5">
+                                            {[...Array(5)].map((_, i) => (
+                                                <StarIcon
+                                                    key={i}
+                                                    className={`w-3 h-3 ${
+                                                        i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-slate-200'
+                                                    }`}
+                                                />
+                                            ))}
+                                        </div>
+                                        <span className="text-[11px] text-slate-400">{t.verified}</span>
+                                    </div>
+                                </div>
+                            ))}
                     </div>
-                    
-                    <div className="w-px h-10 bg-slate-200 hidden md:block"></div>
-                    
-                    <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
-                            <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <div className="text-2xl font-bold text-slate-900">100%</div>
-                            <div className="text-sm text-slate-500">Geprüfte Anbieter</div>
-                        </div>
-                    </div>
-                </div>
+                )}
             </div>
         </section>
     );

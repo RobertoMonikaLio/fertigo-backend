@@ -91,7 +91,7 @@ const MarketplacePage: React.FC = () => {
 
   const itemsByCategory = useMemo(() => {
     const grouped: Record<string, Item[]> = {};
-    categories.forEach(cat => grouped[cat] = []);
+    categories.forEach(cat => (grouped[cat] = []));
     items.forEach(item => {
       if (grouped[item.category]) {
         grouped[item.category].push(item);
@@ -117,24 +117,38 @@ const MarketplacePage: React.FC = () => {
   }, [selectedCategory, searchQuery, itemsByCategory]);
 
   const stats = [
-    { label: "Verfügbare Geräte", value: "500+", icon: <CubeIcon className="w-6 h-6 text-primary-600" /> },
-    { label: "Verifizierte Anbieter", value: "120+", icon: <ShieldCheckIcon className="w-6 h-6 text-primary-600" /> },
-    { label: "Standorte", value: "50+", icon: <MapPinIcon className="w-6 h-6 text-primary-600" /> },
-    { label: "Kundenbewertung", value: "4.8", icon: <StarIcon className="w-6 h-6 text-primary-600" /> },
+    { label: 'Verfügbare Geräte', value: '500+', icon: <CubeIcon className="w-5 h-5 text-primary-600" /> },
+    { label: 'Verifizierte Anbieter', value: '120+', icon: <ShieldCheckIcon className="w-5 h-5 text-primary-600" /> },
+    { label: 'Standorte', value: '50+', icon: <MapPinIcon className="w-5 h-5 text-primary-600" /> },
+    { label: 'Ø Bewertung', value: '4.8', icon: <StarIcon className="w-5 h-5 text-primary-600" /> },
   ];
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Detail-Modal */}
       {selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setSelected(null)}>
-          <div className="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl animate-fade-in" onClick={e => e.stopPropagation()}>
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl animate-fade-in"
+            onClick={e => e.stopPropagation()}
+          >
             <div className="relative">
               <img src={selected.image} alt={selected.name} className="w-full h-64 object-cover" />
-              <button onClick={() => setSelected(null)} className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors">
+              <button
+                onClick={() => setSelected(null)}
+                className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors"
+              >
                 <XMarkIcon className="w-5 h-5 text-slate-600" />
               </button>
               <div className="absolute bottom-4 left-4 flex gap-2">
-                <span className={`px-3 py-1.5 rounded-full text-xs font-bold shadow-lg ${selected.available ? 'bg-emerald-500 text-white' : 'bg-slate-500 text-white'}`}>
+                <span
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold shadow-lg ${
+                    selected.available ? 'bg-emerald-500 text-white' : 'bg-slate-500 text-white'
+                  }`}
+                >
                   {selected.available ? 'Verfügbar' : 'Reserviert'}
                 </span>
                 <span className="px-3 py-1.5 bg-white/90 backdrop-blur rounded-full text-xs font-bold text-slate-700 shadow-lg">
@@ -189,319 +203,317 @@ const MarketplacePage: React.FC = () => {
         </div>
       )}
 
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-emerald-700 pt-32 pb-24 lg:pt-36 lg:pb-32">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-emerald-400/20 rounded-full blur-3xl"></div>
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05]"></div>
+      {/* Hero: Live-Marktplatz mit Fokus auf aktuelle Aktivität */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-emerald-50 pt-24 sm:pt-28 pb-10">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-32 -left-24 w-72 h-72 bg-primary-200/40 rounded-full blur-3xl" />
+          <div className="absolute bottom-[-120px] right-[-80px] w-80 h-80 bg-emerald-200/40 rounded-full blur-3xl" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.18),transparent_60%)]" />
         </div>
 
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
-            <div className="flex-1 text-center lg:text-left animate-fade-in">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white text-sm font-bold mb-6">
-                <SparklesIcon className="w-4 h-4" />
-                Neu: Equipment Marktplatz
-              </div>
-
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-6 leading-[1.1]">
-                Mieten statt kaufen.
-                <span className="block text-primary-200">Clever sparen.</span>
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-2 items-start">
+            {/* Linke Spalte: Claim & Nutzen */}
+            <div className="space-y-5">
+              <p className="inline-flex items-center gap-2 rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-[11px] sm:text-xs font-semibold text-slate-700 backdrop-blur">
+                <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-primary-600 text-[9px] text-white">
+                  <SparklesIcon className="w-3 h-3" />
+                </span>
+                Fertigo Equipment-Marktplatz
+              </p>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 leading-tight">
+                Finden statt suchen:
+                <span className="block text-slate-700">
+                  Mietgeräte aus der ganzen Schweiz in einem einzigen Marktplatz.
+                </span>
               </h1>
-
-              <p className="text-lg text-white/80 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                Baumaschinen, Werkzeuge & Geräte von geprüften Anbietern. Sofort verfügbar, faire Preise.
+              <p className="text-sm sm:text-base text-slate-600 max-w-xl">
+                Egal ob Umbau, Neubau oder einmalige Gartenaktion – vergleichen Sie geprüfte Anbieter, freie Geräte und
+                Preise in Sekunden, statt Dutzende Webseiten zu durchsuchen.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
-                <a href="#equipment" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-primary-700 bg-white rounded-2xl hover:bg-primary-50 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
-                  Jetzt entdecken
-                  <ArrowRightIcon className="w-5 h-5 ml-2" />
-                </a>
-                <Link to="/register" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white border-2 border-white/30 rounded-2xl hover:bg-white/10 transition-all">
-                  Equipment anbieten
-                </Link>
+              {/* Key-Benefits & Stats */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-sm">
+                <div className="rounded-2xl bg-white/80 border border-slate-200 px-4 py-3 shadow-sm">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-slate-700 mb-1">
+                    <CubeIcon className="w-4 h-4 text-primary-600" />
+                    Verfügbare Geräte
+                  </div>
+                  <p className="text-xl font-black text-slate-900">{stats[0].value}</p>
+                  <p className="text-[11px] text-slate-500 mt-1">direkt anfragbar</p>
+                </div>
+                <div className="rounded-2xl bg-white/80 border border-slate-200 px-4 py-3 shadow-sm">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-slate-700 mb-1">
+                    <ShieldCheckIcon className="w-4 h-4 text-primary-600" />
+                    Geprüfte Anbieter
+                  </div>
+                  <p className="text-xl font-black text-slate-900">{stats[1].value}</p>
+                  <p className="text-[11px] text-slate-500 mt-1">mit klaren Konditionen</p>
+                </div>
+                <div className="rounded-2xl bg-white/80 border border-slate-200 px-4 py-3 shadow-sm">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-slate-700 mb-1">
+                    <ClockIcon className="w-4 h-4 text-primary-600" />
+                    Zeit bis zur Anfrage
+                  </div>
+                  <p className="text-xl font-black text-slate-900">⩽ 1 Min.</p>
+                  <p className="text-[11px] text-slate-500 mt-1">vom Bedarf zur Kontaktaufnahme</p>
+                </div>
               </div>
 
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-white/70">
-                <div className="flex items-center gap-2">
-                  <CheckCircleIcon className="w-5 h-5 text-emerald-300" />
-                  <span>500+ Geräte</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircleIcon className="w-5 h-5 text-emerald-300" />
-                  <span>Geprüfte Anbieter</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircleIcon className="w-5 h-5 text-emerald-300" />
-                  <span>Schweizweit</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex-shrink-0 relative animate-fade-in [animation-delay:200ms]">
-              <div className="relative">
-                <div className="absolute inset-0 bg-white/20 rounded-[3rem] blur-2xl scale-90"></div>
-                <img
-                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Bildschirm_foto_2026-01-19_um_20.08.12-removebg-preview-1768849801699.png?width=8000&height=8000&resize=contain"
-                  alt="Equipment Marktplatz Beaver"
-                  className="relative w-[320px] sm:w-[400px] lg:w-[480px] h-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div id="equipment"></div>
-
-      <div className="container mx-auto px-6 max-w-6xl py-12">
-        <div className="flex flex-col lg:flex-row gap-10">
-          <aside className="lg:w-72 flex-shrink-0">
-            <div className="lg:sticky lg:top-36">
-              <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Kategorien</h2>
-              <nav className="space-y-1">
-                <button
-                  onClick={() => setSelectedCategory(null)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${selectedCategory === null
-                    ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30'
-                    : 'text-slate-700 hover:bg-slate-100'
-                    }`}
-                >
-                  <CubeIcon className={`w-5 h-5 ${selectedCategory === null ? 'text-white' : 'text-slate-400'}`} />
-                  <span className="font-semibold">Alle Geräte</span>
-                  <span className={`ml-auto text-sm px-2 py-0.5 rounded-full ${selectedCategory === null ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'
-                    }`}>
-                    {items.length}
-                  </span>
-                </button>
-
-                {categories.map(category => {
-                  const isActive = selectedCategory === category;
-                  const count = itemsByCategory[category]?.length || 0;
-
-                  return (
+              {/* Kompakter Suchstreifen */}
+              <div className="mt-2 bg-slate-900 text-white rounded-2xl px-4 sm:px-5 py-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3 shadow-lg">
+                <div className="relative flex-1 w-full">
+                  <MagnifyingGlassIcon className="w-4 h-4 text-slate-300 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                    placeholder="Wonach suchen Sie? z.B. „Minibagger Zürich“"
+                    className="w-full pl-9 pr-9 py-2.5 rounded-xl bg-slate-800/80 border border-slate-600 text-xs sm:text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400"
+                  />
+                  {searchQuery && (
                     <button
-                      key={category}
-                      onClick={() => setSelectedCategory(isActive ? null : category)}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${isActive
-                        ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30'
-                        : 'text-slate-700 hover:bg-slate-100'
-                        }`}
+                      type="button"
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
                     >
-                      <span className={isActive ? 'text-white' : 'text-slate-400'}>
-                        {categoryIcons[category] || <CubeIcon className="w-5 h-5" />}
-                      </span>
-                      <span className="font-medium text-sm">{category}</span>
-                      <span className={`ml-auto text-xs px-2 py-0.5 rounded-full ${isActive ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'
-                        }`}>
-                        {count}
-                      </span>
+                      <XMarkIcon className="w-3.5 h-3.5" />
                     </button>
-                  );
-                })}
-              </nav>
-
-              <div className="mt-8 p-5 bg-gradient-to-br from-primary-50 to-emerald-50 rounded-2xl border border-primary-100">
-                <h3 className="font-bold text-slate-900 mb-2">Equipment anbieten?</h3>
-                <p className="text-sm text-slate-600 mb-4">Verdienen Sie mit Ihrem ungenutzten Equipment.</p>
-                <Link to="/register" className="block text-center px-4 py-2.5 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors text-sm">
-                  Jetzt inserieren
-                </Link>
-              </div>
-            </div>
-          </aside>
-
-          <main className="flex-1 min-w-0">
-            {selectedCategory && (
-              <div className={`mb-8 p-6 rounded-2xl bg-gradient-to-r ${categoryGradients[selectedCategory] || 'from-slate-400 to-slate-600'} text-white`}>
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
-                    {React.cloneElement((categoryIcons[selectedCategory] || <CubeIcon className="w-8 h-8" />) as React.ReactElement, { className: 'w-8 h-8 text-white' })}
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">{selectedCategory}</h2>
-                    <p className="text-white/80">{itemsByCategory[selectedCategory]?.length || 0} Geräte verfügbar</p>
-                  </div>
+                  )}
                 </div>
-              </div>
-            )}
-
-            {searchQuery && (
-              <div className="mb-6 flex items-center gap-2 text-slate-600">
-                <span className="font-semibold text-slate-900">{filteredItems.length}</span>
-                <span>Ergebnisse für</span>
-                <span className="font-semibold text-primary-600">"{searchQuery}"</span>
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="ml-2 text-sm text-slate-500 hover:text-slate-700 underline"
-                >
-                  Zurücksetzen
-                </button>
-              </div>
-            )}
-
-            {filteredItems.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {filteredItems.map((item, index) => (
+                <div className="flex flex-wrap gap-1.5 text-[10px] sm:text-[11px]">
                   <button
-                    key={item.id}
-                    onClick={() => setSelected(item)}
-                    className="group relative bg-white border border-slate-200 rounded-xl overflow-hidden text-left hover:border-primary-500 hover:ring-1 hover:ring-primary-500 hover:shadow-xl transition-all duration-300 animate-fade-in flex flex-col h-full"
-                    style={{ animationDelay: `${index * 50}ms` }}
+                    type="button"
+                    onClick={() => setSearchQuery('Minibagger')}
+                    className="px-2.5 py-1 rounded-full bg-emerald-500 text-slate-950 font-semibold hover:bg-emerald-400"
                   >
-                    {/* Image Section */}
-                    <div className="relative aspect-[3/2] overflow-hidden bg-slate-100">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute top-3 right-3">
-                        <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide shadow-sm border ${item.available ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
-                          {item.available ? '● Verfügbar' : '○ Reserviert'}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Content Section */}
-                    <div className="p-4 flex flex-col flex-1">
-                      {/* Header */}
-                      <div className="mb-3">
-                        <div className="flex items-start justify-between gap-2 mb-1">
-                          <h3 className="text-base font-bold text-slate-900 leading-tight group-hover:text-primary-700 transition-colors">
-                            {item.name}
-                          </h3>
-                          <div className="flex items-center gap-1 bg-slate-50 border border-slate-100 px-1.5 py-0.5 rounded">
-                            <StarIcon className="w-3 h-3 text-amber-500" />
-                            <span className="text-xs font-bold text-slate-700">{item.rating}</span>
-                          </div>
-                        </div>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          <span className="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
-                            {item.category}
-                          </span>
-                          <span className="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200 truncate max-w-[120px]">
-                            {item.provider}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Details Grid */}
-                      <div className="grid grid-cols-1 gap-2 py-3 border-t border-dashed border-slate-200 mt-auto">
-                        <div className="flex items-center gap-2 text-xs text-slate-500">
-                          <MapPinIcon className="w-3.5 h-3.5 text-slate-400" />
-                          <span className="truncate">{item.location}</span>
-                        </div>
-                        {item.verified && (
-                          <div className="flex items-center gap-2 text-xs text-primary-700">
-                            <ShieldCheckIcon className="w-3.5 h-3.5" />
-                            <span className="font-medium">Geprüfter Anbieter</span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Footer */}
-                      <div className="pt-3 mt-1 border-t border-slate-100 flex items-center justify-between">
-                        <div>
-                          <span className="block text-[10px] uppercase text-slate-400 font-bold tracking-wider">Mietpreis</span>
-                          <span className="text-xl font-black text-slate-900">CHF {item.price}<span className="text-xs font-normal text-slate-400 ml-1">/Tag</span></span>
-                        </div>
-                        <div className="h-9 px-4 rounded-lg bg-slate-900 text-white text-xs font-bold flex items-center gap-2 group-hover:bg-primary-600 transition-colors shadow-sm">
-                          Details
-                          <ArrowRightIcon className="w-3 h-3" />
-                        </div>
-                      </div>
-                    </div>
+                    Minibagger
                   </button>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-16">
-                <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <MagnifyingGlassIcon className="w-10 h-10 text-slate-400" />
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('Gerüst')}
+                    className="px-2.5 py-1 rounded-full bg-slate-800 text-slate-100 border border-slate-600 hover:border-emerald-400"
+                  >
+                    Gerüst
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('Reiniger')}
+                    className="px-2.5 py-1 rounded-full bg-slate-800 text-slate-100 border border-slate-600 hover:border-emerald-400"
+                  >
+                    Hochdruckreiniger
+                  </button>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Keine Ergebnisse</h3>
-                <p className="text-slate-500 mb-6 max-w-sm mx-auto">
-                  Wir konnten keine passenden Geräte finden. Versuchen Sie einen anderen Suchbegriff.
+              </div>
+            </div>
+
+            {/* Rechte Spalte: Live-Feed & Kategorie-Schnellauswahl */}
+            <div className="space-y-4 lg:pl-6">
+              <div className="rounded-3xl bg-white/90 border border-slate-200 shadow-xl p-4 sm:p-5 backdrop-blur">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-[0.18em]">
+                      Live vom Marktplatz
+                    </p>
+                    <p className="text-sm font-semibold text-slate-900">
+                      Zuletzt angefragte Geräte
+                    </p>
+                  </div>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 border border-emerald-100">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                    </span>
+                    Aktiv
+                  </span>
+                </div>
+                <div className="space-y-3">
+                  {items.slice(0, 3).map(item => (
+                    <FeedCard key={item.id} item={item} />
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-3xl bg-slate-900 text-white px-4 sm:px-5 py-4 shadow-xl border border-slate-800">
+                <p className="text-xs font-semibold text-slate-300 mb-2">
+                  Schnell nach Kategorie filtern
                 </p>
-                <button
-                  onClick={() => { setSearchQuery(''); setSelectedCategory(null); }}
-                  className="px-6 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors"
-                >
-                  Filter zurücksetzen
-                </button>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCategory(null)}
+                    className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border ${
+                      selectedCategory === null
+                        ? 'bg-emerald-400 text-slate-900 border-emerald-300'
+                        : 'bg-slate-800 text-slate-100 border-slate-700 hover:border-emerald-400'
+                    }`}
+                  >
+                    Alle
+                  </button>
+                  {categories.map(category => {
+                    const isActive = selectedCategory === category;
+                    return (
+                      <button
+                        key={category}
+                        type="button"
+                        onClick={() => setSelectedCategory(isActive ? null : category)}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold border ${
+                          isActive
+                            ? 'bg-emerald-300 text-slate-900 border-emerald-200'
+                            : 'bg-slate-800 text-slate-100 border-slate-700 hover:border-emerald-400'
+                        }`}
+                      >
+                        <span className="text-slate-200">
+                          {categoryIcons[category] || <CubeIcon className="w-3.5 h-3.5" />}
+                        </span>
+                        <span>{category}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                <p className="mt-2 text-[11px] text-slate-400">
+                  Tipp: Kategorie wählen und oben im Suchfeld den Ort eingeben – schon sehen Sie passende Geräte.
+                </p>
               </div>
-            )}
-          </main>
-        </div>
-      </div>
-
-      <section className="bg-slate-900 py-16">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="text-center md:text-left">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                Sie haben Equipment zu vermieten?
-              </h2>
-              <p className="text-slate-400">
-                Erreichen Sie tausende potenzielle Mieter und verdienen Sie mit Ihrem ungenutzten Equipment.
-              </p>
-            </div>
-            <Link
-              to="/register"
-              className="flex-shrink-0 px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl transition-colors flex items-center gap-2 shadow-lg shadow-primary-600/30"
-            >
-              Equipment anbieten
-              <ArrowRightIcon className="w-5 h-5" />
-            </Link>
-          </div>
-
-          <div className="mt-12 pt-12 border-t border-slate-800 grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-1">
-                <CheckCircleIcon className="w-6 h-6 text-green-400" />
-              </div>
-              <div className="text-sm text-slate-400 mt-2">Kostenlos inserieren</div>
-            </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-1">
-                <CheckCircleIcon className="w-6 h-6 text-green-400" />
-              </div>
-              <div className="text-sm text-slate-400 mt-2">Geprüfte Mieter</div>
-            </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-1">
-                <CheckCircleIcon className="w-6 h-6 text-green-400" />
-              </div>
-              <div className="text-sm text-slate-400 mt-2">Sichere Abwicklung</div>
-            </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-1">
-                <CheckCircleIcon className="w-6 h-6 text-green-400" />
-              </div>
-              <div className="text-sm text-slate-400 mt-2">Schnelle Auszahlung</div>
             </div>
           </div>
         </div>
       </section>
 
-      <style>{`
-        @keyframes scroll-up {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(-50%); }
-        }
-        .animate-scroll-up {
-          animation: scroll-up 40s linear infinite;
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-      `}</style>
+      {/* Ergebnis-Bereich */}
+      <div id="equipment" className="container mx-auto px-4 sm:px-6 max-w-6xl py-10">
+        {/* Filter-Info */}
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6 text-xs sm:text-sm text-slate-600">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-slate-900">{filteredItems.length}</span>
+            <span>Geräte gefunden</span>
+            {selectedCategory && (
+              <>
+                <span>in</span>
+                <span className="font-semibold text-primary-600">{selectedCategory}</span>
+              </>
+            )}
+          </div>
+          {(searchQuery || selectedCategory) && (
+            <button
+              type="button"
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedCategory(null);
+              }}
+              className="inline-flex items-center gap-1 text-xs font-semibold text-primary-600 hover:text-primary-700"
+            >
+              <XMarkIcon className="w-3 h-3" />
+              Filter zurücksetzen
+            </button>
+          )}
+        </div>
+
+        {filteredItems.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filteredItems.map((item, index) => (
+              <button
+                key={item.id}
+                onClick={() => setSelected(item)}
+                className="group relative bg-white border border-slate-200 rounded-xl overflow-hidden text-left hover:border-primary-500 hover:ring-1 hover:ring-primary-500 hover:shadow-xl transition-all duration-300 animate-fade-in flex flex-col h-full"
+                style={{ animationDelay: `${index * 40}ms` }}
+              >
+                {/* Bild */}
+                <div className="relative aspect-[3/2] overflow-hidden bg-slate-100">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 right-3">
+                    <span
+                      className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide shadow-sm border ${
+                        item.available
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : 'bg-slate-50 text-slate-600 border-slate-200'
+                      }`}
+                    >
+                      {item.available ? '● Verfügbar' : '○ Reserviert'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Inhalt */}
+                <div className="p-4 flex flex-col flex-1">
+                  <div className="mb-3">
+                    <div className="flex items-start justify-between gap-2 mb-1">
+                      <h3 className="text-base font-bold text-slate-900 leading-tight group-hover:text-primary-700 transition-colors">
+                        {item.name}
+                      </h3>
+                      <div className="flex items-center gap-1 bg-slate-50 border border-slate-100 px-1.5 py-0.5 rounded">
+                        <StarIcon className="w-3 h-3 text-amber-500" />
+                        <span className="text-xs font-bold text-slate-700">{item.rating}</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <span className="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
+                        {item.category}
+                      </span>
+                      <span className="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200 truncate max-w-[120px]">
+                        {item.provider}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-2 py-3 border-t border-dashed border-slate-200 mt-auto">
+                    <div className="flex items-center gap-2 text-xs text-slate-500">
+                      <MapPinIcon className="w-3.5 h-3.5 text-slate-400" />
+                      <span className="truncate">{item.location}</span>
+                    </div>
+                    {item.verified && (
+                      <div className="flex items-center gap-2 text-xs text-primary-700">
+                        <ShieldCheckIcon className="w-3.5 h-3.5" />
+                        <span className="font-medium">Geprüfter Anbieter</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="pt-3 mt-1 border-t border-slate-100 flex items-center justify-between">
+                    <div>
+                      <span className="block text-[10px] uppercase text-slate-400 font-bold tracking-wider">
+                        Mietpreis
+                      </span>
+                      <span className="text-xl font-black text-slate-900">
+                        CHF {item.price}
+                        <span className="text-xs font-normal text-slate-400 ml-1">/Tag</span>
+                      </span>
+                    </div>
+                    <div className="h-9 px-4 rounded-lg bg-slate-900 text-white text-xs font-bold flex items-center gap-2 group-hover:bg-primary-600 transition-colors shadow-sm">
+                      Details
+                      <ArrowRightIcon className="w-3 h-3" />
+                    </div>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16">
+            <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <MagnifyingGlassIcon className="w-10 h-10 text-slate-400" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Keine Ergebnisse</h3>
+            <p className="text-slate-500 mb-6 max-w-sm mx-auto">
+              Wir konnten keine passenden Geräte finden. Versuchen Sie einen anderen Suchbegriff oder setzen Sie die
+              Filter zurück.
+            </p>
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedCategory(null);
+              }}
+              className="px-6 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors"
+            >
+              Filter zurücksetzen
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

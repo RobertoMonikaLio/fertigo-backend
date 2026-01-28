@@ -19,7 +19,6 @@ interface Notification {
 const navLinks = [
     { name: 'Lead-Marktplatz', icon: SparklesIcon, href: '/partner/requests' },
     { name: 'Kunden', icon: UsersIcon, href: '/partner/requests?view=purchased' },
-    { name: 'Inserate', icon: TagIcon, href: '/partner/marketplace' },
 ];
 
 const PartnerHeader: React.FC = () => {

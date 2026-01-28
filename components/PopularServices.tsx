@@ -1,198 +1,388 @@
-import React, { useState, useMemo } from 'react';
-import { ArrowRightIcon } from './icons';
-import { Link } from 'react-router-dom';
-import {
-    ColoredTruckIcon,
-    ColoredSparklesIcon,
-    ColoredPaintRollerIcon,
-    ColoredLeafIcon,
-    ColoredSquares2X2Icon,
-    ColoredWrenchScrewdriverIcon,
-    ColoredTrashIcon
-} from './icons';
+import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowRightIcon, CheckIcon } from './icons';
 import { useAppContext } from '../pages/AppContext';
 import { useInView } from 'react-intersection-observer';
 
-const translations = {
-    de: {
-        title: 'Entdecken Sie unsere Dienstleistungen',
-        subtitle: 'Finden Sie den richtigen Profi für jedes Projekt – von Umzug bis Renovation.',
-        viewAll: 'Alle Dienstleistungen entdecken',
-        startRequest: 'Anfrage starten',
-        services: {
-            umzug: 'Umzug',
-            umzugDesc: 'Stressfreier Wohnungs- oder Bürowechsel mit Profis.',
-            transport: 'Transport',
-            transportDesc: 'Sicherer Transport von Möbeln, Waren und Sperrgut.',
-            reinigung: 'Reinigung',
-            reinigungDesc: 'Professionelle Sauberkeit für Privat & Geschäft.',
-            maler: 'Malerarbeiten',
-            malerDesc: 'Frische Farbe für Wände, Decken und Fassaden.',
-            garten: 'Gartenpflege',
-            gartenDesc: 'Heckenschnitt, Rasenpflege und Aussenbereich.',
-            boden: 'Bodenleger',
-            bodenDesc: 'Verlegung von Parkett, Laminat, Teppich und mehr.',
-            handwerker: 'Handwerker',
-            handwerkerDesc: 'Allgemeine Reparaturen, Montagen und Umbauten.',
-            entsorgung: 'Entsorgung & Räumung',
-            entsorgungDesc: 'Fachgerechte Entsorgung und Haushaltsauflösungen.',
-            umzugsreinigung: 'Umzugsreinigung'
-        },
+const services = [
+    {
+        id: 'umzug',
+        name: 'Umzug & Transport',
+        shortName: 'Umzug',
+        tagline: 'Ihr neues Zuhause wartet',
+        description: 'Von der Planung bis zum Auspacken – wir machen Ihren Umzug stressfrei.',
+        image: '/assets/umzug-service.png',
+        stats: { partners: '250+', rating: '4.9', jobs: '5.2k' },
+        features: ['Verpackung', 'Transport', 'Versicherung', 'Einlagerung', 'Möbelmontage', 'Entrümpelung'],
+        accent: '#22C55E',
+        icon: '🚚',
     },
-    // Other languages omitted for brevity
-};
-
-const getServicesData = (t: typeof translations.de) => [
-    { name: t.services.umzug, description: t.services.umzugDesc, image: '/assets/umzug-service.png', icon: <ColoredTruckIcon className="w-10 h-10 flex-shrink-0" /> },
-    { name: t.services.reinigung, description: t.services.reinigungDesc, image: '/assets/reinigung-service.png', icon: <ColoredSparklesIcon className="w-10 h-10 flex-shrink-0" /> },
-    { name: t.services.maler, description: t.services.malerDesc, image: '/assets/maler-service-v2.png', icon: <ColoredPaintRollerIcon className="w-10 h-10 flex-shrink-0" /> },
-    { name: t.services.garten, description: t.services.gartenDesc, image: '/assets/garten-service.png', icon: <ColoredLeafIcon className="w-10 h-10 flex-shrink-0" /> },
-    { name: t.services.boden, description: t.services.bodenDesc, image: '/assets/boden-service.png', icon: <ColoredSquares2X2Icon className="w-10 h-10 flex-shrink-0" /> },
-    { name: t.services.handwerker, description: t.services.handwerkerDesc, image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2000&auto=format&fit=crop', icon: <ColoredWrenchScrewdriverIcon className="w-10 h-10 flex-shrink-0" /> }
+    {
+        id: 'reinigung',
+        name: 'Reinigung & Pflege',
+        shortName: 'Reinigung',
+        tagline: 'Glänzend sauber',
+        description: 'Professionelle Reinigung für Ihr Zuhause oder Geschäft.',
+        image: '/assets/reinigung-service.png',
+        stats: { partners: '180+', rating: '4.8', jobs: '3.8k' },
+        features: ['Umzugsreinigung', 'Büroreinigung', 'Fenster', 'Teppichreinigung', 'Grundreinigung', 'Unterhaltsreinigung'],
+        accent: '#22C55E',
+        icon: '✨',
+    },
+    {
+        id: 'maler',
+        name: 'Maler & Gipser',
+        shortName: 'Maler',
+        tagline: 'Farbe für Ihr Leben',
+        description: 'Kreative Wandgestaltung und professionelle Malerarbeiten.',
+        image: '/assets/maler-service-v2.png',
+        stats: { partners: '150+', rating: '4.9', jobs: '2.1k' },
+        features: ['Innenbereich', 'Fassaden', 'Tapezieren', 'Spachteln', 'Streichen', 'Lackieren'],
+        accent: '#22C55E',
+        icon: '🎨',
+    },
+    {
+        id: 'garten',
+        name: 'Garten & Landschaft',
+        shortName: 'Garten',
+        tagline: 'Grüne Träume',
+        description: 'Professionelle Gartenpflege und Landschaftsgestaltung.',
+        image: '/assets/garten-service.png',
+        stats: { partners: '120+', rating: '4.7', jobs: '1.5k' },
+        features: ['Rasenpflege', 'Baumschnitt', 'Gestaltung', 'Heckenschnitt', 'Bepflanzung', 'Bewässerung'],
+        accent: '#22C55E',
+        icon: '🌳',
+    },
+    {
+        id: 'handwerker',
+        name: 'All. Handwerker',
+        shortName: 'Handwerker',
+        tagline: 'Für jedes Projekt',
+        description: 'Reparaturen, Montagen und Renovierungen aus einer Hand.',
+        image: '/assets/boden-service.png',
+        stats: { partners: '200+', rating: '4.8', jobs: '4.3k' },
+        features: ['Montage', 'Reparatur', 'Renovierung', 'Installation', 'Wartung', 'Notdienst'],
+        accent: '#22C55E',
+        icon: '🔧',
+    },
 ];
 
-const PopularServices: React.FC = () => {
-    const { language, openQuoteModal } = useAppContext();
-    const t = (translations as any)[language] || translations.de;
-    const services = useMemo(() => getServicesData(t), [t]);
+interface ServiceCardProps {
+    service: typeof services[0];
+    index: number;
+    isHovered: boolean;
+    onMouseEnter: () => void;
+    onMouseLeave: () => void;
+}
 
-    const { ref, inView } = useInView({
-        triggerOnce: true,
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px',
-    });
+const ServiceCard: React.FC<ServiceCardProps> = ({ 
+    service, 
+    index, 
+    isHovered, 
+    onMouseEnter, 
+    onMouseLeave 
+}) => {
+    const { openQuoteModal } = useAppContext();
+    const cardRef = useRef<HTMLDivElement>(null);
 
-    const handleServiceClick = (serviceName: string) => {
-        openQuoteModal({ service: serviceName, projectTitle: serviceName });
-    };
+    return (
+        <div
+            ref={cardRef}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            className="group relative h-full"
+            style={{
+                transitionDelay: `${index * 100}ms`,
+            }}
+        >
+            {/* Main Card - Split Design */}
+            <div
+                className={`
+                    relative h-full rounded-3xl overflow-hidden
+                    bg-white transition-all duration-700 flex flex-col
+                    ${isHovered 
+                        ? 'shadow-2xl scale-[1.02]' 
+                        : 'shadow-lg scale-100'
+                    }
+                `}
+                style={{
+                    boxShadow: isHovered
+                        ? `0 30px 100px -20px ${service.accent}30, 0 0 0 2px ${service.accent}20`
+                        : '0 10px 40px -10px rgba(0,0,0,0.1)',
+                }}
+            >
+                {/* Top Image Section */}
+                <div className="relative h-40 sm:h-48 lg:h-56 overflow-hidden flex-shrink-0">
+                    <div
+                        className={`
+                            absolute inset-0 transition-transform duration-700
+                            ${isHovered ? 'scale-110' : 'scale-100'}
+                        `}
+                    >
+                        <img
+                            src={service.image}
+                            alt={service.name}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                </div>
 
-    const SmallServiceCard: React.FC<{ service: any }> = ({ service }) => (
-        <button onClick={() => handleServiceClick(service.name)} className="group relative aspect-square rounded-2xl overflow-hidden shadow-md border border-slate-200/50">
-            <img src={`${service.image.split('?')[0]}?auto=format&fit=crop&q=75&w=400`} alt={service.name} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-            <div className="absolute bottom-3 left-3 text-white">
-                {React.cloneElement(service.icon, { className: "w-5 h-5 mb-1" })}
-                <h4 className="font-bold text-sm leading-tight">{service.name}</h4>
+                {/* Content Section */}
+                <div className="p-6 lg:p-8 flex flex-col flex-1 min-h-0">
+                    {/* Title */}
+                    <h3 
+                        className="text-xl lg:text-2xl font-black text-slate-900 mb-3 leading-tight"
+                        style={{
+                            color: isHovered ? service.accent : undefined,
+                            transition: 'color 0.3s ease',
+                        }}
+                    >
+                        {service.name}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">
+                        {service.description}
+                    </p>
+
+                    {/* Bottom Action Bar */}
+                    <div className="flex items-center justify-center pt-4 border-t-2 border-slate-100 mt-auto">
+                        {/* CTA Button */}
+                        <button
+                            onClick={() => {
+                                openQuoteModal({ service: service.name, projectTitle: service.name });
+                            }}
+                            className={`
+                                flex items-center justify-center gap-2 px-6 py-3 rounded-xl
+                                font-bold text-white text-sm w-full
+                                transition-all duration-300 group/btn
+                                shadow-lg hover:shadow-xl
+                            `}
+                            style={{ 
+                                backgroundColor: service.accent,
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
+                                e.currentTarget.style.boxShadow = `0 15px 30px -10px ${service.accent}60`;
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'scale(1) translateY(0)';
+                                e.currentTarget.style.boxShadow = '0 10px 20px -5px rgba(0,0,0,0.2)';
+                            }}
+                        >
+                            <span>Offerten</span>
+                            <ArrowRightIcon className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                        </button>
+                    </div>
+                </div>
+
+                {/* Corner Accent */}
+                <div
+                    className={`
+                        absolute top-0 right-0 w-0 h-0
+                        border-l-[60px] border-l-transparent
+                        border-t-[60px] transition-opacity duration-500
+                        ${isHovered ? 'opacity-100' : 'opacity-0'}
+                    `}
+                    style={{
+                        borderTopColor: service.accent,
+                    }}
+                />
             </div>
+        </div>
+    );
+};
+
+// CTA Button Component
+const CTAButton: React.FC = () => {
+    const { openQuoteModal } = useAppContext();
+    
+    return (
+        <button
+            onClick={() => {
+                openQuoteModal({});
+            }}
+            className="px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r from-slate-900 to-slate-700 hover:from-slate-800 hover:to-slate-600 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 group"
+        >
+            <span>Jetzt Offerten anfordern</span>
+            <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </button>
     );
+};
+
+// Additional Services Card Component
+const MoreServicesCard: React.FC<{
+    index: number;
+    isHovered: boolean;
+    onMouseEnter: () => void;
+    onMouseLeave: () => void;
+}> = ({ index, isHovered, onMouseEnter, onMouseLeave }) => {
+    const navigate = useNavigate();
+
+    return (
+        <div
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            onClick={() => navigate('/services')}
+            className="group relative h-full cursor-pointer"
+            style={{
+                transitionDelay: `${index * 100}ms`,
+            }}
+        >
+            <div
+                className={`
+                    relative h-full rounded-3xl overflow-hidden
+                    bg-gradient-to-br from-slate-100 to-slate-200 border-2 border-slate-300
+                    transition-all duration-700 flex flex-col
+                    ${isHovered 
+                        ? 'shadow-2xl scale-[1.02] border-slate-400' 
+                        : 'shadow-lg scale-100'
+                    }
+                `}
+            >
+                {/* Content Section */}
+                <div className="p-6 lg:p-8 flex flex-col flex-1 min-h-0">
+                    <div className="flex-1 flex flex-col items-center justify-center text-center space-y-6">
+                        {/* Icon */}
+                        <div
+                            className={`
+                                w-20 h-20 rounded-2xl bg-slate-300
+                                flex items-center justify-center
+                                text-4xl transition-all duration-500
+                                ${isHovered ? 'scale-110 rotate-6' : 'scale-100 rotate-0'}
+                            `}
+                        >
+                            <svg className="w-10 h-10 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                            </svg>
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="text-2xl lg:text-3xl font-black text-slate-900 leading-tight">
+                            Weitere Dienstleistungen
+                        </h3>
+
+                        {/* Description */}
+                        <p className="text-slate-600 text-sm leading-relaxed max-w-xs">
+                            Entdecken Sie alle unsere Service-Kategorien und finden Sie den perfekten Partner für Ihr Projekt.
+                        </p>
+                    </div>
+
+                    {/* CTA Button */}
+                    <div className="mt-auto pt-4 border-t-2 border-slate-200">
+                        <button
+                            className={`
+                                flex items-center justify-center gap-2 px-6 py-3 rounded-xl
+                                font-bold text-white text-sm w-full
+                                transition-all duration-300 group/btn
+                                shadow-lg hover:shadow-xl
+                                bg-gradient-to-r from-slate-700 to-slate-900
+                            `}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'scale(1) translateY(0)';
+                            }}
+                        >
+                            <span>Alle Services ansehen</span>
+                            <ArrowRightIcon className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                        </button>
+                    </div>
+                </div>
+
+                {/* Corner Accent */}
+                <div
+                    className={`
+                        absolute top-0 right-0 w-0 h-0
+                        border-l-[60px] border-l-transparent
+                        border-t-[60px] transition-opacity duration-500
+                        ${isHovered ? 'opacity-100' : 'opacity-0'}
+                    `}
+                    style={{
+                        borderTopColor: '#475569',
+                    }}
+                />
+            </div>
+        </div>
+    );
+};
+
+const PopularServices: React.FC = () => {
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
     return (
         <section
             ref={ref}
             id="services"
-            className={`py-10 sm:py-12 md:py-14 bg-slate-50 transition-all duration-700 ease-out lg:opacity-100 lg:transform-none ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className="relative py-16 sm:py-20 lg:py-32 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50"
         >
-            <style>{`.no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }`}</style>
-            <div className="container mx-auto px-6 max-w-6xl">
-                <div className="text-center mb-8 md:mb-10">
-                    <h2 className="font-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3">{t.title}</h2>
-                    <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">{t.subtitle}</p>
+            {/* Subtle Background Pattern */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div
+                    className="absolute inset-0 opacity-[0.015]"
+                    style={{
+                        backgroundImage: `
+                            radial-gradient(circle at 1px 1px, #000 1px, transparent 0)
+                        `,
+                        backgroundSize: '60px 60px',
+                    }}
+                />
+            </div>
+
+            <div className="relative z-10 container mx-auto px-6">
+                {/* Header */}
+                <div
+                    className={`
+                        text-center mb-12 lg:mb-16 max-w-2xl mx-auto
+                        transition-all duration-1000
+                        ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+                    `}
+                >
+                    {/* Title */}
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 mb-4">
+                        Was dürfen wir{' '}
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
+                            für Sie tun?
+                        </span>
+                    </h2>
+
+                    {/* Subtitle */}
+                    <p className="text-sm lg:text-base text-slate-600 leading-relaxed">
+                        Über 2'500 geprüfte Partner stehen bereit, um Ihr Projekt zu realisieren.
+                    </p>
                 </div>
 
-                {/* --- NEW MOBILE VIEW --- */}
-                <div className="lg:hidden space-y-3">
-                    <button onClick={() => handleServiceClick(services[0].name)} className="group bg-white w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200/50 transition-all duration-300 active:scale-95">
-                        <div className="bg-white">
-                            <img src={`https://img.freepik.com/free-vector/hand-drawn-flat-design-moving-house-illustration_23-2149429584.jpg`} alt={services[0].name} className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105" />
-                        </div>
-                        <div className="p-3 flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                {React.cloneElement(services[0].icon, { className: "w-6 h-6" })}
-                                <h3 className="text-base font-bold text-slate-800">{services[0].name}</h3>
-                            </div>
-                            <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:text-primary-600 transition-transform group-hover:translate-x-1" />
-                        </div>
-                    </button>
-
-                    <div className="grid grid-cols-2 gap-3">
-                        <SmallServiceCard service={services[1]} />
-                        <SmallServiceCard service={services[2]} />
-                        <SmallServiceCard service={services[3]} />
-                        <Link to="/services" className="group bg-slate-100 p-3 rounded-2xl border border-slate-200 shadow-md flex flex-col items-center justify-center text-center hover:bg-slate-200 transition-colors">
-                            <div className="w-8 h-8 flex items-center justify-center bg-white rounded-full mb-1.5 shadow-sm">
-                                <ArrowRightIcon className="w-4 h-4 text-slate-600 group-hover:text-primary-600 transition-colors" />
-                            </div>
-                            <h4 className="font-bold text-xs text-slate-800 leading-tight">Alle Services</h4>
-                        </Link>
-                    </div>
+                {/* Services Grid */}
+                <div
+                    className={`
+                        grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8 max-w-5xl mx-auto
+                        items-stretch
+                        transition-all duration-1000
+                        ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+                    `}
+                >
+                    {services.map((service, index) => (
+                        <ServiceCard
+                            key={service.id}
+                            service={service}
+                            index={index}
+                            isHovered={hoveredIndex === index}
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                        />
+                    ))}
+                    {/* More Services Card */}
+                    <MoreServicesCard
+                        index={services.length}
+                        isHovered={hoveredIndex === services.length}
+                        onMouseEnter={() => setHoveredIndex(services.length)}
+                        onMouseLeave={() => setHoveredIndex(null)}
+                    />
                 </div>
 
-                {/* Desktop grid view */}
-                <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {services.slice(0, 6).map((service, index) => {
-                        const baseUrl = `${service.image.split('?')[0]}?auto=format&fit=crop&q=75&fm=webp`;
-                        const isPopular = index < 3; // Top 3 services are popular
-                        const partnerCount = index === 0 ? '250+' : index === 1 ? '180+' : index === 2 ? '150+' : '100+';
-                        const rating = '4.8';
 
-                        return (
-                            <button
-                                onClick={() => handleServiceClick(service.name)}
-                                key={service.name}
-                                className="group text-left bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.03] hover:border-primary-300 flex flex-col animate-fade-in"
-                                style={{ animationDelay: `${index * 100}ms` }}
-                            >
-                                <div className="relative overflow-hidden h-48">
-                                    <img
-                                        src={`${baseUrl}&w=400`}
-                                        srcSet={`${baseUrl}&w=400 400w, ${baseUrl}&w=800 800w`}
-                                        sizes="(min-width: 1280px) 30vw, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                                        alt={service.name}
-                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                                        loading="lazy"
-                                        decoding="async"
-                                        width="400"
-                                        height="192"
-                                    />
-                                    {/* Popular Badge */}
-                                    {isPopular && (
-                                        <div className="absolute top-3 right-3 bg-primary-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                                            Beliebt
-                                        </div>
-                                    )}
-
-                                    {/* Hover Info Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                                        <div className="text-white space-y-1">
-                                            <div className="flex items-center gap-2 text-sm">
-                                                <span className="text-yellow-400">★</span>
-                                                <span className="font-bold">{rating}</span>
-                                                <span className="text-slate-300">Bewertung</span>
-                                            </div>
-                                            <div className="flex items-center gap-2 text-sm">
-                                                <span>👥</span>
-                                                <span className="font-bold">{partnerCount}</span>
-                                                <span className="text-slate-300">Partner</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="p-4 flex flex-col flex-grow">
-                                    <div className="flex items-center gap-3 mb-2">
-                                        {React.cloneElement(service.icon, { className: 'w-6 h-6' })}
-                                        <h3 className="text-base font-bold text-slate-900">{service.name}</h3>
-                                    </div>
-                                    <p className="text-slate-600 text-xs flex-grow mb-3 line-clamp-2">{service.description}</p>
-                                    <div className="mt-auto font-bold text-primary-700 flex items-center gap-2 group-hover:text-primary-800 transition-colors text-xs">
-                                        {t.startRequest}
-                                        <ArrowRightIcon className="w-3 h-3 transition-transform group-hover:translate-x-1" />
-                                    </div>
-                                </div>
-                            </button>
-                        );
-                    })}
-                </div>
-
-                <div className="text-center mt-8 hidden lg:inline-flex lg:w-full lg:justify-center">
-                    <Link
-                        to="/services"
-                        className="bg-primary-700 text-white font-bold px-6 py-3 rounded-lg hover:bg-primary-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 inline-flex items-center gap-2 text-base"
-                    >
-                        {t.viewAll}
-                        <ArrowRightIcon className="w-4 h-4" />
-                    </Link>
-                </div>
             </div>
         </section>
     );

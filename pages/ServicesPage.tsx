@@ -391,7 +391,7 @@ const ServicesPage: React.FC = () => {
                 <div className="container mx-auto px-6 max-w-6xl">
                     {/* Section Header */}
                     <div className="mb-10">
-                        <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-2 tracking-tight">Alle Dienstleistungen</h2>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 mb-4">Alle Dienstleistungen</h2>
                         <p className="text-base text-slate-600 font-medium">
                             {searchQuery ? (
                                 <>
@@ -654,10 +654,10 @@ const TrustSection: React.FC = () => {
     ];
 
     return (
-        <section ref={ref} className={`py-16 bg-[#f5f5f5] transition-all duration-700 ${inView ? 'opacity-100' : 'opacity-0'}`}>
+        <section ref={ref} className={`py-16 bg-gradient-to-b from-white via-emerald-50 to-emerald-100 transition-all duration-700 ${inView ? 'opacity-100' : 'opacity-0'}`}>
             <div className="container mx-auto px-6 max-w-6xl">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3 tracking-tight">Warum Fertigo?</h2>
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 mb-4">Warum Fertigo?</h2>
                     <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">
                         Vertrauen Sie auf Qualität, Sicherheit und erstklassigen Service
                     </p>

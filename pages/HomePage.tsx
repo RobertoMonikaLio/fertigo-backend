@@ -4,13 +4,11 @@ import LazyLoad from '../components/LazyLoad';
 import StickyCta from '../components/StickyCta';
 
 // Lazy load components that are likely below the fold
-const HowItWorksNew = lazy(() => import('../components/HowItWorksNew'));
+const RadialJourney = lazy(() => import('../components/RadialJourney'));
 const CompetitorComparison = lazy(() => import('../components/CompetitorComparison'));
 const WhyChooseFertigo = lazy(() => import('../components/WhyChooseFertigo'));
 const PopularServices = lazy(() => import('../components/PopularServices'));
 const Testimonials = lazy(() => import('../components/Testimonials'));
-
-const CTA = lazy(() => import('../components/CTA'));
 
 
 // --- Custom Skeleton Loaders for each section ---
@@ -34,6 +32,85 @@ const StatsSkeleton: React.FC = () => (
                     <div key={i} className="flex flex-col items-center justify-center space-y-2">
                         <div className="h-8 w-24 bg-slate-700 rounded-md"></div>
                         <div className="h-4 w-32 bg-slate-700 rounded-md"></div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+);
+
+const RadialJourneySkeleton: React.FC = () => (
+    <div className="py-32 lg:py-48 bg-[#0A0F1E] w-full">
+        <div className="container mx-auto px-6">
+            <div className="animate-pulse text-center mb-24">
+                <div className="h-4 bg-white/10 rounded-full w-48 mx-auto mb-6"></div>
+                <div className="h-16 bg-white/10 rounded-md w-3/4 mx-auto mb-8"></div>
+                <div className="h-6 bg-white/10 rounded-md w-2/3 mx-auto"></div>
+            </div>
+            <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12">
+                <div className="lg:col-span-5 space-y-6">
+                    {[...Array(3)].map((_, i) => (
+                        <div key={i} className="h-28 bg-white/5 rounded-2xl border border-white/10 animate-pulse"></div>
+                    ))}
+                </div>
+                <div className="lg:col-span-7">
+                    <div className="aspect-square bg-white/5 rounded-[40px] border border-white/10 animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
+const JourneyTimelineSkeleton: React.FC = () => (
+    <div className="py-28 sm:py-36 bg-slate-900 w-full">
+        <div className="container mx-auto px-6">
+            <div className="animate-pulse text-center mb-24">
+                <div className="h-6 bg-white/20 rounded-md w-48 mx-auto mb-8"></div>
+                <div className="h-16 bg-white/20 rounded-md w-3/4 mx-auto mb-4"></div>
+                <div className="h-6 bg-white/20 rounded-md w-2/3 mx-auto"></div>
+            </div>
+            <div className="relative">
+                <div className="h-2 bg-white/10 rounded-full mb-12"></div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                    {[...Array(4)].map((_, i) => (
+                        <div key={i} className="bg-white/5 rounded-2xl border border-white/10 p-8 animate-pulse">
+                            <div className="w-20 h-20 bg-white/10 rounded-2xl mb-6 mx-auto"></div>
+                            <div className="h-4 bg-white/10 rounded-md w-1/3 mx-auto mb-3"></div>
+                            <div className="h-8 bg-white/10 rounded-md w-3/4 mx-auto mb-3"></div>
+                            <div className="h-5 bg-white/10 rounded-md w-2/3 mx-auto mb-4"></div>
+                            <div className="h-4 bg-white/10 rounded-md w-full mb-2"></div>
+                            <div className="h-4 bg-white/10 rounded-md w-5/6"></div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
+const ThreeStepsRevolutionarySkeleton: React.FC = () => (
+    <div className="py-24 sm:py-32 bg-slate-50 w-full">
+        <div className="container mx-auto px-6">
+            <div className="animate-pulse text-center mb-20">
+                <div className="h-6 bg-slate-300 rounded-md w-48 mx-auto mb-6"></div>
+                <div className="h-16 bg-slate-300 rounded-md w-3/4 mx-auto mb-4"></div>
+                <div className="h-6 bg-slate-300 rounded-md w-2/3 mx-auto"></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                {[...Array(3)].map((_, i) => (
+                    <div key={i} className="bg-white rounded-2xl border border-slate-200/80 p-8 shadow-lg animate-pulse">
+                        <div className="w-24 h-24 bg-slate-200 rounded-2xl mb-8 mx-auto"></div>
+                        <div className="h-8 bg-slate-200 rounded-md w-3/4 mx-auto mb-4"></div>
+                        <div className="h-4 bg-slate-200 rounded-md w-full mb-2"></div>
+                        <div className="h-4 bg-slate-200 rounded-md w-5/6 mb-6"></div>
+                        <div className="space-y-3">
+                            {[...Array(4)].map((_, j) => (
+                                <div key={j} className="flex items-center gap-3">
+                                    <div className="w-2 h-2 bg-slate-300 rounded-full"></div>
+                                    <div className="h-3 bg-slate-200 rounded-md w-full"></div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 ))}
             </div>
@@ -164,13 +241,7 @@ const TestimonialsSkeleton: React.FC = () => (
 );
 
 const CTASkeleton: React.FC = () => (
-    <div className="bg-slate-900 py-20 animate-pulse">
-        <div className="container mx-auto px-6 text-center">
-            <div className="h-10 w-1/2 bg-slate-700 rounded-md mx-auto mb-4"></div>
-            <div className="h-5 w-3/4 bg-slate-700 rounded-md mx-auto mb-8"></div>
-            <div className="h-12 w-64 bg-slate-700 rounded-lg mx-auto"></div>
-        </div>
-    </div>
+    <></>
 );
 
 
@@ -197,8 +268,8 @@ const HomePage: React.FC = () => {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
             />
             <Hero />
-            <LazyLoad fallback={<FeaturesSkeleton />}>
-                <HowItWorksNew />
+            <LazyLoad fallback={<RadialJourneySkeleton />}>
+                <RadialJourney />
             </LazyLoad>
             <LazyLoad fallback={<PopularServicesSkeleton />}>
                 <PopularServices />
@@ -208,10 +279,6 @@ const HomePage: React.FC = () => {
             </LazyLoad>
             <LazyLoad fallback={<TestimonialsSkeleton />}>
                 <Testimonials />
-            </LazyLoad>
-
-            <LazyLoad fallback={<CTASkeleton />}>
-                <CTA />
             </LazyLoad>
             <StickyCta />
         </div>

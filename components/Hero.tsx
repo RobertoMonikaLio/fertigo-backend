@@ -22,19 +22,19 @@ const Hero: React.FC = () => {
     ];
 
     return (
-        <section className="relative min-h-screen overflow-hidden">
+        <section className="relative min-h-[80vh] md:min-h-screen overflow-hidden">
             {/* Background */}
             <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-emerald-100 to-teal-50"></div>
             
-            {/* Animated Background Elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* Animated Background Elements (nur ab md sichtbar) */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block">
                 <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-300/30 rounded-full blur-3xl animate-pulse"></div>
                 <div className="absolute bottom-20 right-10 w-96 h-96 bg-teal-300/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-200/20 rounded-full blur-3xl"></div>
             </div>
 
             {/* Grid Pattern Overlay */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.05)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.03)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
 
             {/* Content */}
             <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-24 pb-16 lg:pt-32 lg:pb-24">
@@ -82,7 +82,7 @@ const Hero: React.FC = () => {
                         {/* Right Column - Interactive Cards */}
                         <div className="relative hidden lg:block">
                             {/* Main Card - Service Selection */}
-                            <div className="relative bg-white rounded-3xl p-8 shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
+                            <div className="relative bg-white rounded-3xl p-8 shadow-2xl transform hover:scale-[1.02] transition-transform duration-500 z-10">
                                 <div className="absolute -top-4 -right-4 bg-emerald-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
                                     Beliebt
                                 </div>
@@ -138,8 +138,8 @@ const Hero: React.FC = () => {
                     </div>
 
                     {/* Bottom Stats Bar */}
-                    <div className="mt-16 lg:mt-24 pt-8 border-t border-emerald-200">
-                        <div className="grid grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-8">
+                    <div className="mt-12 lg:mt-24 pt-8 border-t border-emerald-200">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-8">
                             {/* Trust Badges */}
                             <div className="flex flex-col items-center text-center">
                                 <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">

@@ -22,7 +22,6 @@ const ServicesPage = lazy(() => import('./pages/ServicesPage'));
 const ServiceLocationPage = lazy(() => import('./pages/ServiceLocationPage'));
 const ImprintPage = lazy(() => import('./pages/ImprintPage'));
 const TippsPage = lazy(() => import('./pages/TippsPage'));
-const MarketplacePage = lazy(() => import('./pages/MarketplacePage'));
 const RentPage = lazy(() => import('./pages/RentPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -194,7 +193,6 @@ const AppContent: React.FC = () => {
                         <Route path="/ueber-uns" element={<AboutPage />} />
                         <Route path="/tipps" element={<TippsPage />} />
                         <Route path="/vorlagen" element={<VorlagenPage />} />
-                        <Route path="/marktplatz" element={<MarketplacePage />} />
                         <Route path="/marktplatz/mieten" element={<RentPage />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/register" element={<RegisterPage />} />

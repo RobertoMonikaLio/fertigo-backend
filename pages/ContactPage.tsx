@@ -9,7 +9,7 @@ import { useAppContext } from './AppContext';
 const translations = {
     de: {
         title: "Kontaktieren Sie uns",
-        subtitle: "Haben Sie Fragen oder benötigen Sie Unterstützung? Unser Team ist für Sie da und freut sich auf Ihre Nachricht.",
+        subtitle: "Haben Sie Fragen? Unser Team ist für Sie da und freut sich auf Ihre Nachricht.",
         directContact: "Direkter Kontakt",
         email: "E-Mail",
         address: "Adresse",
@@ -253,39 +253,14 @@ const ContactPage: React.FC = () => {
         <div className="bg-primary-50 sm:bg-white py-24 sm:py-32">
             <div className="container mx-auto px-6">
                 <div className="hidden md:block max-w-4xl mx-auto text-center">
-                    <h1 className="text-4xl sm:text-6xl font-bold text-slate-900 tracking-tight mb-4">{t.title}</h1>
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 mb-4">{t.title}</h1>
                     <p className="text-lg text-slate-600 mb-16">
                         {t.subtitle}
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-5 gap-12 max-w-6xl mx-auto">
-                    
-                    <div className="hidden md:block md:col-span-2">
-                        <h2 className="text-3xl font-bold text-slate-800 mb-6">{t.directContact}</h2>
-                        <div className="space-y-6 text-slate-700">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                                    <MailIcon className="w-6 h-6 text-primary-700" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-slate-900">{t.email}</h3>
-                                    <a href="mailto:info@fertigo.ch" className="hover:text-primary-700 transition-colors">info@fertigo.ch</a>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <MapPinIcon className="w-6 h-6 text-primary-700" />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-slate-900">{t.address}</h3>
-                                    <p>Musterstrasse 123<br/>8001 Zürich, Schweiz</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className="md:col-span-3 bg-white p-8 sm:p-10 rounded-2xl shadow-xl border border-slate-200">
+                <div className="max-w-4xl mx-auto">
+                    <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-xl border border-slate-200">
                          <h2 className="text-2xl font-bold text-slate-800 mb-6">{t.writeMessage}</h2>
                          <form onSubmit={handleSubmit} className="space-y-5">
                             <div>
