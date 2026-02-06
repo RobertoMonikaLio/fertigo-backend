@@ -26,6 +26,7 @@ import {
     XMarkIcon,
     FireIcon,
     CheckCircleIcon,
+    SwissFlagIcon,
 } from '../components/icons';
 import { useAppContext } from './AppContext';
 import { useInView } from 'react-intersection-observer';
@@ -385,126 +386,311 @@ const ServicesPage: React.FC = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-[#f5f5f5]">
-            {/* All Services Section - Magazine Style Layout */}
-            <div id="services-results" className="bg-[#f5f5f5] py-12">
-                <div className="container mx-auto px-6 max-w-6xl">
-                    {/* Section Header */}
-                    <div className="mb-10">
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 mb-4">Alle Dienstleistungen</h2>
-                        <p className="text-base text-slate-600 font-medium">
-                            {searchQuery ? (
-                                <>
-                                    {filteredServices.length} {filteredServices.length === 1 ? 'Ergebnis' : 'Ergebnisse'} für "{searchQuery}"
-                                    <button
-                                        onClick={() => setSearchQuery('')}
-                                        className="ml-3 text-primary-600 hover:text-primary-700 font-bold text-sm inline-flex items-center gap-1"
-                                    >
-                                        <XMarkIcon className="w-4 h-4" />
-                                        Zurücksetzen
-                                    </button>
-                                </>
-                            ) : (
-                                <>Entdecken Sie über {allServicesData.length} professionelle Services</>
+        <div className="min-h-screen bg-white">
+            {/* Hero Section */}
+            <section className="relative overflow-hidden bg-green-50">
+                <div className="absolute inset-0 overflow-hidden">
+                    <div className="absolute -top-40 -right-40 w-80 h-80 bg-green-200/30 rounded-full blur-3xl" />
+                    <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-emerald-200/30 rounded-full blur-3xl" />
+                </div>
+                
+                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20 lg:pt-36 lg:pb-28 max-w-6xl">
+                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        {/* Linke Spalte: Text */}
+                        <div>
+                            <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-black text-slate-900 leading-[1.08] tracking-tight mb-5">
+                                Alle{' '}
+                                <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-600 to-green-700">
+                                    Dienstleistungen
+                                    <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
+                                        <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradientServices)" strokeWidth="4" strokeLinecap="round"/>
+                                        <defs>
+                                            <linearGradient id="underlineGradientServices" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stopColor="#16a34a"/>
+                                                <stop offset="50%" stopColor="#10b981"/>
+                                                <stop offset="100%" stopColor="#14b8a6"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
+                                {' '}auf einen Blick
+                            </h1>
+                            <p className="text-lg text-slate-600 leading-relaxed mb-8">
+                                Über 500 Dienstleistungen in 15 Kategorien. Finden Sie den passenden Service für Ihr Projekt – von geprüften Schweizer Fachbetrieben.
+                            </p>
+                            <div className="flex flex-wrap gap-2 mb-8">
+                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-slate-700 text-sm font-medium shadow-sm">🔧 500+ Services</span>
+                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-slate-700 text-sm font-medium shadow-sm">📂 15 Kategorien</span>
+                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-slate-700 text-sm font-medium shadow-sm">✅ Geprüfte Partner</span>
+                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-slate-700 text-sm font-medium shadow-sm">💰 Kostenlose Offerten</span>
+                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-green-50 border border-green-200 text-green-800 text-sm font-medium"><SwissFlagIcon className="w-4 h-4 text-green-600" /> Schweizweit</span>
+                            </div>
+                        </div>
+
+                        {/* Rechte Spalte: Illustration */}
+                        <div className="hidden lg:flex items-center justify-center">
+                            <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-md h-auto">
+                                {/* Smartphone Frame */}
+                                <g transform="translate(100, 20)">
+                                    {/* Phone Body */}
+                                    <rect width="200" height="360" rx="30" fill="#1e293b" />
+                                    <rect x="8" y="8" width="184" height="344" rx="24" fill="white" />
+                                    
+                                    {/* Notch */}
+                                    <rect x="70" y="8" width="60" height="20" rx="10" fill="#1e293b" />
+                                    <circle cx="100" cy="18" r="4" fill="#334155" />
+                                    
+                                    {/* Screen Content */}
+                                    {/* Header */}
+                                    <rect x="20" y="40" width="160" height="35" rx="8" fill="#f0fdf4" />
+                                    <circle cx="38" cy="57" r="10" fill="#22c55e" />
+                                    <path d="M34 57 L37 60 L43 54" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    <text x="55" y="54" fill="#1e293b" fontSize="10" fontWeight="700">Fertigo</text>
+                                    <text x="55" y="65" fill="#64748b" fontSize="7">Services</text>
+                                    <rect x="140" y="50" width="28" height="14" rx="7" fill="#22c55e" />
+                                    <text x="154" y="60" textAnchor="middle" fill="white" fontSize="7" fontWeight="600">500+</text>
+                                    
+                                    {/* Search Bar */}
+                                    <rect x="20" y="85" width="160" height="32" rx="16" fill="#f1f5f9" stroke="#e2e8f0" strokeWidth="1" />
+                                    <circle cx="38" cy="101" r="8" fill="none" stroke="#94a3b8" strokeWidth="1.5" />
+                                    <line x1="44" y1="107" x2="48" y2="111" stroke="#94a3b8" strokeWidth="1.5" strokeLinecap="round" />
+                                    <text x="58" y="105" fill="#94a3b8" fontSize="9">Service suchen...</text>
+                                    
+                                    {/* Category Pills */}
+                                    <g transform="translate(20, 125)">
+                                        <rect width="45" height="20" rx="10" fill="#22c55e" />
+                                        <text x="22" y="14" textAnchor="middle" fill="white" fontSize="7" fontWeight="600">Alle</text>
+                                        <rect x="50" y="0" width="50" height="20" rx="10" fill="#f1f5f9" />
+                                        <text x="75" y="14" textAnchor="middle" fill="#64748b" fontSize="7">Haus</text>
+                                        <rect x="105" y="0" width="55" height="20" rx="10" fill="#f1f5f9" />
+                                        <text x="132" y="14" textAnchor="middle" fill="#64748b" fontSize="7">Garten</text>
+                                    </g>
+                                    
+                                    {/* Service Cards */}
+                                    <g transform="translate(20, 155)">
+                                        {/* Card 1 */}
+                                        <rect width="75" height="75" rx="12" fill="white" stroke="#e2e8f0" strokeWidth="1" />
+                                        <rect x="8" y="8" width="59" height="35" rx="8" fill="#dcfce7" />
+                                        <text x="37" y="32" textAnchor="middle" fontSize="20">🏠</text>
+                                        <text x="37" y="58" textAnchor="middle" fill="#1e293b" fontSize="8" fontWeight="600">Haus</text>
+                                        <text x="37" y="68" textAnchor="middle" fill="#22c55e" fontSize="7" fontWeight="700">120+</text>
+                                        
+                                        {/* Card 2 */}
+                                        <rect x="85" y="0" width="75" height="75" rx="12" fill="white" stroke="#e2e8f0" strokeWidth="1" />
+                                        <rect x="93" y="8" width="59" height="35" rx="8" fill="#fef3c7" />
+                                        <text x="122" y="32" textAnchor="middle" fontSize="20">⚡</text>
+                                        <text x="122" y="58" textAnchor="middle" fill="#1e293b" fontSize="8" fontWeight="600">Elektro</text>
+                                        <text x="122" y="68" textAnchor="middle" fill="#f59e0b" fontSize="7" fontWeight="700">85+</text>
+                                        
+                                        {/* Card 3 */}
+                                        <rect x="0" y="85" width="75" height="75" rx="12" fill="white" stroke="#e2e8f0" strokeWidth="1" />
+                                        <rect x="8" y="93" width="59" height="35" rx="8" fill="#dbeafe" />
+                                        <text x="37" y="117" textAnchor="middle" fontSize="20">🎨</text>
+                                        <text x="37" y="143" textAnchor="middle" fill="#1e293b" fontSize="8" fontWeight="600">Maler</text>
+                                        <text x="37" y="153" textAnchor="middle" fill="#3b82f6" fontSize="7" fontWeight="700">95+</text>
+                                        
+                                        {/* Card 4 */}
+                                        <rect x="85" y="85" width="75" height="75" rx="12" fill="white" stroke="#e2e8f0" strokeWidth="1" />
+                                        <rect x="93" y="93" width="59" height="35" rx="8" fill="#d1fae5" />
+                                        <text x="122" y="117" textAnchor="middle" fontSize="20">🌿</text>
+                                        <text x="122" y="143" textAnchor="middle" fill="#1e293b" fontSize="8" fontWeight="600">Garten</text>
+                                        <text x="122" y="153" textAnchor="middle" fill="#10b981" fontSize="7" fontWeight="700">75+</text>
+                                    </g>
+                                    
+                                    {/* Bottom Navigation */}
+                                    <rect x="20" y="325" width="160" height="22" rx="11" fill="#f8fafc" />
+                                    <circle cx="55" cy="336" r="6" fill="#22c55e" />
+                                    <circle cx="100" cy="336" r="6" fill="#e2e8f0" />
+                                    <circle cx="145" cy="336" r="6" fill="#e2e8f0" />
+                                </g>
+                                
+                                {/* Floating Elements */}
+                                <g transform="translate(40, 100)">
+                                    <rect width="55" height="45" rx="10" fill="white" stroke="#22c55e" strokeWidth="2" />
+                                    <text x="27" y="28" textAnchor="middle" fontSize="18">🔧</text>
+                                    <text x="27" y="40" textAnchor="middle" fill="#22c55e" fontSize="7" fontWeight="700">65+</text>
+                                    <animate attributeName="transform" values="translate(40, 100);translate(40, 90);translate(40, 100)" dur="3s" repeatCount="indefinite" />
+                                </g>
+                                
+                                <g transform="translate(320, 150)">
+                                    <rect width="55" height="45" rx="10" fill="white" stroke="#10b981" strokeWidth="2" />
+                                    <text x="27" y="28" textAnchor="middle" fontSize="18">🚿</text>
+                                    <text x="27" y="40" textAnchor="middle" fill="#10b981" fontSize="7" fontWeight="700">55+</text>
+                                    <animate attributeName="transform" values="translate(320, 150);translate(320, 160);translate(320, 150)" dur="3.5s" repeatCount="indefinite" />
+                                </g>
+                                
+                                <g transform="translate(30, 280)">
+                                    <rect width="50" height="40" rx="8" fill="white" stroke="#059669" strokeWidth="2" />
+                                    <text x="25" y="25" textAnchor="middle" fontSize="16">🧹</text>
+                                    <text x="25" y="36" textAnchor="middle" fill="#059669" fontSize="6" fontWeight="700">45+</text>
+                                    <animate attributeName="transform" values="translate(30, 280);translate(30, 270);translate(30, 280)" dur="4s" repeatCount="indefinite" />
+                                </g>
+                                
+                                {/* Decorative */}
+                                <circle cx="350" cy="80" r="6" fill="#22c55e" opacity="0.3" />
+                                <circle cx="25" cy="200" r="5" fill="#10b981" opacity="0.4" />
+                                <circle cx="370" cy="300" r="8" fill="#22c55e" opacity="0.2" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* All Services Section - Modern Split Layout */}
+            <div id="services-results" className="bg-slate-50 py-16">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                    
+                    {/* Top Bar - Search & Stats */}
+                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
+                        <div>
+                            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">
+                                {selectedCategory === 'Alle' ? 'Alle Services' : selectedCategory}
+                            </h2>
+                            <p className="text-slate-500">
+                                {filteredServices.length} {filteredServices.length === 1 ? 'Service' : 'Services'} verfügbar
+                            </p>
+                        </div>
+                        
+                        {/* Search Bar */}
+                        <div className="relative max-w-md w-full">
+                            <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                            <input
+                                type="text"
+                                placeholder="Service suchen..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                            />
+                            {searchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery('')}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                >
+                                    <XMarkIcon className="w-5 h-5" />
+                                </button>
                             )}
-                        </p>
+                        </div>
                     </div>
 
-                    {/* Category Tiles - Above Cards */}
-                    <div className="mb-10">
-                        {/* Category Grid */}
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
-                            {/* All Services Tile */}
+                    {/* Category Pills - Horizontal Scroll */}
+                    <div className="mb-8 -mx-4 px-4">
+                        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
                             <button
-                                type="button"
                                 onClick={() => setSelectedCategory('Alle')}
-                                className={`group p-4 rounded-2xl transition-all text-center ${
+                                className={`flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm transition-all ${
                                     selectedCategory === 'Alle'
-                                        ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/25'
-                                        : 'bg-white border border-slate-200 hover:border-primary-300 hover:shadow-md'
+                                        ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
+                                        : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600'
                                 }`}
                             >
-                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-2 ${
-                                    selectedCategory === 'Alle' ? 'bg-white/20' : 'bg-primary-50 group-hover:bg-primary-100'
-                                }`}>
-                                    <svg className={`w-6 h-6 ${selectedCategory === 'Alle' ? 'text-white' : 'text-primary-600'}`} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
-                                    </svg>
-                                </div>
-                                <p className={`text-sm font-bold ${selectedCategory === 'Alle' ? 'text-white' : 'text-slate-900'}`}>Alle</p>
-                                <p className={`text-xs ${selectedCategory === 'Alle' ? 'text-white/70' : 'text-slate-500'}`}>{allServicesData.length}</p>
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                                </svg>
+                                Alle ({allServicesData.length})
                             </button>
-
-                            {/* Category Tiles */}
                             {categoryOrder.map((category) => {
                                 const count = (servicesByCategory[category] || []).length;
                                 const isActive = selectedCategory === category;
-                                
                                 return (
                                     <button
-                                        type="button"
                                         key={category}
                                         onClick={() => setSelectedCategory(category)}
-                                        className={`group p-4 rounded-2xl transition-all text-center ${
+                                        className={`flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm transition-all ${
                                             isActive
-                                                ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/25'
-                                                : 'bg-white border border-slate-200 hover:border-primary-300 hover:shadow-md'
+                                                ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
+                                                : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600'
                                         }`}
                                     >
-                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-2 ${
-                                            isActive ? 'bg-white/20' : 'bg-slate-100 group-hover:bg-primary-50'
-                                        }`}>
-                                            <div className={`w-6 h-6 ${isActive ? 'text-white' : 'text-slate-500 group-hover:text-primary-600'}`}>
-                                                {categoryIcons[category]}
-                                            </div>
-                                        </div>
-                                        <p className={`text-xs font-semibold leading-tight mb-0.5 line-clamp-2 ${
-                                            isActive ? 'text-white' : 'text-slate-700'
-                                        }`}>
-                                            {category}
-                                        </p>
-                                        <p className={`text-[10px] ${isActive ? 'text-white/70' : 'text-slate-400'}`}>
-                                            {count}
-                                        </p>
+                                        <span className="w-4 h-4">{categoryIcons[category]}</span>
+                                        {category} ({count})
                                     </button>
                                 );
                             })}
                         </div>
-
-                        {/* Active Filter Info */}
-                        {selectedCategory !== 'Alle' && (
-                            <div className="mt-6 flex items-center justify-between bg-primary-50 rounded-xl px-5 py-3 border border-primary-100">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-2 h-2 rounded-full bg-primary-500"></div>
-                                    <span className="text-sm font-medium text-primary-800">
-                                        Kategorie: <span className="font-bold">{selectedCategory}</span>
-                                    </span>
-                                    <span className="text-sm text-primary-600">({filteredServices.length} Services)</span>
-                                </div>
-                                <button
-                                    type="button"
-                                    onClick={() => setSelectedCategory('Alle')}
-                                    className="text-sm text-primary-600 hover:text-primary-700 font-semibold flex items-center gap-1"
-                                >
-                                    <XMarkIcon className="w-4 h-4" />
-                                    Zurücksetzen
-                                </button>
-                            </div>
-                        )}
                     </div>
 
-                    {/* Services Grid */}
-                    <div>
-                        {filteredServices.length > 0 ? (
-                            <MagazineServicesGrid
-                                services={filteredServices}
-                                categoryGradients={categoryGradients}
-                                onServiceClick={(name) => openQuoteModal({ projectTitle: name, service: name })}
-                            />
-                        ) : (
-                            <NoResults searchQuery={searchQuery} onReset={() => { setSearchQuery(''); setSelectedCategory('Alle'); }} />
-                        )}
-                    </div>
+                    {/* Services Grid - Compact Cards */}
+                    {filteredServices.length > 0 ? (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                            {filteredServices.map((service, index) => {
+                                const serviceEmojis: Record<string, string> = {
+                                    // Bau & Rohbau
+                                    'Maurerarbeiten': '🧱',
+                                    'Zimmermannarbeiten': '🪵',
+                                    'Dachdecker': '🏠',
+                                    'Fassadenbau': '🏢',
+                                    // Innenausbau
+                                    'Schreiner': '🪚',
+                                    'Gipserarbeiten': '🪣',
+                                    'Bodenleger': '🪵',
+                                    'Plattenleger': '🔲',
+                                    'Fenstermontage': '🪟',
+                                    // Haustechnik
+                                    'Sanitär': '🚿',
+                                    'Heizungsinstallation': '🔥',
+                                    'Elektriker': '⚡',
+                                    'Klimaanlagen-Service': '❄️',
+                                    // Renovation & Gestaltung
+                                    'Malerarbeiten': '🎨',
+                                    'Küchenbau': '🍳',
+                                    'Badezimmerumbau': '🛁',
+                                    // Umzug & Transport
+                                    'Privatumzug': '📦',
+                                    'Firmenumzug': '🏬',
+                                    'Möbeltransport': '🛋️',
+                                    'Klaviertransport': '🎹',
+                                    'Entsorgung & Räumung': '🗑️',
+                                    'Einlagerung': '📦',
+                                    // Reinigung & Pflege
+                                    'Umzugsreinigung': '🧹',
+                                    'Gebäudereinigung': '🏢',
+                                    'Fensterreinigung': '🪟',
+                                    'Baureinigung': '🧽',
+                                    'Dachreinigung': '🏠',
+                                    'Hauswartung': '🔧',
+                                    // Garten & Aussenbereich
+                                    'Gartenpflege': '🌿',
+                                    'Gartenbau': '🌳',
+                                    'Baumpflege': '🌲',
+                                    'Zaunbau': '🚧',
+                                    // Fahrzeuge & Maschinen
+                                    'Fahrzeugreinigung': '🚗',
+                                    'Maschinenvermietung': '🚜',
+                                    // Events & Kreatives
+                                    'Catering & Partyservice': '🍽️',
+                                    'Eventorganisation': '🎉',
+                                    'Fotografie & Video': '📸',
+                                    // Business & Finanzen
+                                    'Buchhaltung & Treuhand': '📊',
+                                };
+                                const emoji = serviceEmojis[service.name] || '🔨';
+                                
+                                return (
+                                    <button
+                                        key={service.name}
+                                        onClick={() => openQuoteModal({ projectTitle: service.name, service: service.name })}
+                                        className="group bg-white rounded-2xl p-4 border border-slate-100 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/50 transition-all text-left"
+                                    >
+                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                            <span className="text-2xl">{emoji}</span>
+                                        </div>
+                                        <h3 className="font-bold text-slate-900 text-sm leading-tight mb-1 group-hover:text-green-600 transition-colors">
+                                            {service.name}
+                                        </h3>
+                                        <p className="text-xs text-slate-400">{service.category}</p>
+                                        {service.popular && (
+                                            <span className="inline-flex items-center gap-1 mt-2 px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded-full">
+                                                <FireIcon className="w-3 h-3" /> Beliebt
+                                            </span>
+                                        )}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <NoResults searchQuery={searchQuery} onReset={() => { setSearchQuery(''); setSelectedCategory('Alle'); }} />
+                    )}
+
                 </div>
             </div>
 
@@ -800,14 +986,15 @@ const MagazineServicesGrid: React.FC<MagazineServicesGridProps> = ({
     onServiceClick
 }) => {
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
             {services.map((service, index) => (
-                <ServiceCardItem
-                    key={service.name}
-                    service={service}
-                    index={index}
-                    onServiceClick={onServiceClick}
-                />
+                <div key={service.name} className="flex-shrink-0 w-64">
+                    <ServiceCardItem
+                        service={service}
+                        index={index}
+                        onServiceClick={onServiceClick}
+                    />
+                </div>
             ))}
         </div>
     );

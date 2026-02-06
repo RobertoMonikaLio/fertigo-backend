@@ -1,862 +1,500 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
-import { useAppContext } from './AppContext';
+import { ArrowRightIcon, SwissFlagIcon } from '../components/icons';
+
+export const providersData: Array<{ id: string; location: string; [key: string]: any }> = [];
 
 const ProvidersPage: React.FC = () => {
-    const { language } = useAppContext();
-    const [activeFeature, setActiveFeature] = useState(0);
-    
     const { ref: heroRef, inView: heroInView } = useInView({ triggerOnce: true, threshold: 0.1 });
-    const { ref: statsRef, inView: statsInView } = useInView({ triggerOnce: true, threshold: 0.1 });
-    const { ref: featuresRef, inView: featuresInView } = useInView({ triggerOnce: true, threshold: 0.1 });
-    const { ref: stepsRef, inView: stepsInView } = useInView({ triggerOnce: true, threshold: 0.1 });
+    const { ref: stepsRef, inView: stepsInView } = useInView({ triggerOnce: true, threshold: 0.05 });
+    const { ref: benefitsRef, inView: benefitsInView } = useInView({ triggerOnce: true, threshold: 0.1 });
+    const { ref: testimonialsRef, inView: testimonialsInView } = useInView({ triggerOnce: true, threshold: 0.1 });
     const { ref: ctaRef, inView: ctaInView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
-    const stats = [
-        { value: "2'847", label: "Aktive Anfragen", suffix: "" },
-        { value: "12.4", label: "Mio. CHF vermittelt", suffix: "+" },
-        { value: "1'523", label: "Partner-Firmen", suffix: "" },
-        { value: "94", label: "Zufriedenheit", suffix: "%" },
-    ];
-
-    const features = [
-        {
-            title: "Live-Marktplatz",
-            description: "Sehen Sie neue Anfragen in Echtzeit. Filtern Sie nach Region, Branche und Budget – und reagieren Sie als Erster.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
-                </svg>
-            ),
-            preview: (
-                <div className="space-y-3">
-                    {[
-                        { title: "Malerarbeiten 3-Zi Wohnung", location: "8004 Zürich", budget: "CHF 2'400", time: "vor 2 Min" },
-                        { title: "Umzug & Möbeltransport", location: "3000 Bern", budget: "CHF 1'800", time: "vor 8 Min" },
-                        { title: "Gartenpflege Einfamilienhaus", location: "6000 Luzern", budget: "CHF 950", time: "vor 15 Min" },
-                    ].map((item, i) => (
-                        <div key={i} className="bg-white rounded-xl p-4 border border-slate-200 flex items-center gap-4 hover:shadow-md transition-shadow">
-                            <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center text-primary-600">
-                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                                </svg>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <div className="font-semibold text-slate-900 text-sm truncate">{item.title}</div>
-                                <div className="text-xs text-slate-500">{item.location}</div>
-                            </div>
-                            <div className="text-right">
-                                <div className="font-bold text-primary-600 text-sm">{item.budget}</div>
-                                <div className="text-xs text-slate-400">{item.time}</div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )
-        },
-        {
-            title: "Detaillierte Lead-Infos",
-            description: "Alle wichtigen Projektdetails auf einen Blick – bevor Sie einen Lead kaufen. Keine bösen Überraschungen.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9zm3.75 11.625a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-                </svg>
-            ),
-            preview: (
-                <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-                    <div className="p-4 border-b border-slate-100">
-                        <div className="flex items-center justify-between mb-2">
-                            <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded">Neu</span>
-                            <span className="text-xs text-slate-500">ID: #28471</span>
-                        </div>
-                        <h4 className="font-bold text-slate-900">Malerarbeiten Wohnung</h4>
-                        <p className="text-sm text-slate-500 mt-1">Streichen von 3 Zimmern inkl. Decken</p>
-                    </div>
-                    <div className="p-4 space-y-3 text-sm">
-                        <div className="flex justify-between">
-                            <span className="text-slate-500">Standort</span>
-                            <span className="font-medium text-slate-900">8004 Zürich</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-slate-500">Budget</span>
-                            <span className="font-medium text-slate-900">CHF 2'000 - 3'000</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-slate-500">Zeitrahmen</span>
-                            <span className="font-medium text-slate-900">Nächste 2 Wochen</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-slate-500">Fläche</span>
-                            <span className="font-medium text-slate-900">ca. 65 m²</span>
-                        </div>
-                    </div>
-                </div>
-            )
-        },
-        {
-            title: "Status-Management",
-            description: "Verfolgen Sie jede Anfrage von 'Neu' bis 'Gewonnen'. Behalten Sie den Überblick über Ihre Pipeline.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
-                </svg>
-            ),
-            preview: (
-                <div className="space-y-4">
-                    <div className="flex gap-2">
-                        {['Neu', 'Kontaktiert', 'Offerte', 'Gewonnen'].map((status, i) => (
-                            <div key={status} className={`flex-1 text-center py-2 rounded-lg text-xs font-semibold ${
-                                i === 0 ? 'bg-blue-100 text-blue-700' :
-                                i === 1 ? 'bg-amber-100 text-amber-700' :
-                                i === 2 ? 'bg-purple-100 text-purple-700' :
-                                'bg-emerald-100 text-emerald-700'
-                            }`}>
-                                {status}
-                            </div>
-                        ))}
-                    </div>
-                    <div className="grid grid-cols-4 gap-2 text-center">
-                        <div className="text-2xl font-bold text-slate-900">12</div>
-                        <div className="text-2xl font-bold text-slate-900">8</div>
-                        <div className="text-2xl font-bold text-slate-900">5</div>
-                        <div className="text-2xl font-bold text-emerald-600">3</div>
-                    </div>
-                    <div className="bg-slate-100 rounded-full h-3 overflow-hidden">
-                        <div className="h-full flex">
-                            <div className="bg-blue-500 w-[43%]"></div>
-                            <div className="bg-amber-500 w-[29%]"></div>
-                            <div className="bg-purple-500 w-[18%]"></div>
-                            <div className="bg-emerald-500 w-[10%]"></div>
-                        </div>
-                    </div>
-                </div>
-            )
-        },
+    const benefits = [
+        { title: "Alles auf einen Blick", desc: "Anfragen, Status und Kennzahlen an einem Ort.", icon: "M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" },
+        { title: "Keine Zettelwirtschaft", desc: "Kontakte und Notizen digital – immer aktuell.", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
+        { title: "Echte Zahlen", desc: "Keine Schätzungen – nur reale Daten aus dem Markt.", icon: "M3 13v-4a2 2 0 012-2h14a2 2 0 012 2v4M3 13h18M3 13l2-8h14l2 8M5 13v6a2 2 0 002 2h10a2 2 0 002-2v-6" },
+        { title: "Immer aktuell", desc: "Live-Updates bei neuen Anfragen in Ihrer Region.", icon: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" },
     ];
 
     const steps = [
-        {
-            num: "01",
-            title: "Lead prüfen",
-            description: "Sehen Sie alle Projektdetails, bevor Sie kaufen. Region, Budget, Anforderungen – transparent und klar.",
-            color: "from-blue-500 to-indigo-600",
-        },
-        {
-            num: "02", 
-            title: "Kunde kontaktieren",
-            description: "Nach dem Kauf erhalten Sie sofort die Kontaktdaten. Rufen Sie an, senden Sie eine E-Mail oder eine Nachricht.",
-            color: "from-violet-500 to-purple-600",
-        },
-        {
-            num: "03",
-            title: "Auftrag gewinnen",
-            description: "Überzeugen Sie mit Ihrem Angebot und Ihrer Expertise. Der Auftrag gehört Ihnen – ohne Provision.",
-            color: "from-emerald-500 to-teal-600",
-        },
+        { step: 1, number: "1", icon: "🔍", title: "Lead prüfen & kaufen", desc: "Live-Marktplatz durchstöbern, passende Anfragen wählen. Alle Details sichtbar – Sie entscheiden.", features: ["Live-Marktplatz", "Alle Details sichtbar", "Sie entscheiden"], gradient: "from-green-500 to-emerald-500", bgGradient: "from-green-50 to-emerald-50", swissValue: "Fair & transparent" },
+        { step: 2, number: "2", icon: "📞", title: "Direkt Kontakt aufnehmen", desc: "Nach dem Kauf sofort alle Kontaktdaten. Anrufen oder schreiben – der erste Eindruck zählt.", features: ["Sofort Kontaktdaten", "Anrufen oder schreiben", "Erster Eindruck zählt"], gradient: "from-emerald-500 to-teal-500", bgGradient: "from-emerald-50 to-teal-50", swissValue: "Direkt zum Kunden" },
+        { step: 3, number: "3", icon: "✅", title: "Auftrag gewinnen", desc: "Überzeugen Sie mit Ihrer Expertise. 100% Ihr Gewinn – keine Provision, keine versteckten Kosten.", features: ["100% Ihr Gewinn", "Keine Provision", "Keine versteckten Kosten"], gradient: "from-teal-500 to-cyan-500", bgGradient: "from-teal-50 to-cyan-50", swissValue: "Schweizer Qualität" },
+    ];
+
+    const testimonials = [
+        { quote: "Seit ich dabei bin, habe ich meinen Umsatz um 40% gesteigert. Die Anfragen sind qualitativ hochwertig – die Kunden sind ernsthaft interessiert.", name: "Marco Brunner", role: "Malermeister", location: "Zürich", initials: "MB" },
+        { quote: "Endlich eine Plattform ohne versteckte Kosten! Ich zahle nur für die Leads, die ich haben möchte. Fair und transparent.", name: "Sarah Keller", role: "Reinigungsunternehmen", location: "Bern", initials: "SK" },
+        { quote: "Die App ist einfach zu bedienen. Sofort eine Benachrichtigung, wenn eine neue Anfrage in meiner Region reinkommt.", name: "Thomas Müller", role: "Elektriker", location: "Basel", initials: "TM" },
     ];
 
     return (
-        <div className="bg-white">
-            
-            {/* Hero Section - Split Design */}
-            <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden">
-                {/* Left Side - Dark */}
-                <div className="absolute inset-y-0 left-0 w-full lg:w-1/2 bg-slate-900">
-                    <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
-                    <div className="absolute inset-0 opacity-30">
-                        <div className="absolute top-20 left-20 w-72 h-72 bg-primary-500/30 rounded-full blur-[100px]" />
-                        <div className="absolute bottom-20 right-20 w-72 h-72 bg-emerald-500/30 rounded-full blur-[100px]" />
-                    </div>
-                </div>
-                
-                {/* Right Side - Light (Desktop) */}
-                <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-br from-slate-50 to-white hidden lg:block" />
-
-                <div className="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10 py-20 lg:py-0">
-                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                        
-                        {/* Left Content */}
-                        <div className={`transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                            
-                            {/* Badge */}
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur border border-white/10 mb-6">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-                                </span>
-                                <span className="text-emerald-400 text-sm font-medium">2'847 aktive Anfragen</span>
-                            </div>
-                            
-                            {/* Headline */}
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6">
-                                Der schnellste Weg zu
-                                <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-primary-400 via-emerald-400 to-primary-400">
-                                    neuen Aufträgen
-                                </span>
+        <div className="mx-auto overflow-hidden">
+            {/* Hero – Zwei-Spalten: Text links, Illustration rechts */}
+            <section ref={heroRef} className="relative overflow-hidden bg-green-50">
+                <div className="absolute right-0 top-0 bottom-0 w-1/2 max-w-2xl bg-gradient-to-l from-green-100/60 to-transparent pointer-events-none" />
+                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 lg:pt-40 lg:pb-36 max-w-6xl">
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-12 items-center">
+                        {/* Linke Spalte: Text */}
+                        <div className={`transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                            <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-black text-slate-900 leading-[1.08] tracking-tight mb-5 -mt-12">
+                                Mehr Aufträge aus{' '}
+                                <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-600 to-green-700">Ihrer Region<svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none"><path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradient5)" strokeWidth="4" strokeLinecap="round"/><defs><linearGradient id="underlineGradient5" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#16a34a"/><stop offset="50%" stopColor="#10b981"/><stop offset="100%" stopColor="#14b8a6"/></linearGradient></defs></svg></span>
                             </h1>
-                            
-                            {/* Description */}
-                            <p className="text-lg text-slate-400 leading-relaxed mb-8 max-w-md">
-                                Verbinden Sie sich mit Kunden in Ihrer Region. Keine monatlichen Gebühren, keine Provision – nur echte Aufträge.
+                            <p className="text-lg text-slate-600 leading-relaxed mb-8">
+                                Fair, transparent, ohne Abo. Nur Leads kaufen, die zu Ihrem Betrieb passen – Schweizer Datenschutz, DSGVO-konform.
                             </p>
-                            
-                            {/* CTA */}
-                            <div className="flex flex-col sm:flex-row gap-4 mb-10">
+                            <div className="flex flex-wrap gap-2 mb-8">
+                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm font-medium">🚫 Kein Abo</span>
+                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm font-medium">📍 Ihre Region</span>
+                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm font-medium">💰 Faire Preise</span>
+                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm font-medium">⚡ Sofort Leads</span>
+                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm font-medium">✅ Geprüfte Anfragen</span>
+                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-green-50 border border-green-200 text-green-800 text-sm font-medium"><SwissFlagIcon className="w-4 h-4 text-green-600" /> Schweizer Datenschutz</span>
+                            </div>
+                            <div className="flex flex-col sm:flex-row gap-4 mt-6">
                                 <Link
                                     to="/register"
-                                    className="group inline-flex items-center justify-center gap-2 px-7 py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-100 transition-all"
+                                    className="group inline-flex items-center justify-center gap-2 bg-green-600 text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-green-700 transition-colors shadow-lg shadow-green-600/25"
                                 >
-                                    Kostenlos registrieren
-                                    <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    Kostenlos Partner werden
+                                    <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                     </svg>
                                 </Link>
-                                <Link
-                                    to="/partner/pricing"
-                                    className="inline-flex items-center justify-center gap-2 px-7 py-4 text-white font-semibold rounded-xl border border-white/20 hover:bg-white/5 transition-all"
-                                >
-                                    Preise ansehen
-                                </Link>
-                            </div>
-                            
-                            {/* Stats Row */}
-                            <div className="flex items-center gap-8">
-                                {[
-                                    { value: "12.5k+", label: "Partner" },
-                                    { value: "847", label: "Täglich neu" },
-                                    { value: "98%", label: "Zufrieden" },
-                                ].map((stat, i) => (
-                                    <div key={i}>
-                                        <div className="text-2xl font-black text-white">{stat.value}</div>
-                                        <div className="text-slate-500 text-sm">{stat.label}</div>
-                                    </div>
-                                ))}
                             </div>
                         </div>
 
-                        {/* Right Content - Cards Stack */}
-                        <div className={`relative transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
-                            
-                            {/* Main Card */}
-                            <div className="bg-white rounded-3xl shadow-2xl p-6 relative z-20">
-                                <div className="flex items-center justify-between mb-6">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-primary-500 flex items-center justify-center">
-                                            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <div className="font-bold text-slate-900">Live Anfragen</div>
-                                            <div className="text-slate-500 text-xs">Aktualisiert vor 2 Sek.</div>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 rounded-full">
-                                        <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                                        <span className="text-emerald-700 text-xs font-semibold">Live</span>
-                                    </div>
-                                </div>
+                        {/* Rechte Spalte: SVG-Illustration */}
+                        <div className={`hidden lg:flex items-center justify-center transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+                            <svg viewBox="0 0 400 420" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-md h-auto">
+                                {/* Hintergrund */}
+                                <rect x="20" y="20" width="360" height="380" rx="30" fill="#f8fafc" />
                                 
-                                <div className="space-y-3">
-                                    {[
-                                        { title: "Badezimmer Renovation", loc: "8004 Zürich", budget: "CHF 8'500", time: "Gerade eben", color: "bg-blue-500" },
-                                        { title: "Malerarbeiten 4-Zi", loc: "3012 Bern", budget: "CHF 3'200", time: "vor 3 Min", color: "bg-amber-500" },
-                                        { title: "Küche montieren", loc: "4051 Basel", budget: "CHF 2'800", time: "vor 8 Min", color: "bg-violet-500" },
-                                    ].map((item, i) => (
-                                        <div key={i} className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors cursor-pointer group">
-                                            <div className={`w-12 h-12 ${item.color} rounded-xl flex items-center justify-center text-white font-bold`}>
-                                                {item.title.charAt(0)}
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <div className="font-semibold text-slate-900 truncate">{item.title}</div>
-                                                <div className="text-slate-500 text-sm">{item.loc} • {item.time}</div>
-                                            </div>
-                                            <div className="text-right">
-                                                <div className="font-bold text-slate-900">{item.budget}</div>
-                                                <button className="text-primary-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    Details →
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
+                                {/* Dashboard Card */}
+                                <g transform="translate(40, 40)">
+                                    <rect width="320" height="340" rx="24" fill="white" stroke="#e2e8f0" strokeWidth="2" />
+                                    
+                                    {/* Header */}
+                                    <rect x="0" y="0" width="320" height="70" rx="24" fill="url(#dashGradient)" />
+                                    <rect x="0" y="40" width="320" height="30" fill="url(#dashGradient)" />
+                                    <text x="25" y="35" fill="white" fontSize="14" fontWeight="700">Partner Dashboard</text>
+                                    <text x="25" y="52" fill="white" fontSize="10" opacity="0.8">Willkommen zurück!</text>
+                                    
+                                    {/* Notification Bell */}
+                                    <g transform="translate(275, 25)">
+                                        <circle cx="12" cy="12" r="16" fill="white" opacity="0.2" />
+                                        <text x="12" y="17" textAnchor="middle" fontSize="14">🔔</text>
+                                        <circle cx="20" cy="6" r="6" fill="#ef4444" />
+                                        <text x="20" y="9" textAnchor="middle" fill="white" fontSize="8" fontWeight="700">3</text>
+                                    </g>
+                                    
+                                    {/* Stats Cards Row */}
+                                    <g transform="translate(20, 85)">
+                                        {/* Neue Leads */}
+                                        <rect width="130" height="70" rx="12" fill="#f0fdf4" stroke="#bbf7d0" strokeWidth="1" />
+                                        <text x="15" y="25" fill="#64748b" fontSize="9">Neue Leads</text>
+                                        <text x="15" y="50" fill="#22c55e" fontSize="24" fontWeight="800">12</text>
+                                        <text x="55" y="50" fill="#22c55e" fontSize="10">+3 heute</text>
+                                        <circle cx="110" cy="35" r="18" fill="#dcfce7" />
+                                        <text x="110" y="40" textAnchor="middle" fontSize="16">📩</text>
+                                        
+                                        {/* Umsatz */}
+                                        <g transform="translate(150, 0)">
+                                            <rect width="130" height="70" rx="12" fill="#fefce8" stroke="#fef08a" strokeWidth="1" />
+                                            <text x="15" y="25" fill="#64748b" fontSize="9">Umsatz Monat</text>
+                                            <text x="15" y="50" fill="#ca8a04" fontSize="20" fontWeight="800">8'450</text>
+                                            <text x="80" y="50" fill="#ca8a04" fontSize="10">CHF</text>
+                                            <circle cx="110" cy="35" r="18" fill="#fef9c3" />
+                                            <text x="110" y="40" textAnchor="middle" fontSize="16">💰</text>
+                                        </g>
+                                    </g>
+                                    
+                                    {/* Chart Area */}
+                                    <g transform="translate(20, 170)">
+                                        <text x="0" y="0" fill="#1e293b" fontSize="11" fontWeight="700">Aufträge letzte 7 Tage</text>
+                                        
+                                        {/* Mini Bar Chart */}
+                                        <g transform="translate(0, 15)">
+                                            <rect x="0" y="40" width="30" height="25" rx="4" fill="#dcfce7" />
+                                            <rect x="40" y="30" width="30" height="35" rx="4" fill="#bbf7d0" />
+                                            <rect x="80" y="20" width="30" height="45" rx="4" fill="#86efac" />
+                                            <rect x="120" y="35" width="30" height="30" rx="4" fill="#bbf7d0" />
+                                            <rect x="160" y="10" width="30" height="55" rx="4" fill="#22c55e" />
+                                            <rect x="200" y="25" width="30" height="40" rx="4" fill="#86efac" />
+                                            <rect x="240" y="5" width="30" height="60" rx="4" fill="url(#barGrad)" />
+                                            
+                                            {/* X-Axis Labels */}
+                                            <text x="15" y="78" textAnchor="middle" fill="#94a3b8" fontSize="8">Mo</text>
+                                            <text x="55" y="78" textAnchor="middle" fill="#94a3b8" fontSize="8">Di</text>
+                                            <text x="95" y="78" textAnchor="middle" fill="#94a3b8" fontSize="8">Mi</text>
+                                            <text x="135" y="78" textAnchor="middle" fill="#94a3b8" fontSize="8">Do</text>
+                                            <text x="175" y="78" textAnchor="middle" fill="#94a3b8" fontSize="8">Fr</text>
+                                            <text x="215" y="78" textAnchor="middle" fill="#94a3b8" fontSize="8">Sa</text>
+                                            <text x="255" y="78" textAnchor="middle" fill="#94a3b8" fontSize="8">So</text>
+                                        </g>
+                                    </g>
+                                    
+                                    {/* Recent Lead Card */}
+                                    <g transform="translate(20, 275)">
+                                        <rect width="280" height="50" rx="10" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
+                                        <circle cx="30" cy="25" r="18" fill="#dbeafe" />
+                                        <text x="30" y="30" textAnchor="middle" fontSize="16">👤</text>
+                                        <text x="58" y="20" fill="#1e293b" fontSize="10" fontWeight="600">Neuer Lead: Malerarbeiten</text>
+                                        <text x="58" y="35" fill="#64748b" fontSize="9">Zürich • vor 5 Min</text>
+                                        <rect x="220" y="15" width="50" height="22" rx="6" fill="#22c55e" />
+                                        <text x="245" y="30" textAnchor="middle" fill="white" fontSize="9" fontWeight="600">Öffnen</text>
+                                    </g>
+                                </g>
                                 
-                                <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
-                                    <span className="text-slate-500 text-sm">+24 weitere in Ihrer Region</span>
-                                    <Link to="/partner/marketplace" className="text-primary-600 font-semibold text-sm hover:text-primary-700">
-                                        Alle ansehen →
-                                    </Link>
-                                </div>
-                            </div>
-                            
-                            {/* Background Cards */}
-                            <div className="absolute top-4 -right-4 w-full h-full bg-slate-200 rounded-3xl -z-10 transform rotate-2" />
-                            <div className="absolute top-8 -right-8 w-full h-full bg-slate-300 rounded-3xl -z-20 transform rotate-4" />
-                            
-                            {/* Floating Elements */}
-                            <div className="absolute -top-6 -left-6 bg-white rounded-2xl shadow-xl p-4 z-30">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                                        <svg className="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <div className="font-bold text-slate-900 text-sm">Keine Gebühren</div>
-                                        <div className="text-slate-500 text-xs">Nur zahlen was Sie nutzen</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-xl p-4 z-30">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
-                                        <svg className="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <div className="font-bold text-slate-900 text-sm">Sofort starten</div>
-                                        <div className="text-slate-500 text-xs">In unter 2 Minuten</div>
-                                    </div>
-                                </div>
-                            </div>
+                                {/* Floating Notification */}
+                                <g transform="translate(300, 100)">
+                                    <rect width="90" height="55" rx="12" fill="white" stroke="#22c55e" strokeWidth="2" />
+                                    <circle cx="25" cy="27" r="15" fill="#dcfce7" />
+                                    <text x="25" y="32" textAnchor="middle" fontSize="14">✅</text>
+                                    <text x="60" y="22" textAnchor="middle" fill="#1e293b" fontSize="9" fontWeight="600">Lead</text>
+                                    <text x="60" y="35" textAnchor="middle" fill="#22c55e" fontSize="11" fontWeight="700">+1 neu</text>
+                                    <animate attributeName="transform" values="translate(300, 100);translate(300, 90);translate(300, 100)" dur="2s" repeatCount="indefinite" />
+                                </g>
+                                
+                                <defs>
+                                    <linearGradient id="dashGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#22c55e" />
+                                        <stop offset="100%" stopColor="#10b981" />
+                                    </linearGradient>
+                                    <linearGradient id="barGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                                        <stop offset="0%" stopColor="#22c55e" />
+                                        <stop offset="100%" stopColor="#10b981" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
                         </div>
                     </div>
                 </div>
             </section>
 
+            {/* So funktioniert's – wie Home „In 3 Schritten“ (RadialJourney-Stil) */}
+            <section ref={stepsRef} className="relative py-20 sm:py-28 lg:py-36 overflow-hidden bg-gradient-to-b from-white via-green-50/30 to-white border-t border-slate-200">
+                {/* Hintergrund wie RadialJourney */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(34,197,94,0.05),transparent_50%)]" />
+                    <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.05),transparent_50%)]" />
+                    <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(45deg,transparent_48%,rgba(34,197,94,1)_49%,rgba(34,197,94,1)_51%,transparent_52%),linear-gradient(-45deg,transparent_48%,rgba(34,197,94,1)_49%,rgba(34,197,94,1)_51%,transparent_52%)] bg-[length:80px_80px]" aria-hidden />
+                </div>
 
-            {/* Features Section - Dashboard Design */}
-            <section ref={featuresRef} className="py-24 bg-white overflow-hidden">
-                <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-                    
-                    {/* Header */}
-                    <div className={`text-center max-w-3xl mx-auto mb-16 transition-all duration-700 ${featuresInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-                            Ihr Dashboard für Erfolg
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
+                    {/* Header wie RadialJourney */}
+                    <div className={`text-center mb-16 lg:mb-20 transition-all duration-1000 ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 mb-4 leading-tight">
+                            So funktioniert's –{' '}
+                            <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">
+                                in 3 Schritten
+                                <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
+                                    <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradient3)" strokeWidth="4" strokeLinecap="round"/>
+                                    <defs>
+                                        <linearGradient id="underlineGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stopColor="#16a34a"/>
+                                            <stop offset="50%" stopColor="#10b981"/>
+                                            <stop offset="100%" stopColor="#14b8a6"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </span>
                         </h2>
-                        <p className="text-xl text-slate-500 leading-relaxed">
-                            Ein leistungsstarkes Control Center, das Ihnen hilft, Anfragen zu finden, 
-                            Kunden zu kontaktieren und Ihr Geschäft zu skalieren.
+                        <p className="text-base lg:text-lg text-slate-600 mx-auto">
+                            Mehr Aufträge aus Ihrer Region – fair, transparent und ohne Abo
                         </p>
                     </div>
 
-                    {/* Main Content - Two Columns */}
-                    <div className={`grid lg:grid-cols-2 gap-12 items-start transition-all duration-700 delay-200 ${featuresInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        
-                        {/* Left Column - Why Our Dashboard */}
-                        <div>
-                            <h3 className="text-2xl font-bold text-slate-900 mb-8">Warum unser Dashboard?</h3>
-                            <div className="space-y-6">
-                                {[
-                                    {
-                                        title: "Intelligente Lead-Filterung",
-                                        desc: "Filtern Sie Anfragen nach Region, Budget, Dienstleistungsart und Dringlichkeit.",
-                                        icon: "M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z",
-                                        color: "bg-blue-100 text-blue-600"
-                                    },
-                                    {
-                                        title: "Vollständige Kundendetails",
-                                        desc: "Alle wichtigen Informationen auf einen Blick – bevor Sie kaufen.",
-                                        icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
-                                        color: "bg-emerald-100 text-emerald-600"
-                                    },
-                                    {
-                                        title: "Performance-Tracking",
-                                        desc: "Verfolgen Sie Erfolgsquote, Umsatz und ROI in Echtzeit.",
-                                        icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
-                                        color: "bg-violet-100 text-violet-600"
-                                    },
-                                    {
-                                        title: "Multi-Channel Kontakt",
-                                        desc: "Kontaktieren Sie Kunden per Telefon, E-Mail oder Chat.",
-                                        icon: "M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z",
-                                        color: "bg-amber-100 text-amber-600"
-                                    },
-                                ].map((item, i) => (
-                                    <div key={i} className="flex gap-4">
-                                        <div className={`w-12 h-12 rounded-xl ${item.color} flex items-center justify-center flex-shrink-0`}>
-                                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold text-slate-900 mb-1">{item.title}</h4>
-                                            <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+                    {/* Schritte – Karten wie RadialJourney mit Verbindungspfeilen */}
+                    <div className="grid md:grid-cols-3 gap-6 lg:gap-8 mb-16">
+                        {steps.map((item, index) => (
+                            <div
+                                key={item.step}
+                                className={`relative transition-all duration-1000 ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                                style={{ transitionDelay: `${index * 150}ms` }}
+                            >
+                                <div className="relative h-full bg-white rounded-3xl p-6 lg:p-8 border-2 border-green-200 shadow-xl hover:shadow-2xl hover:border-green-300 transition-all duration-300 group">
+                                    {/* Icon oben */}
+                                    <div className="text-center mb-6">
+                                        <div className={`w-20 h-20 mx-auto rounded-2xl flex items-center justify-center text-4xl bg-gradient-to-br ${item.bgGradient} border-2 border-green-200 transition-all duration-300 group-hover:scale-105`}>
+                                            {item.icon}
                                         </div>
                                     </div>
-                                ))}
-                            </div>
 
-                            {/* Trust Badge */}
-                            <div className="flex items-center gap-4 p-4 bg-emerald-50 rounded-xl border border-emerald-200 mt-8">
-                                <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-                                    <svg className="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                    </svg>
+                                    <div className="space-y-4">
+                                        <h3 className="text-xl lg:text-2xl font-black text-slate-900 text-center group-hover:text-green-700 transition-colors duration-300">
+                                            {item.title}
+                                        </h3>
+
+                                        <div className="flex justify-center">
+                                            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${item.bgGradient} border border-green-200 text-xs font-bold text-green-700`}>
+                                                <SwissFlagIcon className="w-3.5 h-3.5" />
+                                                {item.swissValue}
+                                            </div>
+                                        </div>
+
+                                        <p className="text-slate-600 leading-relaxed text-sm lg:text-base text-center">
+                                            {item.desc}
+                                        </p>
+
+                                        <div className="space-y-2 pt-4 border-t border-green-100">
+                                            {item.features.map((feature, i) => (
+                                                <div key={i} className="flex items-center gap-2">
+                                                    <div className={`flex-shrink-0 w-5 h-5 rounded-md flex items-center justify-center bg-gradient-to-br ${item.bgGradient} border border-green-200`}>
+                                                        <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                        </svg>
+                                                    </div>
+                                                    <span className="text-sm font-medium text-slate-600">{feature}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${item.gradient} rounded-b-3xl`} aria-hidden />
+                                </div>
+
+                                {/* Verbindungspfeil zwischen Karten (Desktop) */}
+                                {index < steps.length - 1 && (
+                                    <div className="hidden md:block absolute top-1/2 -right-4 lg:-right-6 transform -translate-y-1/2 z-20">
+                                        <div className="w-10 h-10 rounded-full bg-green-100 border-2 border-green-200 flex items-center justify-center text-green-600 shadow-lg">
+                                            <ArrowRightIcon className="w-5 h-5" />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+
+                </div>
+            </section>
+
+            {/* Für Sie als Partner – wie „Warum Fertigo?“ auf ServicesPage */}
+            <section ref={benefitsRef} className={`py-20 sm:py-28 bg-slate-50 transition-all duration-700 ${benefitsInView ? 'opacity-100' : 'opacity-0'}`}>
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+                    
+                    {/* Centered Header */}
+                    <div className={`text-center mb-16 transition-all duration-1000 ${benefitsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4">
+                            Vorher vs. <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">Nachher<svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none"><path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradient4)" strokeWidth="4" strokeLinecap="round"/><defs><linearGradient id="underlineGradient4" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#16a34a"/><stop offset="50%" stopColor="#10b981"/><stop offset="100%" stopColor="#14b8a6"/></linearGradient></defs></svg></span>
+                        </h2>
+                        <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+                            Sehen Sie den Unterschied, den Fertigo für Ihr Geschäft macht
+                        </p>
+                    </div>
+
+                    {/* Comparison Cards */}
+                    <div className={`grid md:grid-cols-2 gap-6 lg:gap-8 transition-all duration-1000 delay-200 ${benefitsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                        
+                        {/* OHNE Fertigo */}
+                        <div className="relative bg-white rounded-3xl p-8 border-2 border-slate-200 overflow-hidden">
+                            {/* Header */}
+                            <div className="flex items-center gap-3 mb-8">
+                                <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center">
+                                    <span className="text-slate-500 text-xl">✗</span>
                                 </div>
                                 <div>
-                                    <div className="font-bold text-emerald-800 text-sm">Schweizer Datenschutz</div>
-                                    <div className="text-emerald-600 text-xs">DSGVO-konform</div>
+                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Ohne</span>
+                                    <h3 className="text-xl font-black text-slate-400">Fertigo</h3>
                                 </div>
                             </div>
-                        </div>
-
-                        {/* Right Column - Dashboard Illustration */}
-                        <div className="relative">
-                            <div className="bg-slate-900 rounded-2xl shadow-2xl overflow-hidden">
-                                
-                                {/* Dashboard Header */}
-                                <div className="bg-slate-800 px-4 py-3 flex items-center justify-between border-b border-slate-700">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center">
-                                            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                                            </svg>
-                                        </div>
-                                        <span className="text-white font-semibold text-sm">Dashboard</span>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <div className="relative">
-                                            <div className="w-7 h-7 rounded-lg bg-slate-700 flex items-center justify-center">
-                                                <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                                </svg>
-                                            </div>
-                                            <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-[8px] text-white font-bold">3</div>
-                                        </div>
-                                        <div className="w-7 h-7 rounded-lg bg-primary-500 flex items-center justify-center text-white text-[10px] font-bold">MS</div>
-                                    </div>
-                                </div>
-
-                                {/* Dashboard Content */}
-                                <div className="p-4 space-y-4">
-                                    
-                                    {/* Stats Row */}
-                                    <div className="grid grid-cols-3 gap-3">
-                                        {[
-                                            { label: "Neue Leads", value: "24", icon: "📋", color: "from-blue-500/20 to-blue-600/10" },
-                                            { label: "Erfolgsquote", value: "67%", icon: "📈", color: "from-emerald-500/20 to-emerald-600/10" },
-                                            { label: "Umsatz", value: "12.4k", icon: "💰", color: "from-amber-500/20 to-amber-600/10" },
-                                        ].map((stat, i) => (
-                                            <div key={i} className={`bg-gradient-to-br ${stat.color} rounded-xl p-3 border border-white/5`}>
-                                                <div className="text-lg mb-1">{stat.icon}</div>
-                                                <div className="text-white text-lg font-bold">{stat.value}</div>
-                                                <div className="text-slate-500 text-[10px]">{stat.label}</div>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    {/* Lead List */}
-                                    <div className="bg-slate-800/50 rounded-xl p-3">
-                                        <div className="flex items-center justify-between mb-3">
-                                            <span className="text-white text-xs font-semibold">Aktuelle Anfragen</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                                                <span className="text-emerald-400 text-[10px]">Live</span>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            {[
-                                                { title: "Malerarbeiten", loc: "Zürich", price: "45", hot: true },
-                                                { title: "Reinigung 3.5 Zi", loc: "Bern", price: "35", hot: true },
-                                                { title: "Umzug lokal", loc: "Basel", price: "40", hot: false },
-                                            ].map((lead, i) => (
-                                                <div key={i} className="flex items-center gap-2 p-2 bg-slate-900/50 rounded-lg">
-                                                    <div className="w-7 h-7 rounded-md bg-primary-500/20 flex items-center justify-center">
-                                                        <div className="w-1.5 h-1.5 bg-primary-400 rounded-full" />
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <div className="flex items-center gap-1">
-                                                            <span className="text-white text-[11px] font-medium truncate">{lead.title}</span>
-                                                            {lead.hot && <span className="px-1 py-0.5 bg-orange-500/20 text-orange-400 text-[8px] font-bold rounded">HOT</span>}
-                                                        </div>
-                                                        <div className="text-slate-500 text-[9px]">{lead.loc}</div>
-                                                    </div>
-                                                    <div className="px-2 py-1 bg-primary-500 text-white text-[9px] font-bold rounded-md">
-                                                        CHF {lead.price}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Chart */}
-                                    <div className="bg-slate-800/50 rounded-xl p-3">
-                                        <span className="text-white text-xs font-semibold">Performance</span>
-                                        <div className="flex items-end gap-1 h-16 mt-2">
-                                            {[35, 52, 41, 68, 45, 72, 58].map((h, i) => (
-                                                <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                                                    <div 
-                                                        className={`w-full rounded-sm ${i === 5 ? 'bg-primary-500' : 'bg-slate-700'}`} 
-                                                        style={{ height: `${h}%` }} 
-                                                    />
-                                                    <span className="text-[8px] text-slate-600">{['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'][i]}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Floating Badge */}
-                            <div className="absolute -top-3 -right-3 bg-white rounded-xl shadow-lg px-3 py-2 flex items-center gap-2">
-                                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                                <span className="text-xs font-bold text-slate-900">Live-Updates</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Feature List Below */}
-                    <div className={`grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 pt-16 border-t border-slate-200 transition-all duration-700 delay-400 ${featuresInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        {[
-                            { icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10", title: "Live-Marktplatz", desc: "Echtzeit-Anfragen" },
-                            { icon: "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9", title: "Push-Alerts", desc: "Sofort informiert" },
-                            { icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z", title: "Direktkontakt", desc: "Tel, Mail & Chat" },
-                            { icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z", title: "100% Sicher", desc: "SSL-verschlüsselt" },
-                        ].map((feature, i) => (
-                            <div key={i} className="text-center">
-                                <div className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-4">
-                                    <svg className="w-7 h-7 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d={feature.icon} />
-                                    </svg>
-                                </div>
-                                <div className="font-bold text-slate-900 mb-1">{feature.title}</div>
-                                <div className="text-slate-500 text-sm">{feature.desc}</div>
-                            </div>
-                        ))}
-                    </div>
-
-                </div>
-            </section>
-
-            {/* How It Works - Immersive Design */}
-            <section ref={stepsRef} className="relative overflow-hidden">
-                
-                {/* Step 1 */}
-                <div className={`relative bg-gradient-to-br from-emerald-50 to-emerald-100 transition-all duration-700 ${stepsInView ? 'opacity-100' : 'opacity-0'}`}>
-                    <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.05)_1px,transparent_1px)] bg-[size:40px_40px] opacity-50" />
-                    <div className="container mx-auto px-4 sm:px-6 max-w-6xl py-20 lg:py-32">
-                        <div className="grid lg:grid-cols-2 gap-12 items-center">
-                            <div className={`transition-all duration-700 delay-200 ${stepsInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
-                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600 text-white text-sm font-medium mb-6">
-                                    <span className="w-8 h-8 rounded-full bg-white text-emerald-600 flex items-center justify-center font-black">1</span>
-                                    Schritt eins
-                                </div>
-                                <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">
-                                    Lead prüfen & kaufen
-                                </h2>
-                                <p className="text-xl text-slate-600 leading-relaxed mb-8">
-                                    Durchstöbern Sie den Live-Marktplatz und finden Sie Anfragen, die zu Ihrem Angebot passen. Alle Details sind transparent – Sie entscheiden, welche Leads Sie kaufen.
-                                </p>
-                                <div className="flex flex-wrap gap-4">
-                                    {['Echtzeit-Updates', 'Regionen-Filter', 'Faire Preise'].map((tag) => (
-                                        <span key={tag} className="px-4 py-2 bg-emerald-200/50 rounded-full text-emerald-800 text-sm font-medium">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className={`transition-all duration-700 delay-400 ${stepsInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
-                                <div className="bg-white rounded-3xl p-6 shadow-xl border border-emerald-100">
-                                    <div className="space-y-4">
-                                        {[
-                                            { title: "Malerarbeiten 4-Zi", loc: "8004 Zürich", price: "CHF 45", budget: "2'400" },
-                                            { title: "Umzug lokal", loc: "3000 Bern", price: "CHF 35", budget: "1'800" },
-                                        ].map((item, i) => (
-                                            <div key={i} className="bg-slate-50 rounded-2xl p-5 flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center">
-                                                    <svg className="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                    </svg>
-                                                </div>
-                                                <div className="flex-1">
-                                                    <div className="font-bold text-slate-900">{item.title}</div>
-                                                    <div className="text-sm text-slate-500">{item.loc} • Budget: CHF {item.budget}</div>
-                                                </div>
-                                                <button className="px-4 py-2 bg-emerald-600 text-white font-bold text-sm rounded-xl hover:bg-emerald-700 transition-colors">
-                                                    {item.price}
-                                                </button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* Wave Divider */}
-                    <div className="absolute bottom-0 left-0 right-0">
-                        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-                            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#f1f5f9"/>
-                        </svg>
-                    </div>
-                </div>
-
-                {/* Step 2 */}
-                <div className={`relative bg-gradient-to-br from-slate-100 to-slate-200 transition-all duration-700 delay-200 ${stepsInView ? 'opacity-100' : 'opacity-0'}`}>
-                    <div className="container mx-auto px-4 sm:px-6 max-w-6xl py-20 lg:py-32">
-                        <div className="grid lg:grid-cols-2 gap-12 items-center">
-                            <div className={`order-2 lg:order-1 transition-all duration-700 delay-400 ${stepsInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
-                                <div className="bg-white rounded-3xl p-6 shadow-xl border border-slate-200">
-                                    <div className="bg-white rounded-2xl overflow-hidden">
-                                        <div className="p-5 border-b border-slate-100">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-2xl">👤</div>
-                                                <div>
-                                                    <div className="font-bold text-slate-900">Anna Müller</div>
-                                                    <div className="text-sm text-slate-500">Zürich • Verifiziert</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="p-5 space-y-3">
-                                            <div className="flex items-center gap-3 text-sm">
-                                                <svg className="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                                </svg>
-                                                <span className="text-slate-700">+41 79 *** ** **</span>
-                                                <span className="text-emerald-600 text-xs font-medium">Sichtbar nach Kauf</span>
-                                            </div>
-                                            <div className="flex items-center gap-3 text-sm">
-                                                <svg className="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                                </svg>
-                                                <span className="text-slate-700">anna.m***@gmail.com</span>
-                                            </div>
-                                        </div>
-                                        <div className="p-5 bg-emerald-50">
-                                            <button className="w-full py-3 bg-emerald-600 text-white font-bold rounded-xl flex items-center justify-center gap-2">
-                                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                                </svg>
-                                                Jetzt anrufen
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={`order-1 lg:order-2 transition-all duration-700 delay-200 ${stepsInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
-                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-700 text-white text-sm font-medium mb-6">
-                                    <span className="w-8 h-8 rounded-full bg-white text-slate-700 flex items-center justify-center font-black">2</span>
-                                    Schritt zwei
-                                </div>
-                                <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">
-                                    Direkt Kontakt aufnehmen
-                                </h2>
-                                <p className="text-xl text-slate-600 leading-relaxed mb-8">
-                                    Nach dem Kauf erhalten Sie sofort alle Kontaktdaten. Rufen Sie an, schreiben Sie eine E-Mail oder senden Sie eine Nachricht – der erste Eindruck zählt!
-                                </p>
-                                <div className="flex flex-wrap gap-4">
-                                    {['Sofortiger Zugang', 'Telefon & E-Mail', 'Keine Wartezeit'].map((tag) => (
-                                        <span key={tag} className="px-4 py-2 bg-slate-300/50 rounded-full text-slate-700 text-sm font-medium">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* Wave Divider */}
-                    <div className="absolute bottom-0 left-0 right-0">
-                        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-                            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#ecfdf5"/>
-                        </svg>
-                    </div>
-                </div>
-
-                {/* Step 3 */}
-                <div className={`relative bg-gradient-to-br from-emerald-50 to-emerald-100 transition-all duration-700 delay-400 ${stepsInView ? 'opacity-100' : 'opacity-0'}`}>
-                    <div className="container mx-auto px-4 sm:px-6 max-w-6xl py-20 lg:py-32">
-                        <div className="grid lg:grid-cols-2 gap-12 items-center">
-                            <div className={`transition-all duration-700 delay-600 ${stepsInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
-                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600 text-white text-sm font-medium mb-6">
-                                    <span className="w-8 h-8 rounded-full bg-white text-emerald-600 flex items-center justify-center font-black">3</span>
-                                    Schritt drei
-                                </div>
-                                <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">
-                                    Auftrag gewinnen
-                                </h2>
-                                <p className="text-xl text-slate-600 leading-relaxed mb-8">
-                                    Überzeugen Sie mit Ihrer Expertise und einem fairen Angebot. Gewinnen Sie den Auftrag – und behalten Sie 100% des Gewinns. Keine Provision, keine versteckten Kosten.
-                                </p>
-                                <div className="flex flex-wrap gap-4">
-                                    {['Keine Provision', '100% Ihr Gewinn', 'Unbegrenzt'].map((tag) => (
-                                        <span key={tag} className="px-4 py-2 bg-emerald-200/50 rounded-full text-emerald-800 text-sm font-medium">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                                <Link
-                                    to="/register"
-                                    className="inline-flex items-center gap-3 mt-10 px-8 py-4 bg-emerald-600 text-white font-bold text-lg rounded-2xl hover:bg-emerald-700 transition-all shadow-xl"
-                                >
-                                    Jetzt Partner werden
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </Link>
-                            </div>
-                            <div className={`transition-all duration-700 delay-800 ${stepsInView ? 'opacity-100 translate-x-0 rotate-0' : 'opacity-0 translate-x-12 rotate-6'}`}>
-                                <div className="bg-white rounded-3xl p-6 shadow-xl border border-emerald-100">
-                                    <div className="bg-white rounded-2xl p-6 text-center">
-                                        <div className="w-20 h-20 mx-auto rounded-full bg-emerald-100 flex items-center justify-center mb-4">
-                                            <svg className="w-10 h-10 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </div>
-                                        <div className="text-2xl font-black text-slate-900 mb-2">Auftrag gewonnen!</div>
-                                        <div className="text-slate-500 mb-6">Malerarbeiten 4-Zimmer Wohnung</div>
-                                        <div className="bg-emerald-50 rounded-xl p-4">
-                                            <div className="text-sm text-emerald-600 font-medium mb-1">Auftragswert</div>
-                                            <div className="text-4xl font-black text-emerald-700">CHF 2'400</div>
-                                            <div className="text-sm text-emerald-600 mt-1">100% Ihr Gewinn</div>
-                                        </div>
-                                        <div className="flex items-center justify-center gap-1 mt-4">
-                                            {[...Array(5)].map((_, i) => (
-                                                <svg key={i} className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                            ))}
-                                            <span className="text-sm text-slate-500 ml-2">Kunde zufrieden</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Testimonials Section */}
-            <section className="py-24 bg-slate-50">
-                <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-                    
-                    {/* Header */}
-                    <div className="text-center mb-16">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 text-amber-700 text-sm font-medium mb-6">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            Über 12'500 zufriedene Partner
-                        </div>
-                        <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
-                            Das sagen unsere Partner
-                        </h2>
-                        <p className="text-xl text-slate-500 max-w-2xl mx-auto">
-                            Erfahren Sie, wie andere Handwerker mit uns erfolgreich neue Kunden gewinnen
-                        </p>
-                    </div>
-
-                    {/* Testimonials Grid */}
-                    <div className="grid md:grid-cols-3 gap-6">
-                        {[
-                            {
-                                quote: "Seit ich bei FertigLosFragen bin, habe ich meinen Umsatz um 40% gesteigert. Die Anfragen sind qualitativ hochwertig und die Kunden sind ernsthaft interessiert.",
-                                name: "Marco Brunner",
-                                role: "Malermeister",
-                                location: "Zürich",
-                                rating: 5,
-                                image: "MB"
-                            },
-                            {
-                                quote: "Endlich eine Plattform ohne versteckte Kosten! Ich zahle nur für die Leads, die ich wirklich haben möchte. Das ist fair und transparent.",
-                                name: "Sarah Keller",
-                                role: "Reinigungsunternehmen",
-                                location: "Bern",
-                                rating: 5,
-                                image: "SK"
-                            },
-                            {
-                                quote: "Die App ist super einfach zu bedienen. Ich bekomme sofort eine Benachrichtigung, wenn eine neue Anfrage in meiner Region reinkommt.",
-                                name: "Thomas Müller",
-                                role: "Elektriker",
-                                location: "Basel",
-                                rating: 5,
-                                image: "TM"
-                            },
-                        ].map((testimonial, i) => (
-                            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-lg transition-shadow">
-                                {/* Rating */}
-                                <div className="flex gap-1 mb-4">
-                                    {[...Array(testimonial.rating)].map((_, j) => (
-                                        <svg key={j} className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                    ))}
-                                </div>
-                                
-                                {/* Quote */}
-                                <p className="text-slate-600 leading-relaxed mb-6">
-                                    "{testimonial.quote}"
-                                </p>
-                                
-                                {/* Author */}
-                                <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white font-bold">
-                                        {testimonial.image}
+                            
+                            {/* Pain Points */}
+                            <div className="space-y-5">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span className="text-red-500">📉</span>
                                     </div>
                                     <div>
-                                        <div className="font-bold text-slate-900">{testimonial.name}</div>
-                                        <div className="text-slate-500 text-sm">{testimonial.role} • {testimonial.location}</div>
+                                        <div className="font-bold text-slate-700">Unregelmässige Aufträge</div>
+                                        <div className="text-slate-500 text-sm">Abhängig von Mundpropaganda</div>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span className="text-red-500">⏰</span>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-slate-700">Zeitaufwändige Akquise</div>
+                                        <div className="text-slate-500 text-sm">Stunden für Kundensuche</div>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span className="text-red-500">📋</span>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-slate-700">Papierchaos</div>
+                                        <div className="text-slate-500 text-sm">Manuelle Verwaltung</div>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span className="text-red-500">❓</span>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-slate-700">Keine Planbarkeit</div>
+                                        <div className="text-slate-500 text-sm">Unsichere Auftragslage</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Diagonal Stripe */}
+                            <div className="absolute top-4 right-4 px-3 py-1 bg-slate-200 text-slate-500 text-xs font-bold rounded-full">
+                                Status Quo
+                            </div>
+                        </div>
+
+                        {/* MIT Fertigo */}
+                        <div className="relative bg-gradient-to-br from-green-600 to-emerald-700 rounded-3xl p-8 text-white overflow-hidden shadow-2xl shadow-green-600/30">
+                            {/* Glow Effect */}
+                            <div className="absolute top-0 right-0 w-40 h-40 bg-white/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                            
+                            {/* Header */}
+                            <div className="relative flex items-center gap-3 mb-8">
+                                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                                    <span className="text-green-600 text-xl">✓</span>
+                                </div>
+                                <div>
+                                    <span className="text-xs font-bold text-green-200 uppercase tracking-wider">Mit</span>
+                                    <h3 className="text-xl font-black text-white">Fertigo</h3>
+                                </div>
+                            </div>
+                            
+                            {/* Benefits */}
+                            <div className="relative space-y-5">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span>📈</span>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-white">+40% mehr Aufträge</div>
+                                        <div className="text-green-200 text-sm">Kontinuierlicher Lead-Flow</div>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span>⚡</span>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-white">Sofortige Leads</div>
+                                        <div className="text-green-200 text-sm">In unter 5 Minuten</div>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span>📱</span>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-white">100% Digital</div>
+                                        <div className="text-green-200 text-sm">Alles in einer App</div>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span>📊</span>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-white">Volle Kontrolle</div>
+                                        <div className="text-green-200 text-sm">Echtzeit-Dashboard 24/7</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Recommended Badge */}
+                            <div className="absolute top-4 right-4 px-3 py-1 bg-white text-green-700 text-xs font-black rounded-full shadow-lg">
+                                Empfohlen ⭐
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Bottom Stats */}
+                    <div className={`mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 transition-all duration-1000 delay-400 ${benefitsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                        <div className="bg-white rounded-2xl p-5 text-center border border-slate-200">
+                            <div className="text-3xl font-black text-slate-900">2'500+</div>
+                            <div className="text-slate-500 text-sm">Partner schweizweit</div>
+                        </div>
+                        <div className="bg-white rounded-2xl p-5 text-center border border-slate-200">
+                            <div className="text-3xl font-black text-slate-900">4.9 ⭐</div>
+                            <div className="text-slate-500 text-sm">Bewertung</div>
+                        </div>
+                        <div className="bg-white rounded-2xl p-5 text-center border border-slate-200">
+                            <div className="text-3xl font-black text-green-600">&lt;24h</div>
+                            <div className="text-slate-500 text-sm">Erster Lead</div>
+                        </div>
+                        <div className="bg-white rounded-2xl p-5 text-center border border-slate-200 flex items-center justify-center gap-2">
+                            <SwissFlagIcon className="w-6 h-6" />
+                            <span className="font-bold text-slate-700">Swiss Made</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Testimonials – 3 Karten gleich, eine Zeile Stats darunter */}
+            <section ref={testimonialsRef} className="relative py-16 lg:py-24 overflow-hidden bg-white border-t border-slate-200">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+                    <div className="text-center mb-10">
+                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 mb-2">
+                            Das sagen unsere Partner
+                        </h2>
+                        <p className="text-slate-600">Handwerker und Dienstleister aus der ganzen Schweiz.</p>
+                    </div>
+                    <div className={`grid md:grid-cols-3 gap-6 transition-all duration-700 ${testimonialsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                        {testimonials.map((t, i) => (
+                            <div key={i} className="rounded-2xl border-2 border-slate-200 bg-green-50/30 p-6 hover:border-green-200 transition-all">
+                                <p className="text-slate-600 leading-relaxed mb-5 text-sm">"{t.quote}"</p>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-11 h-11 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold text-sm">{t.initials}</div>
+                                    <div>
+                                        <div className="font-bold text-slate-900 text-sm">{t.name}</div>
+                                        <div className="text-slate-500 text-xs">{t.role} · {t.location}</div>
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
-
-                    {/* Stats Bar */}
-                    <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 p-8 bg-white rounded-2xl shadow-sm border border-slate-100">
-                        {[
-                            { value: "4.8/5", label: "Durchschnittliche Bewertung" },
-                            { value: "98%", label: "Weiterempfehlungsrate" },
-                            { value: "2.4 Mio", label: "Vermittelte Aufträge" },
-                            { value: "< 24h", label: "Ø Zeit bis zum ersten Lead" },
-                        ].map((stat, i) => (
-                            <div key={i} className="text-center">
-                                <div className="text-3xl font-black text-slate-900 mb-1">{stat.value}</div>
-                                <div className="text-slate-500 text-sm">{stat.label}</div>
-                            </div>
-                        ))}
+                    <div className="mt-8 pt-6 border-t border-slate-100 flex flex-wrap justify-center gap-6 text-slate-500 text-sm">
+                        <span><strong className="text-slate-700">4.8/5</strong> Bewertung</span>
+                        <span><strong className="text-slate-700">98%</strong> Weiterempfehlung</span>
+                        <span><strong className="text-slate-700">&lt; 24h</strong> Erster Lead</span>
                     </div>
                 </div>
             </section>
 
-            {/* CTA Section */}
-            <section ref={ctaRef} className="py-24 bg-slate-900 relative overflow-hidden">
-                {/* Background Elements */}
-                <div className="absolute inset-0">
-                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-[120px]" />
-                    <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px]" />
-                </div>
-
-                <div className="container mx-auto px-4 sm:px-6 max-w-4xl relative z-10">
-                    <div className={`text-center transition-all duration-700 ${ctaInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
-                            Bereit für neue Aufträge?
+            {/* CTA – dunkler Block */}
+            <section ref={ctaRef} className="relative py-16 lg:py-24 bg-slate-900 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(34,197,94,0.1),transparent_50%)]" />
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl relative z-10">
+                    <div className={`text-center transition-all duration-700 ${ctaInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800 border border-slate-600 mb-6">
+                            <SwissFlagIcon className="w-4 h-4 text-green-400" />
+                            <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Kostenlos starten</span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-3">
+                            Bereit für neue Aufträge aus Ihrer Region?
                         </h2>
-                        <p className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
-                            Registrieren Sie sich jetzt kostenlos und erhalten Sie sofort Zugang zu hunderten von Kundenanfragen.
+                        <p className="text-slate-400 mb-8 max-w-xl mx-auto">
+                            Registrieren Sie sich kostenlos – sofort Zugang zu Kundenanfragen. Keine Kreditkarte, keine monatlichen Gebühren.
                         </p>
-                        
                         <Link
                             to="/register"
-                            className="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-white text-slate-900 font-bold text-lg rounded-2xl hover:bg-slate-100 transition-all hover:shadow-2xl hover:shadow-white/20"
+                            className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-green-500 text-white font-bold text-lg rounded-xl hover:bg-green-400 transition-colors shadow-lg shadow-green-500/30"
                         >
                             Jetzt kostenlos registrieren
-                            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
                         </Link>
-                        
                         <p className="mt-6 text-slate-500 text-sm">
-                            Keine Kreditkarte erforderlich • Keine monatlichen Gebühren • Jederzeit kündbar
+                            Keine Kreditkarte · Keine monatlichen Gebühren · Jederzeit kündbar
                         </p>
                     </div>
                 </div>
             </section>
-
         </div>
     );
 };

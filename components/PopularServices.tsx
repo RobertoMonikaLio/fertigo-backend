@@ -159,7 +159,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                                 shadow-lg hover:shadow-xl
                             `}
                             style={{ 
-                                backgroundColor: service.accent,
+                                background: 'linear-gradient(to right, rgb(34, 197, 94), rgb(16, 185, 129))',
                             }}
                             onMouseEnter={(e) => {
                                 e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
@@ -202,7 +202,7 @@ const CTAButton: React.FC = () => {
             onClick={() => {
                 openQuoteModal({});
             }}
-            className="px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r from-slate-900 to-slate-700 hover:from-slate-800 hover:to-slate-600 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 group"
+            className="px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 group"
         >
             <span>Jetzt Offerten anfordern</span>
             <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -276,7 +276,7 @@ const MoreServicesCard: React.FC<{
                                 font-bold text-white text-sm w-full
                                 transition-all duration-300 group/btn
                                 shadow-lg hover:shadow-xl
-                                bg-gradient-to-r from-slate-700 to-slate-900
+                                bg-gradient-to-r from-green-600 to-emerald-500
                             `}
                             onMouseEnter={(e) => {
                                 e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
@@ -316,48 +316,45 @@ const PopularServices: React.FC = () => {
         <section
             ref={ref}
             id="services"
-            className="relative py-16 sm:py-20 lg:py-32 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50"
+            className="relative py-20 sm:py-28 lg:py-36 overflow-hidden bg-slate-50"
         >
-            {/* Subtle Background Pattern */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div
-                    className="absolute inset-0 opacity-[0.015]"
-                    style={{
-                        backgroundImage: `
-                            radial-gradient(circle at 1px 1px, #000 1px, transparent 0)
-                        `,
-                        backgroundSize: '60px 60px',
-                    }}
-                />
-            </div>
-
-            <div className="relative z-10 container mx-auto px-6">
+            <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div
                     className={`
-                        text-center mb-12 lg:mb-16 max-w-2xl mx-auto
+                        text-center mb-16 lg:mb-20 max-w-2xl mx-auto
                         transition-all duration-1000
                         ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
                     `}
                 >
                     {/* Title */}
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 mb-4">
-                        Was dürfen wir{' '}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
-                            für Sie tun?
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 mb-4 leading-tight lg:whitespace-nowrap">
+                        Beliebte{' '}
+                        <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">
+                            Fertigo Services
+                            <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
+                                <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradient2)" strokeWidth="4" strokeLinecap="round"/>
+                                <defs>
+                                    <linearGradient id="underlineGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#16a34a"/>
+                                        <stop offset="50%" stopColor="#10b981"/>
+                                        <stop offset="100%" stopColor="#14b8a6"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
                         </span>
                     </h2>
 
                     {/* Subtitle */}
-                    <p className="text-sm lg:text-base text-slate-600 leading-relaxed">
-                        Über 2'500 geprüfte Partner stehen bereit, um Ihr Projekt zu realisieren.
+                    <p className="text-base lg:text-lg text-slate-600 leading-relaxed lg:whitespace-nowrap">
+                        Über 2'500 geprüfte Schweizer Partner stehen bereit, um Ihr Projekt zu realisieren.
                     </p>
                 </div>
 
                 {/* Services Grid */}
                 <div
                     className={`
-                        grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8 max-w-5xl mx-auto
+                        grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto
                         items-stretch
                         transition-all duration-1000
                         ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}

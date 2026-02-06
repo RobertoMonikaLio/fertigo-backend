@@ -1,212 +1,339 @@
-
 import React from 'react';
-// Fix: Renamed useAppStore to useAppContext to match the exported member from AppContext.
 import { useAppContext } from '../pages/AppContext';
-import {
-    SwissFlagIcon,
-    ArrowRightIcon,
-    StarIcon
-} from './icons';
-
+import { ArrowRightIcon } from './icons';
 
 const Hero: React.FC = () => {
     const { openQuoteModal } = useAppContext();
 
-    const services = [
-        { name: 'Malerarbeiten', icon: '🎨', color: 'bg-orange-100 text-orange-600' },
-        { name: 'Umzug', icon: '📦', color: 'bg-blue-100 text-blue-600' },
-        { name: 'Reinigung', icon: '✨', color: 'bg-emerald-100 text-emerald-600' },
-        { name: 'Elektriker', icon: '⚡', color: 'bg-yellow-100 text-yellow-600' },
-        { name: 'Sanitär', icon: '🔧', color: 'bg-cyan-100 text-cyan-600' },
-        { name: 'Gartenbau', icon: '🌿', color: 'bg-green-100 text-green-600' },
-    ];
-
     return (
-        <section className="relative min-h-[80vh] md:min-h-screen overflow-hidden">
-            {/* Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-emerald-100 to-teal-50"></div>
-            
-            {/* Animated Background Elements (nur ab md sichtbar) */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block">
-                <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-300/30 rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-20 right-10 w-96 h-96 bg-teal-300/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-200/20 rounded-full blur-3xl"></div>
+        <section className="relative min-h-screen overflow-hidden">
+            {/* Split Background */}
+            <div className="absolute inset-0 flex">
+                <div className="w-1/2 bg-white" />
+                <div className="w-1/2 bg-gradient-to-br from-green-600 to-emerald-700" />
             </div>
 
-            {/* Grid Pattern Overlay */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.03)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+            {/* Diagonal Overlay */}
+            <div className="absolute inset-0">
+                <svg className="h-full w-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+                    <polygon points="0,0 65,0 45,100 0,100" fill="white" />
+                </svg>
+            </div>
 
             {/* Content */}
-            <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-24 pb-16 lg:pt-32 lg:pb-24">
-                <div className="max-w-6xl mx-auto">
+            <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center w-full py-20">
                     
-                    {/* Main Content Grid */}
-                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                        
-                        {/* Left Column - Text Content */}
-                        <div className="text-center lg:text-left">
-                            {/* Badge */}
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600 border border-emerald-500 mb-8 shadow-lg">
-                                <SwissFlagIcon className="w-5 h-5" />
-                                <span className="text-white text-sm font-semibold">Nr. 1 Schweizer Handwerker-Plattform</span>
-                            </div>
+                    {/* Left Side - Content */}
+                    <div className="space-y-8">
+                        {/* Badge */}
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-full">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+                            <span className="text-green-700 text-sm font-semibold">Jetzt über 2'500 Partner</span>
+                        </div>
 
-                            {/* Headline */}
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-800 leading-[1.1] mb-6">
-                                Finden Sie den
-                                <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">
-                                    perfekten Handwerker
-                                </span>
+                        {/* Headline */}
+                        <div>
+                            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-slate-900 leading-[0.95] tracking-tight">
+                                Ihr Projekt.
+                                <br />
+                                <span className="text-green-600">Unsere Profis.</span>
                             </h1>
-
-                            {/* Subheadline */}
-                            <p className="text-lg sm:text-xl text-slate-700 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                                Erhalten Sie kostenlos mehrere Offerten von geprüften Fachbetrieben aus Ihrer Region. 
-                                <span className="text-slate-800 font-semibold"> Sparen Sie bis zu 30%.</span>
-                            </p>
-
-                            {/* CTA Button */}
-                            <div className="flex justify-center lg:justify-start mb-10">
-                                <button
-                                    onClick={() => openQuoteModal()}
-                                    className="group relative bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-[0_20px_40px_rgba(16,185,129,0.3)] hover:shadow-[0_20px_50px_rgba(16,185,129,0.4)] transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-3"
-                                >
-                                    <span>Kostenlose Offerten erhalten</span>
-                                    <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-400 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity -z-10 blur-xl"></div>
-                                </button>
-                            </div>
-
                         </div>
 
-                        {/* Right Column - Interactive Cards */}
-                        <div className="relative hidden lg:block">
-                            {/* Main Card - Service Selection */}
-                            <div className="relative bg-white rounded-3xl p-8 shadow-2xl transform hover:scale-[1.02] transition-transform duration-500 z-10">
-                                <div className="absolute -top-4 -right-4 bg-emerald-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                                    Beliebt
-                                </div>
-                                
-                                <h3 className="text-xl font-bold text-slate-900 mb-2">Was brauchen Sie?</h3>
-                                <p className="text-slate-500 mb-6">Wählen Sie eine Kategorie oder beschreiben Sie Ihr Projekt</p>
-                                
-                                {/* Service Grid */}
-                                <div className="grid grid-cols-3 gap-3">
-                                    {services.map((service, i) => (
-                                        <button
-                                            key={i}
-                                            onClick={() => openQuoteModal({ service: service.name })}
-                                            className={`${service.color} p-4 rounded-xl text-center hover:scale-105 transition-transform cursor-pointer`}
-                                        >
-                                            <span className="text-2xl mb-1 block">{service.icon}</span>
-                                            <span className="text-xs font-semibold">{service.name}</span>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
+                        {/* Description */}
+                        <p className="text-xl text-slate-600 leading-relaxed max-w-lg">
+                            Erhalten Sie in Minuten kostenlose Offerten von verifizierten 
+                            Schweizer Handwerkern. Einfach, schnell, zuverlässig.
+                        </p>
 
-                            {/* Floating Stats Cards */}
-                            <div className="absolute -left-8 -top-20 bg-white rounded-2xl p-4 shadow-xl transform -rotate-6 hover:rotate-0 transition-transform duration-300">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
-                                        <span className="text-2xl">🏆</span>
-                                    </div>
-                                    <div>
-                                        <div className="text-2xl font-black text-slate-900">2'500+</div>
-                                        <div className="text-sm text-slate-500">Geprüfte Partner</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="absolute -right-4 -bottom-8 bg-white rounded-2xl p-4 shadow-xl transform rotate-6 hover:rotate-0 transition-transform duration-300">
-                                <div className="flex items-center gap-3">
-                                    <div className="flex text-yellow-400">
-                                        <StarIcon className="w-5 h-5" />
-                                        <StarIcon className="w-5 h-5" />
-                                        <StarIcon className="w-5 h-5" />
-                                        <StarIcon className="w-5 h-5" />
-                                        <StarIcon className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <div className="text-xl font-black text-slate-900">4.9/5</div>
-                                        <div className="text-xs text-slate-500">5'000+ Bewertungen</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    {/* Bottom Stats Bar */}
-                    <div className="mt-12 lg:mt-24 pt-8 border-t border-emerald-200">
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-8">
-                            {/* Trust Badges */}
-                            <div className="flex flex-col items-center text-center">
-                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">
-                                    <span className="text-2xl">✅</span>
-                                </div>
-                                <div className="text-sm font-semibold text-slate-700">Geprüfte Firmen</div>
-                            </div>
-                            <div className="flex flex-col items-center text-center">
-                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">
-                                    <span className="text-2xl">💰</span>
-                                </div>
-                                <div className="text-sm font-semibold text-slate-700">100% Kostenlos</div>
-                            </div>
-                            <div className="flex flex-col items-center text-center">
-                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">
-                                    <SwissFlagIcon className="w-6 h-6" />
-                                </div>
-                                <div className="text-sm font-semibold text-slate-700">Schweizweit</div>
-                            </div>
-                            <div className="flex flex-col items-center text-center">
-                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">
-                                    <span className="text-2xl">⚡</span>
-                                </div>
-                                <div className="text-sm font-semibold text-slate-700">Schnelle Antwort</div>
-                            </div>
-                            <div className="flex flex-col items-center text-center">
-                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">
-                                    <span className="text-2xl">🔒</span>
-                                </div>
-                                <div className="text-sm font-semibold text-slate-700">Datenschutz</div>
-                            </div>
-                            <div className="flex flex-col items-center text-center">
-                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md border border-emerald-100 mb-2">
-                                    <span className="text-2xl">⭐</span>
-                                </div>
-                                <div className="text-sm font-semibold text-slate-700">Top Bewertungen</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Mobile Version */}
-            <div className="lg:hidden relative z-10 px-4 pb-8">
-                {/* Mobile Service Cards */}
-                <div className="relative bg-white rounded-2xl p-6 shadow-xl mb-6 border border-emerald-100">
-                    <h3 className="text-lg font-bold text-slate-900 mb-4">Beliebte Services</h3>
-                    <div className="grid grid-cols-3 gap-2">
-                        {services.slice(0, 6).map((service, i) => (
+                        {/* CTA Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-4">
                             <button
-                                key={i}
-                                onClick={() => openQuoteModal({ service: service.name })}
-                                className={`${service.color} p-3 rounded-xl text-center`}
+                                onClick={() => openQuoteModal()}
+                                className="group flex items-center justify-center gap-3 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-xl shadow-green-600/25 hover:shadow-2xl hover:shadow-green-600/30 transition-all"
                             >
-                                <span className="text-xl mb-1 block">{service.icon}</span>
-                                <span className="text-[10px] font-semibold leading-tight block">{service.name}</span>
+                                <span>Offerte anfragen</span>
+                                <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </button>
-                        ))}
+                            <button className="flex items-center justify-center gap-2 px-8 py-4 border-2 border-slate-200 hover:border-green-300 rounded-xl font-semibold text-slate-700 hover:text-green-700 transition-all">
+                                <span>So funktioniert's</span>
+                            </button>
+                        </div>
+
+                        {/* Trust Points */}
+                        <div className="flex flex-wrap gap-6 pt-4">
+                            <div className="flex items-center gap-2 text-slate-600">
+                                <span className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-xs">✓</span>
+                                <span className="text-sm font-medium">Kostenlos</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-slate-600">
+                                <span className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-xs">✓</span>
+                                <span className="text-sm font-medium">Unverbindlich</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-slate-600">
+                                <span className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-xs">✓</span>
+                                <span className="text-sm font-medium">Schweizweit</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Side - Visual: Isometric 3D Style */}
+                    <div className="relative lg:pl-4">
+                        <div className="relative w-full max-w-xl mx-auto">
+                            {/* Main SVG Scene */}
+                            <svg viewBox="0 0 500 400" className="w-full drop-shadow-2xl">
+                                <defs>
+                                    {/* Gradients */}
+                                    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stopColor="#f0fdf4" />
+                                        <stop offset="100%" stopColor="#dcfce7" />
+                                    </linearGradient>
+                                    <linearGradient id="roofGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stopColor="#22c55e" />
+                                        <stop offset="100%" stopColor="#16a34a" />
+                                    </linearGradient>
+                                    <linearGradient id="wallLight" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#ffffff" />
+                                        <stop offset="100%" stopColor="#f1f5f9" />
+                                    </linearGradient>
+                                    <linearGradient id="wallDark" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#e2e8f0" />
+                                        <stop offset="100%" stopColor="#cbd5e1" />
+                                    </linearGradient>
+                                    <linearGradient id="groundGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stopColor="#86efac" />
+                                        <stop offset="100%" stopColor="#4ade80" />
+                                    </linearGradient>
+                                    
+                                    {/* Shadow Filter */}
+                                    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+                                        <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#000" floodOpacity="0.15"/>
+                                    </filter>
+                                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                                        <feGaussianBlur stdDeviation="3" result="blur"/>
+                                        <feMerge>
+                                            <feMergeNode in="blur"/>
+                                            <feMergeNode in="SourceGraphic"/>
+                                        </feMerge>
+                                    </filter>
+                                </defs>
+
+                                {/* Background */}
+                                <rect width="500" height="400" rx="24" fill="url(#skyGrad)" />
+                                
+                                {/* Ground Plane (Isometric) */}
+                                <path d="M50 320 L250 380 L450 320 L250 260 Z" fill="url(#groundGrad)" opacity="0.6" />
+                                
+                                {/* Grid Lines on Ground */}
+                                <g opacity="0.2" stroke="#16a34a" strokeWidth="1">
+                                    <line x1="100" y1="300" x2="300" y2="360" />
+                                    <line x1="150" y1="280" x2="350" y2="340" />
+                                    <line x1="200" y1="260" x2="400" y2="320" />
+                                    <line x1="150" y1="340" x2="350" y2="280" />
+                                    <line x1="200" y1="360" x2="400" y2="300" />
+                                </g>
+
+                                {/* === ISOMETRIC HOUSE === */}
+                                <g filter="url(#softShadow)" transform="translate(250, 200)">
+                                    {/* House Shadow */}
+                                    <ellipse cx="0" cy="100" rx="80" ry="20" fill="rgba(0,0,0,0.1)" />
+                                    
+                                    {/* Left Wall */}
+                                    <path d="M-70 0 L-70 80 L0 120 L0 40 Z" fill="url(#wallDark)" />
+                                    
+                                    {/* Right Wall */}
+                                    <path d="M70 0 L70 80 L0 120 L0 40 Z" fill="url(#wallLight)" />
+                                    
+                                    {/* Roof Left */}
+                                    <path d="M0 -60 L-80 0 L-70 0 L0 40 Z" fill="#16a34a" />
+                                    
+                                    {/* Roof Right */}
+                                    <path d="M0 -60 L80 0 L70 0 L0 40 Z" fill="#22c55e" />
+                                    
+                                    {/* Roof Top Edge */}
+                                    <path d="M0 -60 L-80 0 L0 -50 L80 0 Z" fill="#4ade80" />
+                                    
+                                    {/* Door */}
+                                    <path d="M-10 120 L-10 70 L20 55 L20 105 Z" fill="#78350f" />
+                                    <path d="M-5 115 L-5 75 L15 62 L15 102 Z" fill="#92400e" />
+                                    <circle cx="12" cy="90" r="2" fill="#fbbf24" />
+                                    
+                                    {/* Window Left */}
+                                    <path d="M-50 30 L-50 60 L-25 75 L-25 45 Z" fill="#7dd3fc" />
+                                    <line x1="-37" y1="37" x2="-37" y2="67" stroke="white" strokeWidth="2" />
+                                    <line x1="-50" y1="52" x2="-25" y2="60" stroke="white" strokeWidth="2" />
+                                    
+                                    {/* Window Right */}
+                                    <path d="M50 30 L50 60 L25 75 L25 45 Z" fill="#7dd3fc" />
+                                    <line x1="37" y1="37" x2="37" y2="67" stroke="white" strokeWidth="2" />
+                                    <line x1="50" y1="52" x2="25" y2="60" stroke="white" strokeWidth="2" />
+                                    
+                                    {/* Chimney */}
+                                    <path d="M35 -45 L35 -15 L50 -8 L50 -38 Z" fill="#64748b" />
+                                    <path d="M50 -38 L50 -8 L60 -12 L60 -42 Z" fill="#475569" />
+                                    <path d="M35 -45 L50 -38 L60 -42 L45 -49 Z" fill="#94a3b8" />
+                                </g>
+
+                                {/* === HANDWERKER 1: MALER (Links) === */}
+                                <g transform="translate(100, 270)" className="cursor-pointer">
+                                    {/* Person Shadow */}
+                                    <ellipse cx="15" cy="65" rx="20" ry="6" fill="rgba(0,0,0,0.1)" />
+                                    
+                                    {/* Body */}
+                                    <rect x="0" y="30" width="30" height="35" rx="4" fill="#3b82f6" />
+                                    
+                                    {/* Head */}
+                                    <circle cx="15" cy="18" r="14" fill="#fcd34d" />
+                                    <circle cx="10" cy="15" r="2" fill="#1e293b" />
+                                    <circle cx="20" cy="15" r="2" fill="#1e293b" />
+                                    <path d="M12 22 Q15 25 18 22" stroke="#1e293b" strokeWidth="1.5" fill="none" />
+                                    
+                                    {/* Cap */}
+                                    <path d="M0 12 Q15 -5 30 12 L28 15 Q15 5 2 15 Z" fill="#1d4ed8" />
+                                    
+                                    {/* Paint Roller */}
+                                    <rect x="32" y="35" width="25" height="8" rx="3" fill="#f97316" />
+                                    <rect x="28" y="38" width="8" height="3" fill="#78350f" />
+                                    
+                                    {/* Legs */}
+                                    <rect x="5" y="65" width="8" height="3" rx="1" fill="#1e40af" />
+                                    <rect x="17" y="65" width="8" height="3" rx="1" fill="#1e40af" />
+                                    
+                                    {/* Info Card */}
+                                    <g transform="translate(-15, -50)">
+                                        <rect width="70" height="35" rx="8" fill="white" filter="url(#softShadow)" />
+                                        <text x="10" y="15" fontSize="9" fontWeight="bold" fill="#1e293b">Maler Pro</text>
+                                        <text x="10" y="27" fontSize="8" fill="#3b82f6">★★★★★ 4.9</text>
+                                        <text x="45" y="27" fontSize="7" fill="#64748b">CHF 1.8k</text>
+                                    </g>
+                                </g>
+
+                                {/* === HANDWERKER 2: ELEKTRIKER (Rechts) === */}
+                                <g transform="translate(370, 250)" className="cursor-pointer">
+                                    {/* Person Shadow */}
+                                    <ellipse cx="15" cy="65" rx="20" ry="6" fill="rgba(0,0,0,0.1)" />
+                                    
+                                    {/* Body */}
+                                    <rect x="0" y="30" width="30" height="35" rx="4" fill="#f97316" />
+                                    
+                                    {/* Head */}
+                                    <circle cx="15" cy="18" r="14" fill="#fcd34d" />
+                                    <circle cx="10" cy="15" r="2" fill="#1e293b" />
+                                    <circle cx="20" cy="15" r="2" fill="#1e293b" />
+                                    <path d="M12 22 Q15 25 18 22" stroke="#1e293b" strokeWidth="1.5" fill="none" />
+                                    
+                                    {/* Safety Helmet */}
+                                    <ellipse cx="15" cy="6" rx="16" ry="10" fill="#facc15" />
+                                    <rect x="0" y="4" width="30" height="4" fill="#eab308" />
+                                    
+                                    {/* Tool - Drill */}
+                                    <rect x="-18" y="40" width="20" height="12" rx="3" fill="#dc2626" />
+                                    <rect x="-25" y="44" width="10" height="4" fill="#64748b" />
+                                    
+                                    {/* Legs */}
+                                    <rect x="5" y="65" width="8" height="3" rx="1" fill="#c2410c" />
+                                    <rect x="17" y="65" width="8" height="3" rx="1" fill="#c2410c" />
+                                    
+                                    {/* Info Card */}
+                                    <g transform="translate(-5, -50)">
+                                        <rect width="70" height="35" rx="8" fill="white" filter="url(#softShadow)" />
+                                        <text x="10" y="15" fontSize="9" fontWeight="bold" fill="#1e293b">Elektro Swiss</text>
+                                        <text x="10" y="27" fontSize="8" fill="#f97316">★★★★★ 4.8</text>
+                                        <text x="45" y="27" fontSize="7" fill="#64748b">CHF 2.3k</text>
+                                    </g>
+                                </g>
+
+                                {/* === HANDWERKER 3: SANITÄR (Vorne) === */}
+                                <g transform="translate(200, 310)" className="cursor-pointer">
+                                    {/* Person Shadow */}
+                                    <ellipse cx="15" cy="65" rx="20" ry="6" fill="rgba(0,0,0,0.1)" />
+                                    
+                                    {/* Body */}
+                                    <rect x="0" y="30" width="30" height="35" rx="4" fill="#06b6d4" />
+                                    
+                                    {/* Head */}
+                                    <circle cx="15" cy="18" r="14" fill="#fcd34d" />
+                                    <circle cx="10" cy="15" r="2" fill="#1e293b" />
+                                    <circle cx="20" cy="15" r="2" fill="#1e293b" />
+                                    <path d="M12 22 Q15 25 18 22" stroke="#1e293b" strokeWidth="1.5" fill="none" />
+                                    
+                                    {/* Cap */}
+                                    <path d="M0 12 Q15 -5 30 12 L28 15 Q15 5 2 15 Z" fill="#0891b2" />
+                                    
+                                    {/* Wrench */}
+                                    <rect x="32" y="42" width="22" height="6" rx="2" fill="#94a3b8" />
+                                    <circle cx="52" cy="45" r="6" fill="#64748b" />
+                                    <circle cx="52" cy="45" r="3" fill="#94a3b8" />
+                                    
+                                    {/* Legs */}
+                                    <rect x="5" y="65" width="8" height="3" rx="1" fill="#0e7490" />
+                                    <rect x="17" y="65" width="8" height="3" rx="1" fill="#0e7490" />
+                                    
+                                    {/* Info Card */}
+                                    <g transform="translate(-5, -50)">
+                                        <rect width="70" height="35" rx="8" fill="white" filter="url(#softShadow)" />
+                                        <text x="10" y="15" fontSize="9" fontWeight="bold" fill="#1e293b">Sanitär Plus</text>
+                                        <text x="10" y="27" fontSize="8" fill="#06b6d4">★★★★☆ 4.7</text>
+                                        <text x="45" y="27" fontSize="7" fill="#64748b">CHF 3.1k</text>
+                                    </g>
+                                </g>
+
+                                {/* Connection Lines with Dots */}
+                                <g opacity="0.4">
+                                    <path d="M130 290 Q190 250 250 240" stroke="#22c55e" strokeWidth="2" strokeDasharray="6 4" fill="none" />
+                                    <path d="M385 270 Q320 250 250 240" stroke="#22c55e" strokeWidth="2" strokeDasharray="6 4" fill="none" />
+                                    <path d="M215 330 Q230 290 250 260" stroke="#22c55e" strokeWidth="2" strokeDasharray="6 4" fill="none" />
+                                </g>
+                                
+                                {/* Animated Dots on Lines */}
+                                <circle r="4" fill="#22c55e" filter="url(#glow)">
+                                    <animateMotion dur="3s" repeatCount="indefinite" path="M130 290 Q190 250 250 240" />
+                                </circle>
+                                <circle r="4" fill="#22c55e" filter="url(#glow)">
+                                    <animateMotion dur="3.5s" repeatCount="indefinite" path="M385 270 Q320 250 250 240" />
+                                </circle>
+                                <circle r="4" fill="#22c55e" filter="url(#glow)">
+                                    <animateMotion dur="2.5s" repeatCount="indefinite" path="M215 330 Q230 290 250 260" />
+                                </circle>
+
+                                {/* Top Badge - Live Offerten */}
+                                <g transform="translate(20, 20)">
+                                    <rect width="110" height="32" rx="16" fill="white" filter="url(#softShadow)" />
+                                    <circle cx="20" cy="16" r="5" fill="#22c55e">
+                                        <animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite" />
+                                    </circle>
+                                    <text x="32" y="20" fontSize="11" fontWeight="600" fill="#1e293b">3 Offerten live</text>
+                                </g>
+
+                                {/* Swiss Badge */}
+                                <g transform="translate(370, 20)">
+                                    <rect width="100" height="32" rx="16" fill="#dc2626" filter="url(#softShadow)" />
+                                    <rect x="12" y="10" width="12" height="12" rx="2" fill="white" />
+                                    <text x="14" y="20" fontSize="10" fontWeight="bold" fill="#dc2626">+</text>
+                                    <text x="32" y="20" fontSize="10" fontWeight="600" fill="white">Swiss Made</text>
+                                </g>
+
+                                {/* Project Label on House */}
+                                <g transform="translate(205, 115)">
+                                    <rect width="90" height="26" rx="13" fill="white" filter="url(#softShadow)" />
+                                    <text x="12" y="17" fontSize="10" fontWeight="bold" fill="#16a34a">🏠 Ihr Projekt</text>
+                                </g>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* Wave Divider */}
-            <div className="absolute bottom-0 left-0 right-0">
-                <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-                    <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
-                </svg>
+            {/* Swiss Quality Badge - Fixed */}
+            <div className="absolute bottom-8 left-8 flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur rounded-full shadow-lg border border-slate-100">
+                <div className="w-6 h-6 bg-red-600 rounded flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">+</span>
+                </div>
+                <span className="text-sm font-semibold text-slate-700">Swiss Made</span>
             </div>
         </section>
     );

@@ -6,12 +6,10 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
       server: {
-        port: 3000,
-        host: 'localhost',
-        // HMR Konfiguration für besseres Auto-Reload
+        // HMR / Live-Reload: Port automatisch vom Dev-Server übernehmen,
+        // damit es auch bei abweichenden Ports (z.B. 5173) zuverlässig funktioniert.
         hmr: {
           overlay: true,
-          clientPort: 3000,
         },
         watch: {
           usePolling: true,
