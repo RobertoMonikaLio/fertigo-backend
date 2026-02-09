@@ -1,8 +1,6 @@
-
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { providersData } from './ProvidersPage';
+import { providersData } from './providersData';
 import { useAppContext } from './AppContext';
 import { 
     StarIcon, MapPinIcon, ShieldCheckIcon, MailIcon, PhoneIcon, ArrowRightIcon,

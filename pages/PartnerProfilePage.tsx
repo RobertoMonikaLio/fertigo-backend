@@ -1,8 +1,6 @@
-
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { providersData } from './ProvidersPage';
+import { providersData } from './providersData';
 // Fix: Renamed useAppStore to useAppContext to match the exported member from AppContext.
 import { useAppContext } from './AppContext';
 import { 

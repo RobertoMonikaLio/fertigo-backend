@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAppContext } from '../components/AppContext';
-import { providersData } from './ProvidersPage';
+import { providersData } from './providersData';
 import { StarIcon, MapPinIcon, ShieldCheckIcon, ArrowRightIcon } from '../components/icons';
 
 // Helper function to capitalize strings

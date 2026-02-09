@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { ArrowRightIcon, SwissFlagIcon } from '../components/icons';
 
-export const providersData: Array<{ id: string; location: string; [key: string]: any }> = [];
-
 const ProvidersPage: React.FC = () => {
     const { ref: heroRef, inView: heroInView } = useInView({ triggerOnce: true, threshold: 0.1 });
     const { ref: stepsRef, inView: stepsInView } = useInView({ triggerOnce: true, threshold: 0.05 });
@@ -33,120 +31,131 @@ const ProvidersPage: React.FC = () => {
 
     return (
         <div className="mx-auto overflow-hidden">
-            {/* ══════════ HERO ══════════ */}
-            <section ref={heroRef} className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-green-50/40">
-
-                {/* Hintergrund-Dekor */}
-                <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
-                    <div className="absolute top-[-20%] right-[-10%] w-[700px] h-[700px] bg-green-200/30 rounded-full blur-[120px]" />
-                    <div className="absolute bottom-[-15%] left-[-10%] w-[500px] h-[500px] bg-emerald-100/40 rounded-full blur-[100px]" />
-                    <div className="absolute inset-0 opacity-[0.4]" style={{ backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+            {/* ══════════ HERO - MATCHING HOMEPAGE STYLE ══════════ */}
+            <section ref={heroRef} className="relative overflow-hidden bg-[#0a0f1a]">
+                {/* ══════════ HINTERGRUND (wie Homepage) ══════════ */}
+                <div className="absolute inset-0 pointer-events-none select-none">
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#071210]" />
+                    <div className="absolute top-[-20%] left-[-10%] w-[700px] h-[700px] bg-green-600/[0.07] rounded-full blur-[150px]" />
+                    <div className="absolute bottom-[-10%] right-[-5%] w-[600px] h-[600px] bg-emerald-500/[0.06] rounded-full blur-[130px]" />
+                    <div className="absolute top-[40%] right-[20%] w-[300px] h-[300px] bg-teal-400/[0.04] rounded-full blur-[100px]" />
+                    <div className="absolute inset-0 opacity-[0.035]" style={{
+                        backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)',
+                        backgroundSize: '32px 32px',
+                    }} />
+                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-500/20 to-transparent" />
                 </div>
 
-                {/* Inhalt */}
+                {/* ══════════ BILD: Rechte Hälfte (nur Desktop) ══════════ */}
+                <div className={`hidden lg:block absolute top-0 bottom-0 right-0 w-1/2 z-[1] transition-opacity duration-[1500ms] delay-200 ${heroInView ? 'opacity-100' : 'opacity-0'}`}>
+                    {/* Gradient-Overlays */}
+                    <div className="absolute inset-0 z-20 bg-gradient-to-r from-[#0a0f1a] via-[#0a0f1a]/50 to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#0a0f1a]/80 via-transparent to-[#0a0f1a]/40 pointer-events-none" />
+                    
+                    {/* Dashboard Preview Image */}
+                    <img
+                        src="/assets/provider_dashboard_illustration_1766521172052.png"
+                        alt="Provider Dashboard"
+                        className="absolute inset-0 w-full h-full object-cover"
+                    />
+                </div>
+
+                {/* ══════════ MOBIL: Bild als Block ══════════ */}
+                <div className={`relative lg:hidden w-full h-[300px] sm:h-[400px] transition-opacity duration-1000 delay-200 ${heroInView ? 'opacity-100' : 'opacity-0'}`}>
+                    <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0a0f1a] via-transparent to-[#0a0f1a]/50 pointer-events-none" />
+                    <img
+                        src="/assets/provider_dashboard_illustration_1766521172052.png"
+                        alt="Provider Dashboard"
+                        className="absolute inset-0 w-full h-full object-cover"
+                    />
+                </div>
+
+                {/* ══════════ TEXT-INHALT ══════════ */}
                 <div className="relative z-10">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                        <div className="pt-28 sm:pt-32 lg:pt-36 pb-16 sm:pb-20 lg:pb-28">
-                            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                        <div className="lg:min-h-[calc(100vh-80px)] lg:flex lg:items-center py-16 sm:py-20 lg:py-24">
+                            <div className={`max-w-2xl transition-all duration-[1200ms] ease-out ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
 
-                                {/* ── Linke Spalte: Text ── */}
-                                <div className={`max-w-xl transition-all duration-[1200ms] ease-out ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                                {/* Schweiz-Badge */}
+                                <div className="inline-flex items-center gap-2 bg-white/[0.06] backdrop-blur-md border border-white/[0.08] rounded-full px-4 py-2 mb-7 group hover:bg-white/[0.1] transition-colors">
+                                    <SwissFlagIcon className="w-4 h-4 flex-shrink-0" />
+                                    <span className="text-white/60 text-xs sm:text-sm font-medium">Schweizweit · 0% Provision · Provisionsfrei</span>
+                                </div>
 
-                                    {/* Badge */}
-                                    <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-2 mb-6">
-                                        <SwissFlagIcon className="w-4 h-4 flex-shrink-0" />
-                                        <span className="text-green-700 text-xs sm:text-sm font-semibold">Für Handwerker & Dienstleister</span>
-                                    </div>
+                                {/* Headline */}
+                                <h1 className="text-[2.5rem] sm:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] font-black leading-[1.08] tracking-tight mb-6">
+                                    <span className="text-white">Mehr Aufträge.</span>
+                                    <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-300 to-teal-400 animate-text-gradient" style={{ backgroundSize: '200% auto' }}>
+                                        Weniger Leerlauf.
+                                    </span>
+                                </h1>
 
-                                    {/* Headline */}
-                                    <h1 className="text-[2.5rem] sm:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] font-black leading-[1.08] tracking-tight text-slate-900 mb-5">
-                                        Mehr Aufträge,{' '}
-                                        <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">
-                                            weniger Aufwand.
-                                            <svg className="absolute -bottom-1.5 left-0 w-full h-2.5" viewBox="0 0 300 10" fill="none" preserveAspectRatio="none"><path d="M2 7C50 1 100 9 150 5C200 1 250 8 298 3" stroke="url(#heroUL)" strokeWidth="3.5" strokeLinecap="round"/><defs><linearGradient id="heroUL" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#16a34a"/><stop offset="100%" stopColor="#14b8a6"/></linearGradient></defs></svg>
+                                {/* Beschreibung */}
+                                <p className="text-white/40 text-base sm:text-lg leading-relaxed mb-8 max-w-xl">
+                                    Fertigo verbindet Sie mit hochwertigen Anfragen aus Ihrer Region. 
+                                    <span className="text-white/70 font-medium"> Sie wählen Leads gezielt aus</span> — ohne Abo, ohne Provision.
+                                </p>
+
+                                {/* CTA Buttons */}
+                                <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                                    <Link
+                                        to="/register"
+                                        className="group inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-bold px-8 py-4 rounded-2xl text-base sm:text-lg shadow-lg shadow-green-500/20 hover:shadow-xl hover:shadow-green-500/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
+                                    >
+                                        Kostenlos starten
+                                        <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                    </Link>
+                                    <Link
+                                        to="/preise"
+                                        className="group inline-flex items-center justify-center gap-2.5 bg-white/[0.06] backdrop-blur-md border border-white/[0.08] hover:bg-white/[0.1] hover:border-white/[0.15] text-white font-bold px-8 py-4 rounded-2xl text-base sm:text-lg transition-all duration-300"
+                                    >
+                                        Preise ansehen
+                                    </Link>
+                                </div>
+
+                                {/* Stats Cards */}
+                                <div className="grid grid-cols-3 gap-4 mb-8">
+                                    {[
+                                        { label: 'Setup', value: '5 Min', icon: '⚡' },
+                                        { label: 'Provision', value: '0%', icon: '💰' },
+                                        { label: 'Modell', value: 'Pay/Lead', icon: '🎯' }
+                                    ].map((stat, i) => (
+                                        <div key={i} className="group bg-white/[0.04] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.08] hover:border-white/[0.12] rounded-2xl p-4 transition-all duration-300">
+                                            <div className="text-2xl mb-2">{stat.icon}</div>
+                                            <div className="text-xs text-white/40 font-medium uppercase tracking-wider mb-1">{stat.label}</div>
+                                            <div className="text-xl font-black text-white">{stat.value}</div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Trust-Zeile */}
+                                <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                                    {[
+                                        { icon: '✓', text: 'Keine Einrichtungskosten' },
+                                        { icon: '✓', text: 'Keine versteckten Gebühren' },
+                                        { icon: '✓', text: 'Sofort startklar' },
+                                    ].map((item, i) => (
+                                        <span key={i} className="flex items-center gap-1.5 text-xs sm:text-sm text-white/30">
+                                            <span className="w-4 h-4 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 text-[10px] font-bold">{item.icon}</span>
+                                            {item.text}
                                         </span>
-                                    </h1>
-
-                                    {/* Beschreibung */}
-                                    <p className="text-slate-500 text-base sm:text-lg leading-relaxed mb-8 max-w-md">
-                                        Qualifizierte Kundenanfragen aus Ihrer Region — <span className="text-slate-800 font-semibold">ohne Abo, ohne Provision</span>. Sie entscheiden, welche Leads Sie kaufen.
-                                    </p>
-
-                                    {/* CTA + Secondary */}
-                                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-8">
-                                        <Link
-                                            to="/register"
-                                            className="group inline-flex items-center gap-2.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold px-7 py-4 rounded-2xl text-base sm:text-lg shadow-lg shadow-green-600/20 hover:shadow-xl hover:shadow-green-600/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
-                                        >
-                                            Kostenlos starten
-                                            <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                        </Link>
-                                        <span className="text-slate-400 text-xs sm:text-sm">Keine Kreditkarte nötig</span>
-                                    </div>
-
-                                    {/* Trust-Zeile */}
-                                    <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                                        {[
-                                            'PLZ-genaue Leads',
-                                            'Pay-per-Lead',
-                                            '0% Provision',
-                                        ].map((text, i) => (
-                                            <span key={i} className="flex items-center gap-1.5 text-xs sm:text-sm text-slate-400">
-                                                <span className="w-4 h-4 rounded-full bg-green-100 flex items-center justify-center">
-                                                    <svg className="w-2.5 h-2.5 text-green-600" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                                                </span>
-                                                {text}
-                                            </span>
-                                        ))}
-                                    </div>
+                                    ))}
                                 </div>
-
-                                {/* ── Rechte Spalte: Feature-Cards ── */}
-                                <div className={`transition-all duration-[1500ms] delay-300 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                                    <div className="relative">
-                                        {/* Hintergrund-Glow */}
-                                        <div className="absolute -inset-8 bg-gradient-to-br from-green-200/40 via-transparent to-emerald-100/30 rounded-[2rem] blur-2xl pointer-events-none" />
-
-                                        <div className="relative grid grid-cols-2 gap-3 sm:gap-4">
-                                            {[
-                                                { icon: '📈', value: '+40%', label: 'Mehr Aufträge', desc: 'Durch qualifizierte Leads', color: 'bg-green-50 border-green-200' },
-                                                { icon: '⚡', value: '<5 Min', label: 'Bis zum Lead', desc: 'Sofort nach Registrierung', color: 'bg-amber-50 border-amber-200' },
-                                                { icon: '🎯', value: 'PLZ-genau', label: 'Ihre Region', desc: 'Nur relevante Anfragen', color: 'bg-blue-50 border-blue-200' },
-                                                { icon: '💰', value: '0%', label: 'Provision', desc: '100% Ihr Gewinn', color: 'bg-emerald-50 border-emerald-200' },
-                                            ].map((card, i) => (
-                                                <div
-                                                    key={i}
-                                                    className={`${card.color} border rounded-2xl sm:rounded-3xl p-4 sm:p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ${
-                                                        heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                                                    }`}
-                                                    style={{ transitionDelay: `${500 + i * 120}ms` }}
-                                                >
-                                                    <span className="text-2xl sm:text-3xl block mb-2 sm:mb-3">{card.icon}</span>
-                                                    <p className="text-xl sm:text-2xl font-black text-slate-900 leading-none mb-0.5">{card.value}</p>
-                                                    <p className="text-sm sm:text-base font-bold text-slate-700">{card.label}</p>
-                                                    <p className="text-xs sm:text-sm text-slate-400 mt-0.5">{card.desc}</p>
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        {/* Floating Badge */}
-                                        <div className={`absolute -bottom-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-2 bg-white border border-slate-200 rounded-full px-5 py-2.5 shadow-xl transition-all duration-1000 delay-[900ms] ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                                            <span className="flex h-2 w-2 relative">
-                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
-                                            </span>
-                                            <span className="text-xs sm:text-sm font-semibold text-slate-700">2'500+ aktive Partner schweizweit</span>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {/* Unterer Übergang (wie Homepage) */}
+                <div className="relative z-20 h-16 sm:h-20 lg:h-24 -mt-px">
+                    <svg className="absolute bottom-0 left-0 w-full h-full" viewBox="0 0 1440 96" fill="none" preserveAspectRatio="none">
+                        <path d="M0 96H1440V32C1440 32 1320 0 1200 16C1080 32 960 64 720 64C480 64 360 32 240 16C120 0 0 32 0 32V96Z" fill="white" />
+                    </svg>
+                </div>
             </section>
 
-            {/* So funktioniert's – wie Home „In 3 Schritten“ (RadialJourney-Stil) */}
+            {/* So funktioniert's – wie Home „In 3 Schritten” (RadialJourney-Stil) */}
             <section ref={stepsRef} className="relative py-20 sm:py-28 lg:py-36 overflow-hidden bg-gradient-to-b from-white via-green-50/30 to-white">
                 {/* Hintergrund wie RadialJourney */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -498,249 +507,233 @@ const ProvidersPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Das Fertigo Dashboard – Split Showcase */}
-            <section ref={dashboardRef} className={`relative py-16 sm:py-28 bg-gradient-to-b from-white via-slate-50/50 to-white overflow-hidden transition-all duration-700 ${dashboardInView ? 'opacity-100' : 'opacity-0'}`}>
+            {/* ══════════ IHR PERSÖNLICHES DASHBOARD - NEUES DESIGN ══════════ */}
+            <section ref={dashboardRef} className={`relative py-20 sm:py-32 bg-gradient-to-b from-white via-green-50/20 to-white overflow-hidden transition-all duration-700 ${dashboardInView ? 'opacity-100' : 'opacity-0'}`}>
 
-                {/* Dekor */}
+                {/* Light Background with Subtle Green Accents */}
                 <div className="absolute inset-0 pointer-events-none select-none">
-                    <div className="absolute top-[30%] right-[-10%] w-[500px] h-[500px] bg-green-100/50 rounded-full blur-[120px]" />
-                    <div className="absolute bottom-[10%] left-[-5%] w-[400px] h-[400px] bg-emerald-100/40 rounded-full blur-[100px]" />
+                    <div className="absolute top-[10%] right-[-5%] w-[600px] h-[600px] bg-green-100/40 rounded-full blur-[120px]" />
+                    <div className="absolute bottom-[10%] left-[-5%] w-[500px] h-[500px] bg-emerald-100/30 rounded-full blur-[100px]" />
+                    <div className="absolute inset-0 opacity-[0.02]" style={{
+                        backgroundImage: 'radial-gradient(circle, rgba(34,197,94,1) 1px, transparent 1px)',
+                        backgroundSize: '32px 32px',
+                    }} />
                 </div>
 
-                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-
+                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                     {/* Header */}
-                    <div className={`text-center mb-12 sm:mb-20 transition-all duration-1000 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        <span className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-1.5 text-xs sm:text-sm font-semibold text-green-700 mb-5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                            Alles an einem Ort
-                        </span>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-3 sm:mb-4">
+                    <div className={`text-center mb-16 sm:mb-20 transition-all duration-1000 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-2 mb-7">
+                            <SwissFlagIcon className="w-4 h-4 flex-shrink-0" />
+                            <span className="text-green-700 text-xs sm:text-sm font-bold">Zentrale Steuerung · Alles im Blick</span>
+                        </div>
+                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 mb-5">
                             Ihr persönliches{' '}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">Dashboard</span>
+                            <span className="relative inline-block">
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">Dashboard</span>
+                                <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
+                                    <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#dashGrad2)" strokeWidth="4" strokeLinecap="round"/>
+                                    <defs>
+                                        <linearGradient id="dashGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stopColor="#16a34a"/>
+                                            <stop offset="50%" stopColor="#10b981"/>
+                                            <stop offset="100%" stopColor="#14b8a6"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </span>
                         </h2>
-                        <p className="text-slate-500 text-sm sm:text-lg max-w-xl mx-auto">
-                            Leads, Aufträge, Statistiken und Kunden — alles in einer übersichtlichen Oberfläche.
+                        <p className="text-slate-600 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
+                            Leads, Statistiken und Aufträge — <span className="font-bold text-slate-900">alles in Echtzeit</span> an einem Ort.
                         </p>
                     </div>
 
-                    {/* ═══ Dashboard Mockup — Full Width ═══ */}
-                    <div className={`mb-14 sm:mb-20 transition-all duration-1000 delay-200 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        <div className="relative mx-auto max-w-4xl">
-                            {/* Schatten-Glow */}
-                            <div className="absolute -inset-4 bg-gradient-to-br from-green-200/30 via-transparent to-emerald-200/20 rounded-[2rem] blur-2xl pointer-events-none" />
-
-                            <div className="relative bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-2xl shadow-slate-200/50 overflow-hidden">
-                                {/* Browser Bar */}
-                                <div className="flex items-center gap-3 px-4 sm:px-5 py-3 bg-slate-50 border-b border-slate-200">
-                                    <div className="flex gap-1.5">
-                                        <div className="w-2.5 h-2.5 rounded-full bg-red-300" />
-                                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-300" />
-                                        <div className="w-2.5 h-2.5 rounded-full bg-green-300" />
-                                    </div>
-                                    <div className="flex-1 flex justify-center">
-                                        <div className="flex items-center gap-2 px-4 py-1.5 bg-white border border-slate-200 rounded-lg text-[10px] sm:text-xs text-slate-400 font-mono">
-                                            <svg className="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" /></svg>
-                                            app.fertigo.ch/dashboard
+                    {/* Dashboard Preview Card - Komplett Neu */}
+                    <div className={`mb-16 transition-all duration-1000 delay-200 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        <div className="relative mx-auto max-w-6xl">
+                            {/* Glow Effect */}
+                            <div className="absolute -inset-4 bg-gradient-to-r from-green-200/40 via-emerald-200/30 to-teal-200/40 rounded-[3rem] blur-2xl" />
+                            
+                            {/* Main Card */}
+                            <div className="relative bg-white rounded-3xl border-2 border-green-200 shadow-2xl overflow-hidden">
+                                
+                                {/* Top Bar with Live Indicator */}
+                                <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-b-2 border-green-200 px-6 py-4 flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className="flex gap-1.5">
+                                            <div className="w-3 h-3 rounded-full bg-green-400" />
+                                            <div className="w-3 h-3 rounded-full bg-emerald-400" />
+                                            <div className="w-3 h-3 rounded-full bg-teal-400" />
                                         </div>
+                                        <span className="text-slate-700 text-sm font-bold">Dashboard Übersicht</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 bg-white border border-green-200 rounded-full px-4 py-1.5 shadow-sm">
+                                        <span className="relative flex h-2 w-2">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                                        </span>
+                                        <span className="text-green-700 text-xs font-black uppercase tracking-wider">Live</span>
                                     </div>
                                 </div>
 
                                 {/* Dashboard Content */}
-                                <div className="p-2 sm:p-6 lg:p-8">
-                                    {/* Mobile: Alles in einer Card, harmonisch gestapelt */}
-                                    <div className="sm:hidden flex flex-col gap-4">
-                                        {/* Stats Row */}
-                                        <div className="grid grid-cols-2 gap-2">
-                                            {[
-                                                { label: 'Neue Leads', value: '12', change: '+3 heute', changeColor: 'text-green-600', bg: 'bg-green-50 border-green-200', icon: '📩' },
-                                                { label: 'Monatsumsatz', value: 'CHF 8.4k', change: '+12%', changeColor: 'text-green-600', bg: 'bg-emerald-50 border-emerald-200', icon: '💰' },
-                                                { label: 'Conversion', value: '68%', change: '+5%', changeColor: 'text-green-600', bg: 'bg-teal-50 border-teal-200', icon: '🎯' },
-                                                { label: 'Bewertung', value: '4.9 ★', change: '142 Reviews', changeColor: 'text-amber-600', bg: 'bg-amber-50 border-amber-200', icon: '⭐' },
-                                            ].map((stat, i) => (
-                                                <div
-                                                    key={i}
-                                                    className={`flex flex-col items-center justify-center ${stat.bg} border rounded-xl p-3 transition-all duration-700 ${dashboardInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
-                                                    style={{ transitionDelay: `${400 + i * 100}ms` }}
-                                                >
-                                                    <span className="text-xl mb-1">{stat.icon}</span>
-                                                    <div className="text-xs text-slate-500 font-medium">{stat.label}</div>
-                                                    <div className="text-lg font-black text-slate-900 leading-none">{stat.value}</div>
-                                                    <div className={`text-[10px] font-semibold ${stat.changeColor}`}>{stat.change}</div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                        {/* Chart */}
-                                        <div className="bg-slate-50 rounded-xl border border-slate-200 p-4">
-                                            <div className="flex items-center justify-between mb-4">
-                                                <span className="text-sm font-bold text-slate-800">Aufträge · 7 Tage</span>
-                                                <span className="flex items-center gap-1 text-green-600 text-xs font-bold">
-                                                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>
-                                                    +28%
-                                                </span>
-                                            </div>
-                                            <div className="flex items-end gap-1.5 sm:gap-2.5 h-24 sm:h-32">
-                                                {[30, 45, 38, 60, 52, 75, 90].map((h, i) => (
-                                                    <div
-                                                        key={i}
-                                                        className="flex-1 rounded-lg transition-all duration-700"
-                                                        style={{
-                                                            height: dashboardInView ? `${h}%` : '0%',
-                                                            background: i === 6
-                                                                ? 'linear-gradient(to top, #16a34a, #10b981)'
-                                                                : i >= 4
-                                                                ? '#bbf7d0'
-                                                                : '#e2e8f0',
-                                                            transitionDelay: `${600 + i * 80}ms`,
-                                                        }}
-                                                    />
-                                                ))}
-                                            </div>
-                                            <div className="flex gap-1.5 sm:gap-2.5 mt-2">
-                                                {['Mo','Di','Mi','Do','Fr','Sa','So'].map((d, i) => (
-                                                    <span key={i} className="flex-1 text-center text-[9px] sm:text-[10px] text-slate-400 font-medium">{d}</span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        {/* Live Leads */}
-                                        <div className="bg-slate-50 rounded-xl border border-slate-200 p-4">
-                                            <div className="flex items-center justify-between mb-3">
-                                                <span className="text-sm font-bold text-slate-800">Neueste Leads</span>
-                                                <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">
-                                                    <span className="relative flex h-1.5 w-1.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" /><span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-600" /></span>
-                                                    Live
-                                                </span>
-                                            </div>
-                                            <div className="space-y-2.5">
-                                                {[
-                                                    { name: 'Malerarbeiten 3-Zi Wohnung', loc: 'Zürich 8001', time: 'vor 2 Min.', price: 'CHF 18' },
-                                                    { name: 'Sanitär Notfall Bad', loc: 'Bern 3011', time: 'vor 8 Min.', price: 'CHF 24' },
-                                                    { name: 'Küche Renovation', loc: 'Basel 4051', time: 'vor 15 Min.', price: 'CHF 32' },
-                                                ].map((lead, i) => (
-                                                    <div
-                                                        key={i}
-                                                        className={`flex items-center gap-3 bg-white rounded-xl px-3 py-2.5 border border-slate-200 transition-all duration-700 ${dashboardInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
-                                                        style={{ transitionDelay: `${800 + i * 120}ms` }}
-                                                    >
-                                                        <div className="w-9 h-9 rounded-xl bg-green-100 flex items-center justify-center text-base flex-shrink-0">📩</div>
-                                                        <div className="flex-1 min-w-0">
-                                                            <p className="font-semibold text-slate-800 text-xs truncate">{lead.name}</p>
-                                                            <p className="text-slate-400 text-[10px]">{lead.loc} · {lead.time}</p>
-                                                        </div>
-                                                        <span className="text-green-700 font-black text-xs flex-shrink-0">{lead.price}</span>
+                                <div className="p-6 lg:p-10 bg-gradient-to-br from-slate-50/50 to-white">
+                                    
+                                    {/* Hero Stats - 3 Große Karten */}
+                                    <div className="grid md:grid-cols-3 gap-6 mb-8">
+                                        {[
+                                            { 
+                                                label: 'Verfügbare Leads', 
+                                                value: '47', 
+                                                change: '+12 heute', 
+                                                icon: '📬',
+                                                gradient: 'from-green-500 to-emerald-500',
+                                                bg: 'from-green-50 to-emerald-50',
+                                                border: 'border-green-200'
+                                            },
+                                            { 
+                                                label: 'Monatsumsatz', 
+                                                value: 'CHF 18.5k', 
+                                                change: '+24% vs. letzter Monat', 
+                                                icon: '💰',
+                                                gradient: 'from-emerald-500 to-teal-500',
+                                                bg: 'from-emerald-50 to-teal-50',
+                                                border: 'border-emerald-200'
+                                            },
+                                            { 
+                                                label: 'Erfolgsrate', 
+                                                value: '82%', 
+                                                change: 'Top 10% Partner', 
+                                                icon: '🎯',
+                                                gradient: 'from-teal-500 to-cyan-500',
+                                                bg: 'from-teal-50 to-cyan-50',
+                                                border: 'border-teal-200'
+                                            },
+                                        ].map((stat, i) => (
+                                            <div 
+                                                key={i} 
+                                                className={`group relative bg-gradient-to-br ${stat.bg} border-2 ${stat.border} rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${dashboardInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                                                style={{ transitionDelay: `${300 + i * 100}ms` }}
+                                            >
+                                                <div className="flex items-start justify-between mb-4">
+                                                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center text-2xl shadow-lg`}>
+                                                        {stat.icon}
                                                     </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        {/* Floating Badges */}
-                                        <div className="flex gap-2">
-                                            <div className="flex-1 bg-white rounded-2xl p-3 shadow-xl border border-slate-200 flex items-center gap-2">
-                                                <div className="relative">
-                                                    <div className="w-9 h-9 rounded-xl bg-green-100 flex items-center justify-center text-lg">🔔</div>
-                                                    <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-500 border-2 border-white" />
+                                                    <div className={`px-3 py-1 rounded-full bg-gradient-to-r ${stat.gradient} text-white text-xs font-black shadow-sm`}>
+                                                        NEU
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <p className="text-slate-900 font-bold text-[11px]">Neuer Lead!</p>
-                                                    <p className="text-slate-400 text-[10px]">Zürich · gerade eben</p>
-                                                </div>
+                                                <div className="text-slate-600 text-sm font-semibold mb-2">{stat.label}</div>
+                                                <div className="text-4xl font-black text-slate-900 mb-2">{stat.value}</div>
+                                                <div className="text-xs font-bold text-green-600">{stat.change}</div>
                                             </div>
-                                            <div className="flex-1 bg-white rounded-2xl p-3 shadow-xl border border-slate-200 flex items-center gap-2">
-                                                <div className="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center text-lg">📈</div>
-                                                <div>
-                                                    <p className="text-slate-900 font-bold text-[11px]">+40% Aufträge</p>
-                                                    <p className="text-slate-400 text-[10px]">diesen Monat</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        ))}
                                     </div>
-                                    {/* Desktop bleibt unverändert */}
-                                    <div className="hidden sm:block">
-                                        {/* Stats Row - Mobile optimiert */}
-                                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-4 sm:gap-4 mb-4 sm:mb-6">
-                                            {[
-                                                { label: 'Neue Leads', value: '12', change: '+3 heute', changeColor: 'text-green-600', bg: 'bg-green-50 border-green-200', icon: '📩' },
-                                                { label: 'Monatsumsatz', value: 'CHF 8.4k', change: '+12%', changeColor: 'text-green-600', bg: 'bg-emerald-50 border-emerald-200', icon: '💰' },
-                                                { label: 'Conversion', value: '68%', change: '+5%', changeColor: 'text-green-600', bg: 'bg-teal-50 border-teal-200', icon: '🎯' },
-                                                { label: 'Bewertung', value: '4.9 ★', change: '142 Reviews', changeColor: 'text-amber-600', bg: 'bg-amber-50 border-amber-200', icon: '⭐' },
-                                            ].map((stat, i) => (
-                                                <div
-                                                    key={i}
-                                                    className={`flex items-center gap-3 ${stat.bg} border rounded-xl sm:rounded-2xl p-3 transition-all duration-700 ${dashboardInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
-                                                    style={{ transitionDelay: `${400 + i * 100}ms` }}
-                                                >
-                                                    <span className="text-xl flex-shrink-0">{stat.icon}</span>
-                                                    <div>
-                                                        <div className="text-xs text-slate-500 font-medium">{stat.label}</div>
-                                                        <div className="text-lg font-black text-slate-900 leading-none">{stat.value}</div>
-                                                        <div className={`text-[10px] font-semibold ${stat.changeColor}`}>{stat.change}</div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                        {/* Chart + Leads - Mobile optimiert: untereinander */}
-                                        <div className="flex flex-col gap-4 sm:grid sm:grid-cols-[1.2fr_1fr] sm:gap-5">
-                                            {/* Chart */}
-                                            <div className="bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-200 p-4 sm:p-5">
-                                                <div className="flex items-center justify-between mb-4">
-                                                    <span className="text-sm font-bold text-slate-800">Aufträge · 7 Tage</span>
-                                                    <span className="flex items-center gap-1 text-green-600 text-xs font-bold">
-                                                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>
-                                                        +28%
-                                                    </span>
-                                                </div>
-                                                <div className="flex items-end gap-1.5 sm:gap-2.5 h-24 sm:h-32">
-                                                    {[30, 45, 38, 60, 52, 75, 90].map((h, i) => (
-                                                        <div
-                                                            key={i}
-                                                            className="flex-1 rounded-lg transition-all duration-700"
-                                                            style={{
-                                                                height: dashboardInView ? `${h}%` : '0%',
-                                                                background: i === 6
-                                                                    ? 'linear-gradient(to top, #16a34a, #10b981)'
-                                                                    : i >= 4
-                                                                    ? '#bbf7d0'
-                                                                    : '#e2e8f0',
-                                                                transitionDelay: `${600 + i * 80}ms`,
-                                                            }}
-                                                        />
-                                                    ))}
-                                                </div>
-                                                <div className="flex gap-1.5 sm:gap-2.5 mt-2">
-                                                    {['Mo','Di','Mi','Do','Fr','Sa','So'].map((d, i) => (
-                                                        <span key={i} className="flex-1 text-center text-[9px] sm:text-[10px] text-slate-400 font-medium">{d}</span>
-                                                    ))}
-                                                </div>
-                                            </div>
 
-                                            {/* Live Leads */}
-                                            <div className="bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-200 p-4 sm:p-5">
-                                                <div className="flex items-center justify-between mb-3">
-                                                    <span className="text-sm font-bold text-slate-800">Neueste Leads</span>
-                                                    <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">
-                                                        <span className="relative flex h-1.5 w-1.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" /><span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-600" /></span>
-                                                        Live
-                                                    </span>
-                                                </div>
-                                                <div className="space-y-2.5">
-                                                    {[
-                                                        { name: 'Malerarbeiten 3-Zi Wohnung', loc: 'Zürich 8001', time: 'vor 2 Min.', price: 'CHF 18' },
-                                                        { name: 'Sanitär Notfall Bad', loc: 'Bern 3011', time: 'vor 8 Min.', price: 'CHF 24' },
-                                                        { name: 'Küche Renovation', loc: 'Basel 4051', time: 'vor 15 Min.', price: 'CHF 32' },
-                                                    ].map((lead, i) => (
-                                                        <div
-                                                            key={i}
-                                                            className={`flex items-center gap-3 bg-white rounded-xl px-3 py-2.5 border border-slate-200 transition-all duration-700 ${dashboardInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
-                                                            style={{ transitionDelay: `${800 + i * 120}ms` }}
-                                                        >
-                                                            <div className="w-9 h-9 rounded-xl bg-green-100 flex items-center justify-center text-base flex-shrink-0">📩</div>
-                                                            <div className="flex-1 min-w-0">
-                                                                <p className="font-semibold text-slate-800 text-xs truncate">{lead.name}</p>
-                                                                <p className="text-slate-400 text-[10px]">{lead.loc} · {lead.time}</p>
+                                    {/* Bottom Section: Quick Actions & Recent Activity */}
+                                    <div className="grid lg:grid-cols-[1fr_1.2fr] gap-6">
+                                        
+                                        {/* Quick Actions */}
+                                        <div className={`bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-lg ${dashboardInView ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '600ms' }}>
+                                            <h3 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                                <span className="text-2xl">⚡</span>
+                                                Schnellzugriff
+                                            </h3>
+                                            <div className="space-y-3">
+                                                {[
+                                                    { label: 'Neue Leads durchsuchen', icon: '🔍', color: 'green' },
+                                                    { label: 'Offene Anfragen', icon: '📋', color: 'emerald' },
+                                                    { label: 'Statistiken ansehen', icon: '📊', color: 'teal' },
+                                                    { label: 'Profil optimieren', icon: '⭐', color: 'amber' },
+                                                ].map((action, i) => (
+                                                    <button 
+                                                        key={i}
+                                                        className={`w-full flex items-center gap-3 bg-slate-50 hover:bg-gradient-to-r ${
+                                                            action.color === 'green' ? 'hover:from-green-50 hover:to-emerald-50 hover:border-green-200' :
+                                                            action.color === 'emerald' ? 'hover:from-emerald-50 hover:to-teal-50 hover:border-emerald-200' :
+                                                            action.color === 'teal' ? 'hover:from-teal-50 hover:to-cyan-50 hover:border-teal-200' :
+                                                            'hover:from-amber-50 hover:to-orange-50 hover:border-amber-200'
+                                                        } border-2 border-slate-200 rounded-xl p-4 transition-all duration-300 hover:shadow-md group`}
+                                                    >
+                                                        <span className="text-2xl">{action.icon}</span>
+                                                        <span className="text-sm font-bold text-slate-700 group-hover:text-slate-900">{action.label}</span>
+                                                        <ArrowRightIcon className="w-4 h-4 ml-auto text-slate-400 group-hover:text-green-600 group-hover:translate-x-1 transition-all" />
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Recent Activity Feed */}
+                                        <div className={`bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-lg ${dashboardInView ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '700ms' }}>
+                                            <h3 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                                <span className="text-2xl">🔥</span>
+                                                Aktuelle Aktivität
+                                            </h3>
+                                            <div className="space-y-3">
+                                                {[
+                                                    { 
+                                                        title: 'Badezimmer Renovation', 
+                                                        location: 'Zürich, 8001', 
+                                                        time: 'vor 5 Min.', 
+                                                        price: 'CHF 22',
+                                                        icon: '🛁',
+                                                        status: 'neu'
+                                                    },
+                                                    { 
+                                                        title: 'Küche Modernisierung', 
+                                                        location: 'Bern, 3011', 
+                                                        time: 'vor 12 Min.', 
+                                                        price: 'CHF 28',
+                                                        icon: '🍳',
+                                                        status: 'beliebt'
+                                                    },
+                                                    { 
+                                                        title: 'Garten Neugestaltung', 
+                                                        location: 'Basel, 4051', 
+                                                        time: 'vor 18 Min.', 
+                                                        price: 'CHF 35',
+                                                        icon: '🌿',
+                                                        status: 'neu'
+                                                    },
+                                                    { 
+                                                        title: 'Malerarbeiten Wohnung', 
+                                                        location: 'Luzern, 6003', 
+                                                        time: 'vor 25 Min.', 
+                                                        price: 'CHF 18',
+                                                        icon: '🎨',
+                                                        status: 'aktiv'
+                                                    },
+                                                ].map((lead, i) => (
+                                                    <div 
+                                                        key={i} 
+                                                        className={`group bg-slate-50 hover:bg-green-50 border-2 border-slate-200 hover:border-green-300 rounded-xl p-4 transition-all duration-300 hover:shadow-md ${dashboardInView ? 'opacity-100' : 'opacity-0'}`}
+                                                        style={{ transitionDelay: `${800 + i * 100}ms` }}
+                                                    >
+                                                        <div className="flex items-start gap-3">
+                                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-2xl flex-shrink-0 shadow-md">
+                                                                {lead.icon}
                                                             </div>
-                                                            <span className="text-green-700 font-black text-xs flex-shrink-0">{lead.price}</span>
+                                                            <div className="flex-1 min-w-0">
+                                                                <div className="flex items-start justify-between gap-2 mb-1">
+                                                                    <h4 className="font-black text-slate-900 text-sm truncate">{lead.title}</h4>
+                                                                    {lead.status === 'neu' && (
+                                                                        <span className="flex-shrink-0 px-2 py-0.5 bg-green-500 text-white text-[10px] font-black uppercase rounded-full">Neu</span>
+                                                                    )}
+                                                                    {lead.status === 'beliebt' && (
+                                                                        <span className="flex-shrink-0 px-2 py-0.5 bg-amber-500 text-white text-[10px] font-black uppercase rounded-full">🔥</span>
+                                                                    )}
+                                                                </div>
+                                                                <p className="text-xs text-slate-500 mb-2">📍 {lead.location} · ⏱️ {lead.time}</p>
+                                                                <div className="flex items-center justify-between">
+                                                                    <span className="text-sm font-black text-green-600">{lead.price}</span>
+                                                                    <button className="text-xs font-bold text-green-600 hover:text-green-700 hover:underline">
+                                                                        Details →
+                                                                    </button>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    ))}
-                                                </div>
+                                                    </div>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
@@ -749,52 +742,74 @@ const ProvidersPage: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Floating Notification & Stats Badge - Mobile optimiert */}
-                    <div className="flex sm:hidden gap-2 mt-3">
-                        <div className="flex-1 bg-white rounded-2xl p-3 shadow-xl border border-slate-200 flex items-center gap-2">
-                            <div className="relative">
-                                <div className="w-9 h-9 rounded-xl bg-green-100 flex items-center justify-center text-lg">🔔</div>
-                                <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-500 border-2 border-white" />
+                    {/* Feature Highlights - 6 Cards */}
+                    <div className={`grid grid-cols-2 lg:grid-cols-3 gap-5 transition-all duration-1000 delay-500 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        {[
+                            { 
+                                emoji: '📊', 
+                                title: 'Live-Statistiken', 
+                                desc: 'Umsatz, Conversion und Trends in Echtzeit verfolgen',
+                                gradient: 'from-green-500 to-emerald-500',
+                                bg: 'from-green-50 to-emerald-50',
+                                border: 'border-green-200'
+                            },
+                            { 
+                                emoji: '🔔', 
+                                title: 'Smart Alerts', 
+                                desc: 'Sofort informiert bei passenden Leads in Ihrer Region',
+                                gradient: 'from-emerald-500 to-teal-500',
+                                bg: 'from-emerald-50 to-teal-50',
+                                border: 'border-emerald-200'
+                            },
+                            { 
+                                emoji: '📍', 
+                                title: 'Regionale Filter', 
+                                desc: 'Nur Anfragen aus Ihrem definierten Einzugsgebiet',
+                                gradient: 'from-teal-500 to-cyan-500',
+                                bg: 'from-teal-50 to-cyan-50',
+                                border: 'border-teal-200'
+                            },
+                            { 
+                                emoji: '⚡', 
+                                title: 'Schnellzugriff', 
+                                desc: 'Lead kaufen und Kontaktdaten in unter 30 Sekunden',
+                                gradient: 'from-cyan-500 to-blue-500',
+                                bg: 'from-cyan-50 to-blue-50',
+                                border: 'border-cyan-200'
+                            },
+                            { 
+                                emoji: '⭐', 
+                                title: 'Bewertungen', 
+                                desc: 'Kundenfeedback steigert Ihre Sichtbarkeit im Marktplatz',
+                                gradient: 'from-amber-500 to-orange-500',
+                                bg: 'from-amber-50 to-orange-50',
+                                border: 'border-amber-200'
+                            },
+                            { 
+                                emoji: '🔒', 
+                                title: 'Datenschutz', 
+                                desc: 'DSGVO-konform, Hosting in der Schweiz, SSL-verschlüsselt',
+                                gradient: 'from-slate-500 to-slate-600',
+                                bg: 'from-slate-50 to-slate-100',
+                                border: 'border-slate-200'
+                            },
+                        ].map((feat, i) => (
+                            <div 
+                                key={i} 
+                                className={`group relative bg-gradient-to-br ${feat.bg} border-2 ${feat.border} rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                                style={{ transitionDelay: `${700 + i * 80}ms` }}
+                            >
+                                <div className={`absolute inset-0 bg-gradient-to-br ${feat.gradient} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300`} />
+                                <div className="relative">
+                                    <div className="text-4xl mb-4">{feat.emoji}</div>
+                                    <h3 className="text-lg font-black text-slate-900 mb-2">{feat.title}</h3>
+                                    <p className="text-sm text-slate-600 leading-relaxed">{feat.desc}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p className="text-slate-900 font-bold text-[11px]">Neuer Lead!</p>
-                                <p className="text-slate-400 text-[10px]">Zürich · gerade eben</p>
-                            </div>
-                        </div>
-                        <div className="flex-1 bg-white rounded-2xl p-3 shadow-xl border border-slate-200 flex items-center gap-2">
-                            <div className="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center text-lg">📈</div>
-                            <div>
-                                <p className="text-slate-900 font-bold text-[11px]">+40% Aufträge</p>
-                                <p className="text-slate-400 text-[10px]">diesen Monat</p>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
-
-            {/* ═══ Feature Grid — 6 Karten ═══ */}
-            <div className={`grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 transition-all duration-1000 delay-400 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                {[
-                    { emoji: '📩', title: 'Live Lead-Marktplatz', desc: 'Anfragen in Echtzeit sehen und sofort kaufen.', color: 'border-green-200 bg-green-50/50' },
-                    { emoji: '📊', title: 'Statistiken & Insights', desc: 'Umsatz, Conversion und Trends auf einen Blick.', color: 'border-emerald-200 bg-emerald-50/50' },
-                    { emoji: '🔔', title: 'Push-Notifications', desc: 'Sofort informiert bei neuen passenden Leads.', color: 'border-teal-200 bg-teal-50/50' },
-                    { emoji: '📍', title: 'Regionale Filter', desc: 'Nur Leads aus Ihrem Einzugsgebiet — per PLZ.', color: 'border-blue-200 bg-blue-50/50' },
-                    { emoji: '⭐', title: 'Bewertungssystem', desc: 'Kundenbewertungen steigern Ihre Sichtbarkeit.', color: 'border-amber-200 bg-amber-50/50' },
-                    { emoji: '🔒', title: 'Schweizer Datenschutz', desc: 'DSGVO-konform, Hosting in der Schweiz.', color: 'border-slate-200 bg-slate-50/50' },
-                ].map((feat, i) => (
-                    <div
-                        key={i}
-                        className={`${feat.color} border rounded-2xl p-4 sm:p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 ${
-                            dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-                        }`}
-                        style={{ transitionDelay: `${600 + i * 80}ms` }}
-                    >
-                        <span className="text-2xl sm:text-3xl block mb-2.5 sm:mb-3">{feat.emoji}</span>
-                        <h3 className="font-black text-slate-900 text-sm sm:text-base mb-1">{feat.title}</h3>
-                        <p className="text-slate-500 text-xs sm:text-sm leading-relaxed">{feat.desc}</p>
-                    </div>
-                ))}
-            </div>
 
                 {/* FAQ für Partner */}
                 <section ref={faqRef} className={`py-16 sm:py-24 bg-slate-50 border-t border-slate-200 transition-all duration-700 ${faqInView ? 'opacity-100' : 'opacity-0'}`}>
@@ -849,10 +864,20 @@ const ProvidersPage: React.FC = () => {
             <section ref={ctaRef} className="relative py-16 lg:py-24 bg-slate-900 overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(34,197,94,0.1),transparent_50%)]" />
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl relative z-10">
-                    <div className={`text-center transition-all duration-700 ${ctaInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                    <div className={`text-center transition-all duration-700 ${ctaInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}> 
                         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800 border border-slate-600 mb-6">
                             <SwissFlagIcon className="w-4 h-4 text-green-400" />
                             <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Kostenlos starten</span>
                         </div>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-3">
                             Bereit für neue Aufträge
+                        </h2>
+                        {/* Hier kann weitere CTA-Beschreibung oder Button eingefügt werden */}
+                    </div>
+                </div>
+            </section>
+        </div>
+    );
+};
+
+export default ProvidersPage;
