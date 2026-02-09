@@ -98,7 +98,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
             {/* Main Card - Split Design */}
             <div
                 className={`
-                    relative h-full rounded-3xl overflow-hidden
+                    relative h-full rounded-2xl sm:rounded-3xl overflow-hidden
                     bg-white transition-all duration-700 flex flex-col
                     ${isHovered 
                         ? 'shadow-2xl scale-[1.02]' 
@@ -112,7 +112,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 }}
             >
                 {/* Top Image Section */}
-                <div className="relative h-40 sm:h-48 lg:h-56 overflow-hidden flex-shrink-0">
+                <div className="relative h-32 sm:h-48 lg:h-56 overflow-hidden flex-shrink-0">
                     <div
                         className={`
                             absolute inset-0 transition-transform duration-700
@@ -128,10 +128,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 </div>
 
                 {/* Content Section */}
-                <div className="p-6 lg:p-8 flex flex-col flex-1 min-h-0">
+                <div className="p-4 sm:p-6 lg:p-8 flex flex-col flex-1 min-h-0">
                     {/* Title */}
                     <h3 
-                        className="text-xl lg:text-2xl font-black text-slate-900 mb-3 leading-tight"
+                        className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 mb-2 sm:mb-3 leading-tight"
                         style={{
                             color: isHovered ? service.accent : undefined,
                             transition: 'color 0.3s ease',
@@ -141,20 +141,20 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                     </h3>
 
                     {/* Description */}
-                    <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">
+                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 flex-grow">
                         {service.description}
                     </p>
 
                     {/* Bottom Action Bar */}
-                    <div className="flex items-center justify-center pt-4 border-t-2 border-slate-100 mt-auto">
+                    <div className="flex items-center justify-center pt-3 sm:pt-4 border-t-2 border-slate-100 mt-auto">
                         {/* CTA Button */}
                         <button
                             onClick={() => {
                                 openQuoteModal({ service: service.name, projectTitle: service.name });
                             }}
                             className={`
-                                flex items-center justify-center gap-2 px-6 py-3 rounded-xl
-                                font-bold text-white text-sm w-full
+                                flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl
+                                font-bold text-white text-xs sm:text-sm w-full
                                 transition-all duration-300 group/btn
                                 shadow-lg hover:shadow-xl
                             `}
@@ -180,8 +180,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 <div
                     className={`
                         absolute top-0 right-0 w-0 h-0
-                        border-l-[60px] border-l-transparent
-                        border-t-[60px] transition-opacity duration-500
+                        border-l-[40px] sm:border-l-[60px] border-l-transparent
+                        border-t-[40px] sm:border-t-[60px] transition-opacity duration-500
                         ${isHovered ? 'opacity-100' : 'opacity-0'}
                     `}
                     style={{
@@ -231,7 +231,7 @@ const MoreServicesCard: React.FC<{
         >
             <div
                 className={`
-                    relative h-full rounded-3xl overflow-hidden
+                    relative h-full rounded-2xl sm:rounded-3xl overflow-hidden
                     bg-gradient-to-br from-slate-100 to-slate-200 border-2 border-slate-300
                     transition-all duration-700 flex flex-col
                     ${isHovered 
@@ -241,39 +241,39 @@ const MoreServicesCard: React.FC<{
                 `}
             >
                 {/* Content Section */}
-                <div className="p-6 lg:p-8 flex flex-col flex-1 min-h-0">
-                    <div className="flex-1 flex flex-col items-center justify-center text-center space-y-6">
+                <div className="p-4 sm:p-6 lg:p-8 flex flex-col flex-1 min-h-0">
+                    <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 sm:space-y-6 py-4 sm:py-0">
                         {/* Icon */}
                         <div
                             className={`
-                                w-20 h-20 rounded-2xl bg-slate-300
+                                w-14 h-14 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-slate-300
                                 flex items-center justify-center
                                 text-4xl transition-all duration-500
                                 ${isHovered ? 'scale-110 rotate-6' : 'scale-100 rotate-0'}
                             `}
                         >
-                            <svg className="w-10 h-10 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-7 h-7 sm:w-10 sm:h-10 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                             </svg>
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-2xl lg:text-3xl font-black text-slate-900 leading-tight">
+                        <h3 className="text-lg sm:text-2xl lg:text-3xl font-black text-slate-900 leading-tight">
                             Weitere Dienstleistungen
                         </h3>
 
                         {/* Description */}
-                        <p className="text-slate-600 text-sm leading-relaxed max-w-xs">
+                        <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-xs">
                             Entdecken Sie alle unsere Service-Kategorien und finden Sie den perfekten Partner für Ihr Projekt.
                         </p>
                     </div>
 
                     {/* CTA Button */}
-                    <div className="mt-auto pt-4 border-t-2 border-slate-200">
+                    <div className="mt-auto pt-3 sm:pt-4 border-t-2 border-slate-200">
                         <button
                             className={`
-                                flex items-center justify-center gap-2 px-6 py-3 rounded-xl
-                                font-bold text-white text-sm w-full
+                                flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl
+                                font-bold text-white text-xs sm:text-sm w-full
                                 transition-all duration-300 group/btn
                                 shadow-lg hover:shadow-xl
                                 bg-gradient-to-r from-green-600 to-emerald-500
@@ -295,8 +295,8 @@ const MoreServicesCard: React.FC<{
                 <div
                     className={`
                         absolute top-0 right-0 w-0 h-0
-                        border-l-[60px] border-l-transparent
-                        border-t-[60px] transition-opacity duration-500
+                        border-l-[40px] sm:border-l-[60px] border-l-transparent
+                        border-t-[40px] sm:border-t-[60px] transition-opacity duration-500
                         ${isHovered ? 'opacity-100' : 'opacity-0'}
                     `}
                     style={{
@@ -316,23 +316,23 @@ const PopularServices: React.FC = () => {
         <section
             ref={ref}
             id="services"
-            className="relative py-20 sm:py-28 lg:py-36 overflow-hidden bg-slate-50"
+            className="relative py-12 sm:py-28 lg:py-36 overflow-hidden bg-slate-50"
         >
             <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div
                     className={`
-                        text-center mb-16 lg:mb-20 max-w-2xl mx-auto
+                        text-center mb-8 sm:mb-16 lg:mb-20 max-w-2xl mx-auto
                         transition-all duration-1000
                         ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
                     `}
                 >
                     {/* Title */}
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 mb-4 leading-tight lg:whitespace-nowrap">
+                    <h2 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 mb-3 sm:mb-4 leading-tight lg:whitespace-nowrap">
                         Beliebte{' '}
                         <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">
                             Fertigo Services
-                            <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
+                            <svg className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
                                 <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradient2)" strokeWidth="4" strokeLinecap="round"/>
                                 <defs>
                                     <linearGradient id="underlineGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -346,7 +346,7 @@ const PopularServices: React.FC = () => {
                     </h2>
 
                     {/* Subtitle */}
-                    <p className="text-base lg:text-lg text-slate-600 leading-relaxed lg:whitespace-nowrap">
+                    <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed lg:whitespace-nowrap max-w-xs sm:max-w-none mx-auto">
                         Über 2'500 geprüfte Schweizer Partner stehen bereit, um Ihr Projekt zu realisieren.
                     </p>
                 </div>
@@ -354,7 +354,7 @@ const PopularServices: React.FC = () => {
                 {/* Services Grid */}
                 <div
                     className={`
-                        grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto
+                        grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8 max-w-5xl mx-auto
                         items-stretch
                         transition-all duration-1000
                         ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}

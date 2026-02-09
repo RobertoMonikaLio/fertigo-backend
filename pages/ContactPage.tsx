@@ -250,17 +250,63 @@ const ContactPage: React.FC = () => {
     }
 
     return (
-        <div className="bg-primary-50 sm:bg-white py-24 sm:py-32">
-            <div className="container mx-auto px-6">
-                <div className="hidden md:block max-w-4xl mx-auto text-center">
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 mb-4">{t.title}</h1>
-                    <p className="text-lg text-slate-600 mb-16">
-                        {t.subtitle}
-                    </p>
+        <div className="bg-slate-50 min-h-screen">
+            {/* Hero Header */}
+            <div className="bg-slate-900 py-16 sm:py-24">
+                <div className="container mx-auto px-6 max-w-6xl">
+                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <span className="inline-flex items-center gap-2 bg-green-500/10 text-green-400 text-sm font-medium px-4 py-2 rounded-full mb-6">
+                                <span>💬</span>
+                                <span>Wir sind für Sie da</span>
+                            </span>
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
+                                {t.title.split(' ')[0]}{' '}
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
+                                    {t.title.split(' ').slice(1).join(' ')}
+                                </span>
+                            </h1>
+                            <p className="text-slate-400 text-lg mb-8">
+                                {t.subtitle}
+                            </p>
+                            <div className="flex flex-wrap gap-6">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
+                                        <MailIcon className="w-5 h-5 text-green-400" />
+                                    </div>
+                                    <div>
+                                        <div className="text-slate-500 text-xs">E-Mail</div>
+                                        <div className="text-white font-medium">info@fertigo.ch</div>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
+                                        <PhoneIcon className="w-5 h-5 text-green-400" />
+                                    </div>
+                                    <div>
+                                        <div className="text-slate-500 text-xs">Telefon</div>
+                                        <div className="text-white font-medium">044 123 45 67</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="hidden lg:flex justify-center">
+                            <div className="relative">
+                                <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 rounded-3xl blur-2xl opacity-20"></div>
+                                <div className="relative bg-slate-800 border border-slate-700 rounded-3xl p-8 text-center">
+                                    <div className="text-6xl mb-4">📬</div>
+                                    <div className="text-white font-bold text-xl mb-2">Schnelle Antwort</div>
+                                    <div className="text-slate-400">Wir antworten innert 24h</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <div className="max-w-4xl mx-auto">
-                    <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-xl border border-slate-200">
+            {/* Form Section */}
+            <div className="container mx-auto px-6 max-w-4xl -mt-8 relative z-10 pb-20">
+                <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-2xl border border-slate-200">
                          <h2 className="text-2xl font-bold text-slate-800 mb-6">{t.writeMessage}</h2>
                          <form onSubmit={handleSubmit} className="space-y-5">
                             <div>
@@ -371,7 +417,6 @@ const ContactPage: React.FC = () => {
                                 )}
                             </button>
                          </form>
-                    </div>
                 </div>
             </div>
         </div>

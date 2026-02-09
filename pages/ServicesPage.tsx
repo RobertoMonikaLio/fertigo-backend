@@ -387,203 +387,32 @@ const ServicesPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Hero Section */}
-            <section className="relative overflow-hidden bg-green-50">
-                <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute -top-40 -right-40 w-80 h-80 bg-green-200/30 rounded-full blur-3xl" />
-                    <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-emerald-200/30 rounded-full blur-3xl" />
-                </div>
-                
-                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20 lg:pt-36 lg:pb-28 max-w-6xl">
-                    <div className="grid lg:grid-cols-2 gap-12 items-center">
-                        {/* Linke Spalte: Text */}
-                        <div>
-                            <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-black text-slate-900 leading-[1.08] tracking-tight mb-5">
-                                Alle{' '}
-                                <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-600 to-green-700">
-                                    Dienstleistungen
-                                    <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
-                                        <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradientServices)" strokeWidth="4" strokeLinecap="round"/>
-                                        <defs>
-                                            <linearGradient id="underlineGradientServices" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                <stop offset="0%" stopColor="#16a34a"/>
-                                                <stop offset="50%" stopColor="#10b981"/>
-                                                <stop offset="100%" stopColor="#14b8a6"/>
-                                            </linearGradient>
-                                        </defs>
-                                    </svg>
-                                </span>
-                                {' '}auf einen Blick
-                            </h1>
-                            <p className="text-lg text-slate-600 leading-relaxed mb-8">
-                                Über 500 Dienstleistungen in 15 Kategorien. Finden Sie den passenden Service für Ihr Projekt – von geprüften Schweizer Fachbetrieben.
-                            </p>
-                            <div className="flex flex-wrap gap-2 mb-8">
-                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-slate-700 text-sm font-medium shadow-sm">🔧 500+ Services</span>
-                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-slate-700 text-sm font-medium shadow-sm">📂 15 Kategorien</span>
-                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-slate-700 text-sm font-medium shadow-sm">✅ Geprüfte Partner</span>
-                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-slate-700 text-sm font-medium shadow-sm">💰 Kostenlose Offerten</span>
-                                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-green-50 border border-green-200 text-green-800 text-sm font-medium"><SwissFlagIcon className="w-4 h-4 text-green-600" /> Schweizweit</span>
-                            </div>
-                        </div>
-
-                        {/* Rechte Spalte: Illustration */}
-                        <div className="hidden lg:flex items-center justify-center">
-                            <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-md h-auto">
-                                {/* Smartphone Frame */}
-                                <g transform="translate(100, 20)">
-                                    {/* Phone Body */}
-                                    <rect width="200" height="360" rx="30" fill="#1e293b" />
-                                    <rect x="8" y="8" width="184" height="344" rx="24" fill="white" />
-                                    
-                                    {/* Notch */}
-                                    <rect x="70" y="8" width="60" height="20" rx="10" fill="#1e293b" />
-                                    <circle cx="100" cy="18" r="4" fill="#334155" />
-                                    
-                                    {/* Screen Content */}
-                                    {/* Header */}
-                                    <rect x="20" y="40" width="160" height="35" rx="8" fill="#f0fdf4" />
-                                    <circle cx="38" cy="57" r="10" fill="#22c55e" />
-                                    <path d="M34 57 L37 60 L43 54" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    <text x="55" y="54" fill="#1e293b" fontSize="10" fontWeight="700">Fertigo</text>
-                                    <text x="55" y="65" fill="#64748b" fontSize="7">Services</text>
-                                    <rect x="140" y="50" width="28" height="14" rx="7" fill="#22c55e" />
-                                    <text x="154" y="60" textAnchor="middle" fill="white" fontSize="7" fontWeight="600">500+</text>
-                                    
-                                    {/* Search Bar */}
-                                    <rect x="20" y="85" width="160" height="32" rx="16" fill="#f1f5f9" stroke="#e2e8f0" strokeWidth="1" />
-                                    <circle cx="38" cy="101" r="8" fill="none" stroke="#94a3b8" strokeWidth="1.5" />
-                                    <line x1="44" y1="107" x2="48" y2="111" stroke="#94a3b8" strokeWidth="1.5" strokeLinecap="round" />
-                                    <text x="58" y="105" fill="#94a3b8" fontSize="9">Service suchen...</text>
-                                    
-                                    {/* Category Pills */}
-                                    <g transform="translate(20, 125)">
-                                        <rect width="45" height="20" rx="10" fill="#22c55e" />
-                                        <text x="22" y="14" textAnchor="middle" fill="white" fontSize="7" fontWeight="600">Alle</text>
-                                        <rect x="50" y="0" width="50" height="20" rx="10" fill="#f1f5f9" />
-                                        <text x="75" y="14" textAnchor="middle" fill="#64748b" fontSize="7">Haus</text>
-                                        <rect x="105" y="0" width="55" height="20" rx="10" fill="#f1f5f9" />
-                                        <text x="132" y="14" textAnchor="middle" fill="#64748b" fontSize="7">Garten</text>
-                                    </g>
-                                    
-                                    {/* Service Cards */}
-                                    <g transform="translate(20, 155)">
-                                        {/* Card 1 */}
-                                        <rect width="75" height="75" rx="12" fill="white" stroke="#e2e8f0" strokeWidth="1" />
-                                        <rect x="8" y="8" width="59" height="35" rx="8" fill="#dcfce7" />
-                                        <text x="37" y="32" textAnchor="middle" fontSize="20">🏠</text>
-                                        <text x="37" y="58" textAnchor="middle" fill="#1e293b" fontSize="8" fontWeight="600">Haus</text>
-                                        <text x="37" y="68" textAnchor="middle" fill="#22c55e" fontSize="7" fontWeight="700">120+</text>
-                                        
-                                        {/* Card 2 */}
-                                        <rect x="85" y="0" width="75" height="75" rx="12" fill="white" stroke="#e2e8f0" strokeWidth="1" />
-                                        <rect x="93" y="8" width="59" height="35" rx="8" fill="#fef3c7" />
-                                        <text x="122" y="32" textAnchor="middle" fontSize="20">⚡</text>
-                                        <text x="122" y="58" textAnchor="middle" fill="#1e293b" fontSize="8" fontWeight="600">Elektro</text>
-                                        <text x="122" y="68" textAnchor="middle" fill="#f59e0b" fontSize="7" fontWeight="700">85+</text>
-                                        
-                                        {/* Card 3 */}
-                                        <rect x="0" y="85" width="75" height="75" rx="12" fill="white" stroke="#e2e8f0" strokeWidth="1" />
-                                        <rect x="8" y="93" width="59" height="35" rx="8" fill="#dbeafe" />
-                                        <text x="37" y="117" textAnchor="middle" fontSize="20">🎨</text>
-                                        <text x="37" y="143" textAnchor="middle" fill="#1e293b" fontSize="8" fontWeight="600">Maler</text>
-                                        <text x="37" y="153" textAnchor="middle" fill="#3b82f6" fontSize="7" fontWeight="700">95+</text>
-                                        
-                                        {/* Card 4 */}
-                                        <rect x="85" y="85" width="75" height="75" rx="12" fill="white" stroke="#e2e8f0" strokeWidth="1" />
-                                        <rect x="93" y="93" width="59" height="35" rx="8" fill="#d1fae5" />
-                                        <text x="122" y="117" textAnchor="middle" fontSize="20">🌿</text>
-                                        <text x="122" y="143" textAnchor="middle" fill="#1e293b" fontSize="8" fontWeight="600">Garten</text>
-                                        <text x="122" y="153" textAnchor="middle" fill="#10b981" fontSize="7" fontWeight="700">75+</text>
-                                    </g>
-                                    
-                                    {/* Bottom Navigation */}
-                                    <rect x="20" y="325" width="160" height="22" rx="11" fill="#f8fafc" />
-                                    <circle cx="55" cy="336" r="6" fill="#22c55e" />
-                                    <circle cx="100" cy="336" r="6" fill="#e2e8f0" />
-                                    <circle cx="145" cy="336" r="6" fill="#e2e8f0" />
-                                </g>
-                                
-                                {/* Floating Elements */}
-                                <g transform="translate(40, 100)">
-                                    <rect width="55" height="45" rx="10" fill="white" stroke="#22c55e" strokeWidth="2" />
-                                    <text x="27" y="28" textAnchor="middle" fontSize="18">🔧</text>
-                                    <text x="27" y="40" textAnchor="middle" fill="#22c55e" fontSize="7" fontWeight="700">65+</text>
-                                    <animate attributeName="transform" values="translate(40, 100);translate(40, 90);translate(40, 100)" dur="3s" repeatCount="indefinite" />
-                                </g>
-                                
-                                <g transform="translate(320, 150)">
-                                    <rect width="55" height="45" rx="10" fill="white" stroke="#10b981" strokeWidth="2" />
-                                    <text x="27" y="28" textAnchor="middle" fontSize="18">🚿</text>
-                                    <text x="27" y="40" textAnchor="middle" fill="#10b981" fontSize="7" fontWeight="700">55+</text>
-                                    <animate attributeName="transform" values="translate(320, 150);translate(320, 160);translate(320, 150)" dur="3.5s" repeatCount="indefinite" />
-                                </g>
-                                
-                                <g transform="translate(30, 280)">
-                                    <rect width="50" height="40" rx="8" fill="white" stroke="#059669" strokeWidth="2" />
-                                    <text x="25" y="25" textAnchor="middle" fontSize="16">🧹</text>
-                                    <text x="25" y="36" textAnchor="middle" fill="#059669" fontSize="6" fontWeight="700">45+</text>
-                                    <animate attributeName="transform" values="translate(30, 280);translate(30, 270);translate(30, 280)" dur="4s" repeatCount="indefinite" />
-                                </g>
-                                
-                                {/* Decorative */}
-                                <circle cx="350" cy="80" r="6" fill="#22c55e" opacity="0.3" />
-                                <circle cx="25" cy="200" r="5" fill="#10b981" opacity="0.4" />
-                                <circle cx="370" cy="300" r="8" fill="#22c55e" opacity="0.2" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             {/* All Services Section - Modern Split Layout */}
-            <div id="services-results" className="bg-slate-50 py-16">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            <div id="services-results" className="bg-slate-50 pt-20 sm:pt-28 lg:pt-32 pb-8 sm:pb-16">
+                <div className="container mx-auto px-3 sm:px-6 lg:px-8 max-w-7xl">
                     
-                    {/* Top Bar - Search & Stats */}
-                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
-                        <div>
-                            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">
-                                {selectedCategory === 'Alle' ? 'Alle Services' : selectedCategory}
-                            </h2>
-                            <p className="text-slate-500">
-                                {filteredServices.length} {filteredServices.length === 1 ? 'Service' : 'Services'} verfügbar
-                            </p>
-                        </div>
-                        
-                        {/* Search Bar */}
-                        <div className="relative max-w-md w-full">
-                            <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                            <input
-                                type="text"
-                                placeholder="Service suchen..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                            />
-                            {searchQuery && (
-                                <button
-                                    onClick={() => setSearchQuery('')}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                                >
-                                    <XMarkIcon className="w-5 h-5" />
-                                </button>
-                            )}
-                        </div>
+                    {/* Top Bar - Stats */}
+                    <div className="mb-5 sm:mb-10 px-1 sm:px-0">
+                        <h2 className="text-xl sm:text-3xl font-black text-slate-900 mb-1 sm:mb-2">
+                            {selectedCategory === 'Alle' ? 'Finden Sie den passenden Service' : selectedCategory}
+                        </h2>
+                        <p className="text-slate-500 text-sm sm:text-base max-w-2xl">
+                            Entdecken Sie unser breites Angebot an Handwerker- und Dienstleistungen. Von Renovierung bis Reinigung — finden Sie den passenden Fachbetrieb für Ihr Projekt.
+                        </p>
                     </div>
 
                     {/* Category Pills - Horizontal Scroll */}
-                    <div className="mb-8 -mx-4 px-4">
-                        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                    <div className="mb-5 sm:mb-8 -mx-3 sm:-mx-4 px-3 sm:px-4">
+                        <div className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide">
                             <button
                                 onClick={() => setSelectedCategory('Alle')}
-                                className={`flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm transition-all ${
+                                className={`flex-shrink-0 inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all ${
                                     selectedCategory === 'Alle'
                                         ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
                                         : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600'
                                 }`}
                             >
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                                <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
                                 </svg>
                                 Alle ({allServicesData.length})
@@ -595,14 +424,16 @@ const ServicesPage: React.FC = () => {
                                     <button
                                         key={category}
                                         onClick={() => setSelectedCategory(category)}
-                                        className={`flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm transition-all ${
+                                        className={`flex-shrink-0 inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all ${
                                             isActive
                                                 ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
                                                 : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600'
                                         }`}
                                     >
-                                        <span className="w-4 h-4">{categoryIcons[category]}</span>
-                                        {category} ({count})
+                                        <span className="w-3.5 h-3.5 sm:w-4 sm:h-4">{categoryIcons[category]}</span>
+                                        <span className="hidden sm:inline">{category}</span>
+                                        <span className="sm:hidden">{category.split(' ')[0]}</span>
+                                        <span className="text-[10px] sm:text-xs opacity-60">({count})</span>
                                     </button>
                                 );
                             })}
@@ -611,82 +442,101 @@ const ServicesPage: React.FC = () => {
 
                     {/* Services Grid - Compact Cards */}
                     {filteredServices.length > 0 ? (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-                            {filteredServices.map((service, index) => {
-                                const serviceEmojis: Record<string, string> = {
-                                    // Bau & Rohbau
-                                    'Maurerarbeiten': '🧱',
-                                    'Zimmermannarbeiten': '🪵',
-                                    'Dachdecker': '🏠',
-                                    'Fassadenbau': '🏢',
-                                    // Innenausbau
-                                    'Schreiner': '🪚',
-                                    'Gipserarbeiten': '🪣',
-                                    'Bodenleger': '🪵',
-                                    'Plattenleger': '🔲',
-                                    'Fenstermontage': '🪟',
-                                    // Haustechnik
-                                    'Sanitär': '🚿',
-                                    'Heizungsinstallation': '🔥',
-                                    'Elektriker': '⚡',
-                                    'Klimaanlagen-Service': '❄️',
-                                    // Renovation & Gestaltung
-                                    'Malerarbeiten': '🎨',
-                                    'Küchenbau': '🍳',
-                                    'Badezimmerumbau': '🛁',
-                                    // Umzug & Transport
-                                    'Privatumzug': '📦',
-                                    'Firmenumzug': '🏬',
-                                    'Möbeltransport': '🛋️',
-                                    'Klaviertransport': '🎹',
-                                    'Entsorgung & Räumung': '🗑️',
-                                    'Einlagerung': '📦',
-                                    // Reinigung & Pflege
-                                    'Umzugsreinigung': '🧹',
-                                    'Gebäudereinigung': '🏢',
-                                    'Fensterreinigung': '🪟',
-                                    'Baureinigung': '🧽',
-                                    'Dachreinigung': '🏠',
-                                    'Hauswartung': '🔧',
-                                    // Garten & Aussenbereich
-                                    'Gartenpflege': '🌿',
-                                    'Gartenbau': '🌳',
-                                    'Baumpflege': '🌲',
-                                    'Zaunbau': '🚧',
-                                    // Fahrzeuge & Maschinen
-                                    'Fahrzeugreinigung': '🚗',
-                                    'Maschinenvermietung': '🚜',
-                                    // Events & Kreatives
-                                    'Catering & Partyservice': '🍽️',
-                                    'Eventorganisation': '🎉',
-                                    'Fotografie & Video': '📸',
-                                    // Business & Finanzen
-                                    'Buchhaltung & Treuhand': '📊',
-                                };
-                                const emoji = serviceEmojis[service.name] || '🔨';
-                                
-                                return (
-                                    <button
-                                        key={service.name}
-                                        onClick={() => openQuoteModal({ projectTitle: service.name, service: service.name })}
-                                        className="group bg-white rounded-2xl p-4 border border-slate-100 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/50 transition-all text-left"
-                                    >
-                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                                            <span className="text-2xl">{emoji}</span>
-                                        </div>
-                                        <h3 className="font-bold text-slate-900 text-sm leading-tight mb-1 group-hover:text-green-600 transition-colors">
-                                            {service.name}
-                                        </h3>
-                                        <p className="text-xs text-slate-400">{service.category}</p>
-                                        {service.popular && (
-                                            <span className="inline-flex items-center gap-1 mt-2 px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded-full">
-                                                <FireIcon className="w-3 h-3" /> Beliebt
-                                            </span>
-                                        )}
-                                    </button>
-                                );
-                            })}
-                        </div>
+                        <>
+                            {/* ===== MOBILE: Kompakte Liste ===== */}
+                            <div className="sm:hidden space-y-2">
+                                {filteredServices.map((service, index) => {
+                                    const serviceEmojis: Record<string, string> = {
+                                        'Maurerarbeiten': '🧱', 'Zimmermannarbeiten': '🪵', 'Dachdecker': '🏠', 'Fassadenbau': '🏢',
+                                        'Schreiner': '🪚', 'Gipserarbeiten': '🪣', 'Bodenleger': '🪵', 'Plattenleger': '🔲', 'Fenstermontage': '🪟',
+                                        'Sanitär': '🚿', 'Heizungsinstallation': '🔥', 'Elektriker': '⚡', 'Klimaanlagen-Service': '❄️',
+                                        'Malerarbeiten': '🎨', 'Küchenbau': '🍳', 'Badezimmerumbau': '🛁',
+                                        'Privatumzug': '📦', 'Firmenumzug': '🏬', 'Möbeltransport': '🛋️', 'Klaviertransport': '🎹',
+                                        'Entsorgung & Räumung': '🗑️', 'Einlagerung': '📦',
+                                        'Umzugsreinigung': '🧹', 'Gebäudereinigung': '🏢', 'Fensterreinigung': '🪟',
+                                        'Baureinigung': '🧽', 'Dachreinigung': '🏠', 'Hauswartung': '🔧',
+                                        'Gartenpflege': '🌿', 'Gartenbau': '🌳', 'Baumpflege': '🌲', 'Zaunbau': '🚧',
+                                        'Fahrzeugreinigung': '🚗', 'Maschinenvermietung': '🚜',
+                                        'Catering & Partyservice': '🍽️', 'Eventorganisation': '🎉', 'Fotografie & Video': '📸',
+                                        'Buchhaltung & Treuhand': '📊',
+                                    };
+                                    const emoji = serviceEmojis[service.name] || '🔨';
+
+                                    return (
+                                        <button
+                                            key={service.name}
+                                            onClick={() => openQuoteModal({ projectTitle: service.name, service: service.name })}
+                                            className="group w-full bg-white rounded-xl p-3 border border-slate-100 active:border-green-300 active:bg-green-50/50 transition-all text-left flex items-center gap-3"
+                                        >
+                                            {/* Emoji */}
+                                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center flex-shrink-0">
+                                                <span className="text-lg">{emoji}</span>
+                                            </div>
+
+                                            {/* Text */}
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-center gap-2">
+                                                    <h3 className="font-bold text-slate-900 text-[13px] leading-tight truncate">
+                                                        {service.name}
+                                                    </h3>
+                                                    {service.popular && (
+                                                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[9px] font-bold rounded-full flex-shrink-0">
+                                                            <FireIcon className="w-2.5 h-2.5" /> Beliebt
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <p className="text-[11px] text-slate-400 truncate mt-0.5">{service.description}</p>
+                                            </div>
+
+                                            {/* Arrow */}
+                                            <ArrowRightIcon className="w-4 h-4 text-slate-300 flex-shrink-0" />
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            {/* ===== DESKTOP: Grid (unverändert) ===== */}
+                            <div className="hidden sm:grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                                {filteredServices.map((service, index) => {
+                                    const serviceEmojis: Record<string, string> = {
+                                        'Maurerarbeiten': '🧱', 'Zimmermannarbeiten': '🪵', 'Dachdecker': '🏠', 'Fassadenbau': '🏢',
+                                        'Schreiner': '🪚', 'Gipserarbeiten': '🪣', 'Bodenleger': '🪵', 'Plattenleger': '🔲', 'Fenstermontage': '🪟',
+                                        'Sanitär': '🚿', 'Heizungsinstallation': '🔥', 'Elektriker': '⚡', 'Klimaanlagen-Service': '❄️',
+                                        'Malerarbeiten': '🎨', 'Küchenbau': '🍳', 'Badezimmerumbau': '🛁',
+                                        'Privatumzug': '📦', 'Firmenumzug': '🏬', 'Möbeltransport': '🛋️', 'Klaviertransport': '🎹',
+                                        'Entsorgung & Räumung': '🗑️', 'Einlagerung': '📦',
+                                        'Umzugsreinigung': '🧹', 'Gebäudereinigung': '🏢', 'Fensterreinigung': '🪟',
+                                        'Baureinigung': '🧽', 'Dachreinigung': '🏠', 'Hauswartung': '🔧',
+                                        'Gartenpflege': '🌿', 'Gartenbau': '🌳', 'Baumpflege': '🌲', 'Zaunbau': '🚧',
+                                        'Fahrzeugreinigung': '🚗', 'Maschinenvermietung': '🚜',
+                                        'Catering & Partyservice': '🍽️', 'Eventorganisation': '🎉', 'Fotografie & Video': '📸',
+                                        'Buchhaltung & Treuhand': '📊',
+                                    };
+                                    const emoji = serviceEmojis[service.name] || '🔨';
+
+                                    return (
+                                        <button
+                                            key={service.name}
+                                            onClick={() => openQuoteModal({ projectTitle: service.name, service: service.name })}
+                                            className="group bg-white rounded-2xl p-4 border border-slate-100 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/50 transition-all text-left"
+                                        >
+                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                                <span className="text-2xl">{emoji}</span>
+                                            </div>
+                                            <h3 className="font-bold text-slate-900 text-sm leading-tight mb-1 group-hover:text-green-600 transition-colors">
+                                                {service.name}
+                                            </h3>
+                                            <p className="text-xs text-slate-400">{service.category}</p>
+                                            {service.popular && (
+                                                <span className="inline-flex items-center gap-1 mt-2 px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded-full">
+                                                    <FireIcon className="w-3 h-3" /> Beliebt
+                                                </span>
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </>
                     ) : (
                         <NoResults searchQuery={searchQuery} onReset={() => { setSearchQuery(''); setSelectedCategory('Alle'); }} />
                     )}
@@ -812,55 +662,63 @@ const ServiceListItem: React.FC<ServiceListItemProps> = ({ service, gradient, on
     );
 };
 
-// Trust Section Component - Matching Homepage Style
+// Trust Section Component - Alternativer Look für "Warum Fertigo statt die Konkurrenz?"
 const TrustSection: React.FC = () => {
     const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
-
-    const trustFeatures = [
-        {
-            emoji: '🏅',
-            title: 'Geprüfte Partner',
-            description: 'Alle Dienstleister werden sorgfältig geprüft und verifiziert'
-        },
-        {
-            emoji: '⭐',
-            title: 'Top Bewertungen',
-            description: 'Durchschnittlich 4.8 von 5 Sternen von zufriedenen Kunden'
-        },
-        {
-            emoji: '⚡',
-            title: 'Schnelle Vermittlung',
-            description: 'Erhalten Sie Angebote innerhalb von 24 Stunden'
-        },
-        {
-            emoji: '✅',
-            title: 'Qualitätsgarantie',
-            description: 'Zufriedenheitsgarantie für alle vermittelten Services'
-        }
-    ];
-
     return (
-        <section ref={ref} className={`py-16 bg-gradient-to-b from-white via-emerald-50 to-emerald-100 transition-all duration-700 ${inView ? 'opacity-100' : 'opacity-0'}`}>
-            <div className="container mx-auto px-6 max-w-6xl">
+        <section ref={ref} className={`py-16 bg-white transition-all duration-700 ${inView ? 'opacity-100' : 'opacity-0'}`}>
+            <div className="container mx-auto px-4 max-w-6xl">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 mb-4">Warum Fertigo?</h2>
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-slate-800 mb-4 tracking-tight">
+                        Warum <span className="text-primary-600">Fertigo</span> statt die Konkurrenz?
+                    </h2>
                     <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">
-                        Vertrauen Sie auf Qualität, Sicherheit und erstklassigen Service
+                        Wir setzen neue Maßstäbe für Service-Vermittlung in der Schweiz. Überzeugen Sie sich selbst im direkten Vergleich:
                     </p>
                 </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {trustFeatures.map((feature, index) => (
-                        <div
-                            key={feature.title}
-                            className="bg-white rounded-xl p-6 text-center border border-slate-200 shadow-md hover:shadow-lg transition-all hover:-translate-y-1 animate-fade-in"
-                            style={{ animationDelay: `${index * 100}ms` }}
-                        >
-                            <div className="text-4xl mb-4">{feature.emoji}</div>
-                            <h3 className="text-base font-bold text-slate-900 mb-2">{feature.title}</h3>
-                            <p className="text-sm text-slate-600 leading-relaxed">{feature.description}</p>
-                        </div>
-                    ))}
+                <div className="relative overflow-x-auto rounded-3xl shadow-2xl border border-slate-100 bg-gradient-to-br from-emerald-50 via-white to-emerald-100">
+                    <table className="min-w-full text-sm md:text-base text-left">
+                        <thead>
+                            <tr className="bg-emerald-200/60">
+                                <th className="px-6 py-4 font-bold text-slate-700">&nbsp;</th>
+                                <th className="px-6 py-4 font-bold text-emerald-700 text-center">Fertigo</th>
+                                <th className="px-6 py-4 font-bold text-slate-400 text-center">Andere Plattformen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="border-b border-slate-100">
+                                <td className="px-6 py-5 font-semibold">Geprüfte Partner</td>
+                                <td className="px-6 py-5 text-center text-emerald-600 font-bold"><span className="inline-block bg-emerald-100 px-3 py-1 rounded-full">✔️</span></td>
+                                <td className="px-6 py-5 text-center text-slate-400 font-bold"><span className="inline-block bg-slate-100 px-3 py-1 rounded-full">❌</span></td>
+                            </tr>
+                            <tr className="border-b border-slate-100">
+                                <td className="px-6 py-5 font-semibold">Schnelle Vermittlung</td>
+                                <td className="px-6 py-5 text-center text-emerald-600 font-bold"><span className="inline-block bg-emerald-100 px-3 py-1 rounded-full">⏱️ 24h</span></td>
+                                <td className="px-6 py-5 text-center text-slate-400 font-bold"><span className="inline-block bg-slate-100 px-3 py-1 rounded-full">⏳ Tage</span></td>
+                            </tr>
+                            <tr className="border-b border-slate-100">
+                                <td className="px-6 py-5 font-semibold">Persönliche Beratung</td>
+                                <td className="px-6 py-5 text-center text-emerald-600 font-bold"><span className="inline-block bg-emerald-100 px-3 py-1 rounded-full">🤝</span></td>
+                                <td className="px-6 py-5 text-center text-slate-400 font-bold"><span className="inline-block bg-slate-100 px-3 py-1 rounded-full">-</span></td>
+                            </tr>
+                            <tr className="border-b border-slate-100">
+                                <td className="px-6 py-5 font-semibold">Transparente Preise</td>
+                                <td className="px-6 py-5 text-center text-emerald-600 font-bold"><span className="inline-block bg-emerald-100 px-3 py-1 rounded-full">💡</span></td>
+                                <td className="px-6 py-5 text-center text-slate-400 font-bold"><span className="inline-block bg-slate-100 px-3 py-1 rounded-full">❓</span></td>
+                            </tr>
+                            <tr>
+                                <td className="px-6 py-5 font-semibold">Kundenzufriedenheit</td>
+                                <td className="px-6 py-5 text-center text-emerald-600 font-bold"><span className="inline-block bg-emerald-100 px-3 py-1 rounded-full">4.8★</span></td>
+                                <td className="px-6 py-5 text-center text-slate-400 font-bold"><span className="inline-block bg-slate-100 px-3 py-1 rounded-full">3.5★</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div className="mt-10 flex justify-center">
+                    <a href="#" className="inline-flex items-center gap-2 bg-emerald-600 text-white font-bold px-6 py-3 rounded-full shadow hover:bg-emerald-700 transition text-lg">
+                        Jetzt kostenlos testen
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </a>
                 </div>
             </div>
         </section>
@@ -875,13 +733,13 @@ const ServiceIcon: React.FC<{ name: string; className?: string }> = ({ name, cla
         'Maurerarbeiten': <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />,
         'Zimmermannarbeiten': <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />,
         'Dachdecker': <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" />,
-        'Fassadenbau': <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />,
+        'Fassadenbau': <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-.75 3h.75m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />,
         // Innenausbau
         'Schreiner': <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />,
         'Gipserarbeiten': <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />,
         'Bodenleger': <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />,
         'Plattenleger': <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />,
-        'Fenstermontage': <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.25V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18V8.25m-18 0V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v2.25m-18 0h18M5.25 6h.008v.008H5.25V6zM7.5 6h.008v.008H7.5V6zm2.25 0h.008v.008H9.75V6z" />,
+        'Fenstermontage': <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.25V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18V8.25m-18 0V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0021 6v2.25m-18 0h18M5.25 6h.008v.008H5.25V6zM7.5 6h.008v.008H7.5V6zm2.25 0h.008v.008H9.75V6z" />,
         // Haustechnik
         'Sanitär': <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />,
         'Heizungsinstallation': <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1.001A3.75 3.75 0 0012 18z" />,
@@ -901,13 +759,13 @@ const ServiceIcon: React.FC<{ name: string; className?: string }> = ({ name, cla
         // Reinigung
         'Umzugsreinigung': <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />,
         'Gebäudereinigung': <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />,
-        'Fensterreinigung': <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.25V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18V8.25m-18 0V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v2.25m-18 0h18M5.25 6h.008v.008H5.25V6zM7.5 6h.008v.008H7.5V6zm2.25 0h.008v.008H9.75V6z" />,
+        'Fensterreinigung': <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.25V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18V8.25m-18 0V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0021 6v2.25m-18 0h18M5.25 6h.008v.008H5.25V6zM7.5 6h.008v.008H7.5V6zm2.25 0h.008v.008H9.75V6z" />,
         'Baureinigung': <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />,
         'Dachreinigung': <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" />,
         'Hauswartung': <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />,
         // Garten
-        'Gartenpflege': <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />,
-        'Gartenbau': <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />,
+        'Gartenpflege': <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 007.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />,
+        'Gartenbau': <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 007.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />,
         'Baumpflege': <path strokeLinecap="round" strokeLinejoin="round" d="M7.848 8.25l1.536.887M7.848 8.25a3 3 0 11-5.196-3 3 3 0 015.196 3zm1.536.887a2.165 2.165 0 011.083 1.839c.005.351.054.695.14 1.024M9.384 9.137l2.077 1.199M7.848 15.75l1.536-.887m-1.536.887a3 3 0 11-5.196 3 3 3 0 015.196-3zm1.536-.887a2.165 2.165 0 001.083-1.838c.005-.352.054-.695.14-1.025m-1.223 2.863l2.077-1.199m0-3.328a4.323 4.323 0 012.068-1.379l5.325-1.628a4.5 4.5 0 012.48-.044l.803.215-7.794 4.5m-2.882-1.664A4.331 4.331 0 0010.607 12m3.736 0l7.794 4.5-.802.215a4.5 4.5 0 01-2.48-.043l-5.326-1.629a4.324 4.324 0 01-2.068-1.379M14.343 12l-2.882 1.664" />,
         'Zaunbau': <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />,
     };
@@ -1008,18 +866,18 @@ interface NoResultsProps {
 
 const NoResults: React.FC<NoResultsProps> = ({ searchQuery, onReset }) => {
     return (
-        <div className="text-center py-16 bg-white rounded-2xl border border-slate-200 shadow-md">
-            <div className="inline-flex justify-center items-center w-20 h-20 rounded-full bg-slate-100 mb-6">
-                <MagnifyingGlassIcon className="w-10 h-10 text-slate-400" />
+        <div className="text-center py-10 sm:py-16 px-4 bg-white rounded-xl sm:rounded-2xl border border-slate-200 shadow-md">
+            <div className="inline-flex justify-center items-center w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-slate-100 mb-4 sm:mb-6">
+                <MagnifyingGlassIcon className="w-7 h-7 sm:w-10 sm:h-10 text-slate-400" />
             </div>
-            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">Keine Services gefunden</h3>
-            <p className="text-base text-slate-600 mb-8 max-w-md mx-auto">
+            <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-slate-900 mb-2 sm:mb-3">Keine Services gefunden</h3>
+            <p className="text-sm sm:text-base text-slate-600 mb-6 sm:mb-8 max-w-md mx-auto">
                 Für <span className="font-bold text-slate-900">"{searchQuery}"</span> wurden leider keine passenden Services gefunden.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                     onClick={onReset}
-                    className="px-6 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-all shadow-lg inline-flex items-center gap-2 justify-center"
+                    className="px-5 sm:px-6 py-2.5 sm:py-3 bg-primary-600 text-white text-sm sm:text-base font-bold rounded-xl hover:bg-primary-700 transition-all shadow-lg inline-flex items-center gap-2 justify-center"
                 >
                     Filter zurücksetzen
                 </button>

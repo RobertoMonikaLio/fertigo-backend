@@ -52,17 +52,17 @@ const RadialJourney: React.FC = () => {
     return (
         <section
             ref={ref}
-            className="relative py-20 sm:py-28 lg:py-36 overflow-hidden bg-white"
+            className="relative py-12 sm:py-28 lg:py-36 overflow-hidden bg-white"
         >
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
                 {/* Header */}
-                <div className={`text-center mb-16 lg:mb-20 transition-all duration-1000 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 mb-4 leading-tight lg:whitespace-nowrap">
+                <div className={`text-center mb-8 sm:mb-16 lg:mb-20 transition-all duration-1000 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                    <h2 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 mb-3 sm:mb-4 leading-tight lg:whitespace-nowrap">
                         In 3 Schritten zum{' '}
                         <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">
                             perfekten Handwerker
-                            <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
+                            <svg className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
                                 <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradient)" strokeWidth="4" strokeLinecap="round"/>
                                 <defs>
                                     <linearGradient id="underlineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -74,13 +74,102 @@ const RadialJourney: React.FC = () => {
                             </svg>
                         </span>
                     </h2>
-                    <p className="text-base lg:text-lg text-slate-600 mx-auto lg:whitespace-nowrap">
+                    <p className="text-sm sm:text-base lg:text-lg text-slate-600 mx-auto lg:whitespace-nowrap max-w-xs sm:max-w-none">
                         Schweizer Qualität, Präzision und Vertrauen – so einfach finden Sie den passenden Experten
                     </p>
                 </div>
 
-                {/* Steps - Swiss Market Design */}
-                <div className="grid md:grid-cols-3 gap-6 lg:gap-8 mb-16">
+                {/* ===== MOBILE ONLY: Notion-Style Scroll Cards ===== */}
+                <div className="sm:hidden -mx-4">
+                    <div className="flex gap-4 pl-4 pr-8 overflow-x-auto snap-x snap-mandatory pb-6 scrollbar-hide">
+                        {steps.map((step, index) => {
+                            const emojis = ['📝', '🔎', '🏆'];
+                            return (
+                                <div
+                                    key={step.id}
+                                    className={`
+                                        snap-center flex-shrink-0 w-[80vw]
+                                        transition-all duration-700
+                                        ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+                                    `}
+                                    style={{ transitionDelay: `${index * 160}ms` }}
+                                >
+                                    <div className="h-full rounded-2xl border border-slate-200 bg-white shadow-sm flex flex-col overflow-hidden">
+                                        {/* Cover gradient area */}
+                                        <div className={`
+                                            h-24 relative
+                                            ${index === 0 ? 'bg-gradient-to-r from-green-200 via-green-300 to-emerald-200' : index === 1 ? 'bg-gradient-to-r from-emerald-200 via-emerald-300 to-teal-200' : 'bg-gradient-to-r from-teal-200 via-teal-300 to-cyan-200'}
+                                        `}>
+                                            {/* Pattern overlay */}
+                                            <div className="absolute inset-0 opacity-[0.15]" style={{
+                                                backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
+                                                backgroundSize: '16px 16px'
+                                            }} />
+                                        </div>
+
+                                        {/* Floating emoji */}
+                                        <div className="relative -mt-7 ml-5 mb-3">
+                                            <div className="w-14 h-14 rounded-xl bg-white shadow-md border border-slate-100 flex items-center justify-center text-3xl">
+                                                {emojis[index]}
+                                            </div>
+                                        </div>
+
+                                        {/* Content */}
+                                        <div className="px-5 pb-5 flex flex-col flex-1">
+                                            {/* Title row */}
+                                            <h3 className="text-slate-900 font-extrabold text-[19px] leading-tight mb-1">{step.title}</h3>
+
+                                            {/* Meta tags */}
+                                            <div className="flex items-center gap-2 mb-3">
+                                                <span className={`
+                                                    text-[10px] font-bold px-2 py-0.5 rounded
+                                                    ${index === 0 ? 'bg-green-100 text-green-700' : index === 1 ? 'bg-emerald-100 text-emerald-700' : 'bg-teal-100 text-teal-700'}
+                                                `}>
+                                                    Schritt {step.number}
+                                                </span>
+                                                <span className="text-slate-300 text-[10px]">|</span>
+                                                <span className="text-slate-400 text-[10px] font-medium">{step.time}</span>
+                                            </div>
+
+                                            {/* Description */}
+                                            <p className="text-slate-500 text-[13px] leading-relaxed mb-4 flex-1">{step.description}</p>
+
+                                            {/* Features as checklist */}
+                                            <div className="space-y-2 border-t border-slate-100 pt-3">
+                                                {step.features.map((f, i) => (
+                                                    <div key={i} className="flex items-center gap-2.5">
+                                                        <div className={`
+                                                            w-[18px] h-[18px] rounded flex items-center justify-center flex-shrink-0 border
+                                                            ${index === 0 ? 'bg-green-500 border-green-500' : index === 1 ? 'bg-emerald-500 border-emerald-500' : 'bg-teal-500 border-teal-500'}
+                                                        `}>
+                                                            <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                                                                <path d="M1.5 5L4 7.5L8.5 2.5" />
+                                                            </svg>
+                                                        </div>
+                                                        <span className="text-slate-700 text-[12.5px] font-medium">{f}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Page indicator */}
+                    <div className="flex justify-center gap-2">
+                        {steps.map((_, i) => (
+                            <div key={i} className={`
+                                h-1.5 rounded-full
+                                ${i === 0 ? 'w-7 bg-green-500' : 'w-1.5 bg-slate-200'}
+                            `} />
+                        ))}
+                    </div>
+                </div>
+
+                {/* ===== DESKTOP ONLY: Original Card Design ===== */}
+                <div className="hidden sm:grid md:grid-cols-3 gap-6 lg:gap-8 mb-16">
                     {steps.map((step, index) => (
                         <div
                             key={step.id}
@@ -93,9 +182,8 @@ const RadialJourney: React.FC = () => {
                         >
                             {/* Card */}
                             <div className="relative h-full bg-white rounded-3xl p-6 lg:p-8 border-2 border-green-200 shadow-xl hover:shadow-2xl hover:border-green-300 transition-all duration-300 group">
-                                {/* Top Section - Icon */}
+                                {/* Icon */}
                                 <div className="text-center mb-6">
-                                    {/* Icon */}
                                     <div className={`
                                         w-20 h-20 mx-auto rounded-2xl
                                         flex items-center justify-center text-4xl
@@ -182,24 +270,6 @@ const RadialJourney: React.FC = () => {
                     ))}
                 </div>
 
-                {/* CTA Section */}
-                <div className={`
-                    text-center
-                    transition-all duration-1000 delay-500
-                    ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
-                `}>
-                    <button
-                        onClick={() => openQuoteModal()}
-                        className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-green-600 to-emerald-500 text-white px-10 py-6 rounded-2xl font-bold text-lg shadow-2xl shadow-green-600/30 hover:shadow-3xl hover:shadow-green-600/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-                    >
-                        <span className="relative z-10">Jetzt kostenlos starten</span>
-                        <ArrowRightIcon className="w-6 h-6 relative z-10 group-hover:translate-x-2 transition-transform" />
-                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    </button>
-                    <p className="mt-6 text-sm text-slate-500 font-medium">
-                        ✓ 100% kostenlos · ✓ Unverbindlich · ✓ In unter 3 Minuten
-                    </p>
-                </div>
             </div>
         </section>
     );

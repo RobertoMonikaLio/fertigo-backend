@@ -5,11 +5,15 @@ import StickyCta from '../components/StickyCta';
 
 // Lazy load components that are likely below the fold
 const RadialJourney = lazy(() => import('../components/RadialJourney'));
-const UserBenefits = lazy(() => import('../components/UserBenefits'));
 const CompetitorComparison = lazy(() => import('../components/CompetitorComparison'));
-const WhyChooseFertigo = lazy(() => import('../components/WhyChooseFertigo'));
 const PopularServices = lazy(() => import('../components/PopularServices'));
+const WhyChooseFertigo = lazy(() => import('../components/WhyChooseFertigo'));
 const Testimonials = lazy(() => import('../components/Testimonials'));
+const StatsSection = lazy(() => import('../components/StatsSection'));
+const FAQSection = lazy(() => import('../components/FAQSection'));
+const FinalCTA = lazy(() => import('../components/FinalCTA'));
+const LiveActivity = lazy(() => import('../components/LiveActivity'));
+const NewsletterSection = lazy(() => import('../components/NewsletterSection'));
 
 
 // --- Custom Skeleton Loaders for each section ---
@@ -272,17 +276,17 @@ const HomePage: React.FC = () => {
             <LazyLoad fallback={<RadialJourneySkeleton />}>
                 <RadialJourney />
             </LazyLoad>
-            <LazyLoad fallback={<FeaturesSkeleton />}>
-                <UserBenefits />
-            </LazyLoad>
             <LazyLoad fallback={<PopularServicesSkeleton />}>
                 <PopularServices />
             </LazyLoad>
             <LazyLoad fallback={<FeaturesSkeleton />}>
                 <WhyChooseFertigo />
             </LazyLoad>
-            <LazyLoad fallback={<TestimonialsSkeleton />}>
-                <Testimonials />
+            <LazyLoad fallback={<FeaturesSkeleton />}>
+                <FAQSection />
+            </LazyLoad>
+            <LazyLoad fallback={<FeaturesSkeleton />}>
+                <NewsletterSection />
             </LazyLoad>
             <StickyCta />
         </div>
