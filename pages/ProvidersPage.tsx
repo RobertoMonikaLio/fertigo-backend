@@ -155,100 +155,190 @@ const ProvidersPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* So funktioniert's – wie Home „In 3 Schritten” (RadialJourney-Stil) */}
-            <section ref={stepsRef} className="relative py-20 sm:py-28 lg:py-36 overflow-hidden bg-gradient-to-b from-white via-green-50/30 to-white">
-                {/* Hintergrund wie RadialJourney */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(34,197,94,0.05),transparent_50%)]" />
-                    <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.05),transparent_50%)]" />
-                    <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(45deg,transparent_48%,rgba(34,197,94,1)_49%,rgba(34,197,94,1)_51%,transparent_52%),linear-gradient(-45deg,transparent_48%,rgba(34,197,94,1)_49%,rgba(34,197,94,1)_51%,transparent_52%)] bg-[length:80px_80px]" aria-hidden />
+            {/* ══════════ IN 3 SCHRITTEN - KOMPLETT NEUES TIMELINE DESIGN ══════════ */}
+            <section ref={stepsRef} className="relative py-24 sm:py-32 lg:py-40 overflow-hidden bg-[#0a0f1a]">
+                {/* Dunkler Hintergrund mit Glow-Effekten */}
+                <div className="absolute inset-0 pointer-events-none select-none">
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#071210]" />
+                    <div className="absolute top-[20%] left-[-10%] w-[600px] h-[600px] bg-green-600/[0.08] rounded-full blur-[150px]" />
+                    <div className="absolute bottom-[10%] right-[-5%] w-[500px] h-[500px] bg-emerald-500/[0.06] rounded-full blur-[130px]" />
+                    <div className="absolute top-[50%] left-[50%] w-[300px] h-[300px] bg-teal-400/[0.04] rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
+                    <div className="absolute inset-0 opacity-[0.03]" style={{
+                        backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)',
+                        backgroundSize: '40px 40px',
+                    }} />
                 </div>
 
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
-                    {/* Header wie RadialJourney */}
-                    <div className={`text-center mb-16 lg:mb-20 transition-all duration-1000 ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                        <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 mb-4 leading-tight">
-                            So funktioniert's –{' '}
-                            <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">
-                                in 3 Schritten
-                                <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
-                                    <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradient3)" strokeWidth="4" strokeLinecap="round"/>
-                                    <defs>
-                                        <linearGradient id="underlineGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%" stopColor="#16a34a"/>
-                                            <stop offset="50%" stopColor="#10b981"/>
-                                            <stop offset="100%" stopColor="#14b8a6"/>
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+                    {/* Header */}
+                    <div className={`text-center mb-16 lg:mb-24 transition-all duration-1000 ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        <div className="inline-flex items-center gap-2 bg-white/[0.06] backdrop-blur-md border border-white/[0.08] rounded-full px-5 py-2.5 mb-8">
+                            <span className="relative flex h-2.5 w-2.5">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
                             </span>
+                            <span className="text-white/70 text-sm font-bold">In 3 einfachen Schritten</span>
+                        </div>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black mb-5 leading-tight">
+                            <span className="text-white">Vom Lead zum</span>
+                            <br className="sm:hidden" />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-300 to-teal-400"> Auftrag</span>
                         </h2>
-                        <p className="text-base lg:text-lg text-slate-600 mx-auto">
-                            Mehr Aufträge aus Ihrer Region – fair, transparent und ohne Abo
+                        <p className="text-white/40 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto">
+                            So einfach gewinnen Sie neue Kunden mit Fertigo
                         </p>
                     </div>
 
-                    {/* ===== MOBILE ONLY: Scroll Cards ===== */}
-                    <div className="sm:hidden -mx-4 mb-10">
-                        <div className="flex gap-4 pl-4 pr-8 overflow-x-auto snap-x snap-mandatory pb-6 scrollbar-hide">
+                    {/* ══════════ DESKTOP: Horizontale Timeline ══════════ */}
+                    <div className="hidden lg:block mb-20">
+                        {/* Timeline Line */}
+                        <div className="relative">
+                            <div className={`absolute top-[60px] left-[10%] right-[10%] h-1 bg-gradient-to-r from-green-500/20 via-emerald-500/40 to-teal-500/20 rounded-full transition-all duration-1500 ${stepsInView ? 'opacity-100' : 'opacity-0'}`} />
+                            <div className={`absolute top-[60px] left-[10%] h-1 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 rounded-full transition-all duration-2000 ease-out ${stepsInView ? 'w-[80%]' : 'w-0'}`} />
+                        </div>
+
+                        {/* Steps */}
+                        <div className="grid grid-cols-3 gap-8">
                             {steps.map((item, index) => (
                                 <div
                                     key={item.step}
-                                    className={`
-                                        snap-center flex-shrink-0 w-[80vw]
-                                        transition-all duration-700
-                                        ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
-                                    `}
-                                    style={{ transitionDelay: `${index * 150}ms` }}
+                                    className={`relative transition-all duration-1000 ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                                    style={{ transitionDelay: `${300 + index * 200}ms` }}
                                 >
-                                    <div className={`
-                                        h-full rounded-3xl border-2 overflow-hidden flex flex-col
-                                        ${index === 0 ? 'border-green-200 bg-gradient-to-b from-green-50 to-white' : index === 1 ? 'border-emerald-200 bg-gradient-to-b from-emerald-50 to-white' : 'border-teal-200 bg-gradient-to-b from-teal-50 to-white'}
-                                    `}>
-                                        <div className="p-5 flex flex-col h-full">
-                                            {/* Top: Emoji centered + number badge */}
-                                            <div className="text-center mb-4">
-                                                <div className="relative inline-block">
-                                                    <div className={`
-                                                        w-16 h-16 mx-auto rounded-2xl flex items-center justify-center text-3xl
-                                                        ${index === 0 ? 'bg-green-100' : index === 1 ? 'bg-emerald-100' : 'bg-teal-100'}
-                                                    `}>
-                                                        {item.icon}
-                                                    </div>
-                                                    <div className={`
-                                                        absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full text-[11px] font-black flex items-center justify-center text-white shadow-sm
-                                                        ${index === 0 ? 'bg-green-500' : index === 1 ? 'bg-emerald-500' : 'bg-teal-500'}
-                                                    `}>
-                                                        {item.number}
+                                    {/* Number Circle */}
+                                    <div className="flex justify-center mb-8">
+                                        <div className={`relative w-[120px] h-[120px] rounded-full bg-gradient-to-br ${item.gradient} p-[3px] shadow-2xl shadow-${index === 0 ? 'green' : index === 1 ? 'emerald' : 'teal'}-500/30`}>
+                                            <div className="w-full h-full rounded-full bg-[#0a0f1a] flex items-center justify-center">
+                                                <div className="text-center">
+                                                    <div className="text-5xl mb-1">{item.icon}</div>
+                                                    <div className={`text-xs font-black uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r ${item.gradient}`}>
+                                                        Schritt {item.number}
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
 
-                                            {/* Title centered */}
-                                            <h3 className="text-slate-900 font-black text-lg text-center leading-tight mb-1.5">{item.title}</h3>
+                                    {/* Content Card */}
+                                    <div className="group bg-white/[0.03] backdrop-blur-md border border-white/[0.08] rounded-3xl p-8 hover:bg-white/[0.06] hover:border-white/[0.15] transition-all duration-500 hover:-translate-y-2">
+                                        <h3 className="text-2xl font-black text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-green-400 group-hover:to-emerald-400 transition-all duration-300">
+                                            {item.title}
+                                        </h3>
+                                        
+                                        <div className="flex items-center gap-2 mb-4">
+                                            <SwissFlagIcon className="w-4 h-4" />
+                                            <span className="text-green-400 text-sm font-bold">{item.swissValue}</span>
+                                        </div>
 
-                                            {/* Swiss value */}
-                                            <div className="flex justify-center mb-3">
-                                                <div className={`
-                                                    inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-full
-                                                    ${index === 0 ? 'bg-green-100 text-green-700' : index === 1 ? 'bg-emerald-100 text-emerald-700' : 'bg-teal-100 text-teal-700'}
-                                                `}>
+                                        <p className="text-white/50 text-base leading-relaxed mb-6">
+                                            {item.desc}
+                                        </p>
+
+                                        <div className="space-y-3 pt-5 border-t border-white/[0.08]">
+                                            {item.features.map((feature, i) => (
+                                                <div key={i} className="flex items-center gap-3">
+                                                    <div className={`w-6 h-6 rounded-lg bg-gradient-to-br ${item.gradient} flex items-center justify-center flex-shrink-0`}>
+                                                        <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                        </svg>
+                                                    </div>
+                                                    <span className="text-white/70 text-sm font-medium">{feature}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* ══════════ TABLET: Vertikale Timeline ══════════ */}
+                    <div className="hidden sm:block lg:hidden">
+                        <div className="relative">
+                            {/* Vertikale Linie */}
+                            <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-green-500/20 via-emerald-500/40 to-teal-500/20 rounded-full" />
+                            
+                            <div className="space-y-12">
+                                {steps.map((item, index) => (
+                                    <div
+                                        key={item.step}
+                                        className={`relative pl-20 transition-all duration-1000 ${stepsInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}
+                                        style={{ transitionDelay: `${300 + index * 200}ms` }}
+                                    >
+                                        {/* Circle auf der Timeline */}
+                                        <div className={`absolute left-0 w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-3xl shadow-xl`}>
+                                            {item.icon}
+                                        </div>
+
+                                        {/* Content */}
+                                        <div className="bg-white/[0.03] backdrop-blur-md border border-white/[0.08] rounded-2xl p-6 hover:bg-white/[0.06] transition-all duration-300">
+                                            <div className="flex items-center gap-3 mb-3">
+                                                <span className={`px-3 py-1 rounded-full bg-gradient-to-r ${item.gradient} text-white text-xs font-black`}>
+                                                    Schritt {item.number}
+                                                </span>
+                                                <div className="flex items-center gap-1.5 text-green-400 text-xs font-bold">
                                                     <SwissFlagIcon className="w-3 h-3" />
                                                     {item.swissValue}
                                                 </div>
                                             </div>
+                                            <h3 className="text-xl font-black text-white mb-2">{item.title}</h3>
+                                            <p className="text-white/50 text-sm leading-relaxed mb-4">{item.desc}</p>
+                                            <div className="flex flex-wrap gap-2">
+                                                {item.features.map((feature, i) => (
+                                                    <span key={i} className="px-3 py-1.5 bg-white/[0.05] border border-white/[0.08] rounded-full text-white/60 text-xs font-medium">
+                                                        {feature}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
 
-                                            {/* Description */}
-                                            <p className="text-slate-500 text-[13px] leading-relaxed text-center flex-1 mb-4">{item.desc}</p>
+                    {/* ══════════ MOBILE: Swipe Cards ══════════ */}
+                    <div className="sm:hidden -mx-4">
+                        <div className="flex gap-4 pl-4 pr-8 overflow-x-auto snap-x snap-mandatory pb-8 scrollbar-hide">
+                            {steps.map((item, index) => (
+                                <div
+                                    key={item.step}
+                                    className={`snap-center flex-shrink-0 w-[85vw] transition-all duration-700 ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                                    style={{ transitionDelay: `${index * 150}ms` }}
+                                >
+                                    <div className="h-full bg-white/[0.04] backdrop-blur-md border border-white/[0.08] rounded-3xl p-6 relative overflow-hidden">
+                                        {/* Glow */}
+                                        <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${item.gradient} opacity-10 blur-3xl`} />
+                                        
+                                        <div className="relative">
+                                            {/* Top Row */}
+                                            <div className="flex items-center justify-between mb-5">
+                                                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-3xl shadow-lg`}>
+                                                    {item.icon}
+                                                </div>
+                                                <span className={`px-4 py-2 rounded-full bg-gradient-to-r ${item.gradient} text-white text-sm font-black shadow-lg`}>
+                                                    {item.number}
+                                                </span>
+                                            </div>
 
-                                            {/* Features */}
-                                            <div className="space-y-2 pt-3 border-t border-slate-100">
+                                            <h3 className="text-xl font-black text-white mb-2">{item.title}</h3>
+                                            
+                                            <div className="flex items-center gap-2 mb-4">
+                                                <SwissFlagIcon className="w-4 h-4" />
+                                                <span className="text-green-400 text-sm font-bold">{item.swissValue}</span>
+                                            </div>
+
+                                            <p className="text-white/50 text-sm leading-relaxed mb-5">{item.desc}</p>
+
+                                            <div className="space-y-2 pt-4 border-t border-white/[0.08]">
                                                 {item.features.map((feature, i) => (
                                                     <div key={i} className="flex items-center gap-2">
-                                                        <svg className={`w-4 h-4 flex-shrink-0 ${index === 0 ? 'text-green-500' : index === 1 ? 'text-emerald-500' : 'text-teal-500'}`} viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                                                        </svg>
-                                                        <span className="text-slate-700 text-[12.5px] font-medium">{feature}</span>
+                                                        <div className={`w-5 h-5 rounded-md bg-gradient-to-br ${item.gradient} flex items-center justify-center flex-shrink-0`}>
+                                                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                            </svg>
+                                                        </div>
+                                                        <span className="text-white/60 text-xs font-medium">{feature}</span>
                                                     </div>
                                                 ))}
                                             </div>
@@ -258,75 +348,34 @@ const ProvidersPage: React.FC = () => {
                             ))}
                         </div>
 
-                        {/* Scroll dots */}
-                        <div className="flex justify-center gap-2">
+                        {/* Progress Dots */}
+                        <div className="flex justify-center gap-2 px-4">
                             {steps.map((_, i) => (
-                                <div key={i} className={`h-1.5 rounded-full ${i === 0 ? 'w-7 bg-green-500' : 'w-1.5 bg-slate-200'}`} />
+                                <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === 0 ? 'w-8 bg-gradient-to-r from-green-500 to-emerald-500' : 'w-1.5 bg-white/20'}`} />
                             ))}
                         </div>
                     </div>
 
-                    {/* ===== DESKTOP ONLY: Original Card Grid ===== */}
-                    <div className="hidden sm:grid md:grid-cols-3 gap-6 lg:gap-8 mb-16">
-                        {steps.map((item, index) => (
-                            <div
-                                key={item.step}
-                                className={`relative transition-all duration-1000 ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                                style={{ transitionDelay: `${index * 150}ms` }}
-                            >
-                                <div className="relative h-full bg-white rounded-3xl p-6 lg:p-8 border-2 border-green-200 shadow-xl hover:shadow-2xl hover:border-green-300 transition-all duration-300 group">
-                                    {/* Icon oben */}
-                                    <div className="text-center mb-6">
-                                        <div className={`w-20 h-20 mx-auto rounded-2xl flex items-center justify-center text-4xl bg-gradient-to-br ${item.bgGradient} border-2 border-green-200 transition-all duration-300 group-hover:scale-105`}>
-                                            {item.icon}
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        <h3 className="text-xl lg:text-2xl font-black text-slate-900 text-center group-hover:text-green-700 transition-colors duration-300">
-                                            {item.title}
-                                        </h3>
-
-                                        <div className="flex justify-center">
-                                            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${item.bgGradient} border border-green-200 text-xs font-bold text-green-700`}>
-                                                <SwissFlagIcon className="w-3.5 h-3.5" />
-                                                {item.swissValue}
-                                            </div>
-                                        </div>
-
-                                        <p className="text-slate-600 leading-relaxed text-sm lg:text-base text-center">
-                                            {item.desc}
-                                        </p>
-
-                                        <div className="space-y-2 pt-4 border-t border-green-100">
-                                            {item.features.map((feature, i) => (
-                                                <div key={i} className="flex items-center gap-2">
-                                                    <div className={`flex-shrink-0 w-5 h-5 rounded-md flex items-center justify-center bg-gradient-to-br ${item.bgGradient} border border-green-200`}>
-                                                        <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                                        </svg>
-                                                    </div>
-                                                    <span className="text-sm font-medium text-slate-600">{feature}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${item.gradient} rounded-b-3xl`} aria-hidden />
-                                </div>
-
-                                {/* Verbindungspfeil zwischen Karten (Desktop) */}
-                                {index < steps.length - 1 && (
-                                    <div className="hidden md:block absolute top-1/2 -right-4 lg:-right-6 transform -translate-y-1/2 z-20">
-                                        <div className="w-10 h-10 rounded-full bg-green-100 border-2 border-green-200 flex items-center justify-center text-green-600 shadow-lg">
-                                            <ArrowRightIcon className="w-5 h-5" />
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                    {/* Bottom CTA */}
+                    <div className={`mt-16 lg:mt-20 text-center transition-all duration-1000 delay-700 ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        <Link
+                            to="/register"
+                            className="group inline-flex items-center justify-center gap-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-bold px-10 py-5 rounded-2xl text-lg shadow-2xl shadow-green-500/30 hover:shadow-green-500/40 hover:-translate-y-1 active:translate-y-0 transition-all duration-300"
+                        >
+                            Jetzt kostenlos starten
+                            <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                        <p className="mt-4 text-white/30 text-sm">
+                            Keine Kreditkarte erforderlich - In 5 Minuten startklar
+                        </p>
                     </div>
+                </div>
 
+                {/* Bottom Wave Transition */}
+                <div className="relative z-20 h-16 sm:h-20 lg:h-24 -mt-px">
+                    <svg className="absolute bottom-0 left-0 w-full h-full" viewBox="0 0 1440 96" fill="none" preserveAspectRatio="none">
+                        <path d="M0 96H1440V32C1440 32 1320 0 1200 16C1080 32 960 64 720 64C480 64 360 32 240 16C120 0 0 32 0 32V96Z" fill="white" />
+                    </svg>
                 </div>
             </section>
 
@@ -470,344 +519,282 @@ const ProvidersPage: React.FC = () => {
 
 
 
-            {/* Beliebte Kategorien */}
-            <section ref={categoriesRef} className={`py-16 sm:py-24 bg-white border-t border-slate-200 transition-all duration-700 ${categoriesInView ? 'opacity-100' : 'opacity-0'}`}>
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-                    <div className={`text-center mb-10 sm:mb-14 transition-all duration-1000 ${categoriesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        <h2 className="text-[26px] sm:text-4xl lg:text-5xl font-black text-slate-900 mb-2 sm:mb-4">
+            {/* Beliebte Kategorien - Vergrössert */}
+            <section ref={categoriesRef} className={`py-20 sm:py-28 lg:py-32 bg-white border-t border-slate-200 transition-all duration-700 ${categoriesInView ? 'opacity-100' : 'opacity-0'}`}>
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                    <div className={`text-center mb-12 sm:mb-16 transition-all duration-1000 ${categoriesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                        <span className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-2 text-sm font-semibold text-green-700 mb-6">
+                            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                            50+ Branchen verfügbar
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-slate-900 mb-4 sm:mb-5">
                             Beliebte{' '}
                             <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">
                                 Kategorien
                                 <svg className="absolute -bottom-2 left-0 w-full h-3 hidden sm:block" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none"><path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradientC)" strokeWidth="4" strokeLinecap="round"/><defs><linearGradient id="underlineGradientC" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#16a34a"/><stop offset="50%" stopColor="#10b981"/><stop offset="100%" stopColor="#14b8a6"/></linearGradient></defs></svg>
                             </span>
                         </h2>
-                        <p className="text-slate-600 text-sm sm:text-lg max-w-2xl mx-auto">
+                        <p className="text-slate-600 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto">
                             Anfragen aus über 50 Branchen warten auf qualifizierte Partner
                         </p>
                     </div>
 
-                    <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 transition-all duration-1000 delay-200 ${categoriesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                    <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 transition-all duration-1000 delay-200 ${categoriesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                         {[
-                            { emoji: '🎨', name: 'Maler & Gipser', leads: '320+' },
-                            { emoji: '⚡', name: 'Elektriker', leads: '280+' },
-                            { emoji: '🔧', name: 'Sanitär & Heizung', leads: '250+' },
-                            { emoji: '🏗️', name: 'Bauunternehmen', leads: '210+' },
-                            { emoji: '🪵', name: 'Schreiner', leads: '190+' },
-                            { emoji: '🧹', name: 'Reinigung', leads: '350+' },
-                            { emoji: '🌿', name: 'Garten & Landschaft', leads: '270+' },
-                            { emoji: '🏠', name: 'Umzug & Transport', leads: '230+' },
+                            { emoji: '🎨', name: 'Maler & Gipser', leads: '320+', color: 'from-orange-50 to-amber-50', border: 'border-orange-200', hoverBorder: 'hover:border-orange-300' },
+                            { emoji: '⚡', name: 'Elektriker', leads: '280+', color: 'from-yellow-50 to-amber-50', border: 'border-yellow-200', hoverBorder: 'hover:border-yellow-300' },
+                            { emoji: '🔧', name: 'Sanitär & Heizung', leads: '250+', color: 'from-blue-50 to-cyan-50', border: 'border-blue-200', hoverBorder: 'hover:border-blue-300' },
+                            { emoji: '🏗️', name: 'Bauunternehmen', leads: '210+', color: 'from-slate-50 to-gray-50', border: 'border-slate-200', hoverBorder: 'hover:border-slate-300' },
+                            { emoji: '🪵', name: 'Schreiner', leads: '190+', color: 'from-amber-50 to-orange-50', border: 'border-amber-200', hoverBorder: 'hover:border-amber-300' },
+                            { emoji: '🧹', name: 'Reinigung', leads: '350+', color: 'from-cyan-50 to-teal-50', border: 'border-cyan-200', hoverBorder: 'hover:border-cyan-300' },
+                            { emoji: '🌿', name: 'Garten & Landschaft', leads: '270+', color: 'from-green-50 to-emerald-50', border: 'border-green-200', hoverBorder: 'hover:border-green-300' },
+                            { emoji: '🏠', name: 'Umzug & Transport', leads: '230+', color: 'from-indigo-50 to-purple-50', border: 'border-indigo-200', hoverBorder: 'hover:border-indigo-300' },
                         ].map((cat, i) => (
-                            <div key={i} className="bg-slate-50 hover:bg-green-50 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-slate-200 hover:border-green-200 transition-all duration-300 group cursor-default">
-                                <div className="text-2xl sm:text-3xl mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">{cat.emoji}</div>
-                                <div className="font-bold text-slate-900 text-[13px] sm:text-sm mb-1">{cat.name}</div>
-                                <div className="text-green-600 text-[11px] sm:text-xs font-semibold">{cat.leads} Leads/Monat</div>
+                            <div 
+                                key={i} 
+                                className={`group bg-gradient-to-br ${cat.color} ${cat.hoverBorder} rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-7 border-2 ${cat.border} hover:shadow-xl transition-all duration-300 cursor-default hover:-translate-y-1`}
+                            >
+                                <div className="w-14 h-14 sm:w-16 sm:h-16 lg:w-18 lg:h-18 rounded-2xl bg-white shadow-md flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-lg transition-all duration-300">
+                                    <span className="text-3xl sm:text-4xl">{cat.emoji}</span>
+                                </div>
+                                <div className="font-black text-slate-900 text-base sm:text-lg mb-2">{cat.name}</div>
+                                <div className="flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-green-500" />
+                                    <span className="text-green-600 text-sm font-bold">{cat.leads} Leads/Monat</span>
+                                </div>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* ══════════ IHR PERSÖNLICHES DASHBOARD - NEUES DESIGN ══════════ */}
-            <section ref={dashboardRef} className={`relative py-20 sm:py-32 bg-gradient-to-b from-white via-green-50/20 to-white overflow-hidden transition-all duration-700 ${dashboardInView ? 'opacity-100' : 'opacity-0'}`}>
+            {/* ══════════ IHR PERSÖNLICHES DASHBOARD - KOMPLETT NEUES DESIGN ══════════ */}
+            <section ref={dashboardRef} className={`relative py-24 sm:py-32 lg:py-40 overflow-hidden bg-[#0a0f1a] transition-all duration-700 ${dashboardInView ? 'opacity-100' : 'opacity-0'}`}>
 
-                {/* Light Background with Subtle Green Accents */}
+                {/* Dunkler Hintergrund mit Premium Glow-Effekten */}
                 <div className="absolute inset-0 pointer-events-none select-none">
-                    <div className="absolute top-[10%] right-[-5%] w-[600px] h-[600px] bg-green-100/40 rounded-full blur-[120px]" />
-                    <div className="absolute bottom-[10%] left-[-5%] w-[500px] h-[500px] bg-emerald-100/30 rounded-full blur-[100px]" />
-                    <div className="absolute inset-0 opacity-[0.02]" style={{
-                        backgroundImage: 'radial-gradient(circle, rgba(34,197,94,1) 1px, transparent 1px)',
-                        backgroundSize: '32px 32px',
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#071210]" />
+                    <div className="absolute top-[-10%] left-[20%] w-[800px] h-[800px] bg-green-600/[0.06] rounded-full blur-[180px]" />
+                    <div className="absolute bottom-[-10%] right-[10%] w-[700px] h-[700px] bg-emerald-500/[0.05] rounded-full blur-[150px]" />
+                    <div className="absolute top-[50%] left-[50%] w-[400px] h-[400px] bg-teal-400/[0.03] rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
+                    <div className="absolute inset-0 opacity-[0.025]" style={{
+                        backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)',
+                        backgroundSize: '48px 48px',
                     }} />
+                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-500/30 to-transparent" />
                 </div>
 
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                     {/* Header */}
                     <div className={`text-center mb-16 sm:mb-20 transition-all duration-1000 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                        <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-2 mb-7">
-                            <SwissFlagIcon className="w-4 h-4 flex-shrink-0" />
-                            <span className="text-green-700 text-xs sm:text-sm font-bold">Zentrale Steuerung · Alles im Blick</span>
-                        </div>
-                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 mb-5">
-                            Ihr persönliches{' '}
-                            <span className="relative inline-block">
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">Dashboard</span>
-                                <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
-                                    <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#dashGrad2)" strokeWidth="4" strokeLinecap="round"/>
-                                    <defs>
-                                        <linearGradient id="dashGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%" stopColor="#16a34a"/>
-                                            <stop offset="50%" stopColor="#10b981"/>
-                                            <stop offset="100%" stopColor="#14b8a6"/>
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
+                        <div className="inline-flex items-center gap-2 bg-white/[0.06] backdrop-blur-md border border-white/[0.08] rounded-full px-5 py-2.5 mb-8">
+                            <span className="relative flex h-2.5 w-2.5">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
                             </span>
+                            <span className="text-white/70 text-sm font-bold">Ihre Kommandozentrale</span>
+                        </div>
+                        <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 leading-tight">
+                            <span className="text-white">Ihr persönliches</span>
+                            <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-300 to-teal-400 animate-text-gradient" style={{ backgroundSize: '200% auto' }}>Dashboard</span>
                         </h2>
-                        <p className="text-slate-600 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
-                            Leads, Statistiken und Aufträge — <span className="font-bold text-slate-900">alles in Echtzeit</span> an einem Ort.
+                        <p className="text-white/40 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
+                            Alles im Blick — Leads, Statistiken und Aufträge <span className="text-white/70 font-bold">in Echtzeit</span>
                         </p>
                     </div>
 
-                    {/* Dashboard Preview Card - Komplett Neu */}
-                    <div className={`mb-16 transition-all duration-1000 delay-200 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                        <div className="relative mx-auto max-w-6xl">
-                            {/* Glow Effect */}
-                            <div className="absolute -inset-4 bg-gradient-to-r from-green-200/40 via-emerald-200/30 to-teal-200/40 rounded-[3rem] blur-2xl" />
-                            
-                            {/* Main Card */}
-                            <div className="relative bg-white rounded-3xl border-2 border-green-200 shadow-2xl overflow-hidden">
-                                
-                                {/* Top Bar with Live Indicator */}
-                                <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-b-2 border-green-200 px-6 py-4 flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <div className="flex gap-1.5">
-                                            <div className="w-3 h-3 rounded-full bg-green-400" />
-                                            <div className="w-3 h-3 rounded-full bg-emerald-400" />
-                                            <div className="w-3 h-3 rounded-full bg-teal-400" />
-                                        </div>
-                                        <span className="text-slate-700 text-sm font-bold">Dashboard Übersicht</span>
-                                    </div>
-                                    <div className="flex items-center gap-2 bg-white border border-green-200 rounded-full px-4 py-1.5 shadow-sm">
-                                        <span className="relative flex h-2 w-2">
-                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
-                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
-                                        </span>
-                                        <span className="text-green-700 text-xs font-black uppercase tracking-wider">Live</span>
-                                    </div>
+                    {/* ══════════ BENTO GRID DASHBOARD ══════════ */}
+                    <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 lg:gap-6 transition-all duration-1000 delay-200 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        
+                        {/* ─── Haupt-Stats Bereich ─── */}
+                        <div 
+                            className="lg:col-span-8 bg-white/[0.03] backdrop-blur-md border border-white/[0.08] rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/[0.12] transition-all duration-500 group"
+                            style={{ transitionDelay: '300ms' }}
+                        >
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-white font-black text-xl flex items-center gap-3">
+                                    <span className="text-3xl">📊</span>
+                                    Live-Übersicht
+                                </h3>
+                                <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-1.5">
+                                    <span className="relative flex h-2 w-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                                    </span>
+                                    <span className="text-green-400 text-xs font-black uppercase tracking-wider">Echtzeit</span>
                                 </div>
-
-                                {/* Dashboard Content */}
-                                <div className="p-6 lg:p-10 bg-gradient-to-br from-slate-50/50 to-white">
-                                    
-                                    {/* Hero Stats - 3 Große Karten */}
-                                    <div className="grid md:grid-cols-3 gap-6 mb-8">
-                                        {[
-                                            { 
-                                                label: 'Verfügbare Leads', 
-                                                value: '47', 
-                                                change: '+12 heute', 
-                                                icon: '📬',
-                                                gradient: 'from-green-500 to-emerald-500',
-                                                bg: 'from-green-50 to-emerald-50',
-                                                border: 'border-green-200'
-                                            },
-                                            { 
-                                                label: 'Monatsumsatz', 
-                                                value: 'CHF 18.5k', 
-                                                change: '+24% vs. letzter Monat', 
-                                                icon: '💰',
-                                                gradient: 'from-emerald-500 to-teal-500',
-                                                bg: 'from-emerald-50 to-teal-50',
-                                                border: 'border-emerald-200'
-                                            },
-                                            { 
-                                                label: 'Erfolgsrate', 
-                                                value: '82%', 
-                                                change: 'Top 10% Partner', 
-                                                icon: '🎯',
-                                                gradient: 'from-teal-500 to-cyan-500',
-                                                bg: 'from-teal-50 to-cyan-50',
-                                                border: 'border-teal-200'
-                                            },
-                                        ].map((stat, i) => (
-                                            <div 
-                                                key={i} 
-                                                className={`group relative bg-gradient-to-br ${stat.bg} border-2 ${stat.border} rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${dashboardInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
-                                                style={{ transitionDelay: `${300 + i * 100}ms` }}
-                                            >
-                                                <div className="flex items-start justify-between mb-4">
-                                                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center text-2xl shadow-lg`}>
-                                                        {stat.icon}
-                                                    </div>
-                                                    <div className={`px-3 py-1 rounded-full bg-gradient-to-r ${stat.gradient} text-white text-xs font-black shadow-sm`}>
-                                                        NEU
-                                                    </div>
-                                                </div>
-                                                <div className="text-slate-600 text-sm font-semibold mb-2">{stat.label}</div>
-                                                <div className="text-4xl font-black text-slate-900 mb-2">{stat.value}</div>
-                                                <div className="text-xs font-bold text-green-600">{stat.change}</div>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    {/* Bottom Section: Quick Actions & Recent Activity */}
-                                    <div className="grid lg:grid-cols-[1fr_1.2fr] gap-6">
-                                        
-                                        {/* Quick Actions */}
-                                        <div className={`bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-lg ${dashboardInView ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '600ms' }}>
-                                            <h3 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-                                                <span className="text-2xl">⚡</span>
-                                                Schnellzugriff
-                                            </h3>
-                                            <div className="space-y-3">
-                                                {[
-                                                    { label: 'Neue Leads durchsuchen', icon: '🔍', color: 'green' },
-                                                    { label: 'Offene Anfragen', icon: '📋', color: 'emerald' },
-                                                    { label: 'Statistiken ansehen', icon: '📊', color: 'teal' },
-                                                    { label: 'Profil optimieren', icon: '⭐', color: 'amber' },
-                                                ].map((action, i) => (
-                                                    <button 
-                                                        key={i}
-                                                        className={`w-full flex items-center gap-3 bg-slate-50 hover:bg-gradient-to-r ${
-                                                            action.color === 'green' ? 'hover:from-green-50 hover:to-emerald-50 hover:border-green-200' :
-                                                            action.color === 'emerald' ? 'hover:from-emerald-50 hover:to-teal-50 hover:border-emerald-200' :
-                                                            action.color === 'teal' ? 'hover:from-teal-50 hover:to-cyan-50 hover:border-teal-200' :
-                                                            'hover:from-amber-50 hover:to-orange-50 hover:border-amber-200'
-                                                        } border-2 border-slate-200 rounded-xl p-4 transition-all duration-300 hover:shadow-md group`}
-                                                    >
-                                                        <span className="text-2xl">{action.icon}</span>
-                                                        <span className="text-sm font-bold text-slate-700 group-hover:text-slate-900">{action.label}</span>
-                                                        <ArrowRightIcon className="w-4 h-4 ml-auto text-slate-400 group-hover:text-green-600 group-hover:translate-x-1 transition-all" />
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        {/* Recent Activity Feed */}
-                                        <div className={`bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-lg ${dashboardInView ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '700ms' }}>
-                                            <h3 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-                                                <span className="text-2xl">🔥</span>
-                                                Aktuelle Aktivität
-                                            </h3>
-                                            <div className="space-y-3">
-                                                {[
-                                                    { 
-                                                        title: 'Badezimmer Renovation', 
-                                                        location: 'Zürich, 8001', 
-                                                        time: 'vor 5 Min.', 
-                                                        price: 'CHF 22',
-                                                        icon: '🛁',
-                                                        status: 'neu'
-                                                    },
-                                                    { 
-                                                        title: 'Küche Modernisierung', 
-                                                        location: 'Bern, 3011', 
-                                                        time: 'vor 12 Min.', 
-                                                        price: 'CHF 28',
-                                                        icon: '🍳',
-                                                        status: 'beliebt'
-                                                    },
-                                                    { 
-                                                        title: 'Garten Neugestaltung', 
-                                                        location: 'Basel, 4051', 
-                                                        time: 'vor 18 Min.', 
-                                                        price: 'CHF 35',
-                                                        icon: '🌿',
-                                                        status: 'neu'
-                                                    },
-                                                    { 
-                                                        title: 'Malerarbeiten Wohnung', 
-                                                        location: 'Luzern, 6003', 
-                                                        time: 'vor 25 Min.', 
-                                                        price: 'CHF 18',
-                                                        icon: '🎨',
-                                                        status: 'aktiv'
-                                                    },
-                                                ].map((lead, i) => (
-                                                    <div 
-                                                        key={i} 
-                                                        className={`group bg-slate-50 hover:bg-green-50 border-2 border-slate-200 hover:border-green-300 rounded-xl p-4 transition-all duration-300 hover:shadow-md ${dashboardInView ? 'opacity-100' : 'opacity-0'}`}
-                                                        style={{ transitionDelay: `${800 + i * 100}ms` }}
-                                                    >
-                                                        <div className="flex items-start gap-3">
-                                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-2xl flex-shrink-0 shadow-md">
-                                                                {lead.icon}
-                                                            </div>
-                                                            <div className="flex-1 min-w-0">
-                                                                <div className="flex items-start justify-between gap-2 mb-1">
-                                                                    <h4 className="font-black text-slate-900 text-sm truncate">{lead.title}</h4>
-                                                                    {lead.status === 'neu' && (
-                                                                        <span className="flex-shrink-0 px-2 py-0.5 bg-green-500 text-white text-[10px] font-black uppercase rounded-full">Neu</span>
-                                                                    )}
-                                                                    {lead.status === 'beliebt' && (
-                                                                        <span className="flex-shrink-0 px-2 py-0.5 bg-amber-500 text-white text-[10px] font-black uppercase rounded-full">🔥</span>
-                                                                    )}
-                                                                </div>
-                                                                <p className="text-xs text-slate-500 mb-2">📍 {lead.location} · ⏱️ {lead.time}</p>
-                                                                <div className="flex items-center justify-between">
-                                                                    <span className="text-sm font-black text-green-600">{lead.price}</span>
-                                                                    <button className="text-xs font-bold text-green-600 hover:text-green-700 hover:underline">
-                                                                        Details →
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))}
+                            </div>
+                            
+                            <div className="grid sm:grid-cols-3 gap-4 sm:gap-6">
+                                {[
+                                    { value: '47', label: 'Neue Leads', change: '+12 heute', icon: '📬', color: 'green' },
+                                    { value: 'CHF 18.5k', label: 'Monatsumsatz', change: '+24%', icon: '💰', color: 'emerald' },
+                                    { value: '82%', label: 'Erfolgsrate', change: 'Top 10%', icon: '🎯', color: 'teal' },
+                                ].map((stat, i) => (
+                                    <div 
+                                        key={i} 
+                                        className={`relative bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-white/[0.06] rounded-2xl p-5 hover:border-${stat.color}-500/30 transition-all duration-300 hover:-translate-y-1 group/stat`}
+                                    >
+                                        <div className={`absolute inset-0 bg-gradient-to-br from-${stat.color}-500/5 to-transparent rounded-2xl opacity-0 group-hover/stat:opacity-100 transition-opacity duration-300`} />
+                                        <div className="relative">
+                                            <div className="text-3xl mb-3">{stat.icon}</div>
+                                            <div className="text-3xl sm:text-4xl font-black text-white mb-1">{stat.value}</div>
+                                            <div className="text-white/40 text-sm font-medium mb-2">{stat.label}</div>
+                                            <div className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/10 border border-green-500/20 rounded-full">
+                                                <svg className="w-3 h-3 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
+                                                <span className="text-green-400 text-xs font-bold">{stat.change}</span>
                                             </div>
                                         </div>
                                     </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ─── Quick Actions ─── */}
+                        <div 
+                            className="lg:col-span-4 bg-gradient-to-br from-green-500/10 to-emerald-500/5 backdrop-blur-md border border-green-500/20 rounded-3xl p-6 sm:p-8 hover:border-green-500/30 transition-all duration-500"
+                            style={{ transitionDelay: '400ms' }}
+                        >
+                            <h3 className="text-white font-black text-xl flex items-center gap-3 mb-6">
+                                <span className="text-3xl">⚡</span>
+                                Schnellstart
+                            </h3>
+                            <div className="space-y-3">
+                                {[
+                                    { label: 'Leads durchsuchen', icon: '🔍' },
+                                    { label: 'Neue Anfragen', icon: '📋' },
+                                    { label: 'Profil bearbeiten', icon: '✏️' },
+                                ].map((action, i) => (
+                                    <button 
+                                        key={i}
+                                        className="w-full flex items-center gap-3 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] hover:border-white/[0.12] rounded-xl p-4 transition-all duration-300 group/btn"
+                                    >
+                                        <span className="text-xl">{action.icon}</span>
+                                        <span className="text-white/70 text-sm font-bold group-hover/btn:text-white">{action.label}</span>
+                                        <ArrowRightIcon className="w-4 h-4 ml-auto text-white/30 group-hover/btn:text-green-400 group-hover/btn:translate-x-1 transition-all" />
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ─── Neueste Leads Feed ─── */}
+                        <div 
+                            className="lg:col-span-7 bg-white/[0.03] backdrop-blur-md border border-white/[0.08] rounded-3xl p-6 sm:p-8 hover:bg-white/[0.05] hover:border-white/[0.12] transition-all duration-500"
+                            style={{ transitionDelay: '500ms' }}
+                        >
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-white font-black text-xl flex items-center gap-3">
+                                    <span className="text-3xl">🔥</span>
+                                    Neueste Leads
+                                </h3>
+                                <span className="text-white/40 text-xs font-medium">Jetzt aktualisiert</span>
+                            </div>
+                            <div className="space-y-3">
+                                {[
+                                    { title: 'Badezimmer Renovation', location: 'Zürich', time: '5 Min.', price: 'CHF 22', icon: '🛁', isNew: true },
+                                    { title: 'Küche Modernisierung', location: 'Bern', time: '12 Min.', price: 'CHF 28', icon: '🍳', isHot: true },
+                                    { title: 'Garten Neugestaltung', location: 'Basel', time: '18 Min.', price: 'CHF 35', icon: '🌿', isNew: true },
+                                ].map((lead, i) => (
+                                    <div 
+                                        key={i} 
+                                        className="group/lead flex items-center gap-4 bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.05] hover:border-green-500/20 rounded-2xl p-4 transition-all duration-300 cursor-pointer"
+                                    >
+                                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-2xl flex-shrink-0 shadow-lg shadow-green-500/20">
+                                            {lead.icon}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h4 className="text-white font-bold text-sm truncate">{lead.title}</h4>
+                                                {lead.isNew && <span className="px-2 py-0.5 bg-green-500 text-white text-[9px] font-black uppercase rounded-full">Neu</span>}
+                                                {lead.isHot && <span className="px-2 py-0.5 bg-amber-500 text-white text-[9px] font-black uppercase rounded-full">Hot</span>}
+                                            </div>
+                                            <p className="text-white/40 text-xs">📍 {lead.location} · ⏱️ vor {lead.time}</p>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="text-green-400 font-black text-lg">{lead.price}</div>
+                                            <div className="text-white/30 text-[10px] font-medium">pro Lead</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ─── Performance Chart Placeholder ─── */}
+                        <div 
+                            className="lg:col-span-5 bg-gradient-to-br from-white/[0.03] to-white/[0.01] backdrop-blur-md border border-white/[0.08] rounded-3xl p-6 sm:p-8 hover:border-white/[0.12] transition-all duration-500"
+                            style={{ transitionDelay: '600ms' }}
+                        >
+                            <h3 className="text-white font-black text-xl flex items-center gap-3 mb-6">
+                                <span className="text-3xl">📈</span>
+                                Ihr Wachstum
+                            </h3>
+                            {/* Simulated Chart Area */}
+                            <div className="relative h-32 mb-6">
+                                <div className="absolute inset-0 flex items-end justify-between gap-2">
+                                    {[40, 65, 45, 80, 60, 90, 75].map((h, i) => (
+                                        <div 
+                                            key={i} 
+                                            className="flex-1 bg-gradient-to-t from-green-500/40 to-green-500/10 rounded-t-lg transition-all duration-500 hover:from-green-500/60 hover:to-green-500/20"
+                                            style={{ height: `${h}%` }}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="bg-white/[0.03] border border-white/[0.05] rounded-xl p-4">
+                                    <div className="text-white/40 text-xs mb-1">Diese Woche</div>
+                                    <div className="text-white font-black text-xl">+34%</div>
+                                </div>
+                                <div className="bg-white/[0.03] border border-white/[0.05] rounded-xl p-4">
+                                    <div className="text-white/40 text-xs mb-1">Diesen Monat</div>
+                                    <div className="text-white font-black text-xl">+127%</div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
-                    {/* Feature Highlights - 6 Cards */}
-                    <div className={`grid grid-cols-2 lg:grid-cols-3 gap-5 transition-all duration-1000 delay-500 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                    {/* ══════════ FEATURE GRID ══════════ */}
+                    <div className={`mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 transition-all duration-1000 delay-700 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                         {[
-                            { 
-                                emoji: '📊', 
-                                title: 'Live-Statistiken', 
-                                desc: 'Umsatz, Conversion und Trends in Echtzeit verfolgen',
-                                gradient: 'from-green-500 to-emerald-500',
-                                bg: 'from-green-50 to-emerald-50',
-                                border: 'border-green-200'
-                            },
-                            { 
-                                emoji: '🔔', 
-                                title: 'Smart Alerts', 
-                                desc: 'Sofort informiert bei passenden Leads in Ihrer Region',
-                                gradient: 'from-emerald-500 to-teal-500',
-                                bg: 'from-emerald-50 to-teal-50',
-                                border: 'border-emerald-200'
-                            },
-                            { 
-                                emoji: '📍', 
-                                title: 'Regionale Filter', 
-                                desc: 'Nur Anfragen aus Ihrem definierten Einzugsgebiet',
-                                gradient: 'from-teal-500 to-cyan-500',
-                                bg: 'from-teal-50 to-cyan-50',
-                                border: 'border-teal-200'
-                            },
-                            { 
-                                emoji: '⚡', 
-                                title: 'Schnellzugriff', 
-                                desc: 'Lead kaufen und Kontaktdaten in unter 30 Sekunden',
-                                gradient: 'from-cyan-500 to-blue-500',
-                                bg: 'from-cyan-50 to-blue-50',
-                                border: 'border-cyan-200'
-                            },
-                            { 
-                                emoji: '⭐', 
-                                title: 'Bewertungen', 
-                                desc: 'Kundenfeedback steigert Ihre Sichtbarkeit im Marktplatz',
-                                gradient: 'from-amber-500 to-orange-500',
-                                bg: 'from-amber-50 to-orange-50',
-                                border: 'border-amber-200'
-                            },
-                            { 
-                                emoji: '🔒', 
-                                title: 'Datenschutz', 
-                                desc: 'DSGVO-konform, Hosting in der Schweiz, SSL-verschlüsselt',
-                                gradient: 'from-slate-500 to-slate-600',
-                                bg: 'from-slate-50 to-slate-100',
-                                border: 'border-slate-200'
-                            },
+                            { emoji: '📊', title: 'Live-Stats' },
+                            { emoji: '🔔', title: 'Alerts' },
+                            { emoji: '📍', title: 'Regional' },
+                            { emoji: '⚡', title: 'Schnell' },
+                            { emoji: '⭐', title: 'Bewertungen' },
+                            { emoji: '🔒', title: 'Sicher' },
                         ].map((feat, i) => (
                             <div 
                                 key={i} 
-                                className={`group relative bg-gradient-to-br ${feat.bg} border-2 ${feat.border} rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-                                style={{ transitionDelay: `${700 + i * 80}ms` }}
+                                className="group bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] hover:border-green-500/20 rounded-2xl p-5 text-center transition-all duration-300 hover:-translate-y-1"
                             >
-                                <div className={`absolute inset-0 bg-gradient-to-br ${feat.gradient} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300`} />
-                                <div className="relative">
-                                    <div className="text-4xl mb-4">{feat.emoji}</div>
-                                    <h3 className="text-lg font-black text-slate-900 mb-2">{feat.title}</h3>
-                                    <p className="text-sm text-slate-600 leading-relaxed">{feat.desc}</p>
-                                </div>
+                                <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">{feat.emoji}</div>
+                                <div className="text-white/60 text-sm font-bold group-hover:text-white/80">{feat.title}</div>
                             </div>
                         ))}
                     </div>
+
+                    {/* CTA */}
+                    <div className={`mt-16 text-center transition-all duration-1000 delay-800 ${dashboardInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        <Link
+                            to="/register"
+                            className="group inline-flex items-center justify-center gap-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-bold px-10 py-5 rounded-2xl text-lg shadow-2xl shadow-green-500/30 hover:shadow-green-500/40 hover:-translate-y-1 active:translate-y-0 transition-all duration-300"
+                        >
+                            Dashboard testen
+                            <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                        <p className="mt-4 text-white/30 text-sm">
+                            Kostenlos starten - Keine Kreditkarte erforderlich
+                        </p>
+                    </div>
+                </div>
+
+                {/* Bottom Wave Transition to light */}
+                <div className="relative z-20 h-16 sm:h-20 lg:h-24 -mt-px">
+                    <svg className="absolute bottom-0 left-0 w-full h-full" viewBox="0 0 1440 96" fill="none" preserveAspectRatio="none">
+                        <path d="M0 96H1440V32C1440 32 1320 0 1200 16C1080 32 960 64 720 64C480 64 360 32 240 16C120 0 0 32 0 32V96Z" fill="#f8fafc" />
+                    </svg>
                 </div>
             </section>
 
