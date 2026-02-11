@@ -16,189 +16,140 @@ const ProvidersPage: React.FC = () => {
     return (
         <div className="mx-auto overflow-hidden">
 
-            {/* ══════════ HERO - HANDWERKER PERSPEKTIVE ══════════ */}
-            <section ref={heroRef} className="relative min-h-screen overflow-hidden">
-                {/* Warm Light Background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-stone-50 via-white to-green-50/30" />
-                {/* Subtle diagonal stripes */}
-                <div className="absolute inset-0 opacity-[0.03]" style={{
-                    backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 35px, #000 35px, #000 36px)`,
-                }} />
-                {/* Green accent blob */}
-                <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-green-400/8 rounded-full blur-[120px]" />
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-amber-300/8 rounded-full blur-[100px]" />
+            {/* ══════════ HERO ══════════ */}
+            <section ref={heroRef} className="relative overflow-hidden bg-white">
+                {/* Background */}
+                <div className="absolute inset-0">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(34,197,94,0.08),transparent)]" />
+                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+                </div>
 
-                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-28 lg:pt-32 pb-16">
+                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl pt-28 lg:pt-36 pb-20 lg:pb-28">
+                    {/* Two Column Layout */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-                    {/* Top - Centered Intro */}
-                    <div className={`text-center max-w-3xl mx-auto mb-14 transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        {/* Handwerker Badge */}
-                        <div className="inline-flex items-center gap-2.5 bg-amber-50 border border-amber-200/60 rounded-full px-5 py-2 mb-8">
-                            <span className="text-lg">🔨</span>
-                            <span className="text-amber-800 text-sm font-bold uppercase tracking-wide">Für Handwerker & Betriebe</span>
-                            <SwissFlagIcon className="w-4 h-4" />
-                        </div>
-
-                        <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-black text-slate-900 leading-[1.1] mb-6 tracking-tight">
-                            Ihr Werkzeug war noch nie
-                            <br />
-                            <span className="relative inline-block mt-2">
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">Ihr Handy.</span>
-                                <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M2 8C50 2 150 2 198 8" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" className="opacity-40" />
-                                </svg>
-                            </span>
-                        </h1>
-                        <p className="text-slate-500 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
-                            Aufträge kommen direkt zu Ihnen - passend zu Ihrem Fachgebiet und Standort. 
-                            Kein Suchen, kein Bitten, <span className="text-slate-800 font-semibold">einfach arbeiten.</span>
-                        </p>
-                    </div>
-
-                    {/* Main Grid - 3 Columns */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
-
-                        {/* Left Column - "Typischer Tag" Timeline */}
-                        <div className={`transition-all duration-1000 delay-200 ${heroInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
-                            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-200/50 p-6 sm:p-8">
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-lg">☀️</div>
-                                    <div>
-                                        <h3 className="text-slate-900 font-bold text-base">Ihr Tag mit Fertigo</h3>
-                                        <p className="text-slate-400 text-xs">So einfach geht's</p>
-                                    </div>
-                                </div>
-                                <div className="space-y-5">
-                                    {[
-                                        { time: '07:15', text: 'Push-Benachrichtigung: Neuer Auftrag in Ihrer Nähe', icon: '📱', color: 'bg-blue-50 text-blue-600 border-blue-100' },
-                                        { time: '07:16', text: 'Auftrag angenommen - Badumbau in Zürich', icon: '✅', color: 'bg-green-50 text-green-600 border-green-100' },
-                                        { time: '08:00', text: 'Kunde kontaktiert, Termin vereinbart', icon: '🤝', color: 'bg-purple-50 text-purple-600 border-purple-100' },
-                                        { time: '17:00', text: 'Auftrag abgeschlossen - CHF 3\'400', icon: '💰', color: 'bg-amber-50 text-amber-600 border-amber-100' },
-                                    ].map((step, i) => (
-                                        <div key={i} className="flex gap-4 items-start">
-                                            <div className="flex flex-col items-center">
-                                                <div className={`w-9 h-9 rounded-xl border flex items-center justify-center text-sm ${step.color}`}>{step.icon}</div>
-                                                {i < 3 && <div className="w-px h-full min-h-[20px] bg-slate-200 mt-1" />}
-                                            </div>
-                                            <div className="pt-1">
-                                                <span className="text-slate-400 text-xs font-mono">{step.time}</span>
-                                                <p className="text-slate-700 text-sm font-medium leading-snug">{step.text}</p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Center Column - Mascot + CTA */}
-                        <div className={`transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'}`}>
-                            {/* Mascot */}
-                            <div className="relative mb-6">
-                                <div className="absolute inset-0 bg-gradient-to-b from-green-400/10 to-transparent rounded-[2rem] blur-2xl scale-105" />
-                                <div className="relative bg-gradient-to-b from-green-50 to-white rounded-[2rem] border border-green-200/50 p-6 text-center">
-                                    <img
-                                        src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_odao5jodao5jodao-removebg-preview-1769627881340.png?width=8000&height=8000&resize=contain"
-                                        alt="Fertigo Maskottchen"
-                                        className="w-full max-w-[220px] mx-auto drop-shadow-xl"
-                                    />
-                                    <div className="mt-4 flex items-center justify-center gap-2">
-                                        <div className="flex -space-x-1">
-                                            {[...Array(5)].map((_, i) => (
-                                                <svg key={i} className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                            ))}
-                                        </div>
-                                        <span className="text-slate-500 text-sm font-medium">4.9 von 2'400+ Handwerkern</span>
-                                    </div>
-                                </div>
+                        {/* Left - Content */}
+                        <div className={`transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                            <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-1.5 mb-8">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                                </span>
+                                <span className="text-green-700 text-sm font-semibold">Für Handwerker & Betriebe</span>
+                                <SwissFlagIcon className="w-3.5 h-3.5" />
                             </div>
 
-                            {/* CTAs */}
-                            <div className="space-y-3">
+                            <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-black text-slate-900 leading-[1.08] tracking-tight mb-6">
+                                Aufträge, die zu
+                                <br />
+                                Ihnen{' '}
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">kommen.</span>
+                            </h1>
+
+                            <p className="text-slate-500 text-lg leading-relaxed mb-8 max-w-md">
+                                Qualifizierte Anfragen aus Ihrer Region, direkt aufs Handy. Keine Kaltakquise, keine Streuverluste.
+                            </p>
+
+                            {/* CTA */}
+                            <div className="flex flex-col sm:flex-row gap-3 mb-10">
                                 <Link
                                     to="/register"
-                                    className="group w-full inline-flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-2xl text-lg shadow-xl shadow-slate-900/20 hover:-translate-y-0.5 transition-all duration-300"
+                                    className="group inline-flex items-center justify-center gap-2.5 bg-green-600 hover:bg-green-700 text-white font-bold px-7 py-3.5 rounded-xl text-base shadow-lg shadow-green-600/25 hover:-translate-y-0.5 transition-all duration-300"
                                 >
-                                    <span>Kostenlos registrieren</span>
-                                    <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                    Kostenlos starten
+                                    <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                                 </Link>
                                 <Link
                                     to="/so-funktionierts"
-                                    className="group w-full inline-flex items-center justify-center gap-2 text-slate-500 hover:text-slate-700 font-semibold px-6 py-3 rounded-xl transition-all duration-300"
+                                    className="inline-flex items-center justify-center gap-2 text-slate-600 hover:text-slate-900 font-semibold px-6 py-3.5 rounded-xl border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 transition-all duration-300"
                                 >
-                                    <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                                    <span>Video ansehen · 90 Sek.</span>
+                                    <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                    So funktioniert's
                                 </Link>
                             </div>
 
-                            {/* Quick Stats */}
-                            <div className="grid grid-cols-3 gap-3 mt-6">
+                            {/* Stats Row */}
+                            <div className="flex items-center gap-6 sm:gap-8">
                                 {[
-                                    { val: '0.-', label: 'Monatlich', icon: '🏷️' },
-                                    { val: '0%', label: 'Provision', icon: '✨' },
-                                    { val: '5 Min', label: 'Setup', icon: '⚡' },
+                                    { val: '0%', label: 'Provision' },
+                                    { val: '0.-', label: 'Monatlich' },
+                                    { val: '5 Min', label: 'bis zum Lead' },
                                 ].map((s, i) => (
-                                    <div key={i} className="text-center bg-slate-50 rounded-xl p-3 border border-slate-100">
-                                        <span className="text-sm">{s.icon}</span>
-                                        <div className="text-slate-900 font-black text-lg">{s.val}</div>
-                                        <div className="text-slate-400 text-[10px] font-semibold uppercase tracking-wider">{s.label}</div>
+                                    <div key={i} className="flex items-center gap-3">
+                                        {i > 0 && <div className="w-px h-8 bg-slate-200 -ml-3 sm:-ml-4" />}
+                                        <div>
+                                            <div className="text-slate-900 font-black text-xl">{s.val}</div>
+                                            <div className="text-slate-400 text-xs font-medium">{s.label}</div>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
                         </div>
 
-                        {/* Right Column - Testimonial + Live Feed */}
-                        <div className={`space-y-6 transition-all duration-1000 delay-400 ${heroInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
-                            
-                            {/* Testimonial */}
-                            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-200/50 p-6 sm:p-8">
-                                <div className="flex items-center gap-1 mb-4">
+                        {/* Right - Mascot + Cards */}
+                        <div className={`relative transition-all duration-1000 delay-200 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                            {/* Main Card with Mascot */}
+                            <div className="relative bg-gradient-to-br from-slate-50 to-green-50/50 rounded-3xl border border-slate-200 p-8 sm:p-10">
+                                {/* Mascot */}
+                                <div className="flex justify-center mb-6">
+                                    <img
+                                        src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_odao5jodao5jodao-removebg-preview-1769627881340.png?width=8000&height=8000&resize=contain"
+                                        alt="Fertigo Maskottchen"
+                                        className="w-44 sm:w-52 drop-shadow-lg"
+                                    />
+                                </div>
+
+                                {/* Mini Lead Cards */}
+                                <div className="space-y-2.5">
+                                    {[
+                                        { service: 'Badezimmer sanieren', loc: 'Zürich', price: 'CHF 5\'200', time: 'vor 3 Min', icon: '🛁' },
+                                        { service: 'Küche montieren', loc: 'Bern', price: 'CHF 2\'800', time: 'vor 8 Min', icon: '🍳' },
+                                        { service: 'Parkett verlegen', loc: 'Basel', price: 'CHF 1\'900', time: 'vor 12 Min', icon: '🪵' },
+                                    ].map((lead, i) => (
+                                        <div key={i} className="flex items-center gap-3 bg-white rounded-xl border border-slate-100 px-4 py-3 shadow-sm hover:shadow-md hover:border-green-200 transition-all duration-300">
+                                            <div className="w-9 h-9 rounded-lg bg-green-50 border border-green-100 flex items-center justify-center text-base flex-shrink-0">{lead.icon}</div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="text-slate-900 text-sm font-bold truncate">{lead.service}</div>
+                                                <div className="text-slate-400 text-xs">{lead.loc} · {lead.time}</div>
+                                            </div>
+                                            <div className="text-green-600 font-black text-sm flex-shrink-0">{lead.price}</div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Live indicator */}
+                                <div className="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-slate-200/60">
+                                    <span className="relative flex h-2 w-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                                    </span>
+                                    <span className="text-slate-400 text-xs font-medium">47 neue Leads heute</span>
+                                </div>
+                            </div>
+
+                            {/* Floating Testimonial */}
+                            <div className="absolute -bottom-6 -left-4 sm:-left-8 bg-white rounded-2xl shadow-xl border border-slate-200 p-4 max-w-[240px] hidden sm:block">
+                                <div className="flex items-center gap-1 mb-2">
                                     {[...Array(5)].map((_, i) => (
-                                        <svg key={i} className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg key={i} className="w-3 h-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                         </svg>
                                     ))}
                                 </div>
-                                <p className="text-slate-700 text-sm leading-relaxed italic mb-5">
-                                    "Seit ich bei Fertigo bin, muss ich keine Kaltakquise mehr machen. Die Aufträge kommen direkt aufs Handy - passend zu meinem Fachgebiet. Letzte Woche allein 5 neue Kunden."
-                                </p>
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-bold text-sm">MK</div>
+                                <p className="text-slate-600 text-xs leading-relaxed italic mb-3">"5 neue Kunden letzte Woche. Fertigo hat alles verändert."</p>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-bold text-[10px]">MK</div>
                                     <div>
-                                        <div className="text-slate-900 font-bold text-sm">Marco K.</div>
-                                        <div className="text-slate-400 text-xs">Sanitär · Winterthur</div>
+                                        <div className="text-slate-900 font-bold text-[11px]">Marco K.</div>
+                                        <div className="text-slate-400 text-[10px]">Sanitär · Winterthur</div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Live Aufträge Feed */}
-                            <div className="bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-800">
-                                <div className="flex items-center justify-between mb-5">
-                                    <div className="flex items-center gap-2">
-                                        <span className="relative flex h-2.5 w-2.5">
-                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400" />
-                                        </span>
-                                        <span className="text-white font-bold text-sm">Live Aufträge</span>
-                                    </div>
-                                    <span className="text-slate-500 text-xs">Letzte 30 Min</span>
-                                </div>
-                                <div className="space-y-3">
-                                    {[
-                                        { service: 'Küche montieren', loc: 'Bern', price: 'CHF 2\'800', time: 'vor 3 Min' },
-                                        { service: 'Badezimmer sanieren', loc: 'Zürich', price: 'CHF 5\'200', time: 'vor 8 Min' },
-                                        { service: 'Parkett verlegen', loc: 'Basel', price: 'CHF 1\'900', time: 'vor 15 Min' },
-                                    ].map((lead, i) => (
-                                        <div key={i} className="flex items-center justify-between bg-slate-800/60 rounded-xl px-4 py-3 border border-slate-700/50">
-                                            <div>
-                                                <div className="text-white text-sm font-semibold">{lead.service}</div>
-                                                <div className="text-slate-500 text-xs">{lead.loc} · {lead.time}</div>
-                                            </div>
-                                            <div className="text-green-400 font-bold text-sm">{lead.price}</div>
-                                        </div>
-                                    ))}
-                                </div>
+                            {/* Floating stat */}
+                            <div className="absolute -top-4 -right-3 sm:-right-6 bg-slate-900 text-white rounded-2xl shadow-xl px-4 py-3 hidden sm:block">
+                                <div className="text-green-400 font-black text-lg leading-none">+127%</div>
+                                <div className="text-slate-400 text-[10px] font-medium mt-0.5">mehr Aufträge</div>
                             </div>
                         </div>
                     </div>
