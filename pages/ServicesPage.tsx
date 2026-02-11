@@ -544,8 +544,7 @@ const ServicesPage: React.FC = () => {
                 </div>
             </div>
 
-            {/* Trust Section */}
-            <TrustSection />
+
         </div>
     );
 };
