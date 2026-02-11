@@ -16,192 +16,189 @@ const ProvidersPage: React.FC = () => {
     return (
         <div className="mx-auto overflow-hidden">
 
-            {/* ══════════ HERO - SPLIT DARK/LIGHT DESIGN ══════════ */}
+            {/* ══════════ HERO - HANDWERKER PERSPEKTIVE ══════════ */}
             <section ref={heroRef} className="relative min-h-screen overflow-hidden">
-                {/* Dark Background */}
-                <div className="absolute inset-0 bg-slate-900" />
-                {/* Gradient Accent */}
-                <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-green-900/20 to-transparent" />
-                {/* Grid Pattern */}
+                {/* Warm Light Background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-stone-50 via-white to-green-50/30" />
+                {/* Subtle diagonal stripes */}
                 <div className="absolute inset-0 opacity-[0.03]" style={{
-                    backgroundImage: `linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)`,
-                    backgroundSize: '60px 60px',
+                    backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 35px, #000 35px, #000 36px)`,
                 }} />
+                {/* Green accent blob */}
+                <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-green-400/8 rounded-full blur-[120px]" />
+                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-amber-300/8 rounded-full blur-[100px]" />
 
-                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-28 lg:pt-36 pb-20">
-                    
-                    {/* Two Column Layout */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                        
-                        {/* Left - Content */}
-                        <div>
-                            {/* Badge */}
-                            <div className={`mb-8 transition-all duration-700 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
-                                <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2">
-                                    <span className="relative flex h-2 w-2">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
-                                    </span>
-                                    <span className="text-green-400 text-sm font-semibold">47 neue Leads heute</span>
-                                    <div className="w-px h-3 bg-green-500/30" />
-                                    <SwissFlagIcon className="w-4 h-4" />
+                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-28 lg:pt-32 pb-16">
+
+                    {/* Top - Centered Intro */}
+                    <div className={`text-center max-w-3xl mx-auto mb-14 transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                        {/* Handwerker Badge */}
+                        <div className="inline-flex items-center gap-2.5 bg-amber-50 border border-amber-200/60 rounded-full px-5 py-2 mb-8">
+                            <span className="text-lg">🔨</span>
+                            <span className="text-amber-800 text-sm font-bold uppercase tracking-wide">Für Handwerker & Betriebe</span>
+                            <SwissFlagIcon className="w-4 h-4" />
+                        </div>
+
+                        <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-black text-slate-900 leading-[1.1] mb-6 tracking-tight">
+                            Ihr Werkzeug war noch nie
+                            <br />
+                            <span className="relative inline-block mt-2">
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">Ihr Handy.</span>
+                                <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2 8C50 2 150 2 198 8" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" className="opacity-40" />
+                                </svg>
+                            </span>
+                        </h1>
+                        <p className="text-slate-500 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
+                            Aufträge kommen direkt zu Ihnen - passend zu Ihrem Fachgebiet und Standort. 
+                            Kein Suchen, kein Bitten, <span className="text-slate-800 font-semibold">einfach arbeiten.</span>
+                        </p>
+                    </div>
+
+                    {/* Main Grid - 3 Columns */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+
+                        {/* Left Column - "Typischer Tag" Timeline */}
+                        <div className={`transition-all duration-1000 delay-200 ${heroInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
+                            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-200/50 p-6 sm:p-8">
+                                <div className="flex items-center gap-3 mb-6">
+                                    <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-lg">☀️</div>
+                                    <div>
+                                        <h3 className="text-slate-900 font-bold text-base">Ihr Tag mit Fertigo</h3>
+                                        <p className="text-slate-400 text-xs">So einfach geht's</p>
+                                    </div>
+                                </div>
+                                <div className="space-y-5">
+                                    {[
+                                        { time: '07:15', text: 'Push-Benachrichtigung: Neuer Auftrag in Ihrer Nähe', icon: '📱', color: 'bg-blue-50 text-blue-600 border-blue-100' },
+                                        { time: '07:16', text: 'Auftrag angenommen - Badumbau in Zürich', icon: '✅', color: 'bg-green-50 text-green-600 border-green-100' },
+                                        { time: '08:00', text: 'Kunde kontaktiert, Termin vereinbart', icon: '🤝', color: 'bg-purple-50 text-purple-600 border-purple-100' },
+                                        { time: '17:00', text: 'Auftrag abgeschlossen - CHF 3\'400', icon: '💰', color: 'bg-amber-50 text-amber-600 border-amber-100' },
+                                    ].map((step, i) => (
+                                        <div key={i} className="flex gap-4 items-start">
+                                            <div className="flex flex-col items-center">
+                                                <div className={`w-9 h-9 rounded-xl border flex items-center justify-center text-sm ${step.color}`}>{step.icon}</div>
+                                                {i < 3 && <div className="w-px h-full min-h-[20px] bg-slate-200 mt-1" />}
+                                            </div>
+                                            <div className="pt-1">
+                                                <span className="text-slate-400 text-xs font-mono">{step.time}</span>
+                                                <p className="text-slate-700 text-sm font-medium leading-snug">{step.text}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Center Column - Mascot + CTA */}
+                        <div className={`transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'}`}>
+                            {/* Mascot */}
+                            <div className="relative mb-6">
+                                <div className="absolute inset-0 bg-gradient-to-b from-green-400/10 to-transparent rounded-[2rem] blur-2xl scale-105" />
+                                <div className="relative bg-gradient-to-b from-green-50 to-white rounded-[2rem] border border-green-200/50 p-6 text-center">
+                                    <img
+                                        src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_odao5jodao5jodao-removebg-preview-1769627881340.png?width=8000&height=8000&resize=contain"
+                                        alt="Fertigo Maskottchen"
+                                        className="w-full max-w-[220px] mx-auto drop-shadow-xl"
+                                    />
+                                    <div className="mt-4 flex items-center justify-center gap-2">
+                                        <div className="flex -space-x-1">
+                                            {[...Array(5)].map((_, i) => (
+                                                <svg key={i} className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+                                            ))}
+                                        </div>
+                                        <span className="text-slate-500 text-sm font-medium">4.9 von 2'400+ Handwerkern</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* Headline */}
-                            <div className={`transition-all duration-1000 delay-100 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.08] mb-6 tracking-tight">
-                                    Kunden finden
-                                    <br />
-                                    <span className="relative inline-block">
-                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">Sie.</span>
-                                    </span>
-                                    {' '}Nicht
-                                    <br />
-                                    umgekehrt.
-                                </h1>
-                                <p className="text-slate-400 text-lg sm:text-xl max-w-lg leading-relaxed mb-10">
-                                    Qualifizierte Aufträge aus Ihrer Region. Kein Abo. Keine Provision. 
-                                    <span className="text-white font-medium"> Sie zahlen nur für echte Leads.</span>
-                                </p>
-                            </div>
-
                             {/* CTAs */}
-                            <div className={`flex flex-col sm:flex-row gap-4 mb-12 transition-all duration-1000 delay-200 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                            <div className="space-y-3">
                                 <Link
                                     to="/register"
-                                    className="group inline-flex items-center justify-center gap-3 bg-green-500 hover:bg-green-400 text-slate-900 font-black px-8 py-4 rounded-xl text-lg shadow-lg shadow-green-500/25 hover:shadow-green-400/30 hover:-translate-y-0.5 transition-all duration-300"
+                                    className="group w-full inline-flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-2xl text-lg shadow-xl shadow-slate-900/20 hover:-translate-y-0.5 transition-all duration-300"
                                 >
-                                    <span>Jetzt kostenlos starten</span>
+                                    <span>Kostenlos registrieren</span>
                                     <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                 </Link>
                                 <Link
                                     to="/so-funktionierts"
-                                    className="group inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white font-semibold px-6 py-4 rounded-xl border border-slate-700 hover:border-slate-500 transition-all duration-300"
+                                    className="group w-full inline-flex items-center justify-center gap-2 text-slate-500 hover:text-slate-700 font-semibold px-6 py-3 rounded-xl transition-all duration-300"
                                 >
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                                    <span>So funktioniert's</span>
+                                    <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                    <span>Video ansehen · 90 Sek.</span>
                                 </Link>
                             </div>
 
-                            {/* Stats Row */}
-                            <div className={`grid grid-cols-3 gap-6 transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                            {/* Quick Stats */}
+                            <div className="grid grid-cols-3 gap-3 mt-6">
                                 {[
-                                    { val: '0%', label: 'Provision', color: 'text-green-400' },
-                                    { val: '2\'400+', label: 'Handwerker', color: 'text-white' },
-                                    { val: '5 Min', label: 'bis zum Lead', color: 'text-emerald-400' },
+                                    { val: '0.-', label: 'Monatlich', icon: '🏷️' },
+                                    { val: '0%', label: 'Provision', icon: '✨' },
+                                    { val: '5 Min', label: 'Setup', icon: '⚡' },
                                 ].map((s, i) => (
-                                    <div key={i} className="text-left">
-                                        <div className={`text-2xl sm:text-3xl font-black ${s.color}`}>{s.val}</div>
-                                        <div className="text-slate-500 text-sm mt-1">{s.label}</div>
+                                    <div key={i} className="text-center bg-slate-50 rounded-xl p-3 border border-slate-100">
+                                        <span className="text-sm">{s.icon}</span>
+                                        <div className="text-slate-900 font-black text-lg">{s.val}</div>
+                                        <div className="text-slate-400 text-[10px] font-semibold uppercase tracking-wider">{s.label}</div>
                                     </div>
                                 ))}
                             </div>
                         </div>
 
-                        {/* Right - Mascot + Cards */}
-                        <div className={`relative transition-all duration-1000 delay-400 ${heroInView ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'}`}>
+                        {/* Right Column - Testimonial + Live Feed */}
+                        <div className={`space-y-6 transition-all duration-1000 delay-400 ${heroInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
                             
-                            {/* Main Mascot Container */}
-                            <div className="relative">
-                                {/* Glow behind mascot */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-emerald-500/10 to-transparent rounded-[3rem] blur-3xl scale-110" />
-                                
-                                {/* Mascot Card */}
-                                <div className="relative bg-gradient-to-br from-slate-800 to-slate-800/50 backdrop-blur-xl rounded-[2.5rem] border border-slate-700/50 p-8 pt-6">
-                                    
-                                    {/* Top bar */}
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-3 h-3 rounded-full bg-green-500" />
-                                            <span className="text-slate-400 text-xs font-medium">Fertigo Partner</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5">
-                                            {[...Array(5)].map((_, i) => (
-                                                <svg key={i} className="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                            ))}
-                                            <span className="text-slate-400 text-xs ml-1">4.9</span>
-                                        </div>
-                                    </div>
-
-                                    {/* Mascot Image */}
-                                    <img
-                                        src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_odao5jodao5jodao-removebg-preview-1769627881340.png?width=8000&height=8000&resize=contain"
-                                        alt="Fertigo Maskottchen"
-                                        className="w-full max-w-[280px] mx-auto drop-shadow-2xl"
-                                    />
-
-                                    {/* Bottom Stats */}
-                                    <div className="grid grid-cols-3 gap-3 mt-6">
-                                        {[
-                                            { val: '0.-', label: 'Abo-Kosten', icon: '💰' },
-                                            { val: '127%', label: 'Mehr Aufträge', icon: '📈' },
-                                            { val: '100%', label: 'Ihr Gewinn', icon: '🎯' },
-                                        ].map((s, i) => (
-                                            <div key={i} className="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-3 text-center">
-                                                <span className="text-lg">{s.icon}</span>
-                                                <div className="text-white font-black text-lg mt-1">{s.val}</div>
-                                                <div className="text-slate-500 text-[10px] uppercase tracking-wider">{s.label}</div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Floating Lead Notification - Top Right */}
-                                <div className="absolute -top-4 -right-4 sm:right-0 bg-white rounded-2xl shadow-2xl shadow-black/20 p-4 animate-bounce" style={{ animationDuration: '3s' }}>
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center">
-                                            <span className="text-xl">🔔</span>
-                                        </div>
-                                        <div>
-                                            <div className="text-slate-900 font-bold text-sm">Neuer Lead!</div>
-                                            <div className="text-slate-500 text-xs">Badumbau · Zürich</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Floating Revenue Card - Bottom Left */}
-                                <div className="absolute -bottom-4 -left-4 sm:left-0 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl shadow-black/30 p-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
-                                            <span className="text-xl">💸</span>
-                                        </div>
-                                        <div>
-                                            <div className="text-green-400 font-black text-lg">+CHF 4'200</div>
-                                            <div className="text-slate-500 text-xs">Umsatz diese Woche</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Trust Bar */}
-                    <div className={`mt-20 pt-10 border-t border-slate-800 transition-all duration-1000 delay-500 ${heroInView ? 'opacity-100' : 'opacity-0'}`}>
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
-                            <div className="flex items-center gap-2">
-                                <div className="flex -space-x-2">
-                                    {['🧑‍🔧', '👷', '🧑‍🏭', '👨‍🔬'].map((emoji, i) => (
-                                        <div key={i} className="w-8 h-8 rounded-full bg-slate-800 border-2 border-slate-900 flex items-center justify-center text-sm">{emoji}</div>
+                            {/* Testimonial */}
+                            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-200/50 p-6 sm:p-8">
+                                <div className="flex items-center gap-1 mb-4">
+                                    {[...Array(5)].map((_, i) => (
+                                        <svg key={i} className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
                                     ))}
                                 </div>
-                                <span className="text-slate-400 text-sm">2'400+ aktive Handwerker</span>
+                                <p className="text-slate-700 text-sm leading-relaxed italic mb-5">
+                                    "Seit ich bei Fertigo bin, muss ich keine Kaltakquise mehr machen. Die Aufträge kommen direkt aufs Handy - passend zu meinem Fachgebiet. Letzte Woche allein 5 neue Kunden."
+                                </p>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-bold text-sm">MK</div>
+                                    <div>
+                                        <div className="text-slate-900 font-bold text-sm">Marco K.</div>
+                                        <div className="text-slate-400 text-xs">Sanitär · Winterthur</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="w-px h-4 bg-slate-800 hidden sm:block" />
-                            <div className="flex items-center gap-2">
-                                <SwissFlagIcon className="w-4 h-4" />
-                                <span className="text-slate-400 text-sm">100% Schweizer Plattform</span>
-                            </div>
-                            <div className="w-px h-4 bg-slate-800 hidden sm:block" />
-                            <div className="flex items-center gap-1.5">
-                                {[...Array(5)].map((_, i) => (
-                                    <svg key={i} className="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                ))}
-                                <span className="text-slate-400 text-sm ml-1">4.9 / 5 Bewertung</span>
+
+                            {/* Live Aufträge Feed */}
+                            <div className="bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-800">
+                                <div className="flex items-center justify-between mb-5">
+                                    <div className="flex items-center gap-2">
+                                        <span className="relative flex h-2.5 w-2.5">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400" />
+                                        </span>
+                                        <span className="text-white font-bold text-sm">Live Aufträge</span>
+                                    </div>
+                                    <span className="text-slate-500 text-xs">Letzte 30 Min</span>
+                                </div>
+                                <div className="space-y-3">
+                                    {[
+                                        { service: 'Küche montieren', loc: 'Bern', price: 'CHF 2\'800', time: 'vor 3 Min' },
+                                        { service: 'Badezimmer sanieren', loc: 'Zürich', price: 'CHF 5\'200', time: 'vor 8 Min' },
+                                        { service: 'Parkett verlegen', loc: 'Basel', price: 'CHF 1\'900', time: 'vor 15 Min' },
+                                    ].map((lead, i) => (
+                                        <div key={i} className="flex items-center justify-between bg-slate-800/60 rounded-xl px-4 py-3 border border-slate-700/50">
+                                            <div>
+                                                <div className="text-white text-sm font-semibold">{lead.service}</div>
+                                                <div className="text-slate-500 text-xs">{lead.loc} · {lead.time}</div>
+                                            </div>
+                                            <div className="text-green-400 font-bold text-sm">{lead.price}</div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
