@@ -16,198 +16,183 @@ const ProvidersPage: React.FC = () => {
     return (
         <div className="mx-auto overflow-hidden">
 
-            {/* ══════════ HERO - SPLIT SCREEN DESIGN ══════════ */}
-            <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden">
-                {/* Linke Seite - Dunkel */}
-                <div className="absolute inset-0 lg:w-1/2 bg-slate-900">
-                    <div className="absolute inset-0 opacity-20" style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2322c55e' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            {/* ══════════ HERO - MODERNES CARD-BASED DESIGN ══════════ */}
+            <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden bg-slate-50">
+                {/* Background Elements */}
+                <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-green-200/30 rounded-full blur-[120px]" />
+                    <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-emerald-200/20 rounded-full blur-[100px]" />
+                    <div className="absolute inset-0 opacity-[0.02]" style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
                     }} />
                 </div>
-                
-                {/* Rechte Seite - Grün */}
-                <div className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 bg-gradient-to-br from-green-500 via-emerald-500 to-teal-600">
-                    <div className="absolute inset-0 opacity-30">
-                        <div className="absolute top-20 right-20 w-72 h-72 bg-white/20 rounded-full blur-3xl" />
-                        <div className="absolute bottom-20 left-20 w-96 h-96 bg-green-300/20 rounded-full blur-3xl" />
-                    </div>
-                </div>
 
-                {/* Content */}
-                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-0 items-center min-h-screen py-24 lg:py-0">
-                        
-                        {/* Linke Spalte - Text */}
-                        <div className={`lg:pr-16 xl:pr-24 transition-all duration-1000 ${heroInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-                            {/* Badge */}
-                            <div className="inline-flex items-center gap-3 mb-8">
-                                <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2">
-                                    <span className="relative flex h-2.5 w-2.5">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
-                                    </span>
-                                    <span className="text-green-400 text-sm font-bold">Live — 47 neue Leads</span>
-                                </div>
-                            </div>
-
-                            {/* Headline */}
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-[1.05] mb-6">
-                                Der schnellste
-                                <br />
-                                Weg zu{' '}
-                                <span className="relative inline-block">
-                                    <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">Aufträgen</span>
-                                    <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
-                                        <path d="M2 8C50 2 150 2 198 8" stroke="url(#underline-gradient)" strokeWidth="4" strokeLinecap="round" />
-                                        <defs>
-                                            <linearGradient id="underline-gradient" x1="0" y1="0" x2="200" y2="0">
-                                                <stop stopColor="#22c55e" />
-                                                <stop offset="1" stopColor="#10b981" />
-                                            </linearGradient>
-                                        </defs>
-                                    </svg>
+                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-24 lg:py-32">
+                    {/* Top Badge */}
+                    <div className={`flex justify-center mb-8 transition-all duration-700 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+                        <div className="inline-flex items-center gap-3 bg-white border border-slate-200 rounded-full px-5 py-2.5 shadow-lg shadow-slate-200/50">
+                            <div className="flex items-center gap-2">
+                                <span className="relative flex h-2.5 w-2.5">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
                                 </span>
-                            </h1>
-
-                            <p className="text-white/50 text-lg sm:text-xl leading-relaxed max-w-md mb-10">
-                                Qualifizierte Kundenanfragen aus Ihrer Region. 
-                                <span className="text-white font-semibold"> Ohne Abo. Ohne Provision. 100% Ihr Gewinn.</span>
-                            </p>
-
-                            {/* CTA Buttons */}
-                            <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                                <Link
-                                    to="/register"
-                                    className="group inline-flex items-center justify-center gap-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-black px-8 py-4 rounded-2xl text-lg shadow-2xl shadow-green-500/30 hover:-translate-y-1 transition-all duration-300"
-                                >
-                                    <span>Kostenlos starten</span>
-                                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                                        <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                                    </div>
-                                </Link>
-                                <Link
-                                    to="/so-funktionierts"
-                                    className="group inline-flex items-center justify-center gap-2 text-white/70 hover:text-white font-bold px-6 py-4 rounded-2xl text-lg transition-all duration-300"
-                                >
-                                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M8 5v14l11-7z" />
-                                        </svg>
-                                    </div>
-                                    <span>So funktioniert's</span>
-                                </Link>
+                                <span className="text-green-600 text-sm font-bold">47 neue Leads</span>
                             </div>
+                            <div className="w-px h-4 bg-slate-200" />
+                            <div className="flex items-center gap-1.5">
+                                <SwissFlagIcon className="w-4 h-4" />
+                                <span className="text-slate-600 text-sm font-medium">Schweizweit</span>
+                            </div>
+                        </div>
+                    </div>
 
-                            {/* Trust Indicators */}
-                            <div className="flex items-center gap-6 pt-8 border-t border-white/10">
-                                <div className="flex -space-x-3">
-                                    {['🧑‍🔧', '👷', '🧑‍🏭', '👨‍🔬'].map((emoji, i) => (
-                                        <div key={i} className="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-900 flex items-center justify-center text-lg">
-                                            {emoji}
-                                        </div>
-                                    ))}
+                    {/* Main Headline - Centered */}
+                    <div className={`text-center max-w-4xl mx-auto mb-12 transition-all duration-1000 delay-100 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                        <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-slate-900 leading-[1.1] mb-6">
+                            Mehr Aufträge.
+                            <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">Weniger Aufwand.</span>
+                        </h1>
+                        <p className="text-slate-500 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
+                            Erhalten Sie qualifizierte Kundenanfragen direkt aus Ihrer Region — 
+                            <span className="text-slate-700 font-semibold"> ohne Abo, ohne Provision, 100% Ihr Gewinn.</span>
+                        </p>
+                    </div>
+
+                    {/* CTA Buttons - Centered */}
+                    <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 transition-all duration-1000 delay-200 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                        <Link
+                            to="/register"
+                            className="group inline-flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white font-black px-8 py-4 rounded-2xl text-lg shadow-xl shadow-slate-900/20 hover:-translate-y-1 transition-all duration-300"
+                        >
+                            <span>Kostenlos starten</span>
+                            <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <ArrowRightIcon className="w-4 h-4" />
+                            </div>
+                        </Link>
+                        <Link
+                            to="/so-funktionierts"
+                            className="group inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 font-bold px-6 py-4 rounded-2xl text-lg transition-all duration-300"
+                        >
+                            <div className="w-10 h-10 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center group-hover:border-green-300 group-hover:bg-green-50 transition-all">
+                                <svg className="w-4 h-4 text-slate-500 group-hover:text-green-600 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                            </div>
+                            <span>So funktioniert's</span>
+                        </Link>
+                    </div>
+
+                    {/* Bento Grid with Mascot & Stats */}
+                    <div className={`grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                        
+                        {/* Left Column - Stats Cards */}
+                        <div className="lg:col-span-3 flex flex-col gap-4 sm:gap-5">
+                            {/* Stat Card 1 */}
+                            <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-lg shadow-slate-200/50 hover:shadow-xl hover:border-green-200 transition-all duration-300 group">
+                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                    <span className="text-3xl">📈</span>
                                 </div>
-                                <div>
-                                    <div className="flex items-center gap-1 mb-0.5">
-                                        {[...Array(5)].map((_, i) => (
-                                            <svg key={i} className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
-                                        ))}
-                                    </div>
-                                    <p className="text-white/40 text-sm"><span className="text-white font-bold">2'400+</span> zufriedene Handwerker</p>
+                                <div className="text-4xl font-black text-slate-900 mb-1">+127%</div>
+                                <div className="text-slate-500 text-sm">mehr Aufträge pro Monat</div>
+                            </div>
+                            
+                            {/* Stat Card 2 */}
+                            <div className="bg-gradient-to-br from-green-500 to-emerald-500 rounded-3xl p-6 shadow-lg shadow-green-500/20 text-white">
+                                <div className="flex items-center justify-between mb-4">
+                                    <span className="text-3xl">⚡</span>
+                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Schnell</span>
                                 </div>
+                                <div className="text-4xl font-black mb-1">5 Min</div>
+                                <div className="text-white/70 text-sm">bis zum ersten Lead</div>
                             </div>
                         </div>
 
-                        {/* Rechte Spalte - Bild & Cards */}
-                        <div className={`relative lg:pl-8 transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-                            {/* Floating Stats Card - Oben Links */}
-                            <div className="absolute top-8 -left-4 lg:left-0 z-20 bg-white rounded-2xl shadow-2xl p-4 animate-float">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
-                                        <span className="text-2xl">📈</span>
-                                    </div>
-                                    <div>
-                                        <div className="text-2xl font-black text-slate-900">+127%</div>
-                                        <div className="text-slate-500 text-xs">mehr Aufträge</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Floating Stats Card - Unten Rechts */}
-                            <div className="absolute bottom-16 -right-4 lg:right-8 z-20 bg-white rounded-2xl shadow-2xl p-4 animate-float-delayed">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
-                                        <span className="text-2xl">⚡</span>
-                                    </div>
-                                    <div>
-                                        <div className="text-2xl font-black text-slate-900">5 Min</div>
-                                        <div className="text-slate-500 text-xs">Setup-Zeit</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Floating Lead Card - Mitte Links */}
-                            <div className="absolute top-1/2 -translate-y-1/2 -left-8 lg:-left-4 z-20 bg-slate-900 rounded-2xl shadow-2xl p-4 border border-white/10 animate-float-slow hidden sm:block">
-                                <div className="flex items-center gap-3 mb-2">
-                                    <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
-                                        <span className="text-lg">🛁</span>
-                                    </div>
-                                    <div>
-                                        <div className="text-white font-bold text-sm">Neuer Lead!</div>
-                                        <div className="text-white/50 text-xs">vor 2 Min.</div>
-                                    </div>
-                                </div>
-                                <div className="text-xs text-white/60">Badezimmer Renovation</div>
-                                <div className="text-green-400 font-bold text-sm">📍 Zürich</div>
-                            </div>
-
-                            {/* Hauptbild */}
-                            <div className="relative">
-                                <div className="absolute inset-0 bg-gradient-to-t from-green-500/20 to-transparent rounded-3xl" />
+                        {/* Center - Mascot Card */}
+                        <div className="lg:col-span-6 relative">
+                            <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-xl shadow-slate-200/50 h-full flex flex-col items-center justify-center overflow-hidden group">
+                                {/* Decorative circles */}
+                                <div className="absolute top-4 left-4 w-20 h-20 bg-green-100 rounded-full opacity-50" />
+                                <div className="absolute bottom-4 right-4 w-32 h-32 bg-emerald-100 rounded-full opacity-40" />
+                                
+                                {/* Mascot Image */}
                                 <img
                                     src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_odao5jodao5jodao-removebg-preview-1769627881340.png?width=8000&height=8000&resize=contain"
                                     alt="Fertigo Maskottchen"
-                                    className="relative w-full max-w-lg mx-auto drop-shadow-2xl"
+                                    className="relative z-10 w-full max-w-xs mx-auto drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
                                 />
+                                
+                                {/* Bottom Stats */}
+                                <div className="relative z-10 flex items-center justify-center gap-8 mt-6 pt-6 border-t border-slate-100 w-full">
+                                    {[
+                                        { val: '0%', label: 'Provision' },
+                                        { val: 'CHF 0.-', label: 'Abo-Kosten' },
+                                        { val: '100%', label: 'Ihr Gewinn' },
+                                    ].map((s, i) => (
+                                        <div key={i} className="text-center">
+                                            <div className="text-xl sm:text-2xl font-black text-slate-900">{s.val}</div>
+                                            <div className="text-slate-400 text-xs">{s.label}</div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
+                        </div>
 
-                            {/* Bottom Stats Row */}
-                            <div className="flex justify-center gap-6 mt-8">
-                                {[
-                                    { val: '0%', label: 'Provision' },
-                                    { val: 'CHF 0.-', label: 'Monatl. Kosten' },
-                                    { val: '1200+', label: 'Leads/Monat' },
-                                ].map((s, i) => (
-                                    <div key={i} className="text-center">
-                                        <div className="text-xl sm:text-2xl font-black text-white">{s.val}</div>
-                                        <div className="text-white/60 text-xs">{s.label}</div>
+                        {/* Right Column - Live Feed & Trust */}
+                        <div className="lg:col-span-3 flex flex-col gap-4 sm:gap-5">
+                            {/* Live Lead Card */}
+                            <div className="bg-slate-900 rounded-3xl p-5 shadow-lg text-white flex-1">
+                                <div className="flex items-center justify-between mb-4">
+                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Live Feed</span>
+                                    <span className="relative flex h-2 w-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                                    </span>
+                                </div>
+                                <div className="space-y-3">
+                                    {[
+                                        { icon: '🛁', title: 'Badezimmer', loc: 'Zürich', time: '2m' },
+                                        { icon: '🎨', title: 'Malerarbeit', loc: 'Bern', time: '5m' },
+                                        { icon: '⚡', title: 'Elektrik', loc: 'Basel', time: '8m' },
+                                    ].map((lead, i) => (
+                                        <div key={i} className="flex items-center gap-3 bg-white/5 rounded-xl p-3 border border-white/10">
+                                            <div className="w-9 h-9 rounded-lg bg-green-500/20 flex items-center justify-center text-lg flex-shrink-0">
+                                                {lead.icon}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="text-white font-bold text-sm truncate">{lead.title}</div>
+                                                <div className="text-slate-400 text-xs">📍 {lead.loc}</div>
+                                            </div>
+                                            <div className="text-slate-500 text-xs">{lead.time}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            {/* Trust Card */}
+                            <div className="bg-white rounded-3xl border border-slate-200 p-5 shadow-lg shadow-slate-200/50">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="flex -space-x-2">
+                                        {['🧑‍🔧', '👷', '🧑‍🏭', '👨‍🔬'].map((emoji, i) => (
+                                            <div key={i} className="w-8 h-8 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-sm">
+                                                {emoji}
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
+                                    <div className="text-slate-900 font-black text-lg">2'400+</div>
+                                </div>
+                                <div className="flex items-center gap-1 mb-1">
+                                    {[...Array(5)].map((_, i) => (
+                                        <svg key={i} className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    ))}
+                                </div>
+                                <div className="text-slate-500 text-xs">zufriedene Handwerker</div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                {/* Custom CSS for floating animation */}
-                <style>{`
-                    @keyframes float {
-                        0%, 100% { transform: translateY(0px); }
-                        50% { transform: translateY(-10px); }
-                    }
-                    @keyframes float-delayed {
-                        0%, 100% { transform: translateY(0px); }
-                        50% { transform: translateY(-8px); }
-                    }
-                    @keyframes float-slow {
-                        0%, 100% { transform: translateY(-50%); }
-                        50% { transform: translateY(calc(-50% - 12px)); }
-                    }
-                    .animate-float { animation: float 4s ease-in-out infinite; }
-                    .animate-float-delayed { animation: float-delayed 5s ease-in-out infinite 1s; }
-                    .animate-float-slow { animation: float-slow 6s ease-in-out infinite 0.5s; }
-                `}</style>
             </section>
 
             {/* ══════════ 3 SCHRITTE - KARTEN DESIGN ══════════ */}
