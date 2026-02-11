@@ -82,18 +82,23 @@ const ProvidersPage: React.FC = () => {
                                 </Link>
                             </div>
 
-                            {/* Stats */}
-                            <div className="grid grid-cols-3 gap-4">
-                                {[
-                                    { val: 'CHF 0.-', label: 'Monatliche Kosten', color: 'text-green-400' },
-                                    { val: '0%', label: 'Provision', color: 'text-green-400' },
-                                    { val: '<5 Min', label: 'bis zum Lead', color: 'text-green-400' },
-                                ].map((s, i) => (
-                                    <div key={i} className="bg-slate-900/60 border border-slate-800 rounded-xl px-3 py-3 text-center">
-                                        <div className={`font-black text-lg ${s.color}`}>{s.val}</div>
-                                        <div className="text-slate-500 text-[11px] font-medium mt-0.5">{s.label}</div>
+                            {/* Social Proof Strip */}
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="flex -space-x-2">
+                                    {['MK', 'TW', 'RS', 'JB'].map((initials, i) => (
+                                        <div key={i} className={`w-9 h-9 rounded-full border-2 border-slate-950 flex items-center justify-center text-[10px] font-bold text-white ${
+                                            ['bg-green-500', 'bg-emerald-500', 'bg-teal-500', 'bg-cyan-500'][i]
+                                        }`}>{initials}</div>
+                                    ))}
+                                </div>
+                                <div>
+                                    <div className="flex items-center gap-1">
+                                        {[...Array(5)].map((_, i) => (
+                                            <svg key={i} className="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                        ))}
                                     </div>
-                                ))}
+                                    <span className="text-slate-400 text-xs font-medium">2'400+ Handwerker vertrauen uns</span>
+                                </div>
                             </div>
                         </div>
 
@@ -214,37 +219,36 @@ const ProvidersPage: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            {/* Floating Review - bottom left */}
-                            <div className="absolute -bottom-4 left-4 sm:left-8 bg-white rounded-xl shadow-2xl px-4 py-3 z-20 hidden sm:block">
-                                <div className="flex items-center gap-1 mb-1">
-                                    {[...Array(5)].map((_, i) => (
-                                        <svg key={i} className="w-3 h-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                    ))}
-                                </div>
-                                <p className="text-slate-600 text-[10px] leading-relaxed italic">"Innerhalb von 2 Wochen 8 neue Aufträge."</p>
-                                <div className="flex items-center gap-1.5 mt-1.5">
-                                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-bold text-[8px]">TW</div>
-                                    <span className="text-slate-500 text-[9px] font-medium">Thomas W. · Elektriker · Basel</span>
-                                </div>
-                            </div>
-
-                            {/* Mobile Mascot */}
-                            <div className="flex justify-center mt-6 lg:hidden">
-                                <img
-                                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_odao5jodao5jodao-removebg-preview-1769627881340.png?width=8000&height=8000&resize=contain"
-                                    alt="Fertigo Maskottchen"
-                                    className="w-32 drop-shadow-xl"
-                                />
+                    {/* Bottom Stats Banner */}
+                    <div className={`mt-16 lg:mt-20 transition-all duration-1000 delay-500 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        <div className="relative border-t border-slate-800/80">
+                            <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-800/80">
+                                {[
+                                    { value: 'CHF 0.-', label: 'Monatliche Kosten', desc: 'Keine versteckten Gebühren' },
+                                    { value: '0%', label: 'Provision', desc: 'Sie behalten 100% Ihres Umsatzes' },
+                                    { value: '<5 Min', label: 'Bis zum ersten Lead', desc: 'Schnelle Registrierung' },
+                                    { value: '94%', label: 'Zufriedenheit', desc: 'Basierend auf 2\'400+ Bewertungen' },
+                                ].map((item, i) => (
+                                    <div key={i} className="px-6 py-6 text-center group hover:bg-slate-800/30 transition-colors duration-300">
+                                        <div className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400 mb-1">{item.value}</div>
+                                        <div className="text-white text-sm font-semibold mb-1">{item.label}</div>
+                                        <div className="text-slate-500 text-xs">{item.desc}</div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Bottom gradient fade */}
-                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent" />
+                {/* Bottom wave transition */}
+                <div className="absolute bottom-0 left-0 right-0">
+                    <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" preserveAspectRatio="none">
+                        <path d="M0,60 L0,30 C240,50 480,10 720,30 C960,50 1200,10 1440,30 L1440,60 Z" fill="white" />
+                    </svg>
+                </div>
             </section>
 
             {/* ══════════ 3 SCHRITTE - STYLE WIE HOME PAGE ══════════ */}
