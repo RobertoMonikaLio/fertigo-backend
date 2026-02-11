@@ -100,15 +100,6 @@ const ProvidersPage: React.FC = () => {
                         {/* Right - Dashboard Illustration (7 cols) */}
                         <div className={`lg:col-span-7 relative transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
 
-                            {/* Mascot peeking */}
-                            <div className="absolute -left-6 top-1/2 -translate-y-1/2 z-30 hidden lg:block">
-                                <img
-                                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_odao5jodao5jodao-removebg-preview-1769627881340.png?width=8000&height=8000&resize=contain"
-                                    alt="Fertigo Maskottchen"
-                                    className="w-28 drop-shadow-2xl"
-                                />
-                            </div>
-
                             {/* Dashboard Window */}
                             <div className="relative bg-slate-900 border border-slate-700/60 rounded-2xl overflow-hidden shadow-2xl shadow-black/40">
                                 {/* Browser Bar */}
