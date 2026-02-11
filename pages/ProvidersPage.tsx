@@ -46,101 +46,102 @@ const ProvidersPage: React.FC = () => {
                     <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-500/20 to-transparent" />
                 </div>
 
-                {/* ══════════ BILD: Rechte Hälfte (nur Desktop) ══════════ */}
-                <div className={`hidden lg:block absolute top-0 bottom-0 right-0 w-1/2 z-[1] transition-opacity duration-[1500ms] delay-200 ${heroInView ? 'opacity-100' : 'opacity-0'}`}>
-                    {/* Gradient-Overlays */}
-                    <div className="absolute inset-0 z-20 bg-gradient-to-r from-[#0a0f1a] via-[#0a0f1a]/50 to-transparent pointer-events-none" />
-                    <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#0a0f1a]/80 via-transparent to-[#0a0f1a]/40 pointer-events-none" />
-                    
-                    {/* Dashboard Preview Image */}
-                    <img
-                        src="/assets/provider_dashboard_illustration_1766521172052.png"
-                        alt="Provider Dashboard"
-                        className="absolute inset-0 w-full h-full object-cover"
-                    />
-                </div>
-
-                {/* ══════════ MOBIL: Bild als Block ══════════ */}
-                <div className={`relative lg:hidden w-full h-[300px] sm:h-[400px] transition-opacity duration-1000 delay-200 ${heroInView ? 'opacity-100' : 'opacity-0'}`}>
-                    <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0a0f1a] via-transparent to-[#0a0f1a]/50 pointer-events-none" />
-                    <img
-                        src="/assets/provider_dashboard_illustration_1766521172052.png"
-                        alt="Provider Dashboard"
-                        className="absolute inset-0 w-full h-full object-cover"
-                    />
-                </div>
-
-                {/* ══════════ TEXT-INHALT ══════════ */}
+                {/* ══════════ TEXT + VISUAL (BOLD STATEMENT) ══════════ */}
                 <div className="relative z-10">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                        <div className="lg:min-h-[calc(100vh-80px)] lg:flex lg:items-center py-16 sm:py-20 lg:py-24">
-                            <div className={`max-w-2xl transition-all duration-[1200ms] ease-out ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        <div className="py-16 sm:py-20 lg:py-24">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+                                <div className={`lg:col-span-7 transition-all duration-[1200ms] ease-out ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                                    <div className="inline-flex items-center gap-2 bg-white/[0.06] backdrop-blur-md border border-white/[0.08] rounded-full px-4 py-2 mb-7">
+                                        <SwissFlagIcon className="w-4 h-4 flex-shrink-0" />
+                                        <span className="text-white/60 text-xs sm:text-sm font-medium">Schweizweit · 0% Provision · Provisionsfrei</span>
+                                    </div>
 
-                                {/* Schweiz-Badge */}
-                                <div className="inline-flex items-center gap-2 bg-white/[0.06] backdrop-blur-md border border-white/[0.08] rounded-full px-4 py-2 mb-7 group hover:bg-white/[0.1] transition-colors">
-                                    <SwissFlagIcon className="w-4 h-4 flex-shrink-0" />
-                                    <span className="text-white/60 text-xs sm:text-sm font-medium">Schweizweit · 0% Provision · Provisionsfrei</span>
-                                </div>
-
-                                {/* Headline */}
-                                <h1 className="text-[2.5rem] sm:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] font-black leading-[1.08] tracking-tight mb-6">
-                                    <span className="text-white">Mehr Aufträge.</span>
-                                    <br />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-300 to-teal-400 animate-text-gradient" style={{ backgroundSize: '200% auto' }}>
-                                        Weniger Leerlauf.
-                                    </span>
-                                </h1>
-
-                                {/* Beschreibung */}
-                                <p className="text-white/40 text-base sm:text-lg leading-relaxed mb-8 max-w-xl">
-                                    Fertigo verbindet Sie mit hochwertigen Anfragen aus Ihrer Region. 
-                                    <span className="text-white/70 font-medium"> Sie wählen Leads gezielt aus</span> — ohne Abo, ohne Provision.
-                                </p>
-
-                                {/* CTA Buttons */}
-                                <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                                    <Link
-                                        to="/register"
-                                        className="group inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-bold px-8 py-4 rounded-2xl text-base sm:text-lg shadow-lg shadow-green-500/20 hover:shadow-xl hover:shadow-green-500/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
-                                    >
-                                        Kostenlos starten
-                                        <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                    </Link>
-                                    <Link
-                                        to="/preise"
-                                        className="group inline-flex items-center justify-center gap-2.5 bg-white/[0.06] backdrop-blur-md border border-white/[0.08] hover:bg-white/[0.1] hover:border-white/[0.15] text-white font-bold px-8 py-4 rounded-2xl text-base sm:text-lg transition-all duration-300"
-                                    >
-                                        Preise ansehen
-                                    </Link>
-                                </div>
-
-                                {/* Stats Cards */}
-                                <div className="grid grid-cols-3 gap-4 mb-8">
-                                    {[
-                                        { label: 'Setup', value: '5 Min', icon: '⚡' },
-                                        { label: 'Provision', value: '0%', icon: '💰' },
-                                        { label: 'Modell', value: 'Pay/Lead', icon: '🎯' }
-                                    ].map((stat, i) => (
-                                        <div key={i} className="group bg-white/[0.04] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.08] hover:border-white/[0.12] rounded-2xl p-4 transition-all duration-300">
-                                            <div className="text-2xl mb-2">{stat.icon}</div>
-                                            <div className="text-xs text-white/40 font-medium uppercase tracking-wider mb-1">{stat.label}</div>
-                                            <div className="text-xl font-black text-white">{stat.value}</div>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {/* Trust-Zeile */}
-                                <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                                    {[
-                                        { icon: '✓', text: 'Keine Einrichtungskosten' },
-                                        { icon: '✓', text: 'Keine versteckten Gebühren' },
-                                        { icon: '✓', text: 'Sofort startklar' },
-                                    ].map((item, i) => (
-                                        <span key={i} className="flex items-center gap-1.5 text-xs sm:text-sm text-white/30">
-                                            <span className="w-4 h-4 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 text-[10px] font-bold">{item.icon}</span>
-                                            {item.text}
+                                    <h1 className="text-[2.8rem] sm:text-6xl lg:text-[4.25rem] xl:text-[4.75rem] font-black leading-[0.98] tracking-tight">
+                                        <span className="text-white">Stoppen Sie</span>
+                                        <br />
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-300 to-teal-400">
+                                            Leerlauf.
                                         </span>
-                                    ))}
+                                        <br />
+                                        <span className="text-white">Starten Sie</span>
+                                        <br />
+                                        <span className="text-white">Umsatz.</span>
+                                    </h1>
+
+                                    <p className="mt-7 text-white/45 text-base sm:text-lg leading-relaxed max-w-2xl">
+                                        Fertigo liefert Ihnen planbare, regionale Anfragen. Sie wählen gezielt aus —
+                                        <span className="text-white/75 font-medium"> ohne Abo und ohne Provision</span>.
+                                    </p>
+
+                                    <div className="mt-10 flex flex-col sm:flex-row gap-4">
+                                        <Link
+                                            to="/register"
+                                            className="group inline-flex items-center justify-center gap-2.5 bg-white text-slate-950 font-black px-8 py-4 rounded-2xl text-base sm:text-lg shadow-xl shadow-black/20 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
+                                        >
+                                            Kostenlos starten
+                                            <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                        </Link>
+                                        <Link
+                                            to="/preise"
+                                            className="group inline-flex items-center justify-center gap-2.5 bg-transparent border border-white/20 hover:border-white/35 text-white font-bold px-8 py-4 rounded-2xl text-base sm:text-lg transition-all duration-300"
+                                        >
+                                            Preise ansehen
+                                        </Link>
+                                    </div>
+
+                                    <div className="mt-12 grid grid-cols-3 gap-3 max-w-2xl">
+                                        <div className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-4">
+                                            <div className="text-xs font-semibold text-white/45">Setup</div>
+                                            <div className="mt-1 text-2xl font-black text-white">5 Min</div>
+                                        </div>
+                                        <div className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-4">
+                                            <div className="text-xs font-semibold text-white/45">Provision</div>
+                                            <div className="mt-1 text-2xl font-black text-white">0%</div>
+                                        </div>
+                                        <div className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-4">
+                                            <div className="text-xs font-semibold text-white/45">Modell</div>
+                                            <div className="mt-1 text-2xl font-black text-white">Pay/Lead</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className={`lg:col-span-5 transition-all duration-[1500ms] delay-150 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                                    <div className="relative">
+                                        <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-green-500/20 via-white/5 to-teal-400/20 blur-2xl" />
+                                        <div className="relative rounded-[2.5rem] border border-white/[0.10] bg-white/[0.04] backdrop-blur-md overflow-hidden shadow-2xl">
+                                            <div className="absolute -right-24 -top-24 h-72 w-72 bg-gradient-to-br from-green-400 to-teal-400 rotate-12" />
+                                            <div className="absolute -left-24 bottom-0 h-72 w-72 bg-gradient-to-br from-emerald-400 to-green-400 -rotate-12 opacity-40" />
+                                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0f1a]/30 to-[#0a0f1a]/80" />
+
+                                            <div className="relative p-7 sm:p-8">
+                                                <div className="text-xs font-semibold text-white/55">Proof</div>
+                                                <div className="mt-2 text-4xl sm:text-5xl font-black text-white leading-none">
+                                                    1.200+
+                                                </div>
+                                                <div className="mt-2 text-sm text-white/55">Leads pro Monat (CH-weit)</div>
+
+                                                <div className="mt-8 grid grid-cols-2 gap-3">
+                                                    <div className="rounded-2xl bg-black/25 border border-white/[0.10] backdrop-blur p-4">
+                                                        <div className="text-xs font-semibold text-white/55">Ø Abschluss</div>
+                                                        <div className="mt-1 text-lg font-black text-white">schnell</div>
+                                                    </div>
+                                                    <div className="rounded-2xl bg-black/25 border border-white/[0.10] backdrop-blur p-4">
+                                                        <div className="text-xs font-semibold text-white/55">Bewertung</div>
+                                                        <div className="mt-1 text-lg font-black text-white">4.9★</div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="mt-8 rounded-[1.75rem] overflow-hidden border border-white/[0.10]">
+                                                    <img
+                                                        src="/assets/provider_dashboard_illustration_1766521172052.png"
+                                                        alt="Provider Dashboard"
+                                                        className="w-full h-[260px] sm:h-[300px] object-cover"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
