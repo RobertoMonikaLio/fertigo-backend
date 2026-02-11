@@ -17,7 +17,7 @@ const ProvidersPage: React.FC = () => {
         <div className="mx-auto overflow-hidden">
 
             {/* ══════════ HERO ══════════ */}
-            <section ref={heroRef} className="relative overflow-hidden bg-slate-950 min-h-[90vh] flex items-center">
+            <section ref={heroRef} className="relative overflow-hidden bg-green-50 min-h-[90vh] flex items-center">
                 {/* Background layers */}
                 <div className="absolute inset-0">
                     <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_70%_50%,rgba(34,197,94,0.12),transparent)]" />
@@ -33,14 +33,14 @@ const ProvidersPage: React.FC = () => {
                         {/* Left - Content (5 cols) */}
                         <div className={`lg:col-span-5 transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
 
-                            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-black text-white leading-[1.06] tracking-tight mb-6">
+                            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-black text-slate-900 leading-[1.06] tracking-tight mb-6">
                                 Ihr nächster
                                 <br />
                                 Auftrag wartet{' '}
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">bereits.</span>
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">bereits.</span>
                             </h1>
 
-                            <p className="text-slate-400 text-lg leading-relaxed mb-8 max-w-md">
+                            <p className="text-slate-600 text-lg leading-relaxed mb-8 max-w-md">
                                 Qualifizierte Kundenanfragen direkt aufs Handy. Kein Abo, keine Provision - nur echte Aufträge aus Ihrer Region.
                             </p>
 
