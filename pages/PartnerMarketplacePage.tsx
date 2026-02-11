@@ -1,9 +1,10 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { 
     TagIcon, PlusIcon, PencilIcon, TrashIcon,
-    CheckCircleIcon, PhotoIcon, MapPinIcon, MagnifyingGlassIcon, ChevronUpDownIcon,
-    UsersIcon, EyeIcon, ArrowLeftIcon, CalendarDaysIcon,
-    UserIcon, MailIcon, PhoneIcon, XMarkIcon, BriefcaseIcon
+    CheckCircleIcon, PhotoIcon, MapPinIcon, MagnifyingGlassIcon,
+    UsersIcon, EyeIcon, ArrowLeftIcon,
+    UserIcon, MailIcon, PhoneIcon, XMarkIcon, BriefcaseIcon,
+    SparklesIcon
 } from '../components/icons';
 import MarketplaceListingForm from '../components/MarketplaceListingForm';
 
@@ -38,11 +39,11 @@ const mockListings: MarketplaceListing[] = [
     { id: 103, name: 'Maler-Abdeckset Profi', type: 'Miet-Inserat', images: [], category: 'Werkzeuge & Geräte', location: '8004 Zürich', price: 'CHF 25 / Tag', status: 'Entwurf', views: 0, inquiries: 0, createdAt: '22.07.2024', description: 'Alles was man zum Abdecken braucht.', contact: { person: 'Markus Müller', email: 'verkauf@mueller-bau.ch', phone: '079 123 45 67' } },
 ];
 
-const statusConfig: { [key in ListingStatus]: { color: string, title: string, dotColor: string, bgColor: string } } = {
-    'Entwurf': { color: 'text-amber-800', title: 'Entwurf', dotColor: 'bg-amber-500', bgColor: 'bg-amber-100' },
-    'Aktiv': { color: 'text-emerald-800', title: 'Aktiv', dotColor: 'bg-emerald-500', bgColor: 'bg-emerald-100' },
-    'In Verhandlung': { color: 'text-blue-800', title: 'In Verhandlung', dotColor: 'bg-blue-500', bgColor: 'bg-blue-100' },
-    'Verkauft/Vermietet': { color: 'text-slate-700', title: 'Archiviert', dotColor: 'bg-slate-400', bgColor: 'bg-slate-100' },
+const statusConfig: { [key in ListingStatus]: { color: string, title: string, dotColor: string, bgColor: string, borderColor: string } } = {
+    'Entwurf': { color: 'text-amber-700', title: 'Entwurf', dotColor: 'bg-amber-500', bgColor: 'bg-amber-50', borderColor: 'border-amber-200' },
+    'Aktiv': { color: 'text-emerald-700', title: 'Aktiv', dotColor: 'bg-emerald-500', bgColor: 'bg-emerald-50', borderColor: 'border-emerald-200' },
+    'In Verhandlung': { color: 'text-blue-700', title: 'In Verhandlung', dotColor: 'bg-blue-500', bgColor: 'bg-blue-50', borderColor: 'border-blue-200' },
+    'Verkauft/Vermietet': { color: 'text-slate-600', title: 'Archiviert', dotColor: 'bg-slate-400', bgColor: 'bg-slate-50', borderColor: 'border-slate-200' },
 };
 
 const ListingDetailModal: React.FC<{
@@ -60,114 +61,106 @@ const ListingDetailModal: React.FC<{
     }, [onClose]);
 
     return (
-        <div className="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in" onClick={onClose}>
-            <div className="bg-white w-full max-w-4xl max-h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
-                <div className="relative h-64 bg-slate-100">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in" onClick={onClose}>
+            <div className="bg-white w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
+                {/* Header with Image */}
+                <div className="relative h-56 bg-gradient-to-br from-slate-100 to-slate-200">
                     {item.images[0] ? (
                         <img src={item.images[0]} alt={item.name} className="w-full h-full object-cover" />
                     ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-                            <PhotoIcon className="w-20 h-20 text-slate-300" />
+                        <div className="w-full h-full flex items-center justify-center">
+                            <PhotoIcon className="w-16 h-16 text-slate-300" />
                         </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                    <button onClick={onClose} className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 p-2.5 rounded-xl transition-all" aria-label="Schliessen">
-                        <XMarkIcon className="w-6 h-6" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    <button onClick={onClose} className="absolute top-4 right-4 bg-white/90 hover:bg-white text-slate-700 p-2 rounded-full transition-all shadow-lg" aria-label="Schliessen">
+                        <XMarkIcon className="w-5 h-5" />
                     </button>
-                    <div className="absolute bottom-4 left-6 right-6">
-                        <div className="flex items-center gap-3 mb-2">
-                            <span className={`px-3 py-1.5 text-xs uppercase font-black tracking-wider rounded-lg ${item.type === 'Miet-Inserat' ? 'bg-blue-600 text-white' : 'bg-emerald-600 text-white'}`}>
+                    <div className="absolute bottom-4 left-5 right-5">
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className={`px-2.5 py-1 text-xs font-bold rounded-full ${item.type === 'Miet-Inserat' ? 'bg-blue-500 text-white' : 'bg-emerald-500 text-white'}`}>
                                 {item.type === 'Miet-Inserat' ? 'Mieten' : 'Kaufen'}
                             </span>
-                            <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold ${statusConfig[item.status].bgColor} ${statusConfig[item.status].color}`}>
-                                <div className={`w-2 h-2 rounded-full ${statusConfig[item.status].dotColor}`}></div>
+                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold ${statusConfig[item.status].bgColor} ${statusConfig[item.status].color}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${statusConfig[item.status].dotColor}`}></span>
                                 {statusConfig[item.status].title}
                             </span>
                         </div>
-                        <h2 className="text-2xl font-black text-white">{item.name}</h2>
+                        <h2 className="text-xl font-bold text-white">{item.name}</h2>
                     </div>
                 </div>
                 
-                <div className="p-6 overflow-y-auto flex-1">
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                        <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl p-4">
-                            <p className="text-xs font-bold text-primary-600 uppercase tracking-wider mb-1">Preis</p>
-                            <p className="text-xl font-black text-primary-700">{item.price}</p>
+                {/* Content */}
+                <div className="p-5 overflow-y-auto flex-1 space-y-5">
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-4 gap-3">
+                        <div className="bg-primary-50 rounded-xl p-3 text-center">
+                            <p className="text-xs font-semibold text-primary-600 mb-0.5">Preis</p>
+                            <p className="text-sm font-bold text-primary-700">{item.price}</p>
                         </div>
-                        <div className="bg-slate-50 rounded-2xl p-4">
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Aufrufe</p>
-                            <p className="text-xl font-black text-slate-900">{item.views}</p>
+                        <div className="bg-slate-50 rounded-xl p-3 text-center">
+                            <p className="text-xs font-semibold text-slate-500 mb-0.5">Aufrufe</p>
+                            <p className="text-sm font-bold text-slate-800">{item.views}</p>
                         </div>
-                        <div className="bg-slate-50 rounded-2xl p-4">
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Anfragen</p>
-                            <p className="text-xl font-black text-slate-900">{item.inquiries}</p>
+                        <div className="bg-slate-50 rounded-xl p-3 text-center">
+                            <p className="text-xs font-semibold text-slate-500 mb-0.5">Anfragen</p>
+                            <p className="text-sm font-bold text-slate-800">{item.inquiries}</p>
                         </div>
-                        <div className="bg-slate-50 rounded-2xl p-4">
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Erstellt</p>
-                            <p className="text-xl font-black text-slate-900">{item.createdAt}</p>
+                        <div className="bg-slate-50 rounded-xl p-3 text-center">
+                            <p className="text-xs font-semibold text-slate-500 mb-0.5">Erstellt</p>
+                            <p className="text-sm font-bold text-slate-800">{item.createdAt}</p>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-3 text-sm text-slate-600 mb-6">
-                        <div className="flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-lg">
+                    {/* Location & Category */}
+                    <div className="flex items-center gap-2 flex-wrap">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-full text-sm font-medium text-slate-700">
                             <MapPinIcon className="w-4 h-4 text-slate-500" />
-                            <span className="font-semibold">{item.location}</span>
-                        </div>
-                        <div className="flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-lg">
+                            {item.location}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-full text-sm font-medium text-slate-700">
                             <BriefcaseIcon className="w-4 h-4 text-slate-500" />
-                            <span className="font-semibold">{item.category}</span>
-                        </div>
+                            {item.category}
+                        </span>
                     </div>
 
+                    {/* Description */}
                     {item.description && (
-                        <div className="mb-6">
-                            <h3 className="font-black text-slate-800 mb-3">Beschreibung</h3>
-                            <p className="text-slate-600 leading-relaxed">{item.description}</p>
+                        <div>
+                            <h3 className="font-bold text-slate-800 mb-2">Beschreibung</h3>
+                            <p className="text-slate-600 text-sm leading-relaxed">{item.description}</p>
                         </div>
                     )}
                     
+                    {/* Contact */}
                     {item.contact && (
-                        <div className="bg-slate-50 rounded-2xl p-5">
-                            <h3 className="font-black text-slate-800 mb-4">Kontaktinformationen</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200">
-                                    <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <UserIcon className="w-5 h-5 text-primary-600"/>
-                                    </div>
-                                    <div className="min-w-0">
-                                        <p className="text-xs text-slate-400 font-bold">Name</p>
-                                        <p className="font-bold text-slate-700 truncate">{item.contact.person}</p>
-                                    </div>
+                        <div className="bg-slate-50 rounded-xl p-4">
+                            <h3 className="font-bold text-slate-800 mb-3">Kontakt</h3>
+                            <div className="grid grid-cols-3 gap-2">
+                                <div className="flex items-center gap-2 p-2.5 bg-white rounded-lg">
+                                    <UserIcon className="w-4 h-4 text-primary-600"/>
+                                    <span className="text-sm font-medium text-slate-700 truncate">{item.contact.person}</span>
                                 </div>
-                                <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200">
-                                    <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <MailIcon className="w-5 h-5 text-primary-600"/>
-                                    </div>
-                                    <div className="min-w-0">
-                                        <p className="text-xs text-slate-400 font-bold">E-Mail</p>
-                                        <a href={`mailto:${item.contact.email}`} className="font-bold text-primary-600 hover:underline truncate block">{item.contact.email}</a>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200">
-                                    <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <PhoneIcon className="w-5 h-5 text-primary-600"/>
-                                    </div>
-                                    <div className="min-w-0">
-                                        <p className="text-xs text-slate-400 font-bold">Telefon</p>
-                                        <a href={`tel:${item.contact.phone}`} className="font-bold text-primary-600 hover:underline">{item.contact.phone}</a>
-                                    </div>
-                                </div>
+                                <a href={`mailto:${item.contact.email}`} className="flex items-center gap-2 p-2.5 bg-white rounded-lg hover:bg-primary-50 transition-colors">
+                                    <MailIcon className="w-4 h-4 text-primary-600"/>
+                                    <span className="text-sm font-medium text-primary-600 truncate">{item.contact.email}</span>
+                                </a>
+                                <a href={`tel:${item.contact.phone}`} className="flex items-center gap-2 p-2.5 bg-white rounded-lg hover:bg-primary-50 transition-colors">
+                                    <PhoneIcon className="w-4 h-4 text-primary-600"/>
+                                    <span className="text-sm font-medium text-primary-600">{item.contact.phone}</span>
+                                </a>
                             </div>
                         </div>
                     )}
                 </div>
                 
-                <div className="p-5 bg-slate-50 border-t border-slate-200 flex justify-between items-center">
-                    <button className="flex items-center gap-2 px-5 py-2.5 text-slate-600 hover:text-slate-800 font-bold rounded-xl hover:bg-slate-200 transition-colors">
-                        <PencilIcon className="w-5 h-5" />
+                {/* Footer */}
+                <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-between items-center">
+                    <button className="flex items-center gap-1.5 px-4 py-2 text-slate-600 hover:text-slate-800 font-semibold rounded-lg hover:bg-slate-200 transition-colors">
+                        <PencilIcon className="w-4 h-4" />
                         Bearbeiten
                     </button>
-                    <button onClick={onClose} className="bg-primary-600 text-white font-black py-3 px-8 rounded-xl hover:bg-primary-700 transition-colors shadow-lg">
+                    <button onClick={onClose} className="bg-primary-600 text-white font-bold py-2.5 px-6 rounded-lg hover:bg-primary-700 transition-colors">
                         Schliessen
                     </button>
                 </div>
@@ -186,70 +179,92 @@ const ListingCard: React.FC<{
     return (
         <article 
             onClick={onView}
-            className="group relative bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer overflow-hidden"
+            className="group relative bg-white rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-200 hover:border-primary-200"
         >
-            <div className="p-4">
-                <div className="flex items-center justify-between gap-2 mb-3">
-                    <div className="flex flex-wrap gap-1.5">
-                        <span className={`px-2 py-1 text-[10px] uppercase font-bold tracking-wider rounded-md ${item.type === 'Miet-Inserat' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'}`}>
-                            {item.type === 'Miet-Inserat' ? 'Mieten' : 'Kaufen'}
-                        </span>
-                        <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-bold ${config.bgColor} ${config.color}`}>
-                            <div className={`w-1.5 h-1.5 rounded-full ${config.dotColor}`}></div>
-                            {config.title}
-                        </span>
+            {/* Image Section */}
+            <div className="relative h-40 bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden">
+                {item.images[0] ? (
+                    <img 
+                        src={item.images[0]} 
+                        alt={item.name} 
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                    />
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                        <PhotoIcon className="w-12 h-12 text-slate-300"/>
                     </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                
+                {/* Type Badge */}
+                <div className="absolute top-3 left-3">
+                    <span className={`px-2.5 py-1 text-xs font-bold rounded-full shadow-lg ${item.type === 'Miet-Inserat' ? 'bg-blue-500 text-white' : 'bg-emerald-500 text-white'}`}>
+                        {item.type === 'Miet-Inserat' ? 'Mieten' : 'Kaufen'}
+                    </span>
+                </div>
+                
+                {/* Status Badge */}
+                <div className="absolute top-3 right-3">
+                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold shadow-lg ${config.bgColor} ${config.color} border ${config.borderColor}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${config.dotColor} ${item.status === 'Aktiv' ? 'animate-pulse' : ''}`}></span>
+                        {config.title}
+                    </span>
+                </div>
+                
+                {/* Price Tag */}
+                <div className="absolute bottom-3 right-3">
+                    <span className="bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-lg text-sm font-bold text-primary-700 shadow-lg">
+                        {item.price}
+                    </span>
+                </div>
+            </div>
+
+            {/* Content Section */}
+            <div className="p-4">
+                {/* Category */}
+                <p className="text-xs font-semibold text-primary-600 uppercase tracking-wide mb-1">{item.category}</p>
+                
+                {/* Title */}
+                <h3 className="text-base font-bold text-slate-900 group-hover:text-primary-700 transition-colors line-clamp-1 mb-2">
+                    {item.name}
+                </h3>
+                
+                {/* Location */}
+                <div className="flex items-center gap-1.5 text-sm text-slate-500 mb-3">
+                    <MapPinIcon className="w-4 h-4 flex-shrink-0"/>
+                    <span className="truncate">{item.location}</span>
                 </div>
 
-                <div className="flex gap-3 mb-3">
-                    <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0 border border-slate-200">
-                        {item.images[0] ? (
-                            <img src={item.images[0]} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                        ) : (
-                            <div className="w-full h-full flex items-center justify-center text-slate-300">
-                                <PhotoIcon className="w-6 h-6"/>
-                            </div>
-                        )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                        <p className="text-[10px] font-bold text-primary-600 uppercase tracking-wider">{item.category}</p>
-                        <h3 className="text-sm font-bold text-slate-900 group-hover:text-primary-700 transition-colors line-clamp-2 leading-snug">
-                            {item.name}
-                        </h3>
-                        <div className="flex items-center gap-1 text-xs text-slate-500 mt-1">
-                            <MapPinIcon className="w-3.5 h-3.5 flex-shrink-0"/>
-                            <span className="truncate font-medium">{item.location}</span>
+                {/* Stats Row */}
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                    <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-1 text-slate-500">
+                            <EyeIcon className="w-4 h-4" />
+                            <span className="text-sm font-medium">{item.views}</span>
+                        </div>
+                        <div className="flex items-center gap-1 text-slate-500">
+                            <UsersIcon className="w-4 h-4" />
+                            <span className="text-sm font-medium">{item.inquiries}</span>
                         </div>
                     </div>
-                </div>
-
-                <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
-                    <div className="font-bold text-primary-600">{item.price}</div>
-                    <div className="flex items-center gap-2 ml-auto">
-                        <span className="flex items-center gap-1 text-slate-600 font-medium">
-                            <EyeIcon className="w-3.5 h-3.5 text-slate-400" />{item.views}
-                        </span>
-                        <span className="flex items-center gap-1 text-slate-600 font-medium">
-                            <UsersIcon className="w-3.5 h-3.5 text-slate-400" />{item.inquiries}
-                        </span>
+                    
+                    {/* Actions */}
+                    <div className="flex items-center gap-1" onClick={e => e.stopPropagation()}>
+                        <button 
+                            onClick={onView}
+                            className="p-2 text-primary-600 hover:bg-primary-50 rounded-lg transition-colors" 
+                            title="Details"
+                        >
+                            <EyeIcon className="w-4 h-4"/>
+                        </button>
+                        <button 
+                            onClick={onDelete}
+                            className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" 
+                            title="Löschen"
+                        >
+                            <TrashIcon className="w-4 h-4"/>
+                        </button>
                     </div>
-                </div>
-
-                <div className="flex items-center gap-2" onClick={e => e.stopPropagation()}>
-                    <button 
-                        onClick={onView}
-                        className="flex-1 py-2 rounded-xl font-bold text-xs bg-primary-600 text-white hover:bg-primary-700 shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
-                    >
-                        <EyeIcon className="w-4 h-4"/>
-                        Details
-                    </button>
-                    <button 
-                        onClick={onDelete}
-                        className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors border border-slate-200 hover:border-red-200" 
-                        title="Löschen"
-                    >
-                        <TrashIcon className="w-4 h-4"/>
-                    </button>
                 </div>
             </div>
         </article>
@@ -324,7 +339,7 @@ const PartnerMarketplacePage: React.FC = () => {
             <div className="animate-fade-in max-w-4xl mx-auto">
                  <button 
                     onClick={() => setIsCreatingListing(false)} 
-                    className="mb-6 flex items-center gap-2 text-slate-500 hover:text-slate-800 font-bold transition-colors group"
+                    className="mb-6 flex items-center gap-2 text-slate-500 hover:text-slate-800 font-semibold transition-colors group"
                 >
                     <ArrowLeftIcon className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> Zurück zur Übersicht
                 </button>
@@ -334,139 +349,167 @@ const PartnerMarketplacePage: React.FC = () => {
     }
 
     return (
-        <div className="max-w-7xl mx-auto">
+        <div className="space-y-6">
             {viewingItem && <ListingDetailModal item={viewingItem} onClose={() => setViewingItem(null)} />}
             
+            {/* Success Toast */}
             {showSuccess && (
-                <div className="mb-6 bg-emerald-50 border-2 border-emerald-200 text-emerald-800 px-6 py-4 rounded-2xl flex items-center gap-3 animate-fade-in shadow-lg" role="alert">
-                    <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <CheckCircleIcon className="w-6 h-6 text-emerald-600" />
-                    </div>
-                    <p className="font-bold">{showSuccess}</p>
+                <div className="fixed bottom-6 right-6 bg-emerald-500 text-white px-5 py-3 rounded-xl flex items-center gap-3 animate-fade-in shadow-xl z-50" role="alert">
+                    <CheckCircleIcon className="w-5 h-5" />
+                    <p className="font-semibold">{showSuccess}</p>
                 </div>
             )}
 
-            {/* Modern Filter Section */}
-            <div className="mb-8 space-y-4">
-                {/* Main Search Bar */}
-                <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <MagnifyingGlassIcon className="w-5 h-5 text-slate-400" />
-                    </div>
-                    <input 
-                        type="search" 
-                        placeholder="Inserate durchsuchen..."
-                        value={searchTerm} 
-                        onChange={e => setSearchTerm(e.target.value)} 
-                        className="w-full h-12 pl-12 pr-4 rounded-full border border-slate-200 bg-white font-medium text-slate-700 placeholder:text-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-all shadow-sm"
-                    />
+            {/* Hero Stats Section */}
+            <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-6 text-white relative overflow-hidden">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500 rounded-full blur-3xl"></div>
+                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500 rounded-full blur-3xl"></div>
                 </div>
-
-                {/* Filter Pills Row */}
-                <div className="flex flex-wrap items-center gap-2">
-                    {/* Type Filter */}
-                    <div className="relative">
-                        <TagIcon className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                        <select 
-                            value={typeFilter} 
-                            onChange={e => setTypeFilter(e.target.value)} 
-                            className="h-10 pl-9 pr-8 rounded-full bg-white border border-slate-200 hover:border-slate-300 text-sm font-medium text-slate-700 outline-none appearance-none cursor-pointer transition-all shadow-sm"
+                
+                <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    {/* Left: Title & CTA */}
+                    <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                            <SparklesIcon className="w-5 h-5 text-primary-400" />
+                            <span className="text-sm font-semibold text-primary-400 uppercase tracking-wide">Lead-Marktplatz</span>
+                        </div>
+                        <h1 className="text-2xl lg:text-3xl font-bold mb-2">Ihre Inserate</h1>
+                        <p className="text-slate-400 text-sm mb-4 max-w-md">
+                            Verwalten Sie Ihre Miet- und Verkaufsinserate. Erreichen Sie tausende potenzielle Kunden.
+                        </p>
+                        <button 
+                            onClick={() => setIsCreatingListing(true)} 
+                            className="inline-flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white font-bold px-5 py-2.5 rounded-lg transition-all shadow-lg shadow-primary-500/30"
                         >
-                            <option value="Alle">Alle Typen</option>
-                            <option value="Miet-Inserat">Miet-Inserate</option>
-                            <option value="Verkaufs-Inserat">Verkaufs-Inserate</option>
-                        </select>
-                        <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            <PlusIcon className="w-5 h-5" />
+                            Neues Inserat erstellen
+                        </button>
                     </div>
                     
-                    {/* Status Filter */}
-                    <div className="relative">
+                    {/* Right: Stats Grid */}
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/10">
+                            <div className="w-10 h-10 bg-primary-500/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                <TagIcon className="w-5 h-5 text-primary-400" />
+                            </div>
+                            <p className="text-2xl font-bold">{stats.total}</p>
+                            <p className="text-xs text-slate-400">Inserate</p>
+                        </div>
+                        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/10">
+                            <div className="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                <CheckCircleIcon className="w-5 h-5 text-emerald-400" />
+                            </div>
+                            <p className="text-2xl font-bold">{stats.active}</p>
+                            <p className="text-xs text-slate-400">Aktiv</p>
+                        </div>
+                        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/10">
+                            <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                <EyeIcon className="w-5 h-5 text-blue-400" />
+                            </div>
+                            <p className="text-2xl font-bold">{stats.views.toLocaleString()}</p>
+                            <p className="text-xs text-slate-400">Aufrufe</p>
+                        </div>
+                        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/10">
+                            <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                <UsersIcon className="w-5 h-5 text-orange-400" />
+                            </div>
+                            <p className="text-2xl font-bold">{stats.inquiries}</p>
+                            <p className="text-xs text-slate-400">Anfragen</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Filter Section */}
+            <div className="bg-white rounded-xl border border-slate-200 p-4">
+                <div className="flex flex-col sm:flex-row gap-3">
+                    {/* Search */}
+                    <div className="relative flex-1">
+                        <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                        <input 
+                            type="search" 
+                            placeholder="Inserate suchen..."
+                            value={searchTerm} 
+                            onChange={e => setSearchTerm(e.target.value)} 
+                            className="w-full h-11 pl-10 pr-4 rounded-lg border border-slate-200 bg-slate-50 font-medium text-slate-700 placeholder:text-slate-400 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-100 outline-none transition-all"
+                        />
+                    </div>
+                    
+                    {/* Filters */}
+                    <div className="flex items-center gap-2">
+                        {/* Type Pills */}
+                        <div className="flex items-center bg-slate-100 rounded-lg p-1">
+                            {['Alle', 'Miet-Inserat', 'Verkaufs-Inserat'].map(type => (
+                                <button
+                                    key={type}
+                                    onClick={() => setTypeFilter(type)}
+                                    className={`px-3 py-1.5 text-sm font-semibold rounded-md transition-all ${
+                                        typeFilter === type 
+                                            ? 'bg-white text-slate-900 shadow-sm' 
+                                            : 'text-slate-500 hover:text-slate-700'
+                                    }`}
+                                >
+                                    {type === 'Alle' ? 'Alle' : type === 'Miet-Inserat' ? 'Mieten' : 'Kaufen'}
+                                </button>
+                            ))}
+                        </div>
+                        
+                        {/* Status Dropdown */}
                         <select 
                             value={statusFilter} 
                             onChange={e => setStatusFilter(e.target.value)} 
-                            className="h-10 pl-4 pr-8 rounded-full bg-white border border-slate-200 hover:border-slate-300 text-sm font-medium text-slate-700 outline-none appearance-none cursor-pointer transition-all shadow-sm"
+                            className="h-11 px-4 rounded-lg bg-slate-50 border border-slate-200 text-sm font-semibold text-slate-700 outline-none cursor-pointer hover:border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 transition-all"
                         >
                             <option value="Alle">Alle Status</option>
-                            {Object.entries(statusConfig).map(([key, {title}]) => <option key={key} value={key}>{title}</option>)}
+                            {Object.entries(statusConfig).map(([key, {title}]) => (
+                                <option key={key} value={key}>{title}</option>
+                            ))}
                         </select>
-                        <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                    </div>
-
-                    {/* Create Button */}
-                    <button 
-                        onClick={() => setIsCreatingListing(true)} 
-                        className="ml-auto h-10 px-5 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-full transition-all shadow-sm flex items-center gap-2"
-                    >
-                        <PlusIcon className="w-4 h-4" />
-                        Neues Inserat
-                    </button>
-                </div>
-            </div>
-
-            {/* Results Header */}
-            <div className="mb-6">
-                <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        {/* Left: Count & Info */}
-                        <div className="flex items-center gap-4">
-                            <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl shadow-lg shadow-primary-500/30">
-                                <span className="text-2xl font-black text-white">{filteredListings.length}</span>
-                            </div>
-                            <div>
-                                <h2 className="text-xl font-bold text-slate-900">
-                                    {filteredListings.length === 1 ? 'Inserat gefunden' : 'Inserate gefunden'}
-                                </h2>
-                                <p className="text-sm text-slate-500">
-                                    Ihre aktiven Angebote
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Right: Stats Pills */}
-                        <div className="flex items-center gap-2 flex-wrap">
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full">
-                                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                                <span className="text-sm font-semibold text-green-700">{stats.active} Aktiv</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-full">
-                                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                                <span className="text-sm font-semibold text-blue-700">{stats.views.toLocaleString()} Aufrufe</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-50 rounded-full">
-                                <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
-                                <span className="text-sm font-semibold text-orange-700">{stats.inquiries} Anfragen</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
 
+            {/* Results */}
             {filteredListings.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {filteredListings.map(item => (
-                        <ListingCard 
-                            key={item.id}
-                            item={item}
-                            onView={() => setViewingItem(item)}
-                            onDelete={(e) => handleDelete(item.id, e)}
-                        />
-                    ))}
-                </div>
+                <>
+                    <div className="flex items-center justify-between">
+                        <p className="text-sm text-slate-500">
+                            <span className="font-bold text-slate-700">{filteredListings.length}</span> {filteredListings.length === 1 ? 'Inserat' : 'Inserate'} gefunden
+                        </p>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                        {filteredListings.map(item => (
+                            <ListingCard 
+                                key={item.id}
+                                item={item}
+                                onView={() => setViewingItem(item)}
+                                onDelete={(e) => handleDelete(item.id, e)}
+                            />
+                        ))}
+                    </div>
+                </>
             ) : (
-                <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-slate-300">
-                    <MagnifyingGlassIcon className="w-16 h-16 mx-auto text-slate-400 mb-4" />
-                    <h3 className="text-xl font-black text-slate-700 mb-2">Keine Inserate gefunden</h3>
-                    <p className="text-sm text-slate-500 font-semibold mb-6">Passen Sie Ihre Filter an oder erstellen Sie ein neues Inserat.</p>
+                <div className="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-slate-200">
+                    <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <MagnifyingGlassIcon className="w-8 h-8 text-slate-400" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-700 mb-2">Keine Inserate gefunden</h3>
+                    <p className="text-sm text-slate-500 mb-6 max-w-sm mx-auto">
+                        Passen Sie Ihre Filter an oder erstellen Sie Ihr erstes Inserat.
+                    </p>
                     <div className="flex justify-center gap-3">
                         <button 
                             onClick={() => {setSearchTerm(''); setStatusFilter('Alle'); setTypeFilter('Alle');}} 
-                            className="px-6 py-3 text-slate-600 font-bold hover:bg-slate-100 rounded-xl transition-colors border-2 border-slate-200"
+                            className="px-5 py-2.5 text-slate-600 font-semibold hover:bg-slate-100 rounded-lg transition-colors border border-slate-200"
                         >
                             Filter zurücksetzen
                         </button>
                         <button 
                             onClick={() => setIsCreatingListing(true)}
-                            className="px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-700 text-white font-bold rounded-xl hover:from-primary-700 hover:to-primary-800 transition-colors shadow-lg"
+                            className="px-5 py-2.5 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors shadow-lg shadow-primary-500/20"
                         >
                             Neues Inserat
                         </button>
