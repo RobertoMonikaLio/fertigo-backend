@@ -16,91 +16,198 @@ const ProvidersPage: React.FC = () => {
     return (
         <div className="mx-auto overflow-hidden">
 
-            {/* ══════════ HERO ══════════ */}
-            <section ref={heroRef} className="relative overflow-hidden bg-gradient-to-br from-green-600 via-emerald-600 to-teal-700">
-                {/* Dekorative Elemente */}
-                <div className="absolute inset-0 pointer-events-none select-none">
-                    <div className="absolute top-[-30%] right-[-10%] w-[800px] h-[800px] bg-white/[0.05] rounded-full blur-[100px]" />
-                    <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-green-900/30 rounded-full blur-[120px]" />
-                    <div className="absolute inset-0 opacity-[0.04]" style={{
-                        backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-                        backgroundSize: '28px 28px',
+            {/* ══════════ HERO - SPLIT SCREEN DESIGN ══════════ */}
+            <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden">
+                {/* Linke Seite - Dunkel */}
+                <div className="absolute inset-0 lg:w-1/2 bg-slate-900">
+                    <div className="absolute inset-0 opacity-20" style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2322c55e' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
                     }} />
                 </div>
+                
+                {/* Rechte Seite - Grün */}
+                <div className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 bg-gradient-to-br from-green-500 via-emerald-500 to-teal-600">
+                    <div className="absolute inset-0 opacity-30">
+                        <div className="absolute top-20 right-20 w-72 h-72 bg-white/20 rounded-full blur-3xl" />
+                        <div className="absolute bottom-20 left-20 w-96 h-96 bg-green-300/20 rounded-full blur-3xl" />
+                    </div>
+                </div>
 
+                {/* Content */}
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                    <div className="py-20 sm:py-28 lg:py-32">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                            {/* Text */}
-                            <div className={`transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                                <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8">
-                                    <SwissFlagIcon className="w-4 h-4" />
-                                    <span className="text-white/80 text-sm font-semibold">Für Schweizer Handwerker</span>
-                                </div>
-
-                                <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-[1.05] mb-6">
-                                    Mehr Aufträge.
-                                    <br />
-                                    <span className="text-green-200">Weniger Aufwand.</span>
-                                </h1>
-
-                                <p className="text-white/70 text-lg sm:text-xl leading-relaxed max-w-lg mb-10">
-                                    Fertigo bringt Ihnen qualifizierte Kundenanfragen direkt aufs Handy.
-                                    <span className="text-white font-semibold"> Ohne Abo. Ohne Provision.</span>
-                                </p>
-
-                                <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                                    <Link
-                                        to="/register"
-                                        className="group inline-flex items-center justify-center gap-2 bg-white text-green-700 font-black px-8 py-4 rounded-xl text-lg shadow-xl shadow-black/10 hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300"
-                                    >
-                                        Kostenlos starten
-                                        <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                    </Link>
-                                    <Link
-                                        to="/preise"
-                                        className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold px-8 py-4 rounded-xl text-lg hover:bg-white/20 transition-all duration-300"
-                                    >
-                                        Preise ansehen
-                                    </Link>
-                                </div>
-
-                                {/* Mini Stats */}
-                                <div className="flex items-center gap-6 sm:gap-8">
-                                    {[
-                                        { val: '5 Min', label: 'Setup' },
-                                        { val: '0%', label: 'Provision' },
-                                        { val: '1200+', label: 'Leads/Mt.' },
-                                    ].map((s, i) => (
-                                        <div key={i} className="text-center sm:text-left">
-                                            <div className="text-2xl sm:text-3xl font-black text-white">{s.val}</div>
-                                            <div className="text-white/50 text-xs font-medium">{s.label}</div>
-                                        </div>
-                                    ))}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-0 items-center min-h-screen py-24 lg:py-0">
+                        
+                        {/* Linke Spalte - Text */}
+                        <div className={`lg:pr-16 xl:pr-24 transition-all duration-1000 ${heroInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+                            {/* Badge */}
+                            <div className="inline-flex items-center gap-3 mb-8">
+                                <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2">
+                                    <span className="relative flex h-2.5 w-2.5">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+                                    </span>
+                                    <span className="text-green-400 text-sm font-bold">Live — 47 neue Leads</span>
                                 </div>
                             </div>
 
-                            {/* Bild */}
-                            <div className={`transition-all duration-1200 delay-200 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                                <div className="relative">
-                                    <div className="absolute -inset-4 bg-white/10 rounded-3xl blur-2xl" />
-                                    <img
-                                        src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_odao5jodao5jodao-removebg-preview-1769627881340.png?width=8000&height=8000&resize=contain"
-                                        alt="Fertigo Maskottchen"
-                                        className="relative w-full max-w-md mx-auto lg:max-w-none drop-shadow-2xl"
-                                    />
+                            {/* Headline */}
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-[1.05] mb-6">
+                                Der schnellste
+                                <br />
+                                Weg zu{' '}
+                                <span className="relative inline-block">
+                                    <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">Aufträgen</span>
+                                    <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
+                                        <path d="M2 8C50 2 150 2 198 8" stroke="url(#underline-gradient)" strokeWidth="4" strokeLinecap="round" />
+                                        <defs>
+                                            <linearGradient id="underline-gradient" x1="0" y1="0" x2="200" y2="0">
+                                                <stop stopColor="#22c55e" />
+                                                <stop offset="1" stopColor="#10b981" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
+                            </h1>
+
+                            <p className="text-white/50 text-lg sm:text-xl leading-relaxed max-w-md mb-10">
+                                Qualifizierte Kundenanfragen aus Ihrer Region. 
+                                <span className="text-white font-semibold"> Ohne Abo. Ohne Provision. 100% Ihr Gewinn.</span>
+                            </p>
+
+                            {/* CTA Buttons */}
+                            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                                <Link
+                                    to="/register"
+                                    className="group inline-flex items-center justify-center gap-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-black px-8 py-4 rounded-2xl text-lg shadow-2xl shadow-green-500/30 hover:-translate-y-1 transition-all duration-300"
+                                >
+                                    <span>Kostenlos starten</span>
+                                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                                        <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                                    </div>
+                                </Link>
+                                <Link
+                                    to="/so-funktionierts"
+                                    className="group inline-flex items-center justify-center gap-2 text-white/70 hover:text-white font-bold px-6 py-4 rounded-2xl text-lg transition-all duration-300"
+                                >
+                                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                    </div>
+                                    <span>So funktioniert's</span>
+                                </Link>
+                            </div>
+
+                            {/* Trust Indicators */}
+                            <div className="flex items-center gap-6 pt-8 border-t border-white/10">
+                                <div className="flex -space-x-3">
+                                    {['🧑‍🔧', '👷', '🧑‍🏭', '👨‍🔬'].map((emoji, i) => (
+                                        <div key={i} className="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-900 flex items-center justify-center text-lg">
+                                            {emoji}
+                                        </div>
+                                    ))}
                                 </div>
+                                <div>
+                                    <div className="flex items-center gap-1 mb-0.5">
+                                        {[...Array(5)].map((_, i) => (
+                                            <svg key={i} className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                        ))}
+                                    </div>
+                                    <p className="text-white/40 text-sm"><span className="text-white font-bold">2'400+</span> zufriedene Handwerker</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Rechte Spalte - Bild & Cards */}
+                        <div className={`relative lg:pl-8 transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+                            {/* Floating Stats Card - Oben Links */}
+                            <div className="absolute top-8 -left-4 lg:left-0 z-20 bg-white rounded-2xl shadow-2xl p-4 animate-float">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
+                                        <span className="text-2xl">📈</span>
+                                    </div>
+                                    <div>
+                                        <div className="text-2xl font-black text-slate-900">+127%</div>
+                                        <div className="text-slate-500 text-xs">mehr Aufträge</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Floating Stats Card - Unten Rechts */}
+                            <div className="absolute bottom-16 -right-4 lg:right-8 z-20 bg-white rounded-2xl shadow-2xl p-4 animate-float-delayed">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                                        <span className="text-2xl">⚡</span>
+                                    </div>
+                                    <div>
+                                        <div className="text-2xl font-black text-slate-900">5 Min</div>
+                                        <div className="text-slate-500 text-xs">Setup-Zeit</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Floating Lead Card - Mitte Links */}
+                            <div className="absolute top-1/2 -translate-y-1/2 -left-8 lg:-left-4 z-20 bg-slate-900 rounded-2xl shadow-2xl p-4 border border-white/10 animate-float-slow hidden sm:block">
+                                <div className="flex items-center gap-3 mb-2">
+                                    <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
+                                        <span className="text-lg">🛁</span>
+                                    </div>
+                                    <div>
+                                        <div className="text-white font-bold text-sm">Neuer Lead!</div>
+                                        <div className="text-white/50 text-xs">vor 2 Min.</div>
+                                    </div>
+                                </div>
+                                <div className="text-xs text-white/60">Badezimmer Renovation</div>
+                                <div className="text-green-400 font-bold text-sm">📍 Zürich</div>
+                            </div>
+
+                            {/* Hauptbild */}
+                            <div className="relative">
+                                <div className="absolute inset-0 bg-gradient-to-t from-green-500/20 to-transparent rounded-3xl" />
+                                <img
+                                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/45c6d003-83de-48d7-81d6-f98a7eb703fd/Gemini_Generated_Image_odao5jodao5jodao-removebg-preview-1769627881340.png?width=8000&height=8000&resize=contain"
+                                    alt="Fertigo Maskottchen"
+                                    className="relative w-full max-w-lg mx-auto drop-shadow-2xl"
+                                />
+                            </div>
+
+                            {/* Bottom Stats Row */}
+                            <div className="flex justify-center gap-6 mt-8">
+                                {[
+                                    { val: '0%', label: 'Provision' },
+                                    { val: 'CHF 0.-', label: 'Monatl. Kosten' },
+                                    { val: '1200+', label: 'Leads/Monat' },
+                                ].map((s, i) => (
+                                    <div key={i} className="text-center">
+                                        <div className="text-xl sm:text-2xl font-black text-white">{s.val}</div>
+                                        <div className="text-white/60 text-xs">{s.label}</div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Wave */}
-                <div className="relative z-20 -mt-1">
-                    <svg viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none" className="w-full h-16 sm:h-20">
-                        <path d="M0 80H1440V24C1440 24 1320 0 1200 12C1080 24 960 48 720 48C480 48 360 24 240 12C120 0 0 24 0 24V80Z" fill="white" />
-                    </svg>
-                </div>
+                {/* Custom CSS for floating animation */}
+                <style>{`
+                    @keyframes float {
+                        0%, 100% { transform: translateY(0px); }
+                        50% { transform: translateY(-10px); }
+                    }
+                    @keyframes float-delayed {
+                        0%, 100% { transform: translateY(0px); }
+                        50% { transform: translateY(-8px); }
+                    }
+                    @keyframes float-slow {
+                        0%, 100% { transform: translateY(-50%); }
+                        50% { transform: translateY(calc(-50% - 12px)); }
+                    }
+                    .animate-float { animation: float 4s ease-in-out infinite; }
+                    .animate-float-delayed { animation: float-delayed 5s ease-in-out infinite 1s; }
+                    .animate-float-slow { animation: float-slow 6s ease-in-out infinite 0.5s; }
+                `}</style>
             </section>
 
             {/* ══════════ 3 SCHRITTE - KARTEN DESIGN ══════════ */}
