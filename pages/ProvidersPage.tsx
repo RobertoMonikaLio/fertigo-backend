@@ -26,32 +26,12 @@ const ProvidersPage: React.FC = () => {
                 </div>
 
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-28 lg:pt-20 pb-16 lg:pb-20">
-                    {/* Top Trust Bar */}
-                    <div className={`flex flex-wrap items-center justify-center gap-4 sm:gap-8 mb-12 lg:mb-16 transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                        {[
-                            { icon: '🇨🇭', text: 'Swiss Made' },
-                            { icon: '🔒', text: 'DSGVO-konform' },
-                            { icon: '⭐', text: '4.9/5 Bewertung' },
-                            { icon: '✅', text: '2\'400+ Betriebe' },
-                        ].map((item, i) => (
-                            <div key={i} className="flex items-center gap-2 text-slate-400 text-sm">
-                                <span>{item.icon}</span>
-                                <span className="font-medium">{item.text}</span>
-                            </div>
-                        ))}
-                    </div>
+
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-center">
 
                         {/* Left - Content (5 cols) */}
                         <div className={`lg:col-span-5 transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                            <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-1.5 mb-6">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
-                                </span>
-                                <span className="text-green-400 text-sm font-semibold">47 neue Leads heute</span>
-                            </div>
 
                             <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-black text-white leading-[1.06] tracking-tight mb-6">
                                 Ihr nächster
@@ -72,13 +52,6 @@ const ProvidersPage: React.FC = () => {
                                 >
                                     Kostenlos registrieren
                                     <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                                </Link>
-                                <Link
-                                    to="/so-funktionierts"
-                                    className="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white font-semibold px-6 py-4 rounded-2xl border border-slate-700 hover:border-slate-500 bg-slate-900/50 hover:bg-slate-800/50 transition-all duration-300"
-                                >
-                                    <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                                    So funktioniert's
                                 </Link>
                             </div>
 
