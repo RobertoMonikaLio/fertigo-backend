@@ -275,7 +275,6 @@ export default function QuoteRequestModal({ isOpen, onClose, initialData = {} }:
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isSuccess, setIsSuccess] = useState(false);
     const [verificationCode, setVerificationCode] = useState('');
-    const [generatedCode, setGeneratedCode] = useState('');
     const [verificationError, setVerificationError] = useState('');
     const [isResending, setIsResending] = useState(false);
     const [resendCooldown, setResendCooldown] = useState(0);
@@ -450,32 +449,53 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
         setFormData(prev => ({ ...prev, files: prev.files.filter(file => file !== fileToRemove) }));
     };
 
-    const generateVerificationCode = () => {
-        const code = Math.floor(100000 + Math.random() * 900000).toString();
-        setGeneratedCode(code);
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+
+    const sendVerificationEmail = async () => {
         setVerificationCode('');
         setVerificationError('');
-        console.log("Verification code sent to", formData.email, ":", code); // In production, send via email
-        return code;
+        try {
+            const res = await fetch(`${API_URL}/api/email/send-verification`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: formData.email }),
+            });
+            if (!res.ok) {
+                const data = await res.json();
+                setVerificationError(data.message || 'Fehler beim Senden des Codes.');
+            }
+        } catch {
+            setVerificationError('Verbindungsfehler. Bitte versuchen Sie es erneut.');
+        }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validate(1)) { setStep(1); return; }
         if (!validate(2)) { setStep(2); return; }
         if (!validate(3)) { setStep(3); return; }
 
-        // Generate verification code and go to verification step
-        generateVerificationCode();
+        // Send verification code via email and go to verification step
         setStep(5);
         setResendCooldown(60);
+        await sendVerificationEmail();
     };
 
-    const handleVerifyCode = () => {
-        if (verificationCode === generatedCode) {
-            console.log("Submitting form data:", formData);
-            
-            // Create the new lead for the Partner Dashboard
+    const handleVerifyCode = async () => {
+        try {
+            const res = await fetch(`${API_URL}/api/email/verify-code`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: formData.email, code: verificationCode }),
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+                setVerificationError(data.message || 'Der eingegebene Code ist ungültig.');
+                return;
+            }
+
+            // Code verified - create lead
             const today = new Date();
             const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
             const formattedDate = `${today.getDate()}. ${monthNames[today.getMonth()]} ${today.getFullYear()}`;
@@ -485,7 +505,6 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 ? `${formData.moveFromZip} ${formData.moveFromCity}` 
                 : `${formData.locationZip} ${formData.locationCity}`;
             
-            // Build details array
             const details: { label: string; value: string }[] = [
                 { label: 'Zeitrahmen', value: formData.timeline },
             ];
@@ -503,7 +522,6 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
             
             if (formData.onSiteVisit) details.push({ label: 'Besichtigung', value: formData.onSiteVisit });
             
-            // Add dynamic question answers to details
             dynamicQuestions.forEach(q => {
                 if (formData.dynamicAnswers[q.key]) {
                     details.push({ label: q.question, value: String(formData.dynamicAnswers[q.key]) });
@@ -521,7 +539,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 location: location,
                 date: formattedDate,
                 status: 'Neu' as const,
-                price: 15.00, // Default lead price
+                price: 15.00,
                 details: details,
                 description: formData.projectDescription || 'Keine Beschreibung angegeben.',
                 files: formData.files.map(f => ({ name: f.name, url: '#' })),
@@ -533,29 +551,26 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                     mobile: formData.showMobileToProviders ? (formData.mobile || null) : null,
                 },
                 onSiteVisit: formData.onSiteVisit || undefined,
-                qualityScore: Math.floor(Math.random() * 30) + 70, // Random score 70-100
+                qualityScore: Math.floor(Math.random() * 30) + 70,
             };
             
-            // Add the new request to the Lead Marketplace
             const newId = addNewRequest(newRequest);
             console.log("New lead created with ID:", newId);
             
             setStep(6);
             setIsSuccess(true);
             setTimeout(handleClose, 5000);
-        } else {
-            setVerificationError('Der eingegebene Code ist ungültig. Bitte versuchen Sie es erneut.');
+        } catch {
+            setVerificationError('Verbindungsfehler. Bitte versuchen Sie es erneut.');
         }
     };
 
-    const handleResendCode = () => {
+    const handleResendCode = async () => {
         if (resendCooldown > 0) return;
         setIsResending(true);
-        setTimeout(() => {
-            generateVerificationCode();
-            setIsResending(false);
-            setResendCooldown(60);
-        }, 1000);
+        await sendVerificationEmail();
+        setIsResending(false);
+        setResendCooldown(60);
     };
 
     // Countdown timer for resend cooldown
