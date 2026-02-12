@@ -17,12 +17,12 @@ const ProvidersPage: React.FC = () => {
         <div className="mx-auto overflow-hidden">
 
             {/* ══════════ HERO ══════════ */}
-            <section ref={heroRef} className="relative overflow-hidden bg-green-50 min-h-[90vh] flex items-center">
+            <section ref={heroRef} className="relative overflow-hidden bg-slate-950 min-h-[90vh] flex items-center">
                 {/* Background layers */}
                 <div className="absolute inset-0">
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_70%_50%,rgba(34,197,94,0.12),transparent)]" />
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_60%_at_20%_80%,rgba(16,185,129,0.06),transparent)]" />
-                    <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_70%_50%,rgba(34,197,94,0.08),transparent)]" />
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_60%_at_20%_80%,rgba(16,185,129,0.05),transparent)]" />
+                    <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
                 </div>
 
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-28 lg:pt-20 pb-16 lg:pb-20">
@@ -33,14 +33,14 @@ const ProvidersPage: React.FC = () => {
                         {/* Left - Content (5 cols) */}
                         <div className={`lg:col-span-5 transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
 
-                            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-black text-slate-900 leading-[1.06] tracking-tight mb-6">
+                            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-black text-white leading-[1.06] tracking-tight mb-6">
                                 Ihr nächster
                                 <br />
                                 Auftrag wartet{' '}
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">bereits.</span>
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">bereits.</span>
                             </h1>
 
-                            <p className="text-slate-600 text-lg leading-relaxed mb-8 max-w-md">
+                            <p className="text-slate-300 text-lg leading-relaxed mb-8 max-w-md">
                                 Qualifizierte Kundenanfragen direkt aufs Handy. Kein Abo, keine Provision - nur echte Aufträge aus Ihrer Region.
                             </p>
 
