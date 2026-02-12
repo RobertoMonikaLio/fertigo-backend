@@ -62,29 +62,29 @@ const ProvidersPage: React.FC = () => {
                         <div className={`lg:col-span-7 relative transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
 
                             {/* Dashboard Window */}
-                            <div className="relative bg-slate-900 border border-slate-700/60 rounded-2xl overflow-hidden shadow-2xl shadow-black/40">
+                            <div className="relative bg-white border border-green-200/80 rounded-2xl overflow-hidden shadow-xl shadow-green-900/10">
                                 {/* Browser Bar */}
-                                <div className="flex items-center gap-3 px-4 py-3 bg-slate-800/80 border-b border-slate-700/60">
+                                <div className="flex items-center gap-3 px-4 py-3 bg-green-50/80 border-b border-green-200/60">
                                     <div className="flex gap-1.5">
-                                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                                        <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                                        <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+                                        <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                                        <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                                        <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
                                     </div>
                                     <div className="flex-1 flex justify-center">
-                                        <div className="flex items-center gap-2 bg-slate-900/80 rounded-lg px-4 py-1 text-xs text-slate-500">
-                                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                                        <div className="flex items-center gap-2 bg-white rounded-lg px-4 py-1 text-xs text-slate-400 border border-green-100">
+                                            <svg className="w-3 h-3 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                                             app.fertigo.ch/dashboard
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Dashboard Content */}
-                                <div className="p-4 sm:p-5">
+                                <div className="p-4 sm:p-5 bg-gradient-to-b from-white to-green-50/30">
                                     {/* Top Row - Greeting + Stats */}
                                     <div className="flex items-center justify-between mb-4">
                                         <div>
-                                            <div className="text-white font-bold text-sm">Willkommen, Marco</div>
-                                            <div className="text-slate-500 text-xs">Montag, 10. Februar 2026</div>
+                                            <div className="text-slate-900 font-bold text-sm">Willkommen, Marco</div>
+                                            <div className="text-slate-400 text-xs">Montag, 10. Februar 2026</div>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-bold text-xs">MK</div>
@@ -94,18 +94,18 @@ const ProvidersPage: React.FC = () => {
                                     {/* Stat Cards Row */}
                                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
                                         {[
-                                            { label: 'Neue Leads', value: '12', change: '+3 heute', icon: '📩', bg: 'from-green-500/10 to-emerald-500/10', border: 'border-green-500/20' },
-                                            { label: 'Umsatz', value: '8\'400', change: '+18%', icon: '💰', bg: 'from-amber-500/10 to-yellow-500/10', border: 'border-amber-500/20' },
-                                            { label: 'Erfolgsrate', value: '94%', change: '+2%', icon: '🎯', bg: 'from-blue-500/10 to-cyan-500/10', border: 'border-blue-500/20' },
-                                            { label: 'Bewertung', value: '4.9', change: '52 Reviews', icon: '⭐', bg: 'from-purple-500/10 to-pink-500/10', border: 'border-purple-500/20' },
+                                            { label: 'Neue Leads', value: '12', change: '+3 heute', icon: '📩', bg: 'from-green-50 to-emerald-50', border: 'border-green-200' },
+                                            { label: 'Umsatz', value: '8\'400', change: '+18%', icon: '💰', bg: 'from-amber-50 to-yellow-50', border: 'border-amber-200' },
+                                            { label: 'Erfolgsrate', value: '94%', change: '+2%', icon: '🎯', bg: 'from-blue-50 to-cyan-50', border: 'border-blue-200' },
+                                            { label: 'Bewertung', value: '4.9', change: '52 Reviews', icon: '⭐', bg: 'from-purple-50 to-pink-50', border: 'border-purple-200' },
                                         ].map((stat, i) => (
                                             <div key={i} className={`bg-gradient-to-br ${stat.bg} border ${stat.border} rounded-xl p-3`}>
                                                 <div className="flex items-center justify-between mb-2">
                                                     <span className="text-base">{stat.icon}</span>
-                                                    <span className="text-green-400 text-[10px] font-semibold">{stat.change}</span>
+                                                    <span className="text-green-600 text-[10px] font-semibold">{stat.change}</span>
                                                 </div>
-                                                <div className="text-white font-black text-lg leading-none">{stat.value}</div>
-                                                <div className="text-slate-500 text-[10px] font-medium mt-1">{stat.label}</div>
+                                                <div className="text-slate-900 font-black text-lg leading-none">{stat.value}</div>
+                                                <div className="text-slate-400 text-[10px] font-medium mt-1">{stat.label}</div>
                                             </div>
                                         ))}
                                     </div>
@@ -113,16 +113,16 @@ const ProvidersPage: React.FC = () => {
                                     {/* Two Column: Chart + Leads */}
                                     <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
                                         {/* Chart Area */}
-                                        <div className="sm:col-span-3 bg-slate-800/50 border border-slate-700/40 rounded-xl p-3">
+                                        <div className="sm:col-span-3 bg-white border border-green-100 rounded-xl p-3 shadow-sm">
                                             <div className="flex items-center justify-between mb-3">
-                                                <div className="text-slate-300 text-xs font-semibold">Umsatz-Entwicklung</div>
-                                                <div className="text-green-400 text-[10px] font-bold bg-green-500/10 px-2 py-0.5 rounded-full">+18% vs. Vormonat</div>
+                                                <div className="text-slate-700 text-xs font-semibold">Umsatz-Entwicklung</div>
+                                                <div className="text-green-600 text-[10px] font-bold bg-green-50 px-2 py-0.5 rounded-full border border-green-200">+18% vs. Vormonat</div>
                                             </div>
                                             <svg viewBox="0 0 300 80" className="w-full h-auto">
                                                 <defs>
                                                     <linearGradient id="heroChartFill" x1="0" y1="0" x2="0" y2="1">
-                                                        <stop offset="0%" stopColor="rgb(34,197,94)" stopOpacity="0.3" />
-                                                        <stop offset="100%" stopColor="rgb(34,197,94)" stopOpacity="0" />
+                                                        <stop offset="0%" stopColor="rgb(34,197,94)" stopOpacity="0.2" />
+                                                        <stop offset="100%" stopColor="rgb(34,197,94)" stopOpacity="0.02" />
                                                     </linearGradient>
                                                 </defs>
                                                 <path d="M0,65 C30,55 50,60 80,45 C110,30 130,50 160,35 C190,20 220,40 250,25 C270,18 290,12 300,8 L300,80 L0,80Z" fill="url(#heroChartFill)" />
@@ -131,18 +131,18 @@ const ProvidersPage: React.FC = () => {
                                                     <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" />
                                                 </circle>
                                                 {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((d, i) => (
-                                                    <text key={i} x={i * 50} y="78" fill="rgb(100,116,139)" fontSize="7" textAnchor="middle">{d}</text>
+                                                    <text key={i} x={i * 50} y="78" fill="rgb(148,163,184)" fontSize="7" textAnchor="middle">{d}</text>
                                                 ))}
                                             </svg>
                                         </div>
 
                                         {/* Live Leads Feed */}
-                                        <div className="sm:col-span-2 bg-slate-800/50 border border-slate-700/40 rounded-xl p-3">
+                                        <div className="sm:col-span-2 bg-white border border-green-100 rounded-xl p-3 shadow-sm">
                                             <div className="flex items-center justify-between mb-3">
-                                                <div className="text-slate-300 text-xs font-semibold">Neue Leads</div>
+                                                <div className="text-slate-700 text-xs font-semibold">Neue Leads</div>
                                                 <span className="relative flex h-2 w-2">
                                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
+                                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
                                                 </span>
                                             </div>
                                             <div className="space-y-2">
@@ -151,12 +151,12 @@ const ProvidersPage: React.FC = () => {
                                                     { name: 'Küche montieren', loc: 'Bern', val: 'CHF 2\'800', t: 'vor 8 Min' },
                                                     { name: 'Wand streichen', loc: 'Luzern', val: 'CHF 900', t: 'vor 15 Min' },
                                                 ].map((l, i) => (
-                                                    <div key={i} className="bg-slate-900/60 border border-slate-700/30 rounded-lg px-3 py-2">
+                                                    <div key={i} className="bg-green-50/60 border border-green-100 rounded-lg px-3 py-2">
                                                         <div className="flex items-center justify-between">
-                                                            <div className="text-white text-[11px] font-semibold">{l.name}</div>
-                                                            <div className="text-green-400 text-[10px] font-bold">{l.val}</div>
+                                                            <div className="text-slate-800 text-[11px] font-semibold">{l.name}</div>
+                                                            <div className="text-green-600 text-[10px] font-bold">{l.val}</div>
                                                         </div>
-                                                        <div className="text-slate-500 text-[9px] mt-0.5">{l.loc} · {l.t}</div>
+                                                        <div className="text-slate-400 text-[9px] mt-0.5">{l.loc} · {l.t}</div>
                                                     </div>
                                                 ))}
                                             </div>
@@ -166,7 +166,7 @@ const ProvidersPage: React.FC = () => {
                             </div>
 
                             {/* Floating Notification - top right */}
-                            <div className="absolute -top-3 -right-2 sm:-right-4 bg-white rounded-xl shadow-2xl px-4 py-3 z-20 animate-bounce" style={{ animationDuration: '3s' }}>
+                            <div className="absolute -top-3 -right-2 sm:-right-4 bg-white rounded-xl shadow-lg shadow-green-900/10 border border-green-200 px-4 py-3 z-20 animate-bounce" style={{ animationDuration: '3s' }}>
                                 <div className="flex items-center gap-2.5">
                                     <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center text-sm">📩</div>
                                     <div>
