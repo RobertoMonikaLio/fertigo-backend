@@ -299,20 +299,63 @@ const PartnerBillingPage: React.FC = () => {
         setIsTopUpModalOpen(true);
     };
 
-    const handleConfirmTopUp = () => {
+    const handleConfirmTopUp = async () => {
         setIsToppingUp(true);
         setTopUpSuccess(false);
 
         const amount = parseFloat(topUpAmount);
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
-        setTimeout(() => {
-            setCurrentBalance(prev => prev + amount);
+        try {
+            // Get provider ID from localStorage
+            const stored = localStorage.getItem('fertigo_provider');
+            const providerId = stored ? JSON.parse(stored)?._id : null;
+
+            if (!providerId) {
+                alert('Bitte loggen Sie sich erneut ein.');
+                setIsToppingUp(false);
+                setIsTopUpModalOpen(false);
+                return;
+            }
+
+            const response = await fetch(`${API_URL}/api/payment/create-gateway`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ providerId, amount }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Zahlung fehlgeschlagen');
+            }
+
+            // Redirect to Payrexx payment page
+            window.location.href = data.paymentUrl;
+        } catch (error: any) {
+            alert(error.message || 'Fehler bei der Zahlung');
             setIsToppingUp(false);
             setIsTopUpModalOpen(false);
+        }
+    };
+
+    // Handle payment redirect back
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const paymentStatus = params.get('payment');
+        const paymentAmount = params.get('amount');
+
+        if (paymentStatus === 'success' && paymentAmount) {
+            setCurrentBalance(prev => prev + parseFloat(paymentAmount));
             setTopUpSuccess(true);
             setTimeout(() => setTopUpSuccess(false), 4000);
-        }, 1500);
-    };
+            // Clean URL
+            window.history.replaceState({}, '', window.location.pathname);
+        } else if (paymentStatus === 'failed' || paymentStatus === 'cancelled') {
+            alert(paymentStatus === 'failed' ? 'Zahlung fehlgeschlagen.' : 'Zahlung abgebrochen.');
+            window.history.replaceState({}, '', window.location.pathname);
+        }
+    }, []);
 
 
     return (

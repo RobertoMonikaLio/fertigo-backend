@@ -5,6 +5,7 @@ import { connectDB } from './config/db';
 import apiRoutes from './routes/api';
 import authRoutes from './routes/authRoutes';
 import adminRoutes from './routes/adminRoutes';
+import paymentRoutes from './routes/paymentRoutes';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ connectDB();
 app.use('/api', apiRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/payment', paymentRoutes);
 
 app.get('/', (req, res) => {
   res.send('Fertigo API is running');
