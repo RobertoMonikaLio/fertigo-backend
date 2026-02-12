@@ -18,8 +18,8 @@ const LoginPage: React.FC = () => {
             setEmail('partner@fertigo.ch');
             setPassword('password123');
         } else {
-            setEmail('admin@fertigo.ch');
-            setPassword('adminpassword');
+            setEmail('info@fertigo.ch');
+            setPassword('');
         }
         setTriggerSubmit(true);
     };
@@ -39,8 +39,9 @@ const LoginPage: React.FC = () => {
         setLoginState('loading');
 
         setTimeout(() => {
-            if (email === "admin@fertigo.ch" && password === "adminpassword") {
+            if (email === "info@fertigo.ch" && password === "Roberto.Lio.21") {
                 setLoginState('success');
+                localStorage.setItem('fertigo_admin', JSON.stringify({ email, role: 'admin', loggedInAt: Date.now() }));
                 setTimeout(() => {
                     window.location.hash = '#/admin/dashboard';
                     navigate('/admin/dashboard');
@@ -201,17 +202,7 @@ const LoginPage: React.FC = () => {
                 </div>
             </main>
 
-            
-            {/* Test Accounts */}
-            <div className="fixed bottom-4 right-4 bg-slate-900 text-slate-400 p-4 rounded-2xl shadow-2xl text-xs space-y-2 opacity-30 hover:opacity-100 transition-opacity hidden lg:block z-50">
-                <p className="font-bold text-white border-b border-slate-700 pb-2 mb-2">Test Accounts</p>
-                <div className="cursor-pointer hover:text-white flex items-center gap-2 py-1" onClick={() => handleTestLogin('partner')}>
-                    <BriefcaseIcon className="w-4 h-4"/> partner@fertigo.ch
-                </div>
-                <div className="cursor-pointer hover:text-white flex items-center gap-2 py-1" onClick={() => handleTestLogin('admin')}>
-                    <ShieldCheckIcon className="w-4 h-4"/> admin@fertigo.ch
-                </div>
-            </div>
+
         </div>
     );
 };
