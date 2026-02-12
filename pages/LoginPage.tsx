@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MailIcon, LockClosedIcon, ArrowRightIcon, SpinnerIcon, CheckIcon, XCircleIcon, EyeIcon, EyeSlashIcon, BriefcaseIcon, ShieldCheckIcon } from '../components/icons';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
@@ -9,59 +11,74 @@ const LoginPage: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const [triggerSubmit, setTriggerSubmit] = useState(false);
     const formRef = useRef<HTMLFormElement>(null);
 
-    const handleTestLogin = (role: 'partner' | 'admin') => {
-        if (loginState === 'loading' || loginState === 'success') return;
-        if (role === 'partner') {
-            setEmail('partner@fertigo.ch');
-            setPassword('password123');
-        } else {
-            setEmail('info@fertigo.ch');
-            setPassword('');
-        }
-        setTriggerSubmit(true);
-    };
-    
-    useEffect(() => {
-        if (triggerSubmit && formRef.current) {
-            formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-            setTriggerSubmit(false);
-        }
-    }, [triggerSubmit, email, password]);
-
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (loginState === 'loading' || loginState === 'success') return;
         
         setError(null);
         setLoginState('loading');
 
-        setTimeout(() => {
-            if (email === "info@fertigo.ch" && password === "Roberto.Lio.21") {
+        try {
+            // Try admin login first
+            const adminRes = await fetch(`${API_URL}/api/admin/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (adminRes.ok) {
+                const data = await adminRes.json();
                 setLoginState('success');
-                localStorage.setItem('fertigo_admin', JSON.stringify({ email, role: 'admin', loggedInAt: Date.now() }));
+                localStorage.setItem('fertigo_admin', JSON.stringify({
+                    email: data.email,
+                    role: data.role,
+                    token: data.token,
+                    loggedInAt: Date.now(),
+                }));
                 setTimeout(() => {
                     window.location.hash = '#/admin/dashboard';
                     navigate('/admin/dashboard');
-                    setLoginState('idle'); 
-                }, 1500);
-            } else if (email === "partner@fertigo.ch" && password === "password123") {
+                    setLoginState('idle');
+                }, 1200);
+                return;
+            }
+
+            // Try provider login
+            const providerRes = await fetch(`${API_URL}/api/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (providerRes.ok) {
+                const data = await providerRes.json();
                 setLoginState('success');
+                localStorage.setItem('fertigo_provider', JSON.stringify({
+                    _id: data._id,
+                    email: data.email,
+                    name: data.name,
+                    token: data.token,
+                    loggedInAt: Date.now(),
+                }));
                 setTimeout(() => {
                     window.location.hash = '#/partner/requests';
                     navigate('/partner/requests');
-                    setLoginState('idle'); 
-                }, 1500);
-            } else {
-                setLoginState('error');
-                setError('E-Mail oder Passwort ungültig.');
-                setTimeout(() => {
                     setLoginState('idle');
-                }, 2000);
+                }, 1200);
+                return;
             }
-        }, 1500);
+
+            // Both failed
+            setLoginState('error');
+            setError('Ungültige E-Mail oder Passwort.');
+            setTimeout(() => setLoginState('idle'), 2000);
+        } catch (err) {
+            setLoginState('error');
+            setError('Server nicht erreichbar. Bitte versuchen Sie es später.');
+            setTimeout(() => setLoginState('idle'), 2000);
+        }
     };
 
     return (
