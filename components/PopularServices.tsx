@@ -112,7 +112,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 }}
             >
                 {/* Top Image Section */}
-                <div className="relative h-32 sm:h-48 lg:h-56 overflow-hidden flex-shrink-0">
+                <div className="relative h-28 sm:h-48 lg:h-56 overflow-hidden flex-shrink-0">
                     <div
                         className={`
                             absolute inset-0 transition-transform duration-700
@@ -128,10 +128,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 </div>
 
                 {/* Content Section */}
-                <div className="p-4 sm:p-6 lg:p-8 flex flex-col flex-1 min-h-0">
+                <div className="p-3 sm:p-6 lg:p-8 flex flex-col flex-1 min-h-0">
                     {/* Title */}
                     <h3 
-                        className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 mb-2 sm:mb-3 leading-tight"
+                        className="text-sm sm:text-xl lg:text-2xl font-black text-slate-900 mb-1 sm:mb-3 leading-tight"
                         style={{
                             color: isHovered ? service.accent : undefined,
                             transition: 'color 0.3s ease',
@@ -141,20 +141,20 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                     </h3>
 
                     {/* Description */}
-                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 flex-grow">
+                    <p className="text-slate-600 text-[11px] sm:text-sm leading-relaxed mb-3 sm:mb-6 flex-grow line-clamp-2 sm:line-clamp-none">
                         {service.description}
                     </p>
 
                     {/* Bottom Action Bar */}
-                    <div className="flex items-center justify-center pt-3 sm:pt-4 border-t-2 border-slate-100 mt-auto">
+                    <div className="flex items-center justify-center pt-2 sm:pt-4 border-t-2 border-slate-100 mt-auto">
                         {/* CTA Button */}
                         <button
                             onClick={() => {
                                 openQuoteModal({ service: service.name, projectTitle: service.name });
                             }}
                             className={`
-                                flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl
-                                font-bold text-white text-xs sm:text-sm w-full
+                                flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl
+                                font-bold text-white text-[11px] sm:text-sm w-full
                                 transition-all duration-300 group/btn
                                 shadow-lg hover:shadow-xl
                             `}
@@ -171,7 +171,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                             }}
                         >
                             <span>Offerten</span>
-                            <ArrowRightIcon className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                            <ArrowRightIcon className="w-3 h-3 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform" />
                         </button>
                     </div>
                 </div>
@@ -180,8 +180,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 <div
                     className={`
                         absolute top-0 right-0 w-0 h-0
-                        border-l-[40px] sm:border-l-[60px] border-l-transparent
-                        border-t-[40px] sm:border-t-[60px] transition-opacity duration-500
+                        border-l-[30px] sm:border-l-[60px] border-l-transparent
+                        border-t-[30px] sm:border-t-[60px] transition-opacity duration-500
                         ${isHovered ? 'opacity-100' : 'opacity-0'}
                     `}
                     style={{
@@ -241,39 +241,39 @@ const MoreServicesCard: React.FC<{
                 `}
             >
                 {/* Content Section */}
-                <div className="p-4 sm:p-6 lg:p-8 flex flex-col flex-1 min-h-0">
-                    <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 sm:space-y-6 py-4 sm:py-0">
+                <div className="p-3 sm:p-6 lg:p-8 flex flex-col flex-1 min-h-0">
+                    <div className="flex-1 flex flex-col items-center justify-center text-center space-y-3 sm:space-y-6 py-2 sm:py-0">
                         {/* Icon */}
                         <div
                             className={`
-                                w-14 h-14 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-slate-300
+                                w-10 h-10 sm:w-20 sm:h-20 rounded-lg sm:rounded-2xl bg-slate-300
                                 flex items-center justify-center
                                 text-4xl transition-all duration-500
                                 ${isHovered ? 'scale-110 rotate-6' : 'scale-100 rotate-0'}
                             `}
                         >
-                            <svg className="w-7 h-7 sm:w-10 sm:h-10 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-5 h-5 sm:w-10 sm:h-10 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                             </svg>
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-lg sm:text-2xl lg:text-3xl font-black text-slate-900 leading-tight">
+                        <h3 className="text-sm sm:text-2xl lg:text-3xl font-black text-slate-900 leading-tight">
                             Weitere Dienstleistungen
                         </h3>
 
                         {/* Description */}
-                        <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-xs">
+                        <p className="text-slate-600 text-[11px] sm:text-sm leading-relaxed max-w-xs line-clamp-2 sm:line-clamp-none">
                             Entdecken Sie alle unsere Service-Kategorien und finden Sie den perfekten Partner für Ihr Projekt.
                         </p>
                     </div>
 
                     {/* CTA Button */}
-                    <div className="mt-auto pt-3 sm:pt-4 border-t-2 border-slate-200">
+                    <div className="mt-auto pt-2 sm:pt-4 border-t-2 border-slate-200">
                         <button
                             className={`
-                                flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl
-                                font-bold text-white text-xs sm:text-sm w-full
+                                flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl
+                                font-bold text-white text-[11px] sm:text-sm w-full
                                 transition-all duration-300 group/btn
                                 shadow-lg hover:shadow-xl
                                 bg-gradient-to-r from-green-600 to-emerald-500
@@ -285,8 +285,8 @@ const MoreServicesCard: React.FC<{
                                 e.currentTarget.style.transform = 'scale(1) translateY(0)';
                             }}
                         >
-                            <span>Alle Services ansehen</span>
-                            <ArrowRightIcon className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                        <span>Alle Services</span>
+                        <ArrowRightIcon className="w-3 h-3 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform" />
                         </button>
                     </div>
                 </div>
@@ -295,8 +295,8 @@ const MoreServicesCard: React.FC<{
                 <div
                     className={`
                         absolute top-0 right-0 w-0 h-0
-                        border-l-[40px] sm:border-l-[60px] border-l-transparent
-                        border-t-[40px] sm:border-t-[60px] transition-opacity duration-500
+                        border-l-[30px] sm:border-l-[60px] border-l-transparent
+                        border-t-[30px] sm:border-t-[60px] transition-opacity duration-500
                         ${isHovered ? 'opacity-100' : 'opacity-0'}
                     `}
                     style={{
@@ -316,13 +316,13 @@ const PopularServices: React.FC = () => {
         <section
             ref={ref}
             id="services"
-            className="relative py-12 sm:py-28 lg:py-36 overflow-hidden bg-slate-50"
+            className="relative py-10 sm:py-28 lg:py-36 overflow-hidden bg-slate-50"
         >
             <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div
                     className={`
-                        text-center mb-8 sm:mb-16 lg:mb-20 max-w-2xl mx-auto
+                        text-center mb-6 sm:mb-16 lg:mb-20 max-w-2xl mx-auto
                         transition-all duration-1000
                         ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
                     `}
@@ -354,7 +354,7 @@ const PopularServices: React.FC = () => {
                 {/* Services Grid */}
                 <div
                     className={`
-                        grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8 max-w-5xl mx-auto
+                        grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6 lg:gap-8 max-w-5xl mx-auto
                         items-stretch
                         transition-all duration-1000
                         ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
