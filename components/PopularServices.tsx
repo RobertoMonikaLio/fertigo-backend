@@ -329,7 +329,8 @@ const PopularServices: React.FC = () => {
                 >
                     {/* Title */}
                     <h2 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 mb-3 sm:mb-4 leading-tight lg:whitespace-nowrap">
-                        Beliebte{' '}
+                        <span className="sm:hidden">Unsere Beliebte<br/></span>
+                        <span className="hidden sm:inline">Beliebte{' '}</span>
                         <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">
                             Fertigo Services
                             <svg className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
