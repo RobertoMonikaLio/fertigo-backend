@@ -148,8 +148,8 @@ const Hero: React.FC = () => {
                 </div>
             </div>
 
-            {/* Unterer Übergang */}
-            <div className="relative z-20 h-12 sm:h-20 lg:h-24 -mt-px">
+            {/* Unterer Übergang (nur ab sm) */}
+            <div className="relative z-20 hidden sm:block sm:h-20 lg:h-24 -mt-px">
                 <svg className="absolute bottom-0 left-0 w-full h-full" viewBox="0 0 1440 96" fill="none" preserveAspectRatio="none">
                     <path d="M0 96H1440V32C1440 32 1320 0 1200 16C1080 32 960 64 720 64C480 64 360 32 240 16C120 0 0 32 0 32V96Z" fill="white" />
                 </svg>
