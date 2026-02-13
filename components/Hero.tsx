@@ -74,8 +74,8 @@ const Hero: React.FC = () => {
             </div>
 
             {/* ══════════ MOBIL: Bild als Block ══════════ */}
-            <div className={`relative lg:hidden w-full h-[300px] sm:h-[400px] transition-opacity duration-1000 delay-200 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
-                <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0a0f1a] via-transparent to-[#0a0f1a]/50 pointer-events-none" />
+            <div className={`relative lg:hidden w-full h-[240px] sm:h-[350px] transition-opacity duration-1000 delay-200 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
+                <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0a0f1a] via-[#0a0f1a]/20 to-[#0a0f1a]/60 pointer-events-none" />
                 {rotatingImages.map((src, i) => (
                     <img
                         key={src}
@@ -91,20 +91,20 @@ const Hero: React.FC = () => {
             {/* ══════════ TEXT-INHALT ══════════ */}
             <div className="relative z-10">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                    <div className="lg:min-h-[calc(100vh-80px)] lg:flex lg:items-center py-10 sm:py-16 lg:py-20">
+                    <div className="lg:min-h-[calc(100vh-80px)] lg:flex lg:items-center py-6 sm:py-16 lg:py-20">
                         <div className={`max-w-xl transition-all duration-[1200ms] ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
 
                             {/* Schweiz-Badge */}
-                            <div className="inline-flex items-center gap-2 bg-white/[0.06] backdrop-blur-md border border-white/[0.08] rounded-full px-4 py-2 mb-7 group hover:bg-white/[0.1] transition-colors">
+                            <div className="inline-flex items-center gap-2 bg-white/[0.06] backdrop-blur-md border border-white/[0.08] rounded-full px-4 py-2 mb-4 sm:mb-7 group hover:bg-white/[0.1] transition-colors">
                                 <SwissFlagIcon className="w-4 h-4 flex-shrink-0" />
                                 <span className="text-white/60 text-xs sm:text-sm font-medium">Schweizer Handwerker-Plattform</span>
                             </div>
 
                             {/* Headline */}
-                            <h1 className="text-[2.5rem] sm:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] font-black leading-[1.08] tracking-tight mb-6 whitespace-nowrap">
+                            <h1 className="text-3xl sm:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] font-black leading-[1.08] tracking-tight mb-5 sm:mb-6 lg:whitespace-nowrap">
                                 <span className="text-white">Finden Sie den perfekten</span>
                                 <br />
-                                <span className="relative inline-block overflow-hidden" style={{ minWidth: '220px' }}>
+                                <span className="relative inline-block overflow-hidden" style={{ minWidth: '180px' }}>
                                     <span
                                         className={`inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-300 to-teal-400 animate-text-gradient transition-all duration-300 ${
                                             isFlipping ? 'opacity-0 -translate-y-6 blur-sm' : 'opacity-100 translate-y-0 blur-0'
@@ -117,21 +117,21 @@ const Hero: React.FC = () => {
                             </h1>
 
                             {/* Beschreibung */}
-                            <p className="text-white/40 text-base sm:text-lg leading-relaxed mb-8 max-w-md">
+                            <p className="text-white/40 text-sm sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-md">
                                 Beschreiben Sie Ihr Projekt und erhalten Sie innert Stunden <span className="text-white/70 font-medium">bis zu 5 Offerten</span> von geprüften Fachbetrieben aus Ihrer Region.
                             </p>
 
                             {/* CTA Button */}
                             <button
                                 onClick={handleCTA}
-                                className="group inline-flex items-center gap-2.5 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-bold px-8 py-4 rounded-2xl text-base sm:text-lg shadow-lg shadow-green-500/20 hover:shadow-xl hover:shadow-green-500/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 mb-8"
+                                className="group inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-bold px-8 py-4 rounded-2xl text-base sm:text-lg shadow-lg shadow-green-500/20 hover:shadow-xl hover:shadow-green-500/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 mb-6 sm:mb-8 w-full sm:w-auto"
                             >
                                 Offerte erhalten
                                 <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </button>
 
                             {/* Trust-Zeile */}
-                            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                            <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-x-5 gap-y-2.5">
                                 {[
                                     { icon: '✓', text: '100% Kostenlos' },
                                     { icon: '✓', text: 'Unabhängig und neutral' },
@@ -149,7 +149,7 @@ const Hero: React.FC = () => {
             </div>
 
             {/* Unterer Übergang */}
-            <div className="relative z-20 h-16 sm:h-20 lg:h-24 -mt-px">
+            <div className="relative z-20 h-12 sm:h-20 lg:h-24 -mt-px">
                 <svg className="absolute bottom-0 left-0 w-full h-full" viewBox="0 0 1440 96" fill="none" preserveAspectRatio="none">
                     <path d="M0 96H1440V32C1440 32 1320 0 1200 16C1080 32 960 64 720 64C480 64 360 32 240 16C120 0 0 32 0 32V96Z" fill="white" />
                 </svg>
