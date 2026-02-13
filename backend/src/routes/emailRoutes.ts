@@ -31,7 +31,7 @@ router.post('/send-verification', async (req, res) => {
 
     // Send email via Resend
     const { error } = await getResend().emails.send({
-      from: 'Fertigo <onboarding@resend.dev>',
+      from: 'Fertigo <noreply@fertigo.ch>',
       to: email,
       subject: 'Ihr Verifizierungscode - Fertigo',
       html: `
