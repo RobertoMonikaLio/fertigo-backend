@@ -33,22 +33,22 @@ const FAQSection: React.FC = () => {
     ];
 
     return (
-        <section ref={ref} className="relative py-20 lg:py-28 bg-slate-50 overflow-hidden">
+        <section ref={ref} className="relative py-14 sm:py-20 lg:py-28 bg-slate-50 overflow-hidden">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
                 
                 {/* Header */}
-                <div className={`text-center mb-12 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                    <h2 className="text-3xl sm:text-4xl font-black text-slate-900">
+                <div className={`text-center mb-8 sm:mb-12 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                    <h2 className="text-2xl sm:text-3xl sm:text-4xl font-black text-slate-900">
                         Häufige Fragen
                     </h2>
                 </div>
 
                 {/* FAQ List */}
-                <div className={`space-y-3 transition-all duration-700 delay-100 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                <div className={`space-y-2 sm:space-y-3 transition-all duration-700 delay-100 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                     {faqs.map((faq, index) => (
                         <div
                             key={index}
-                            className={`bg-white rounded-xl border-2 transition-all duration-300 ${
+                            className={`bg-white rounded-lg sm:rounded-xl border-2 transition-all duration-300 ${
                                 openIndex === index 
                                     ? 'border-green-500 shadow-lg shadow-green-500/10' 
                                     : 'border-transparent shadow-sm hover:shadow-md'
@@ -56,14 +56,14 @@ const FAQSection: React.FC = () => {
                         >
                             <button
                                 onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
-                                className="w-full flex items-center justify-between p-5 text-left"
+                                className="w-full flex items-center justify-between p-4 sm:p-5 text-left"
                             >
-                                <span className={`font-bold transition-colors ${
+                                <span className={`font-bold text-sm sm:text-base transition-colors ${
                                     openIndex === index ? 'text-green-600' : 'text-slate-900'
                                 }`}>
                                     {faq.question}
                                 </span>
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 ml-3 transition-all duration-300 ${
                                     openIndex === index 
                                         ? 'bg-green-500 rotate-180' 
                                         : 'bg-slate-100'
@@ -84,7 +84,7 @@ const FAQSection: React.FC = () => {
                             <div className={`overflow-hidden transition-all duration-300 ${
                                 openIndex === index ? 'max-h-40' : 'max-h-0'
                             }`}>
-                                <p className="px-5 pb-5 text-slate-600 leading-relaxed">
+                                <p className="px-4 pb-4 sm:px-5 sm:pb-5 text-slate-600 text-sm sm:text-base leading-relaxed">
                                     {faq.answer}
                                 </p>
                             </div>

@@ -19,7 +19,7 @@ const NewsletterSection: React.FC = () => {
     };
 
     return (
-        <section ref={ref} className="relative py-16 lg:py-20 bg-green-600 overflow-hidden">
+        <section ref={ref} className="relative py-12 sm:py-16 lg:py-20 bg-green-600 overflow-hidden">
             
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
@@ -37,10 +37,10 @@ const NewsletterSection: React.FC = () => {
                 <div className={`transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                     
                     {/* ===== MOBILE ONLY ===== */}
-                    <div className="sm:hidden text-center">
-                        {/* Large animated mail icon */}
-                        <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-white/15 border border-white/20 flex items-center justify-center">
-                            <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                    <div className="sm:hidden text-center px-1">
+                        {/* Mail icon */}
+                        <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-white/15 border border-white/20 flex items-center justify-center">
+                            <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M22 13V6a2 2 0 00-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2h9" />
                                 <path d="M22 6l-10 7L2 6" />
                                 <circle cx="19" cy="19" r="3" fill="white" fillOpacity="0.2" stroke="white" />
@@ -49,48 +49,48 @@ const NewsletterSection: React.FC = () => {
                         </div>
 
                         {/* Headline */}
-                        <h2 className="text-white font-black text-2xl leading-tight mb-2">
+                        <h2 className="text-white font-black text-xl leading-tight mb-1.5">
                             Nichts verpassen
                         </h2>
-                        <p className="text-white/60 text-sm leading-relaxed mb-6 mx-auto max-w-[280px]">
+                        <p className="text-white/60 text-xs leading-relaxed mb-5 mx-auto max-w-[260px]">
                             Tipps, Checklisten & exklusive Angebote — direkt in Ihr Postfach.
                         </p>
 
                         {/* Form */}
                         {!isSubmitted ? (
-                            <form onSubmit={handleSubmit} className="space-y-3 text-left">
+                            <form onSubmit={handleSubmit} className="space-y-2.5 text-left">
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="ihre@email.ch"
                                     required
-                                    className="w-full px-4 py-4 bg-white rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-white/20 text-[15px] font-medium shadow-lg"
+                                    className="w-full px-4 py-3.5 bg-white rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-white/20 text-sm font-medium shadow-lg"
                                 />
                                 <button
                                     type="submit"
-                                    className="w-full py-4 bg-slate-900 text-white font-bold rounded-2xl transition-all duration-200 text-[15px] active:scale-[0.98] shadow-lg shadow-black/20 flex items-center justify-center gap-2"
+                                    className="w-full py-3.5 bg-slate-900 text-white font-bold rounded-xl transition-all duration-200 text-sm active:scale-[0.98] shadow-lg shadow-black/20 flex items-center justify-center gap-2"
                                 >
                                     Kostenlos abonnieren
-                                    <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
                                         <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                                     </svg>
                                 </button>
                             </form>
                         ) : (
-                            <div className="bg-white rounded-2xl p-5 shadow-lg flex flex-col items-center gap-2">
-                                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-1">
-                                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="bg-white rounded-xl p-4 shadow-lg flex flex-col items-center gap-1.5">
+                                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-0.5">
+                                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                                     </svg>
                                 </div>
-                                <span className="font-bold text-slate-900">Erfolgreich angemeldet!</span>
-                                <span className="text-slate-500 text-sm">Bestätigung folgt per E-Mail.</span>
+                                <span className="font-bold text-slate-900 text-sm">Erfolgreich angemeldet!</span>
+                                <span className="text-slate-500 text-xs">Bestätigung folgt per E-Mail.</span>
                             </div>
                         )}
 
                         {/* Trust */}
-                        <div className="mt-5 flex items-center justify-center gap-4 text-white/40 text-[11px] font-medium">
+                        <div className="mt-4 flex items-center justify-center gap-3 text-white/40 text-[10px] font-medium">
                             <span>Kein Spam</span>
                             <span>·</span>
                             <span>Kostenlos</span>
