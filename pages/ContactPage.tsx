@@ -193,7 +193,7 @@ const ContactPage: React.FC = () => {
         const { id, value } = e.target;
         setFormData(prev => {
             const newState = { ...prev, [id]: value };
-             if (id === 'anrede' && value !== 'Firma') {
+            if (id === 'anrede' && value !== 'Firma') {
                 newState.companyName = '';
                 newState.position = '';
             }
@@ -221,7 +221,7 @@ const ContactPage: React.FC = () => {
         if (!emailRegex.test(formData.email)) {
             newErrors.email = t.invalidEmail;
         }
-         if (!formData.subject) newErrors.subject = t.selectSubject;
+        if (!formData.subject) newErrors.subject = t.selectSubject;
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -261,34 +261,15 @@ const ContactPage: React.FC = () => {
                                 <span>Wir sind für Sie da</span>
                             </span>
                             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
-                                {t.title.split(' ')[0]}{' '}
+                                Kontaktieren<br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
-                                    {t.title.split(' ').slice(1).join(' ')}
+                                    Sie uns
                                 </span>
                             </h1>
                             <p className="text-slate-400 text-lg mb-8">
                                 {t.subtitle}
                             </p>
-                            <div className="flex flex-wrap gap-6">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
-                                        <MailIcon className="w-5 h-5 text-green-400" />
-                                    </div>
-                                    <div>
-                                        <div className="text-slate-500 text-xs">E-Mail</div>
-                                        <div className="text-white font-medium">info@fertigo.ch</div>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
-                                        <PhoneIcon className="w-5 h-5 text-green-400" />
-                                    </div>
-                                    <div>
-                                        <div className="text-slate-500 text-xs">Telefon</div>
-                                        <div className="text-white font-medium">044 123 45 67</div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                         <div className="hidden lg:flex justify-center">
                             <div className="relative">
@@ -307,116 +288,116 @@ const ContactPage: React.FC = () => {
             {/* Form Section */}
             <div className="container mx-auto px-6 max-w-4xl -mt-8 relative z-10 pb-20">
                 <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-2xl border border-slate-200">
-                         <h2 className="text-2xl font-bold text-slate-800 mb-6">{t.writeMessage}</h2>
-                         <form onSubmit={handleSubmit} className="space-y-5">
-                            <div>
-                                <label htmlFor="anrede" className="block mb-2 text-sm font-medium text-slate-700">{t.anrede}</label>
-                                <select id="anrede" value={formData.anrede} onChange={handleChange} className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 transition ${errors.anrede ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'focus:ring-primary-600 focus:border-primary-600'}`} required aria-required="true" aria-invalid={!!errors.anrede}>
-                                    <option value="" disabled>Bitte wählen...</option>
-                                    <option value="Frau">{t.frau}</option>
-                                    <option value="Herr">{t.herr}</option>
-                                    <option value="Firma">{t.firma}</option>
-                                </select>
-                                {errors.anrede && <p role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/>{errors.anrede}</p>}
-                            </div>
+                    <h2 className="text-2xl font-bold text-slate-800 mb-6">{t.writeMessage}</h2>
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        <div>
+                            <label htmlFor="anrede" className="block mb-2 text-sm font-medium text-slate-700">{t.anrede}</label>
+                            <select id="anrede" value={formData.anrede} onChange={handleChange} className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 transition ${errors.anrede ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'focus:ring-primary-600 focus:border-primary-600'}`} required aria-required="true" aria-invalid={!!errors.anrede}>
+                                <option value="" disabled>Bitte wählen...</option>
+                                <option value="Frau">{t.frau}</option>
+                                <option value="Herr">{t.herr}</option>
+                                <option value="Firma">{t.firma}</option>
+                            </select>
+                            {errors.anrede && <p role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" />{errors.anrede}</p>}
+                        </div>
 
-                            {formData.anrede === 'Firma' && (
-                                <div className="space-y-5 animate-fade-in">
-                                    <div>
-                                        <label htmlFor="companyName" className="block mb-2 text-sm font-medium text-slate-700">{t.companyName}</label>
-                                        <input type="text" id="companyName" value={formData.companyName} onChange={handleChange} className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition ${errors.companyName ? 'border-red-500' : ''}`} placeholder="Name der Firma" required={formData.anrede === 'Firma'} aria-required={formData.anrede === 'Firma'} />
-                                        {errors.companyName && <p role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/>{errors.companyName}</p>}
-                                    </div>
-                                     <div>
-                                        <label htmlFor="position" className="block mb-2 text-sm font-medium text-slate-700">{t.position}</label>
-                                        <input type="text" id="position" value={formData.position} onChange={handleChange} className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition ${errors.position ? 'border-red-500' : ''}`} placeholder="z.B. Geschäftsführer" required={formData.anrede === 'Firma'} aria-required={formData.anrede === 'Firma'} />
-                                        {errors.position && <p role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/>{errors.position}</p>}
-                                    </div>
-                                </div>
-                            )}
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        {formData.anrede === 'Firma' && (
+                            <div className="space-y-5 animate-fade-in">
                                 <div>
-                                    <label htmlFor="firstName" className="block mb-2 text-sm font-medium text-slate-700">{formData.anrede === 'Firma' ? t.firstNameContact : t.firstName}</label>
-                                    <input type="text" id="firstName" value={formData.firstName} onChange={handleChange} className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 transition ${errors.firstName ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'focus:ring-primary-600 focus:border-primary-600'}`} placeholder={t.firstNamePlaceholder} required aria-required="true" aria-invalid={!!errors.firstName} />
-                                    {errors.firstName && <p role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/>{errors.firstName}</p>}
+                                    <label htmlFor="companyName" className="block mb-2 text-sm font-medium text-slate-700">{t.companyName}</label>
+                                    <input type="text" id="companyName" value={formData.companyName} onChange={handleChange} className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition ${errors.companyName ? 'border-red-500' : ''}`} placeholder="Name der Firma" required={formData.anrede === 'Firma'} aria-required={formData.anrede === 'Firma'} />
+                                    {errors.companyName && <p role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" />{errors.companyName}</p>}
                                 </div>
                                 <div>
-                                    <label htmlFor="lastName" className="block mb-2 text-sm font-medium text-slate-700">{formData.anrede === 'Firma' ? t.lastNameContact : t.lastName}</label>
-                                    <input type="text" id="lastName" value={formData.lastName} onChange={handleChange} className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 transition ${errors.lastName ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'focus:ring-primary-600 focus:border-primary-600'}`} placeholder={t.lastNamePlaceholder} required aria-required="true" aria-invalid={!!errors.lastName} />
-                                    {errors.lastName && <p role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/>{errors.lastName}</p>}
+                                    <label htmlFor="position" className="block mb-2 text-sm font-medium text-slate-700">{t.position}</label>
+                                    <input type="text" id="position" value={formData.position} onChange={handleChange} className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition ${errors.position ? 'border-red-500' : ''}`} placeholder="z.B. Geschäftsführer" required={formData.anrede === 'Firma'} aria-required={formData.anrede === 'Firma'} />
+                                    {errors.position && <p role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" />{errors.position}</p>}
                                 </div>
                             </div>
+                        )}
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                             <div>
-                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-slate-700">{t.yourEmail}</label>
-                                <input 
-                                    type="email" 
-                                    id="email" 
-                                    value={formData.email} 
-                                    onChange={handleChange} 
-                                    className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 transition ${errors.email ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'focus:ring-primary-600 focus:border-primary-600'}`} 
-                                    placeholder={t.emailPlaceholder} 
-                                    required 
+                                <label htmlFor="firstName" className="block mb-2 text-sm font-medium text-slate-700">{formData.anrede === 'Firma' ? t.firstNameContact : t.firstName}</label>
+                                <input type="text" id="firstName" value={formData.firstName} onChange={handleChange} className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 transition ${errors.firstName ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'focus:ring-primary-600 focus:border-primary-600'}`} placeholder={t.firstNamePlaceholder} required aria-required="true" aria-invalid={!!errors.firstName} />
+                                {errors.firstName && <p role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" />{errors.firstName}</p>}
+                            </div>
+                            <div>
+                                <label htmlFor="lastName" className="block mb-2 text-sm font-medium text-slate-700">{formData.anrede === 'Firma' ? t.lastNameContact : t.lastName}</label>
+                                <input type="text" id="lastName" value={formData.lastName} onChange={handleChange} className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 transition ${errors.lastName ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'focus:ring-primary-600 focus:border-primary-600'}`} placeholder={t.lastNamePlaceholder} required aria-required="true" aria-invalid={!!errors.lastName} />
+                                {errors.lastName && <p role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" />{errors.lastName}</p>}
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-slate-700">{t.yourEmail}</label>
+                            <input
+                                type="email"
+                                id="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 transition ${errors.email ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'focus:ring-primary-600 focus:border-primary-600'}`}
+                                placeholder={t.emailPlaceholder}
+                                required
+                                aria-required="true"
+                                aria-invalid={!!errors.email}
+                                aria-describedby={errors.email ? "email-error" : undefined}
+                            />
+                            {errors.email && <p id="email-error" role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" />{errors.email}</p>}
+                        </div>
+                        <div>
+                            <label htmlFor="phone" className="block mb-2 text-sm font-medium text-slate-700">{t.phoneOptional}</label>
+                            <input type="tel" id="phone" value={formData.phone} onChange={handleChange} className="w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition" placeholder={t.phonePlaceholder} />
+                        </div>
+                        <div>
+                            <label htmlFor="mobile" className="block mb-2 text-sm font-medium text-slate-700">{t.mobileOptional}</label>
+                            <input type="tel" id="mobile" value={formData.mobile} onChange={handleChange} className="w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition" placeholder={t.mobilePlaceholder} />
+                        </div>
+                        <div>
+                            <label htmlFor="subject" className="block mb-2 text-sm font-medium text-slate-700">{t.subject}</label>
+                            <div className="relative">
+                                <select
+                                    id="subject"
+                                    name="subject"
+                                    value={formData.subject}
+                                    onChange={handleChange}
+                                    className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 transition appearance-none ${errors.subject ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'focus:ring-primary-600 focus:border-primary-600'}`}
+                                    required
                                     aria-required="true"
-                                    aria-invalid={!!errors.email}
-                                    aria-describedby={errors.email ? "email-error" : undefined}
-                                />
-                                {errors.email && <p id="email-error" role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/>{errors.email}</p>}
+                                    aria-invalid={!!errors.subject}
+                                >
+                                    <option value="" disabled>{t.subjectPlaceholder}</option>
+                                    <option value={t.subjectOptions.general}>{t.subjectOptions.general}</option>
+                                    <option value={t.subjectOptions.quote}>{t.subjectOptions.quote}</option>
+                                    <option value={t.subjectOptions.providerSupport}>{t.subjectOptions.providerSupport}</option>
+                                    <option value={t.subjectOptions.press}>{t.subjectOptions.press}</option>
+                                    <option value={t.subjectOptions.other}>{t.subjectOptions.other}</option>
+                                </select>
+                                <ChevronDownIcon className="w-5 h-5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                             </div>
-                            <div>
-                                <label htmlFor="phone" className="block mb-2 text-sm font-medium text-slate-700">{t.phoneOptional}</label>
-                                <input type="tel" id="phone" value={formData.phone} onChange={handleChange} className="w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition" placeholder={t.phonePlaceholder} />
-                            </div>
-                            <div>
-                                <label htmlFor="mobile" className="block mb-2 text-sm font-medium text-slate-700">{t.mobileOptional}</label>
-                                <input type="tel" id="mobile" value={formData.mobile} onChange={handleChange} className="w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition" placeholder={t.mobilePlaceholder} />
-                            </div>
-                             <div>
-                                <label htmlFor="subject" className="block mb-2 text-sm font-medium text-slate-700">{t.subject}</label>
-                                <div className="relative">
-                                    <select 
-                                        id="subject" 
-                                        name="subject"
-                                        value={formData.subject} 
-                                        onChange={handleChange} 
-                                        className={`w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 transition appearance-none ${errors.subject ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'focus:ring-primary-600 focus:border-primary-600'}`} 
-                                        required 
-                                        aria-required="true" 
-                                        aria-invalid={!!errors.subject}
-                                    >
-                                        <option value="" disabled>{t.subjectPlaceholder}</option>
-                                        <option value={t.subjectOptions.general}>{t.subjectOptions.general}</option>
-                                        <option value={t.subjectOptions.quote}>{t.subjectOptions.quote}</option>
-                                        <option value={t.subjectOptions.providerSupport}>{t.subjectOptions.providerSupport}</option>
-                                        <option value={t.subjectOptions.press}>{t.subjectOptions.press}</option>
-                                        <option value={t.subjectOptions.other}>{t.subjectOptions.other}</option>
-                                    </select>
-                                    <ChevronDownIcon className="w-5 h-5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                </div>
-                                {errors.subject && <p role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/>{errors.subject}</p>}
-                            </div>
-                            <div>
-                                <label htmlFor="message" className="block mb-2 text-sm font-medium text-slate-700">{t.yourMessage}</label>
-                                <textarea id="message" value={formData.message} onChange={handleChange} rows={4} className="w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition" placeholder={t.messagePlaceholder}></textarea>
-                            </div>
-                            <button 
-                                type="submit" 
-                                disabled={formStatus === 'loading'} 
-                                className="w-full bg-primary-700 text-white font-bold py-3 px-5 rounded-lg hover:bg-primary-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 inline-flex items-center justify-center gap-2 disabled:bg-primary-500 disabled:cursor-wait"
-                                aria-busy={formStatus === 'loading'}
-                            >
-                                {formStatus === 'loading' ? (
-                                    <>
-                                        <SpinnerIcon className="w-5 h-5 animate-spin"/>
-                                        <span>{t.sendingMessage}</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        {t.sendMessage} <ArrowRightIcon className="w-5 h-5"/>
-                                    </>
-                                )}
-                            </button>
-                         </form>
+                            {errors.subject && <p role="alert" className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" />{errors.subject}</p>}
+                        </div>
+                        <div>
+                            <label htmlFor="message" className="block mb-2 text-sm font-medium text-slate-700">{t.yourMessage}</label>
+                            <textarea id="message" value={formData.message} onChange={handleChange} rows={4} className="w-full border-slate-300 rounded-lg p-3 shadow-sm focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition" placeholder={t.messagePlaceholder}></textarea>
+                        </div>
+                        <button
+                            type="submit"
+                            disabled={formStatus === 'loading'}
+                            className="w-full bg-primary-700 text-white font-bold py-3 px-5 rounded-lg hover:bg-primary-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 inline-flex items-center justify-center gap-2 disabled:bg-primary-500 disabled:cursor-wait"
+                            aria-busy={formStatus === 'loading'}
+                        >
+                            {formStatus === 'loading' ? (
+                                <>
+                                    <SpinnerIcon className="w-5 h-5 animate-spin" />
+                                    <span>{t.sendingMessage}</span>
+                                </>
+                            ) : (
+                                <>
+                                    {t.sendMessage} <ArrowRightIcon className="w-5 h-5" />
+                                </>
+                            )}
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

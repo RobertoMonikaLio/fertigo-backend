@@ -21,6 +21,8 @@ const ContactPage = lazy(() => import('./pages/ContactPage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
 const ServiceLocationPage = lazy(() => import('./pages/ServiceLocationPage'));
 const ImprintPage = lazy(() => import('./pages/ImprintPage'));
+const AGBPage = lazy(() => import('./pages/AGBPage'));
+const DatenschutzPage = lazy(() => import('./pages/DatenschutzPage'));
 const TippsPage = lazy(() => import('./pages/TippsPage'));
 const RentPage = lazy(() => import('./pages/RentPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
@@ -115,24 +117,24 @@ class ErrorBoundary extends React.Component<
 
 // Wrappers for pages that need URL params
 const ProviderProfilePageWrapper = () => {
-  const { providerId } = useParams<{ providerId: string }>();
-  return <ProviderProfilePage providerId={providerId!} />;
+    const { providerId } = useParams<{ providerId: string }>();
+    return <ProviderProfilePage providerId={providerId!} />;
 };
 
 const PartnerRequestDetailPageWrapper = () => {
-  const { requestId } = useParams<{ requestId: string }>();
-  return <PartnerRequestDetailPage requestId={requestId!} />;
+    const { requestId } = useParams<{ requestId: string }>();
+    return <PartnerRequestDetailPage requestId={requestId!} />;
 };
 
 const CustomerRequestDetailPageWrapper = () => {
-  const { requestId } = useParams<{ requestId: string }>();
-  return <CustomerRequestDetailPage requestId={requestId!} />;
+    const { requestId } = useParams<{ requestId: string }>();
+    return <CustomerRequestDetailPage requestId={requestId!} />;
 };
 
 
 // Wrapper for the new dynamic service/location pages
 const ServiceLocationPageWrapper = () => {
-  return <ServiceLocationPage />;
+    return <ServiceLocationPage />;
 };
 
 // Custom hook to check for mobile viewport
@@ -154,16 +156,21 @@ const useIsMobile = () => {
 
 const AppContent: React.FC = () => {
     const location = useLocation();
-    const { 
+    const {
         isQuoteModalOpen, closeQuoteModal, quoteInitialData,
-        isQuickViewOpen, closeQuickView, quickViewLeadId 
+        isQuickViewOpen, closeQuickView, quickViewLeadId
     } = useAppContext();
 
     const isMobile = useIsMobile();
     const [introPlayed, setIntroPlayed] = useState(() => sessionStorage.getItem('introPlayed_v1') === 'true');
-    
+
     const isPublicRoute = !location.pathname.startsWith('/partner') && !location.pathname.startsWith('/admin') && !location.pathname.startsWith('/kunden');
     const onHomePage = location.pathname === '/';
+
+    // Scroll to top on every route change
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
 
     const handleIntroFinish = () => {
         sessionStorage.setItem('introPlayed_v1', 'true');
@@ -190,18 +197,20 @@ const AppContent: React.FC = () => {
                         <Route path="/services/:service/:location" element={<ServiceLocationPageWrapper />} />
                         <Route path="/services" element={<ServicesPage />} />
                         <Route path="/impressum" element={<ImprintPage />} />
+                        <Route path="/agb" element={<AGBPage />} />
+                        <Route path="/datenschutz" element={<DatenschutzPage />} />
                         <Route path="/ueber-uns" element={<AboutPage />} />
                         <Route path="/tipps" element={<TippsPage />} />
                         <Route path="/vorlagen" element={<VorlagenPage />} />
                         <Route path="/marktplatz/mieten" element={<RentPage />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/register" element={<RegisterPage />} />
-                        
+
                         {/* Customer pages */}
                         <Route element={<CustomerDashboardLayout />}>
                             <Route path="/kunden/dashboard" element={<CustomerDashboardPage />} />
                             <Route path="/kunden/anfragen/:requestId" element={<CustomerRequestDetailPageWrapper />} />
-                            
+
                             <Route path="/kunden/nachrichten" element={<CustomerMessagesPage />} />
                             <Route path="/kunden/einstellungen" element={<CustomerSettingsPage />} />
                             <Route path="/kunden/vergleich/:requestId" element={<CustomerCompareOffersPage />} />
@@ -228,20 +237,20 @@ const AppContent: React.FC = () => {
                         <Route path="/admin/users" element={<AdminUsersPage />} />
                         <Route path="/admin/finance" element={<AdminFinancePage />} />
                         <Route path="/admin/profile" element={<AdminProfilePage />} />
-                        
+
                         {/* Default Route */}
                         <Route path="*" element={<HomePage />} />
                     </Routes>
                 </Suspense>
             </main>
             {isPublicRoute && <Footer />}
-            <QuoteRequestModal 
+            <QuoteRequestModal
                 isOpen={isQuoteModalOpen}
                 onClose={closeQuoteModal}
                 initialData={quoteInitialData}
             />
             {isQuickViewOpen && quickViewLeadId ? (
-                <LeadQuickViewModal 
+                <LeadQuickViewModal
                     leadId={quickViewLeadId}
                     isOpen={isQuickViewOpen}
                     onClose={closeQuickView}
