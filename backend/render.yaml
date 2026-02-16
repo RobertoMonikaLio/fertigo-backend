@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: fertigo-backend
+    runtime: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        fromDatabase:
+          name: fertigo-db
+          property: connectionString
+      - key: JWT_SECRET
+        sync: false
+      - key: PAYREXX_INSTANCE
+        sync: false
+      - key: PAYREXX_SECRET
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: PORT
+        value: 10000

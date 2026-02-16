@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MailIcon, LockClosedIcon, ArrowRightIcon, SpinnerIcon, CheckIcon, XCircleIcon, EyeIcon, EyeSlashIcon, BriefcaseIcon, ShieldCheckIcon } from '../components/icons';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (loginState === 'loading' || loginState === 'success') return;
-        
+
         setError(null);
         setLoginState('loading');
 
@@ -113,17 +113,17 @@ const LoginPage: React.FC = () => {
                         {/* Email */}
                         <div>
                             <div className="relative">
-                                <input 
-                                    id="email" 
-                                    type="email" 
+                                <input
+                                    id="email"
+                                    type="email"
                                     value={email}
                                     onChange={(e) => { setEmail(e.target.value); if (error) setError(null); }}
-                                    required 
+                                    required
                                     className="peer w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
                                     placeholder="E-Mail"
                                 />
-                                <label 
-                                    htmlFor="email" 
+                                <label
+                                    htmlFor="email"
                                     className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
                                 >
                                     E-Mail Adresse
@@ -134,22 +134,22 @@ const LoginPage: React.FC = () => {
                         {/* Password */}
                         <div>
                             <div className="relative">
-                                <input 
-                                    id="password" 
+                                <input
+                                    id="password"
                                     type={isPasswordVisible ? "text" : "password"}
                                     value={password}
                                     onChange={(e) => { setPassword(e.target.value); if (error) setError(null); }}
-                                    required 
+                                    required
                                     className="peer w-full px-5 py-4 pr-14 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
                                     placeholder="Passwort"
                                 />
-                                <label 
-                                    htmlFor="password" 
+                                <label
+                                    htmlFor="password"
                                     className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
                                 >
                                     Passwort
                                 </label>
-                                <button 
+                                <button
                                     type="button"
                                     onClick={() => setIsPasswordVisible(!isPasswordVisible)}
                                     className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
@@ -179,14 +179,13 @@ const LoginPage: React.FC = () => {
                         )}
 
                         {/* Submit Button */}
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             disabled={loginState === 'loading' || loginState === 'success'}
-                            className={`w-full py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${
-                                loginState === 'success' 
-                                    ? 'bg-emerald-500 text-white' 
+                            className={`w-full py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${loginState === 'success'
+                                    ? 'bg-emerald-500 text-white'
                                     : 'bg-slate-900 text-white hover:bg-slate-800'
-                            } disabled:cursor-not-allowed`}
+                                } disabled:cursor-not-allowed`}
                         >
                             {loginState === 'loading' ? (
                                 <><SpinnerIcon className="h-5 w-5 animate-spin" /><span>Anmelden...</span></>
@@ -209,8 +208,8 @@ const LoginPage: React.FC = () => {
                     </div>
 
                     {/* Register Button */}
-                    <Link 
-                        to="/register" 
+                    <Link
+                        to="/register"
                         className="w-full py-4 rounded-2xl font-semibold text-slate-700 border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
                     >
                         Konto erstellen
