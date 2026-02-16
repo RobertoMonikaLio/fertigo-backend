@@ -7,19 +7,18 @@ const allServices = [
     'Baumpflege',
     'Baureinigung',
     'Bodenleger',
-    'Buchhaltung & Treuhand',
-    'Catering & Partyservice',
+
     'Dachdecker',
     'Dachreinigung',
     'Einlagerung',
     'Elektriker',
     'Entsorgung & Räumung',
-    'Eventorganisation',
+
     'Fassadenbau',
     'Fenstermontage',
     'Fensterreinigung',
     'Firmenumzug',
-    'Fotografie & Video',
+
     'Gartenbau',
     'Gartenpflege',
     'Gebäudereinigung',
@@ -55,11 +54,11 @@ const ServiceCategories: React.FC = () => {
                         Von A wie Architektur bis Z wie Zügeltransport – finden Sie für jedes Anliegen den passenden Profi.
                     </p>
                 </div>
-                
+
                 <div className="max-w-5xl mx-auto p-8 sm:p-10 bg-slate-50 border border-slate-200/70 rounded-2xl">
                     <ul className="columns-1 sm:columns-2 lg:columns-3 gap-x-8 gap-y-4">
                         {allServices.map((service, index) => (
-                             <li key={index} className="flex items-start gap-3 mb-4">
+                            <li key={index} className="flex items-start gap-3 mb-4">
                                 <CheckIcon className="w-5 h-5 text-primary-600 flex-shrink-0 mt-1" />
                                 <span className="text-slate-700 font-medium">{service}</span>
                             </li>

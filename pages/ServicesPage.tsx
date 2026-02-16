@@ -244,7 +244,7 @@ const getServiceIcon = (serviceName: string): React.ReactNode => {
             </svg>
         ),
     };
-    
+
     // Default icon wenn kein spezifisches gefunden wird
     const defaultIcon = (
         <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -252,7 +252,7 @@ const getServiceIcon = (serviceName: string): React.ReactNode => {
             <path d="M12 6v6l4 2" />
         </svg>
     );
-    
+
     return iconMap[serviceName] || defaultIcon;
 };
 
@@ -289,12 +289,6 @@ const allServicesData: ServiceItem[] = [
     { name: 'Gartenbau', category: 'Garten & Aussenbereich', description: 'Neuanlagen, Umgestaltungen und Pflasterarbeiten.', icon: getServiceIcon('Gartenbau') },
     { name: 'Baumpflege', category: 'Garten & Aussenbereich', description: 'Fachgerechter Schnitt und Fällung von Bäumen.', icon: getServiceIcon('Baumpflege') },
     { name: 'Zaunbau', category: 'Garten & Aussenbereich', description: 'Errichtung von Zäunen aus Holz, Metall und Kunststoff.', icon: getServiceIcon('Zaunbau') },
-    { name: 'Fahrzeugreinigung', category: 'Fahrzeuge & Maschinen', description: 'Innen- und Aussenreinigung für Ihr Fahrzeug.', icon: getServiceIcon('Fahrzeugreinigung') },
-    { name: 'Maschinenvermietung', category: 'Fahrzeuge & Maschinen', description: 'Mieten Sie Baumaschinen und spezielle Geräte für Ihr Projekt.', icon: getServiceIcon('Maschinenvermietung') },
-    { name: 'Catering & Partyservice', category: 'Events & Kreatives', description: 'Kulinarische Highlights für Ihren privaten oder geschäftlichen Anlass.', icon: getServiceIcon('Catering & Partyservice') },
-    { name: 'Eventorganisation', category: 'Events & Kreatives', description: 'Planung und Durchführung von Events, von A bis Z.', icon: getServiceIcon('Eventorganisation') },
-    { name: 'Fotografie & Video', category: 'Events & Kreatives', description: 'Professionelle Aufnahmen für Events, Porträts und mehr.', icon: getServiceIcon('Fotografie & Video') },
-    { name: 'Buchhaltung & Treuhand', category: 'Business & Finanzen', description: 'Zuverlässige Buchführung und Steuerberatung für Ihr KMU.', icon: getServiceIcon('Buchhaltung & Treuhand') },
 ];
 
 const categoryOrder = [
@@ -305,9 +299,6 @@ const categoryOrder = [
     'Umzug & Transport',
     'Reinigung & Pflege',
     'Garten & Aussenbereich',
-    'Fahrzeuge & Maschinen',
-    'Events & Kreatives',
-    'Business & Finanzen'
 ];
 
 const categoryGradients: Record<string, string> = {
@@ -318,9 +309,7 @@ const categoryGradients: Record<string, string> = {
     'Umzug & Transport': 'from-blue-500 to-indigo-600',
     'Reinigung & Pflege': 'from-cyan-500 to-blue-600',
     'Garten & Aussenbereich': 'from-green-500 to-emerald-600',
-    'Fahrzeuge & Maschinen': 'from-slate-500 to-slate-700',
-    'Events & Kreatives': 'from-pink-500 to-rose-600',
-    'Business & Finanzen': 'from-emerald-500 to-teal-600',
+
 };
 
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -331,9 +320,7 @@ const categoryIcons: Record<string, React.ReactNode> = {
     'Umzug & Transport': <ColoredTruckIcon className="w-full h-full" />,
     'Reinigung & Pflege': <ColoredSparklesIcon className="w-full h-full" />,
     'Garten & Aussenbereich': <ColoredLeafIcon className="w-full h-full" />,
-    'Fahrzeuge & Maschinen': <ColoredDiggerIcon className="w-full h-full" />,
-    'Events & Kreatives': <ColoredPartyPopperIcon className="w-full h-full" />,
-    'Business & Finanzen': <ColoredArchiveBoxIcon className="w-full h-full" />,
+
 };
 
 const ServicesPage: React.FC = () => {
@@ -362,8 +349,8 @@ const ServicesPage: React.FC = () => {
 
 
     const filteredServices = useMemo(() => {
-        let services = selectedCategory === 'Alle' 
-            ? allServicesData 
+        let services = selectedCategory === 'Alle'
+            ? allServicesData
             : servicesByCategory[selectedCategory] || [];
 
         if (searchQuery) {
@@ -374,6 +361,13 @@ const ServicesPage: React.FC = () => {
                 s.category.toLowerCase().includes(query)
             );
         }
+
+        // Sort: popular first (alphabetically), then rest alphabetically
+        services.sort((a, b) => {
+            if (a.popular && !b.popular) return -1;
+            if (!a.popular && b.popular) return 1;
+            return a.name.localeCompare(b.name, 'de');
+        });
 
         return services;
     }, [selectedCategory, searchQuery, servicesByCategory]);
@@ -390,7 +384,7 @@ const ServicesPage: React.FC = () => {
             {/* All Services Section - Modern Split Layout */}
             <div id="services-results" className="bg-slate-50 pt-20 sm:pt-28 lg:pt-32 pb-8 sm:pb-16">
                 <div className="container mx-auto px-3 sm:px-6 lg:px-8 max-w-7xl">
-                    
+
                     {/* Top Bar - Stats */}
                     <div className="mb-5 sm:mb-10 px-1 sm:px-0">
                         <h2 className="text-xl sm:text-3xl font-black text-slate-900 mb-1 sm:mb-2">
@@ -406,11 +400,10 @@ const ServicesPage: React.FC = () => {
                         <div className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide">
                             <button
                                 onClick={() => setSelectedCategory('Alle')}
-                                className={`flex-shrink-0 inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all ${
-                                    selectedCategory === 'Alle'
-                                        ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
-                                        : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600'
-                                }`}
+                                className={`flex-shrink-0 inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all ${selectedCategory === 'Alle'
+                                    ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
+                                    : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600'
+                                    }`}
                             >
                                 <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
@@ -424,11 +417,10 @@ const ServicesPage: React.FC = () => {
                                     <button
                                         key={category}
                                         onClick={() => setSelectedCategory(category)}
-                                        className={`flex-shrink-0 inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all ${
-                                            isActive
-                                                ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
-                                                : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600'
-                                        }`}
+                                        className={`flex-shrink-0 inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all ${isActive
+                                            ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
+                                            : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600'
+                                            }`}
                                     >
                                         <span className="w-3.5 h-3.5 sm:w-4 sm:h-4">{categoryIcons[category]}</span>
                                         <span className="hidden sm:inline">{category}</span>
@@ -456,9 +448,7 @@ const ServicesPage: React.FC = () => {
                                         'Umzugsreinigung': '🧹', 'Gebäudereinigung': '🏢', 'Fensterreinigung': '🪟',
                                         'Baureinigung': '🧽', 'Dachreinigung': '🏠', 'Hauswartung': '🔧',
                                         'Gartenpflege': '🌿', 'Gartenbau': '🌳', 'Baumpflege': '🌲', 'Zaunbau': '🚧',
-                                        'Fahrzeugreinigung': '🚗', 'Maschinenvermietung': '🚜',
-                                        'Catering & Partyservice': '🍽️', 'Eventorganisation': '🎉', 'Fotografie & Video': '📸',
-                                        'Buchhaltung & Treuhand': '📊',
+
                                     };
                                     const emoji = serviceEmojis[service.name] || '🔨';
 
@@ -508,9 +498,7 @@ const ServicesPage: React.FC = () => {
                                         'Umzugsreinigung': '🧹', 'Gebäudereinigung': '🏢', 'Fensterreinigung': '🪟',
                                         'Baureinigung': '🧽', 'Dachreinigung': '🏠', 'Hauswartung': '🔧',
                                         'Gartenpflege': '🌿', 'Gartenbau': '🌳', 'Baumpflege': '🌲', 'Zaunbau': '🚧',
-                                        'Fahrzeugreinigung': '🚗', 'Maschinenvermietung': '🚜',
-                                        'Catering & Partyservice': '🍽️', 'Eventorganisation': '🎉', 'Fotografie & Video': '📸',
-                                        'Buchhaltung & Treuhand': '📊',
+
                                     };
                                     const emoji = serviceEmojis[service.name] || '🔨';
 
@@ -593,7 +581,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, gradient, onSelect, 
                     <p className="text-sm text-slate-600 mb-4 line-clamp-2 flex-1 leading-relaxed">
                         {service.description}
                     </p>
-                    
+
                     {/* Footer */}
                     <div className="flex items-center justify-between pt-3 border-t border-slate-100">
                         <span className="text-xs font-bold text-slate-500">
@@ -768,10 +756,10 @@ const ServiceIcon: React.FC<{ name: string; className?: string }> = ({ name, cla
         'Baumpflege': <path strokeLinecap="round" strokeLinejoin="round" d="M7.848 8.25l1.536.887M7.848 8.25a3 3 0 11-5.196-3 3 3 0 015.196 3zm1.536.887a2.165 2.165 0 011.083 1.839c.005.351.054.695.14 1.024M9.384 9.137l2.077 1.199M7.848 15.75l1.536-.887m-1.536.887a3 3 0 11-5.196 3 3 3 0 015.196-3zm1.536-.887a2.165 2.165 0 001.083-1.838c.005-.352.054-.695.14-1.025m-1.223 2.863l2.077-1.199m0-3.328a4.323 4.323 0 012.068-1.379l5.325-1.628a4.5 4.5 0 012.48-.044l.803.215-7.794 4.5m-2.882-1.664A4.331 4.331 0 0010.607 12m3.736 0l7.794 4.5-.802.215a4.5 4.5 0 01-2.48-.043l-5.326-1.629a4.324 4.324 0 01-2.068-1.379M14.343 12l-2.882 1.664" />,
         'Zaunbau': <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />,
     };
-    
+
     // Default icon
     const defaultIcon = <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />;
-    
+
     return (
         <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
             {icons[name] || defaultIcon}
@@ -811,7 +799,7 @@ const ServiceCardItem: React.FC<{
                     <div className="w-11 h-11 rounded-lg bg-primary-50 border border-primary-100 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-100 group-hover:border-primary-200 transition-colors">
                         <ServiceIcon name={service.name} className="w-5 h-5 text-primary-600" />
                     </div>
-                    
+
                     {/* Title + Category */}
                     <div className="flex-1 min-w-0">
                         <h3 className="text-sm font-bold text-slate-900 leading-tight mb-1 group-hover:text-primary-700 transition-colors">

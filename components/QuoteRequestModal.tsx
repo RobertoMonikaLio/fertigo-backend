@@ -32,23 +32,23 @@ import {
 
 // --- PLZ to City Mapping ---
 const plzToCityMap: { [key: string]: string } = {
-  '8001': 'Zürich', '8002': 'Zürich', '8003': 'Zürich', '8004': 'Zürich', '8005': 'Zürich', '8006': 'Zürich', '8008': 'Zürich', '8032': 'Zürich', '8037': 'Zürich', '8038': 'Zürich', '8041': 'Zürich', '8044': 'Zürich', '8045': 'Zürich', '8046': 'Zürich', '8049': 'Zürich', '8050': 'Zürich', '8051': 'Zürich', '8052': 'Zürich', '8053': 'Zürich', '8055': 'Zürich', '8057': 'Zürich', '8064': 'Zürich',
-  '3000': 'Bern', '3001': 'Bern', '3003': 'Bern', '3004': 'Bern', '3005': 'Bern', '3006': 'Bern', '3007': 'Bern', '3008': 'Bern', '3010': 'Bern', '3011': 'Bern', '3012': 'Bern', '3013': 'Bern', '3014': 'Bern', '3015': 'Bern', '3018': 'Bern', '3019': 'Bern', '3020': 'Bern', '3024': 'Bern', '3027': 'Bern',
-  '4000': 'Basel', '4051': 'Basel', '4052': 'Basel', '4053': 'Basel', '4054': 'Basel', '4055': 'Basel', '4056': 'Basel', '4057': 'Basel', '4058': 'Basel',
-  '1201': 'Genève', '1202': 'Genève', '1203': 'Genève', '1204': 'Genève', '1205': 'Genève', '1206': 'Genève', '1207': 'Genève', '1208': 'Genève',
-  '6000': 'Luzern', '6002': 'Luzern', '6003': 'Luzern', '6004': 'Luzern', '6005': 'Luzern', '6006': 'Luzern',
-  '9000': 'St. Gallen', '9001': 'St. Gallen', '9008': 'St. Gallen', '9010': 'St. Gallen', '9011': 'St. Gallen', '9012': 'St. Gallen', '9013': 'St. Gallen', '9014': 'St. Gallen', '9015': 'St. Gallen', '9016': 'St. Gallen',
-  '8400': 'Winterthur', '8401': 'Winterthur', '8404': 'Winterthur', '8405': 'Winterthur', '8406': 'Winterthur', '8408': 'Winterthur',
-  '1000': 'Lausanne', '1003': 'Lausanne', '1004': 'Lausanne', '1005': 'Lausanne', '1006': 'Lausanne', '1007': 'Lausanne',
-  '6900': 'Lugano',
-  '2502': 'Biel/Bienne', '2503': 'Biel/Bienne', '2504': 'Biel/Bienne',
-  '8610': 'Uster',
-  '5000': 'Aarau',
-  '3600': 'Thun',
-  '6300': 'Zug',
-  '8200': 'Schaffhausen',
-  '7000': 'Chur',
-  '8304': 'Wallisellen',
+    '8001': 'Zürich', '8002': 'Zürich', '8003': 'Zürich', '8004': 'Zürich', '8005': 'Zürich', '8006': 'Zürich', '8008': 'Zürich', '8032': 'Zürich', '8037': 'Zürich', '8038': 'Zürich', '8041': 'Zürich', '8044': 'Zürich', '8045': 'Zürich', '8046': 'Zürich', '8049': 'Zürich', '8050': 'Zürich', '8051': 'Zürich', '8052': 'Zürich', '8053': 'Zürich', '8055': 'Zürich', '8057': 'Zürich', '8064': 'Zürich',
+    '3000': 'Bern', '3001': 'Bern', '3003': 'Bern', '3004': 'Bern', '3005': 'Bern', '3006': 'Bern', '3007': 'Bern', '3008': 'Bern', '3010': 'Bern', '3011': 'Bern', '3012': 'Bern', '3013': 'Bern', '3014': 'Bern', '3015': 'Bern', '3018': 'Bern', '3019': 'Bern', '3020': 'Bern', '3024': 'Bern', '3027': 'Bern',
+    '4000': 'Basel', '4051': 'Basel', '4052': 'Basel', '4053': 'Basel', '4054': 'Basel', '4055': 'Basel', '4056': 'Basel', '4057': 'Basel', '4058': 'Basel',
+    '1201': 'Genève', '1202': 'Genève', '1203': 'Genève', '1204': 'Genève', '1205': 'Genève', '1206': 'Genève', '1207': 'Genève', '1208': 'Genève',
+    '6000': 'Luzern', '6002': 'Luzern', '6003': 'Luzern', '6004': 'Luzern', '6005': 'Luzern', '6006': 'Luzern',
+    '9000': 'St. Gallen', '9001': 'St. Gallen', '9008': 'St. Gallen', '9010': 'St. Gallen', '9011': 'St. Gallen', '9012': 'St. Gallen', '9013': 'St. Gallen', '9014': 'St. Gallen', '9015': 'St. Gallen', '9016': 'St. Gallen',
+    '8400': 'Winterthur', '8401': 'Winterthur', '8404': 'Winterthur', '8405': 'Winterthur', '8406': 'Winterthur', '8408': 'Winterthur',
+    '1000': 'Lausanne', '1003': 'Lausanne', '1004': 'Lausanne', '1005': 'Lausanne', '1006': 'Lausanne', '1007': 'Lausanne',
+    '6900': 'Lugano',
+    '2502': 'Biel/Bienne', '2503': 'Biel/Bienne', '2504': 'Biel/Bienne',
+    '8610': 'Uster',
+    '5000': 'Aarau',
+    '3600': 'Thun',
+    '6300': 'Zug',
+    '8200': 'Schaffhausen',
+    '7000': 'Chur',
+    '8304': 'Wallisellen',
 };
 
 
@@ -65,13 +65,13 @@ try {
 const questionsSchema = {
     type: Type.ARRAY,
     items: {
-      type: Type.OBJECT,
-      properties: {
-        question: { type: Type.STRING, description: "Eine klare, einfache Frage an den Benutzer." },
-        key: { type: Type.STRING, description: "Ein kurzer, einzigartiger Schlüssel für diese Frage (z.B. 'dimensions')." },
-        type: { type: Type.STRING, description: "Eingabetyp: 'text', 'textarea', 'select', 'checkbox'." },
-        options: { type: Type.ARRAY, description: "Optionen für 'select' oder 'checkbox'.", items: { type: Type.STRING } }
-      }
+        type: Type.OBJECT,
+        properties: {
+            question: { type: Type.STRING, description: "Eine klare, einfache Frage an den Benutzer." },
+            key: { type: Type.STRING, description: "Ein kurzer, einzigartiger Schlüssel für diese Frage (z.B. 'dimensions')." },
+            type: { type: Type.STRING, description: "Eingabetyp: 'text', 'textarea', 'select', 'checkbox'." },
+            options: { type: Type.ARRAY, description: "Optionen für 'select' oder 'checkbox'.", items: { type: Type.STRING } }
+        }
     }
 };
 
@@ -116,19 +116,18 @@ const allServices = [
     'Baumpflege',
     'Baureinigung',
     'Bodenleger',
-    'Buchhaltung & Treuhand',
-    'Catering & Partyservice',
+
     'Dachdecker',
     'Dachreinigung',
     'Einlagerung',
     'Elektriker',
     'Entsorgung & Räumung',
-    'Eventorganisation',
+
     'Fassadenbau',
     'Fenstermontage',
     'Fensterreinigung',
     'Firmenumzug',
-    'Fotografie & Video',
+
     'Gartenbau',
     'Gartenpflege',
     'Gebäudereinigung',
@@ -173,12 +172,12 @@ interface QuoteRequestModalProps {
 
 const ProgressSidebar: React.FC<{ step: number; service: string; }> = ({ step }) => {
     const stepsConfig = [
-        { name: 'Ihr Projekt', step: 1, icon: <PencilSquareIcon className="w-5 h-5"/> },
-        { name: 'Details klären', step: 2, icon: <ListBulletIcon className="w-5 h-5"/> },
-        { name: 'Kontakt', step: 3, icon: <UserIcon className="w-5 h-5"/> },
-        { name: 'Prüfen & Senden', step: 4, icon: <CheckCircleIcon className="w-5 h-5"/> }
+        { name: 'Ihr Projekt', step: 1, icon: <PencilSquareIcon className="w-5 h-5" /> },
+        { name: 'Details klären', step: 2, icon: <ListBulletIcon className="w-5 h-5" /> },
+        { name: 'Kontakt', step: 3, icon: <UserIcon className="w-5 h-5" /> },
+        { name: 'Prüfen & Senden', step: 4, icon: <CheckCircleIcon className="w-5 h-5" /> }
     ];
-    
+
     let currentProgressStep = step;
     if (step === 5) currentProgressStep = 5; // Verification state
     if (step === 6) currentProgressStep = 6; // Success state
@@ -188,24 +187,23 @@ const ProgressSidebar: React.FC<{ step: number; service: string; }> = ({ step })
         { icon: <ShieldCheckIcon className="w-5 h-5 text-primary-700" />, text: "Geprüfte Schweizer Anbieter" },
         { icon: <ClockIcon className="w-5 h-5 text-primary-700" />, text: "Erste Angebote in < 24h" },
     ];
-    
+
     return (
         <div className="hidden lg:flex flex-col w-1/3 bg-slate-50 p-8 rounded-l-2xl border-r border-slate-200">
             <div className="flex flex-col mb-12">
                 <span className="font-extrabold text-xl text-slate-800 tracking-tight">Fertigo</span>
                 <span className="text-xs font-medium text-primary-700 tracking-tighter -mt-1">Clever, Günstig, Flexibel</span>
             </div>
-            
+
             <nav aria-label="Fortschritt">
                 <ul className="space-y-6">
                     {stepsConfig.map((s, index) => (
                         <li key={s.name} className="flex items-center gap-4" aria-current={currentProgressStep === index + 1 ? 'step' : undefined}>
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-2 transition-all duration-300 ${
-                                currentProgressStep > index + 1 ? 'bg-primary-600 border-primary-600 text-white' : 
-                                currentProgressStep === index + 1 ? 'bg-white border-primary-600 text-primary-600' :
-                                'bg-slate-100 border-slate-300 text-slate-500'
-                            }`}>
-                                {currentProgressStep > index + 1 ? <CheckCircleIcon className="w-6 h-6"/> : s.icon}
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-2 transition-all duration-300 ${currentProgressStep > index + 1 ? 'bg-primary-600 border-primary-600 text-white' :
+                                    currentProgressStep === index + 1 ? 'bg-white border-primary-600 text-primary-600' :
+                                        'bg-slate-100 border-slate-300 text-slate-500'
+                                }`}>
+                                {currentProgressStep > index + 1 ? <CheckCircleIcon className="w-6 h-6" /> : s.icon}
                             </div>
                             <div>
                                 <p className="text-sm text-slate-500">Schritt {index + 1}</p>
@@ -240,8 +238,8 @@ const FileUploader: React.FC<{ files: File[]; onFilesChange: (e: React.ChangeEve
     return (
         <div>
             <h3 className="font-semibold text-slate-800 mb-2">Bilder oder Dokumente hinzufügen (optional)</h3>
-            <div 
-                onClick={onButtonClick} 
+            <div
+                onClick={onButtonClick}
                 className="cursor-pointer p-6 border-2 border-dashed border-slate-300 text-center rounded-lg hover:border-primary-500 hover:bg-primary-50/50 transition-colors"
                 role="button"
                 aria-label="Datei hochladen"
@@ -258,7 +256,7 @@ const FileUploader: React.FC<{ files: File[]; onFilesChange: (e: React.ChangeEve
                     {files.map((file, i) => (
                         <div key={i} className="flex items-center justify-between bg-slate-100 p-2 rounded-md">
                             <p className="text-sm text-slate-700 truncate pr-2">{file.name}</p>
-                            <button type="button" onClick={() => onRemoveFile(file)} className="text-red-500 hover:text-red-700 flex-shrink-0" aria-label={`Entferne ${file.name}`}><TrashIcon className="w-5 h-5"/></button>
+                            <button type="button" onClick={() => onRemoveFile(file)} className="text-red-500 hover:text-red-700 flex-shrink-0" aria-label={`Entferne ${file.name}`}><TrashIcon className="w-5 h-5" /></button>
                         </div>
                     ))}
                 </div>
@@ -287,15 +285,15 @@ export default function QuoteRequestModal({ isOpen, onClose, initialData = {} }:
         setMounted(true);
         return () => setMounted(false);
     }, []);
-    
+
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
             setIsVisible(true);
             const service = initialData.service && allServices.some(s => s === initialData.service) ? initialData.service : '';
-            
+
             const newFormData = { ...initialFormData, ...initialData, service: service, projectDescription: initialData.projectTitle || '' };
-            
+
             const movingServices = ['Umzug', 'Transport', 'Firmenumzug', 'Möbeltransport', 'Klaviertransport', 'Privatumzug'];
             const isMovingService = movingServices.includes(newFormData.service || '');
 
@@ -330,7 +328,7 @@ export default function QuoteRequestModal({ isOpen, onClose, initialData = {} }:
         setIsVisible(false);
         setTimeout(onClose, 300); // Wait for animation to finish
     };
-    
+
     const validate = (currentStep: number): boolean => {
         const newErrors: Record<string, string> = {};
         const isMoving = ['Umzug', 'Transport', 'Firmenumzug', 'Möbeltransport', 'Klaviertransport', 'Privatumzug'].includes(formData.service);
@@ -354,7 +352,7 @@ export default function QuoteRequestModal({ isOpen, onClose, initialData = {} }:
         if (currentStep === 2) {
             if (!formData.timeline) newErrors.timeline = 'Bitte geben Sie den gewünschten Zeitrahmen an.';
             if (!formData.onSiteVisit) newErrors.onSiteVisit = 'Bitte geben Sie an, ob eine Besichtigung möglich ist.';
-            
+
             if (isMoving) {
                 if (!formData.numberOfRooms) newErrors.numberOfRooms = 'Bitte geben Sie die Anzahl Zimmer an.';
                 if (!formData.floorFrom.trim()) newErrors.floorFrom = 'Stockwerk angeben.';
@@ -411,10 +409,10 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 throw new Error("Keine Antwort von der KI erhalten.");
             }
             const questions = JSON.parse(responseText);
-            
+
             if (questions && questions.length > 0) {
                 setDynamicQuestions(questions);
-                setFormData(prev => ({...prev, dynamicAnswers: {}}))
+                setFormData(prev => ({ ...prev, dynamicAnswers: {} }))
             } else {
                 setDynamicQuestions([]);
             }
@@ -422,7 +420,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
             console.error("Error fetching dynamic questions:", err);
             setDynamicQuestions([]);
         } finally {
-             setIsGeneratingQuestions(false);
+            setIsGeneratingQuestions(false);
         }
     }, [formData.service, formData.projectDescription]);
 
@@ -438,13 +436,13 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
             setStep(s => s + 1);
         }
     };
-    
+
     const handleBack = () => setStep(s => s > 1 ? s - 1 : 1);
-    
+
     const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) setFormData(prev => ({ ...prev, files: [...prev.files, ...Array.from(e.target.files as FileList)] }));
     };
-    
+
     const removeFile = (fileToRemove: File) => {
         setFormData(prev => ({ ...prev, files: prev.files.filter(file => file !== fileToRemove) }));
     };
@@ -499,16 +497,16 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
             const today = new Date();
             const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
             const formattedDate = `${today.getDate()}. ${monthNames[today.getMonth()]} ${today.getFullYear()}`;
-            
+
             const isMovingService = formData.service.toLowerCase().includes('umzug');
-            const location = isMovingService 
-                ? `${formData.moveFromZip} ${formData.moveFromCity}` 
+            const location = isMovingService
+                ? `${formData.moveFromZip} ${formData.moveFromCity}`
                 : `${formData.locationZip} ${formData.locationCity}`;
-            
+
             const details: { label: string; value: string }[] = [
                 { label: 'Zeitrahmen', value: formData.timeline },
             ];
-            
+
             if (isMovingService) {
                 details.push({ label: 'Von', value: `${formData.moveFromZip} ${formData.moveFromCity}` });
                 details.push({ label: 'Nach', value: `${formData.moveToZip} ${formData.moveToCity}` });
@@ -519,19 +517,19 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 if (formData.liftTo) details.push({ label: 'Lift (Einzug)', value: formData.liftTo });
                 if (formData.specialObjects) details.push({ label: 'Besondere Objekte', value: formData.specialObjects });
             }
-            
+
             if (formData.onSiteVisit) details.push({ label: 'Besichtigung', value: formData.onSiteVisit });
-            
+
             dynamicQuestions.forEach(q => {
                 if (formData.dynamicAnswers[q.key]) {
                     details.push({ label: q.question, value: String(formData.dynamicAnswers[q.key]) });
                 }
             });
-            
-            const customerName = formData.anrede === 'Firma' && formData.companyName 
-                ? formData.companyName 
+
+            const customerName = formData.anrede === 'Firma' && formData.companyName
+                ? formData.companyName
                 : `${formData.firstName} ${formData.lastName}`;
-            
+
             const newRequest = {
                 title: `${formData.service} - ${location}`,
                 service: formData.service,
@@ -553,10 +551,10 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 onSiteVisit: formData.onSiteVisit || undefined,
                 qualityScore: Math.floor(Math.random() * 30) + 70,
             };
-            
+
             const newId = addNewRequest(newRequest);
             console.log("New lead created with ID:", newId);
-            
+
             setStep(6);
             setIsSuccess(true);
             setTimeout(handleClose, 5000);
@@ -602,9 +600,9 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 }
             }
         }
-    
+
         setFormData(newFormData);
-    
+
         if (errors[field as string]) {
             setErrors(prev => {
                 const newErrors = { ...prev };
@@ -613,7 +611,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
             });
         }
     };
-    
+
     const handleDynamicAnswerChange = (key: string, value: string) => {
         setFormData(prev => ({ ...prev, dynamicAnswers: { ...prev.dynamicAnswers, [key]: value } }));
         if (errors[key]) setErrors(prev => { const newErrors = { ...prev }; delete newErrors[key]; return newErrors; });
@@ -621,7 +619,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
 
     const handleDownloadPDF = () => {
         const isMoving = ['Umzug', 'Transport', 'Firmenumzug', 'Möbeltransport', 'Klaviertransport', 'Privatumzug'].includes(formData.service);
-    
+
         let dynamicDetailsHtml = '';
         if (dynamicQuestions.length > 0) {
             dynamicDetailsHtml = dynamicQuestions.map(q => `
@@ -641,7 +639,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 ${formData.specialObjects ? `<tr><td>Besondere Objekte:</td><td>${formData.specialObjects}</td></tr>` : ''}
             `;
         }
-    
+
         const content = `
             <html>
                 <head>
@@ -670,10 +668,10 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                         <table>
                             <tr><td>Dienstleistung:</td><td>${formData.service}</td></tr>
                             ${isMoving
-                                ? `<tr><td>Von:</td><td>${formData.moveFromZip} ${formData.moveFromCity}</td></tr>
+                ? `<tr><td>Von:</td><td>${formData.moveFromZip} ${formData.moveFromCity}</td></tr>
                                    <tr><td>Nach:</td><td>${formData.moveToZip} ${formData.moveToCity}</td></tr>`
-                                : `<tr><td>Ort:</td><td>${formData.locationZip} ${formData.locationCity}</td></tr>`
-                            }
+                : `<tr><td>Ort:</td><td>${formData.locationZip} ${formData.locationCity}</td></tr>`
+            }
                             <tr><td>Beschreibung:</td><td>${formData.projectDescription.replace(/\n/g, '<br>') || 'Keine Angabe'}</td></tr>
                         </table>
     
@@ -709,7 +707,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 </body>
             </html>
         `;
-    
+
         const printWindow = window.open('', '_blank');
         if (printWindow) {
             printWindow.document.write(content);
@@ -723,20 +721,20 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
 
     const renderStepContent = () => {
         const isMoving = ['Umzug', 'Transport', 'Firmenumzug', 'Möbeltransport', 'Klaviertransport', 'Privatumzug'].includes(formData.service);
-        const kantons = [ 'AG', 'AI', 'AR', 'BE', 'BL', 'BS', 'FR', 'GE', 'GL', 'GR', 'JU', 'LU', 'NE', 'NW', 'OW', 'SG', 'SH', 'SO', 'SZ', 'TG', 'TI', 'UR', 'VD', 'VS', 'ZG', 'ZH' ];
-        const roomOptions = [ '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5', '5.5', '6', 'Grösser als 6 Zimmer' ];
-        
+        const kantons = ['AG', 'AI', 'AR', 'BE', 'BL', 'BS', 'FR', 'GE', 'GL', 'GR', 'JU', 'LU', 'NE', 'NW', 'OW', 'SG', 'SH', 'SO', 'SZ', 'TG', 'TI', 'UR', 'VD', 'VS', 'ZG', 'ZH'];
+        const roomOptions = ['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5', '5.5', '6', 'Grösser als 6 Zimmer'];
+
         switch (step) {
             case 1: // Project Step
                 return (
                     <form onSubmit={(e) => { e.preventDefault(); handleNext(1); }} className="flex flex-col h-full animate-fade-in">
-                        <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3"><ColoredPencilIcon className="w-8 h-8"/><span>Beschreiben Sie Ihr Projekt</span></h2>
+                        <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3"><ColoredPencilIcon className="w-8 h-8" /><span>Beschreiben Sie Ihr Projekt</span></h2>
                         <p className="text-slate-600 mt-2 mb-8">Starten Sie mit der Auswahl einer Dienstleistung und dem Standort.</p>
-                        
+
                         <div className="space-y-6 flex-grow overflow-y-auto -mr-4 pr-4 custom-scrollbar">
                             <div>
                                 <label htmlFor="modal-service" className="font-semibold text-slate-800 mb-2 block">Dienstleistung</label>
-                                
+
                                 {/* Popular Services Quick Selection - Hidden when service is selected */}
                                 {!formData.service && (
                                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
@@ -770,7 +768,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                     </select>
                                     <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
                                 </div>
-                                {errors.service && <div id="service-error" role="alert" className="text-sm text-red-600 mt-2 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.service}</span></div>}
+                                {errors.service && <div id="service-error" role="alert" className="text-sm text-red-600 mt-2 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.service}</span></div>}
                             </div>
 
                             {formData.service && (
@@ -782,11 +780,11 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                                                     <div className="sm:col-span-1">
                                                         <input id="moveFromZip" name="moveFromZip" value={formData.moveFromZip} onChange={e => handleFieldChange('moveFromZip', e.target.value)} type="text" placeholder="PLZ" className={`w-full h-14 text-base px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.moveFromZip ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-invalid={!!errors.moveFromZip} aria-describedby={errors.moveFromZip ? "moveFromZip-error" : undefined} />
-                                                        {errors.moveFromZip && <div id="moveFromZip-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.moveFromZip}</span></div>}
+                                                        {errors.moveFromZip && <div id="moveFromZip-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.moveFromZip}</span></div>}
                                                     </div>
                                                     <div className="sm:col-span-2">
                                                         <input id="moveFromCity" name="moveFromCity" value={formData.moveFromCity} onChange={e => handleFieldChange('moveFromCity', e.target.value)} type="text" placeholder="Ort" className={`w-full h-14 text-base px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.moveFromCity ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-invalid={!!errors.moveFromCity} aria-describedby={errors.moveFromCity ? "moveFromCity-error" : undefined} />
-                                                        {errors.moveFromCity && <div id="moveFromCity-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.moveFromCity}</span></div>}
+                                                        {errors.moveFromCity && <div id="moveFromCity-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.moveFromCity}</span></div>}
                                                     </div>
                                                 </div>
                                             </div>
@@ -795,11 +793,11 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                                                     <div className="sm:col-span-1">
                                                         <input id="moveToZip" name="moveToZip" value={formData.moveToZip} onChange={e => handleFieldChange('moveToZip', e.target.value)} type="text" placeholder="PLZ" className={`w-full h-14 text-base px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.moveToZip ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-invalid={!!errors.moveToZip} aria-describedby={errors.moveToZip ? "moveToZip-error" : undefined} />
-                                                        {errors.moveToZip && <div id="moveToZip-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.moveToZip}</span></div>}
+                                                        {errors.moveToZip && <div id="moveToZip-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.moveToZip}</span></div>}
                                                     </div>
                                                     <div className="sm:col-span-2">
                                                         <input id="moveToCity" name="moveToCity" value={formData.moveToCity} onChange={e => handleFieldChange('moveToCity', e.target.value)} type="text" placeholder="Ort" className={`w-full h-14 text-base px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.moveToCity ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-invalid={!!errors.moveToCity} aria-describedby={errors.moveToCity ? "moveToCity-error" : undefined} />
-                                                        {errors.moveToCity && <div id="moveToCity-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.moveToCity}</span></div>}
+                                                        {errors.moveToCity && <div id="moveToCity-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.moveToCity}</span></div>}
                                                     </div>
                                                 </div>
                                             </div>
@@ -810,11 +808,11 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                                                 <div className="sm:col-span-1">
                                                     <input id="locationZip" name="locationZip" value={formData.locationZip} onChange={e => handleFieldChange('locationZip', e.target.value)} type="text" placeholder="PLZ" className={`w-full h-14 text-base px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.locationZip ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-invalid={!!errors.locationZip} aria-describedby={errors.locationZip ? "locationZip-error" : undefined} />
-                                                    {errors.locationZip && <div id="locationZip-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.locationZip}</span></div>}
+                                                    {errors.locationZip && <div id="locationZip-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.locationZip}</span></div>}
                                                 </div>
                                                 <div className="sm:col-span-2">
                                                     <input id="locationCity" name="locationCity" value={formData.locationCity} onChange={e => handleFieldChange('locationCity', e.target.value)} type="text" placeholder="Ort" className={`w-full h-14 text-base px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.locationCity ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-invalid={!!errors.locationCity} aria-describedby={errors.locationCity ? "locationCity-error" : undefined} />
-                                                    {errors.locationCity && <div id="locationCity-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.locationCity}</span></div>}
+                                                    {errors.locationCity && <div id="locationCity-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.locationCity}</span></div>}
                                                 </div>
                                             </div>
                                         </div>
@@ -822,14 +820,14 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                     <div>
                                         <label htmlFor="projectDescription" className="font-semibold text-slate-800 mb-2 block">Beschreibung (optional)</label>
                                         <textarea id="projectDescription" name="projectDescription" value={formData.projectDescription} onChange={(e) => handleFieldChange('projectDescription', e.target.value)} className={`w-full text-base p-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.projectDescription ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} placeholder={'Beschreiben Sie Ihr Projekt...'} rows={5} aria-invalid={!!errors.projectDescription} aria-describedby={errors.projectDescription ? "projectDescription-error" : undefined} />
-                                        {errors.projectDescription && <div id="projectDescription-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.projectDescription}</span></div>}
+                                        {errors.projectDescription && <div id="projectDescription-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.projectDescription}</span></div>}
                                     </div>
                                 </div>
                             )}
                         </div>
-                        
+
                         <div className="mt-auto pt-8">
-                             <button type="submit" className="w-full bg-primary-600 text-white font-bold py-3 rounded-lg hover:bg-primary-700 transition-all shadow-md text-lg flex items-center justify-center gap-2">Details klären <ArrowRightIcon className="w-5 h-5"/></button>
+                            <button type="submit" className="w-full bg-primary-600 text-white font-bold py-3 rounded-lg hover:bg-primary-700 transition-all shadow-md text-lg flex items-center justify-center gap-2">Details klären <ArrowRightIcon className="w-5 h-5" /></button>
                         </div>
                     </form>
                 );
@@ -841,14 +839,14 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                             <span>Details klären</span>
                         </h2>
                         <p className="text-slate-600 mt-2 mb-8">Zusätzliche Angaben helfen den Profis, Ihnen eine genaue Offerte zu erstellen.</p>
-                        
+
                         <div className="space-y-6 flex-grow overflow-y-auto -mr-4 pr-4 custom-scrollbar">
                             {/* Static Questions */}
                             <div className="space-y-6">
                                 <div>
                                     <label htmlFor="timeline" className="font-semibold text-slate-800 mb-2 block">Gewünschter Zeitrahmen</label>
                                     <div className="relative flex items-center">
-                                        <CalendarDaysIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
+                                        <CalendarDaysIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                                         <select id="timeline" value={formData.timeline} onChange={e => handleFieldChange('timeline', e.target.value)} className={`w-full h-14 text-base pl-11 pr-10 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow appearance-none ${errors.timeline ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.timeline} aria-describedby={errors.timeline ? "timeline-error" : undefined}>
                                             <option value="">Bitte wählen...</option>
                                             <option value="So schnell wie möglich">So schnell wie möglich</option>
@@ -858,12 +856,12 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                         </select>
                                         <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
                                     </div>
-                                    {errors.timeline && <div id="timeline-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.timeline}</span></div>}
+                                    {errors.timeline && <div id="timeline-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.timeline}</span></div>}
                                 </div>
                                 <div>
                                     <label htmlFor="onSiteVisit" className="font-semibold text-slate-800 mb-2 block">Besichtigungstermin möglich?</label>
                                     <div className="relative flex items-center">
-                                        <UsersIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
+                                        <UsersIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                                         <select id="onSiteVisit" value={formData.onSiteVisit} onChange={e => handleFieldChange('onSiteVisit', e.target.value)} className={`w-full h-14 text-base pl-11 pr-10 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow appearance-none ${errors.onSiteVisit ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.onSiteVisit} aria-describedby={errors.onSiteVisit ? "onSiteVisit-error" : undefined}>
                                             <option value="">Bitte wählen...</option>
                                             <option value="Ja, erwünscht">Ja, erwünscht</option>
@@ -872,10 +870,10 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                         </select>
                                         <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
                                     </div>
-                                    {errors.onSiteVisit && <div id="onSiteVisit-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.onSiteVisit}</span></div>}
+                                    {errors.onSiteVisit && <div id="onSiteVisit-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.onSiteVisit}</span></div>}
                                 </div>
                             </div>
-                            
+
                             {isMoving && (
                                 <div className="animate-fade-in mt-6 pt-6 border-t border-slate-200">
                                     <h3 className="text-lg font-bold text-slate-800 flex items-center gap-3 mb-4">
@@ -892,7 +890,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                                 </select>
                                                 <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
                                             </div>
-                                            {errors.numberOfRooms && <div id="numberOfRooms-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.numberOfRooms}</span></div>}
+                                            {errors.numberOfRooms && <div id="numberOfRooms-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.numberOfRooms}</span></div>}
                                         </div>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                             <div>
@@ -912,7 +910,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                                     </select>
                                                     <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
                                                 </div>
-                                                {errors.floorFrom && <div id="floorFrom-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.floorFrom}</span></div>}
+                                                {errors.floorFrom && <div id="floorFrom-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.floorFrom}</span></div>}
                                             </div>
                                             <div>
                                                 <label htmlFor="liftFrom" className="font-medium text-slate-800 mb-2 block">Lift (Auszug)</label>
@@ -922,7 +920,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                                     </select>
                                                     <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
                                                 </div>
-                                                {errors.liftFrom && <div id="liftFrom-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.liftFrom}</span></div>}
+                                                {errors.liftFrom && <div id="liftFrom-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.liftFrom}</span></div>}
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -943,17 +941,17 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                                     </select>
                                                     <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
                                                 </div>
-                                                {errors.floorTo && <div id="floorTo-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.floorTo}</span></div>}
+                                                {errors.floorTo && <div id="floorTo-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.floorTo}</span></div>}
                                             </div>
                                             <div>
                                                 <label htmlFor="liftTo" className="font-medium text-slate-800 mb-2 block">Lift (Einzug)</label>
-                                                 <div className="relative">
+                                                <div className="relative">
                                                     <select id="liftTo" value={formData.liftTo} onChange={e => handleFieldChange('liftTo', e.target.value)} className={`w-full h-14 text-base px-4 pr-10 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow appearance-none ${errors.liftTo ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.liftTo} aria-describedby={errors.liftTo ? "liftTo-error" : undefined}>
                                                         <option value="">Wählen</option><option value="Ja">Ja</option><option value="Nein">Nein</option><option value="Teilweise">Teilweise</option>
                                                     </select>
                                                     <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
                                                 </div>
-                                                {errors.liftTo && <div id="liftTo-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.liftTo}</span></div>}
+                                                {errors.liftTo && <div id="liftTo-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.liftTo}</span></div>}
                                             </div>
                                         </div>
                                         <div>
@@ -976,33 +974,33 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                     {dynamicQuestions.map(q => (
                                         <div key={q.key}>
                                             <label htmlFor={q.key} className="font-medium text-slate-800 mb-2 flex items-center gap-2">
-                                                <PencilIcon className="w-4 h-4 text-slate-400"/>{q.question}
+                                                <PencilIcon className="w-4 h-4 text-slate-400" />{q.question}
                                             </label>
                                             {q.type === 'select' ? (
                                                 <div className="relative flex items-center">
-                                                    <select 
-                                                        id={q.key} 
-                                                        onChange={e => handleDynamicAnswerChange(q.key, e.target.value)} 
+                                                    <select
+                                                        id={q.key}
+                                                        onChange={e => handleDynamicAnswerChange(q.key, e.target.value)}
                                                         className={`w-full h-14 px-4 pr-10 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow appearance-none ${errors[q.key] ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`}
                                                         aria-invalid={!!errors[q.key]}
                                                         aria-describedby={errors[q.key] ? `${q.key}-error` : undefined}
                                                     >
                                                         <option value="">Bitte wählen...</option>
-                                                        {q.options.map((o:string) => <option key={o} value={o}>{o}</option>)}
+                                                        {q.options.map((o: string) => <option key={o} value={o}>{o}</option>)}
                                                     </select>
                                                     <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
                                                 </div>
                                             ) : (
-                                                <input 
-                                                    id={q.key} 
-                                                    onChange={e => handleDynamicAnswerChange(q.key, e.target.value)} 
-                                                    type="text" 
-                                                    className={`w-full h-14 px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors[q.key] ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} 
+                                                <input
+                                                    id={q.key}
+                                                    onChange={e => handleDynamicAnswerChange(q.key, e.target.value)}
+                                                    type="text"
+                                                    className={`w-full h-14 px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors[q.key] ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`}
                                                     aria-invalid={!!errors[q.key]}
                                                     aria-describedby={errors[q.key] ? `${q.key}-error` : undefined}
                                                 />
                                             )}
-                                            {errors[q.key] && <div id={`${q.key}-error`} role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors[q.key]}</span></div>}
+                                            {errors[q.key] && <div id={`${q.key}-error`} role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors[q.key]}</span></div>}
                                         </div>
                                     ))}
                                 </div>
@@ -1011,24 +1009,24 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                             {/* File Uploader Section */}
                             <FileUploader files={formData.files} onFilesChange={handleFilesChange} onRemoveFile={removeFile} />
                         </div>
-                        
+
                         <div className="mt-auto pt-8 flex items-center gap-4">
-                             <button type="button" onClick={handleBack} className="bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-lg hover:bg-slate-300 transition-all">Zurück</button>
-                             <button type="submit" className="flex-1 bg-primary-600 text-white font-bold py-3 rounded-lg hover:bg-primary-700 transition-all shadow-md text-lg flex items-center justify-center gap-2">
-                                Weiter zu Kontakt <ArrowRightIcon className="w-5 h-5"/>
-                             </button>
+                            <button type="button" onClick={handleBack} className="bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-lg hover:bg-slate-300 transition-all">Zurück</button>
+                            <button type="submit" className="flex-1 bg-primary-600 text-white font-bold py-3 rounded-lg hover:bg-primary-700 transition-all shadow-md text-lg flex items-center justify-center gap-2">
+                                Weiter zu Kontakt <ArrowRightIcon className="w-5 h-5" />
+                            </button>
                         </div>
                     </form>
                 );
             case 3: // Contact
-                 return (
-                     <form onSubmit={(e) => { e.preventDefault(); handleNext(3); }} className="flex flex-col h-full animate-fade-in">
+                return (
+                    <form onSubmit={(e) => { e.preventDefault(); handleNext(3); }} className="flex flex-col h-full animate-fade-in">
                         <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3"><ColoredPartyPopperIcon className="w-8 h-8" /><span>Fast geschafft!</span></h2>
                         <p className="text-slate-600 mt-2 mb-8">Wohin dürfen wir die unverbindlichen Offerten senden?</p>
                         <div className="space-y-6 flex-grow overflow-y-auto -mr-4 pr-4 custom-scrollbar">
                             <div>
                                 <div className="relative flex items-center">
-                                    <UsersIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
+                                    <UsersIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                                     <select
                                         name="anrede"
                                         value={formData.anrede}
@@ -1045,94 +1043,94 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                     </select>
                                     <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
                                 </div>
-                                {errors.anrede && <div id="anrede-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.anrede}</span></div>}
+                                {errors.anrede && <div id="anrede-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.anrede}</span></div>}
                             </div>
                             {formData.anrede === 'Firma' && (
                                 <div className="space-y-6 animate-fade-in">
                                     <div>
                                         <div className="relative flex items-center">
-                                            <BuildingOfficeIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
-                                            <input name="companyName" value={formData.companyName} onChange={e => handleFieldChange('companyName', e.target.value)} type="text" placeholder="Firma" className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.companyName ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.companyName} aria-describedby={errors.companyName ? "companyName-error" : undefined}/>
+                                            <BuildingOfficeIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                            <input name="companyName" value={formData.companyName} onChange={e => handleFieldChange('companyName', e.target.value)} type="text" placeholder="Firma" className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.companyName ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.companyName} aria-describedby={errors.companyName ? "companyName-error" : undefined} />
                                         </div>
-                                        {errors.companyName && <div id="companyName-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.companyName}</span></div>}
+                                        {errors.companyName && <div id="companyName-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.companyName}</span></div>}
                                     </div>
                                     <div>
                                         <div className="relative flex items-center">
-                                            <BriefcaseIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
-                                            <input name="position" value={formData.position} onChange={e => handleFieldChange('position', e.target.value)} type="text" placeholder="Ihre Position" className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.position ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.position} aria-describedby={errors.position ? "position-error" : undefined}/>
+                                            <BriefcaseIcon className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                            <input name="position" value={formData.position} onChange={e => handleFieldChange('position', e.target.value)} type="text" placeholder="Ihre Position" className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.position ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.position} aria-describedby={errors.position ? "position-error" : undefined} />
                                         </div>
-                                        {errors.position && <div id="position-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.position}</span></div>}
+                                        {errors.position && <div id="position-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.position}</span></div>}
                                     </div>
                                 </div>
                             )}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <div className="relative flex items-center">
-                                        <ColoredUserIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
-                                        <input name="firstName" value={formData.firstName} onChange={e => handleFieldChange('firstName', e.target.value)} type="text" placeholder={formData.anrede === 'Firma' ? 'Vorname Ansprechperson' : 'Vorname'} className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.firstName ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.firstName} aria-describedby={errors.firstName ? "firstName-error" : undefined}/>
+                                        <ColoredUserIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                        <input name="firstName" value={formData.firstName} onChange={e => handleFieldChange('firstName', e.target.value)} type="text" placeholder={formData.anrede === 'Firma' ? 'Vorname Ansprechperson' : 'Vorname'} className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.firstName ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.firstName} aria-describedby={errors.firstName ? "firstName-error" : undefined} />
                                     </div>
-                                    {errors.firstName && <div id="firstName-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.firstName}</span></div>}
+                                    {errors.firstName && <div id="firstName-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.firstName}</span></div>}
                                 </div>
                                 <div>
                                     <div className="relative flex items-center">
-                                        <input name="lastName" value={formData.lastName} onChange={e => handleFieldChange('lastName', e.target.value)} type="text" placeholder={formData.anrede === 'Firma' ? 'Nachname Ansprechperson' : 'Nachname'} className={`w-full h-14 text-base p-3 px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.lastName ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.lastName} aria-describedby={errors.lastName ? "lastName-error" : undefined}/>
+                                        <input name="lastName" value={formData.lastName} onChange={e => handleFieldChange('lastName', e.target.value)} type="text" placeholder={formData.anrede === 'Firma' ? 'Nachname Ansprechperson' : 'Nachname'} className={`w-full h-14 text-base p-3 px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.lastName ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.lastName} aria-describedby={errors.lastName ? "lastName-error" : undefined} />
                                     </div>
-                                    {errors.lastName && <div id="lastName-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.lastName}</span></div>}
+                                    {errors.lastName && <div id="lastName-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.lastName}</span></div>}
                                 </div>
                             </div>
                             <div>
                                 <div className="relative flex items-center">
-                                    <ColoredMapPinIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
-                                    <input name="address" value={formData.address} onChange={e => handleFieldChange('address', e.target.value)} type="text" placeholder="Strasse, Nr." className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.address ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.address} aria-describedby={errors.address ? "address-error" : undefined}/>
+                                    <ColoredMapPinIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                    <input name="address" value={formData.address} onChange={e => handleFieldChange('address', e.target.value)} type="text" placeholder="Strasse, Nr." className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.address ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.address} aria-describedby={errors.address ? "address-error" : undefined} />
                                 </div>
-                                {errors.address && <div id="address-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.address}</span></div>}
+                                {errors.address && <div id="address-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.address}</span></div>}
                             </div>
-                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <div className="relative flex items-center">
-                                        <ColoredMapPinIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
-                                        <input name="postalCode" value={formData.postalCode} onChange={e => handleFieldChange('postalCode', e.target.value)} type="text" placeholder="PLZ" className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.postalCode ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.postalCode} aria-describedby={errors.postalCode ? "postalCode-error" : undefined}/>
+                                        <ColoredMapPinIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                        <input name="postalCode" value={formData.postalCode} onChange={e => handleFieldChange('postalCode', e.target.value)} type="text" placeholder="PLZ" className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.postalCode ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.postalCode} aria-describedby={errors.postalCode ? "postalCode-error" : undefined} />
                                     </div>
-                                    {errors.postalCode && <div id="postalCode-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.postalCode}</span></div>}
+                                    {errors.postalCode && <div id="postalCode-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.postalCode}</span></div>}
                                 </div>
                                 <div>
                                     <div className="relative flex items-center">
-                                        <input name="city" value={formData.city} onChange={e => handleFieldChange('city', e.target.value)} type="text" placeholder="Ort" className={`w-full h-14 text-base p-3 px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.city ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.city} aria-describedby={errors.city ? "city-error" : undefined}/>
+                                        <input name="city" value={formData.city} onChange={e => handleFieldChange('city', e.target.value)} type="text" placeholder="Ort" className={`w-full h-14 text-base p-3 px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.city ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.city} aria-describedby={errors.city ? "city-error" : undefined} />
                                     </div>
-                                    {errors.city && <div id="city-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.city}</span></div>}
+                                    {errors.city && <div id="city-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.city}</span></div>}
                                 </div>
                             </div>
                             <div>
                                 <div className="relative flex items-center">
-                                    <ColoredMapPinIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
+                                    <ColoredMapPinIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                                     <select name="kanton" value={formData.kanton} onChange={e => handleFieldChange('kanton', e.target.value)} className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow appearance-none bg-white ${errors.kanton ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.kanton} aria-describedby={errors.kanton ? "kanton-error" : undefined}>
                                         <option value="">Kanton wählen</option>
                                         {kantons.map(k => <option key={k} value={k}>{k}</option>)}
                                     </select>
                                     <ChevronUpDownIcon className="w-5 h-5 text-slate-400 pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
                                 </div>
-                                {errors.kanton && <div id="kanton-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.kanton}</span></div>}
+                                {errors.kanton && <div id="kanton-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.kanton}</span></div>}
                             </div>
-                             <div>
+                            <div>
                                 <div className="relative flex items-center">
-                                    <ColoredMailIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
-                                    <input name="email" value={formData.email} onChange={e => handleFieldChange('email', e.target.value)} type="email" placeholder="E-Mail" className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.email ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined}/>
+                                    <ColoredMailIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                    <input name="email" value={formData.email} onChange={e => handleFieldChange('email', e.target.value)} type="email" placeholder="E-Mail" className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.email ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined} />
                                 </div>
-                                {errors.email && <div id="email-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.email}</span></div>}
+                                {errors.email && <div id="email-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.email}</span></div>}
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <div className="relative flex items-center">
-                                        <ColoredPhoneIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
-                                        <input name="phone" value={formData.phone} onChange={e => handleFieldChange('phone', e.target.value)} type="tel" placeholder="Telefon (optional)" className="w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow border-slate-300 focus:border-primary-600 focus:ring-primary-600/50"/>
+                                        <ColoredPhoneIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                        <input name="phone" value={formData.phone} onChange={e => handleFieldChange('phone', e.target.value)} type="tel" placeholder="Telefon (optional)" className="w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow border-slate-300 focus:border-primary-600 focus:ring-primary-600/50" />
                                     </div>
                                 </div>
                                 <div>
                                     <div className="relative flex items-center">
-                                        <ColoredPhoneIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"/>
-                                        <input name="mobile" value={formData.mobile} onChange={e => handleFieldChange('mobile', e.target.value)} type="tel" placeholder="Mobile" className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.mobile ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.mobile} aria-describedby={errors.mobile ? "mobile-error" : undefined}/>
+                                        <ColoredPhoneIcon className="w-6 h-6 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                        <input name="mobile" value={formData.mobile} onChange={e => handleFieldChange('mobile', e.target.value)} type="tel" placeholder="Mobile" className={`w-full h-14 text-base p-3 pl-12 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-shadow ${errors.mobile ? 'border-red-500 ring-red-500/50' : 'border-slate-300 focus:border-primary-600 focus:ring-primary-600/50'}`} aria-required="true" aria-invalid={!!errors.mobile} aria-describedby={errors.mobile ? "mobile-error" : undefined} />
                                     </div>
-                                    {errors.mobile && <div id="mobile-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4"/><span>{errors.mobile}</span></div>}
+                                    {errors.mobile && <div id="mobile-error" role="alert" className="text-sm text-red-600 mt-1 flex items-center gap-1.5"><ExclamationTriangleIcon className="w-4 h-4" /><span>{errors.mobile}</span></div>}
                                 </div>
                             </div>
                             <div className="mt-4 p-4 bg-slate-50 rounded-lg border border-slate-200">
@@ -1150,9 +1148,9 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                 </label>
                             </div>
                         </div>
-                         <div className="mt-auto pt-8 flex items-center gap-4">
-                             <button type="button" onClick={handleBack} className="bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-lg hover:bg-slate-300 transition-all">Zurück</button>
-                             <button type="submit" className="flex-1 bg-primary-600 text-white font-bold py-3 rounded-lg hover:bg-primary-700 transition-all shadow-md text-lg flex items-center justify-center gap-2">Weiter zur Übersicht <ArrowRightIcon className="w-5 h-5"/></button>
+                        <div className="mt-auto pt-8 flex items-center gap-4">
+                            <button type="button" onClick={handleBack} className="bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-lg hover:bg-slate-300 transition-all">Zurück</button>
+                            <button type="submit" className="flex-1 bg-primary-600 text-white font-bold py-3 rounded-lg hover:bg-primary-700 transition-all shadow-md text-lg flex items-center justify-center gap-2">Weiter zur Übersicht <ArrowRightIcon className="w-5 h-5" /></button>
                         </div>
                     </form>
                 );
@@ -1169,7 +1167,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                 <p className="text-sm text-slate-500">Überprüfen Sie Ihre Angaben</p>
                             </div>
                         </div>
-                        
+
                         <div className="flex-grow overflow-y-auto pr-2 -mr-2 custom-scrollbar space-y-4">
                             {/* Service Badge */}
                             <div className="inline-flex items-center gap-2 bg-primary-50 text-primary-700 px-4 py-2 rounded-full text-sm font-medium">
@@ -1181,7 +1179,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                             <div className="relative pl-8">
                                 {/* Timeline Line */}
                                 <div className="absolute left-[11px] top-2 bottom-2 w-0.5 bg-slate-200"></div>
-                                
+
                                 {/* Step 1: Project */}
                                 <div className="relative mb-6">
                                     <div className="absolute -left-8 w-6 h-6 rounded-full bg-primary-100 border-2 border-primary-500 flex items-center justify-center">
@@ -1334,7 +1332,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                     Zurück
                                 </button>
                                 <button type="button" onClick={handleSubmit} className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg text-base flex items-center justify-center gap-2">
-                                    <RocketLaunchIcon className="w-5 h-5"/>
+                                    <RocketLaunchIcon className="w-5 h-5" />
                                     Jetzt Offerten erhalten
                                 </button>
                             </div>
@@ -1354,7 +1352,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                                 Wir haben einen 6-stelligen Code an <span className="font-semibold text-slate-700">{formData.email}</span> gesendet.
                             </p>
                         </div>
-                        
+
                         <div className="flex-grow flex flex-col items-center justify-center">
                             {/* Code Input */}
                             <div className="w-full max-w-xs">
@@ -1432,15 +1430,15 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
             case 6: // Success
                 return (
                     <div className="m-auto text-center animate-fade-in">
-                        <CheckCircleIcon className="w-24 h-24 text-green-500 mx-auto animate-pulse"/>
+                        <CheckCircleIcon className="w-24 h-24 text-green-500 mx-auto animate-pulse" />
                         <h2 className="text-3xl font-bold text-slate-900 mt-6">Vielen Dank!</h2>
                         <p className="text-slate-600 mt-2 max-w-md mx-auto">Ihre Anfrage wurde erfolgreich an passende Anbieter übermittelt. Sie erhalten die Angebote in Kürze per E-Mail.</p>
                         <div className="mt-8">
-                            <button 
+                            <button
                                 onClick={handleDownloadPDF}
                                 className="bg-slate-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-700 transition-all shadow-md text-base flex items-center justify-center gap-2 mx-auto"
                             >
-                                <ArrowDownTrayIcon className="w-5 h-5"/>
+                                <ArrowDownTrayIcon className="w-5 h-5" />
                                 Zusammenfassung als PDF
                             </button>
                         </div>
@@ -1451,20 +1449,20 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 return null;
         }
     }
-    
+
     if (!isOpen && !isVisible) return null;
     // Only render portal if mounted and document.body is available
     if (!mounted || typeof document === 'undefined' || !document.body) return null;
 
     return createPortal(
-        <div 
+        <div
             className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[101] flex items-center justify-center p-4 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
             onClick={handleClose}
             role="dialog"
             aria-modal="true"
             aria-labelledby="quote-request-title"
         >
-            <div 
+            <div
                 className={`bg-white w-full max-w-5xl h-full max-h-[90vh] rounded-2xl shadow-2xl flex transition-transform duration-300 ${isVisible ? 'scale-100' : 'scale-95'}`}
                 onClick={e => e.stopPropagation()}
             >
