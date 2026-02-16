@@ -7,6 +7,7 @@ import authRoutes from './routes/authRoutes';
 import adminRoutes from './routes/adminRoutes';
 import paymentRoutes from './routes/paymentRoutes';
 import emailRoutes from './routes/emailRoutes';
+import partnerRoutes from './routes/partnerRoutes';
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/email', emailRoutes);
+app.use('/api/partner', partnerRoutes);
 
 app.get('/', (req, res) => {
   res.send('Fertigo API is running');
