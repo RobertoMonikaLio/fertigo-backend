@@ -8,8 +8,8 @@ import {
     MagnifyingGlassIcon, MapPinIcon, CalendarDaysIcon, BanknotesIcon,
     ArrowRightIcon, SpinnerIcon, UsersIcon, CheckCircleIcon, BriefcaseIcon, ChevronUpDownIcon,
     BellIcon, ChatBubbleLeftRightIcon, PaperAirplaneIcon, TestsiegerIcon, XCircleIcon,
-    AdjustmentsHorizontalIcon, XMarkIcon, Squares2X2Icon, ListBulletIcon, StarIcon,
-    EyeIcon, PhoneIcon, MailIcon, UserIcon
+    XMarkIcon, Squares2X2Icon, ListBulletIcon, StarIcon,
+    EyeIcon, UserIcon
 } from '../components/icons';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
@@ -24,7 +24,6 @@ const getAuthHeaders = () => {
     };
 };
 
-// --- Types ---
 interface Lead {
     _id: string;
     title: string;
@@ -47,55 +46,70 @@ type Status = Lead['status'];
 
 const statuses: Status[] = ['Neu', 'Kontaktiert', 'Angebot gesendet', 'In Verhandlung', 'Gewonnen', 'Verloren / Abgelehnt'];
 
-const statusConfig: { [key in Status]: { icon: React.ReactNode; color: string; bgColor: string; title: string; dotColor: string } } = {
-    'Neu': { icon: <BellIcon className="w-4 h-4" />, color: 'text-blue-800', bgColor: 'bg-blue-100', title: 'Neu', dotColor: 'bg-blue-500' },
-    'Kontaktiert': { icon: <ChatBubbleLeftRightIcon className="w-4 h-4" />, color: 'text-cyan-800', bgColor: 'bg-cyan-100', title: 'Kontaktiert', dotColor: 'bg-cyan-500' },
-    'Angebot gesendet': { icon: <PaperAirplaneIcon className="w-4 h-4" />, color: 'text-purple-800', bgColor: 'bg-purple-100', title: 'Angebot gesendet', dotColor: 'bg-purple-500' },
-    'In Verhandlung': { icon: <BanknotesIcon className="w-4 h-4" />, color: 'text-orange-800', bgColor: 'bg-orange-100', title: 'Verhandlung', dotColor: 'bg-orange-500' },
-    'Gewonnen': { icon: <TestsiegerIcon className="w-4 h-4" />, color: 'text-green-800', bgColor: 'bg-green-100', title: 'Gewonnen', dotColor: 'bg-green-500' },
-    'Verloren / Abgelehnt': { icon: <XCircleIcon className="w-4 h-4" />, color: 'text-red-800', bgColor: 'bg-red-100', title: 'Verloren', dotColor: 'bg-red-500' },
+const statusConfig: { [key in Status]: { icon: React.ReactNode; color: string; bgColor: string; textColor: string; title: string; dotColor: string } } = {
+    'Neu': { icon: <BellIcon className="w-3.5 h-3.5" />, color: 'text-blue-700', bgColor: 'bg-blue-50', textColor: 'text-blue-600', title: 'Neu', dotColor: 'bg-blue-500' },
+    'Kontaktiert': { icon: <ChatBubbleLeftRightIcon className="w-3.5 h-3.5" />, color: 'text-cyan-700', bgColor: 'bg-cyan-50', textColor: 'text-cyan-600', title: 'Kontaktiert', dotColor: 'bg-cyan-500' },
+    'Angebot gesendet': { icon: <PaperAirplaneIcon className="w-3.5 h-3.5" />, color: 'text-violet-700', bgColor: 'bg-violet-50', textColor: 'text-violet-600', title: 'Angebot gesendet', dotColor: 'bg-violet-500' },
+    'In Verhandlung': { icon: <BanknotesIcon className="w-3.5 h-3.5" />, color: 'text-amber-700', bgColor: 'bg-amber-50', textColor: 'text-amber-600', title: 'Verhandlung', dotColor: 'bg-amber-500' },
+    'Gewonnen': { icon: <TestsiegerIcon className="w-3.5 h-3.5" />, color: 'text-emerald-700', bgColor: 'bg-emerald-50', textColor: 'text-emerald-600', title: 'Gewonnen', dotColor: 'bg-emerald-500' },
+    'Verloren / Abgelehnt': { icon: <XCircleIcon className="w-3.5 h-3.5" />, color: 'text-rose-700', bgColor: 'bg-rose-50', textColor: 'text-rose-600', title: 'Verloren', dotColor: 'bg-rose-500' },
+};
+
+const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString('de-CH', { day: '2-digit', month: 'short', year: 'numeric' });
+};
+
+const formatRelativeDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    if (diffHours < 1) return 'Gerade eben';
+    if (diffHours < 24) return `Vor ${diffHours}h`;
+    if (diffDays < 7) return `Vor ${diffDays}d`;
+    return formatDate(dateStr);
 };
 
 // --- Skeleton ---
 const CardSkeleton = () => (
-    <div className="bg-white rounded-2xl border border-slate-200 p-4 animate-pulse space-y-3">
+    <div className="bg-white rounded-xl border border-slate-100 p-5 animate-pulse">
+        <div className="flex items-center gap-3 mb-4">
+            <div className="h-5 bg-slate-100 rounded-full w-20" />
+            <div className="h-5 bg-slate-100 rounded-full w-16 ml-auto" />
+        </div>
+        <div className="h-5 bg-slate-100 rounded w-4/5 mb-2" />
+        <div className="h-4 bg-slate-50 rounded w-3/5 mb-4" />
+        <div className="flex gap-2 mb-4">
+            <div className="h-8 bg-slate-50 rounded-lg w-24" />
+            <div className="h-8 bg-slate-50 rounded-lg w-28" />
+        </div>
+        <div className="h-px bg-slate-100 mb-4" />
         <div className="flex items-center justify-between">
-            <div className="h-5 bg-slate-200 rounded w-24" />
-            <div className="h-5 bg-slate-100 rounded w-10" />
-        </div>
-        <div className="h-5 bg-slate-200 rounded w-3/4" />
-        <div className="flex gap-3">
-            <div className="h-4 bg-slate-100 rounded w-20" />
-            <div className="h-4 bg-slate-100 rounded w-24" />
-        </div>
-        <div className="flex items-center justify-between pt-3 border-t border-slate-100">
-            <div className="h-6 bg-slate-200 rounded w-16" />
-            <div className="h-8 bg-slate-200 rounded-xl w-20" />
+            <div className="h-7 bg-slate-100 rounded w-20" />
+            <div className="h-9 bg-slate-100 rounded-lg w-24" />
         </div>
     </div>
 );
 
-// --- Sub-components ---
+// --- Status Dropdown for Purchased ---
 const StatusDropdown: React.FC<{ lead: Lead; onStatusChange: (id: string, status: Status) => void }> = ({ lead, onStatusChange }) => {
     const currentConfig = statusConfig[lead.status];
     return (
-        <div className="relative group min-w-[160px]">
+        <div className="relative">
             <select
                 value={lead.status}
                 onChange={e => onStatusChange(lead._id, e.target.value as Status)}
-                className={`w-full appearance-none cursor-pointer rounded-lg border border-transparent px-3 py-2 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all ${currentConfig.bgColor} ${currentConfig.color}`}
+                className={`appearance-none cursor-pointer rounded-lg border-0 px-3 py-1.5 pr-7 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary-400 transition-all ${currentConfig.bgColor} ${currentConfig.color}`}
             >
                 {statuses.map(s => <option key={s} value={s}>{statusConfig[s].title}</option>)}
             </select>
-            <ChevronUpDownIcon className={`w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none ${currentConfig.color} opacity-70`} />
+            <ChevronUpDownIcon className={`w-3.5 h-3.5 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none ${currentConfig.color} opacity-60`} />
         </div>
     );
 };
 
-const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('de-CH', { day: '2-digit', month: 'long', year: 'numeric' });
-};
-
+// --- Available Lead Card (Marketplace) ---
 const LeadCard: React.FC<{ lead: Lead; onViewDetails: (id: string) => void }> = ({ lead, onViewDetails }) => {
     const purchaseCount = lead.purchaseCount || 0;
     const isSoldOut = purchaseCount >= 5;
@@ -107,72 +121,103 @@ const LeadCard: React.FC<{ lead: Lead; onViewDetails: (id: string) => void }> = 
     leadDate.setHours(0, 0, 0, 0);
     const diffDays = Math.floor((today.getTime() - leadDate.getTime()) / (1000 * 60 * 60 * 24));
     const isNew = diffDays <= 1;
+    const isHot = availableCount <= 2 && !isSoldOut;
 
     return (
-        <article className={`group relative bg-white rounded-2xl border ${isSoldOut ? 'border-slate-200 opacity-60' : 'border-slate-200 hover:border-primary-400'} shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden`}>
-            <div className="p-4">
-                <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="inline-flex items-center gap-1.5 text-primary-700 text-xs font-bold px-2 py-1 rounded-md bg-primary-50 truncate">
-                        <BriefcaseIcon className="w-3.5 h-3.5 flex-shrink-0" />
-                        <span className="truncate">{lead.service}</span>
+        <article
+            onClick={() => { if (!isSoldOut) onViewDetails(lead._id); }}
+            className={`group relative bg-white rounded-xl border transition-all duration-300 cursor-pointer overflow-hidden ${
+                isSoldOut
+                    ? 'border-slate-100 opacity-50 cursor-not-allowed'
+                    : 'border-slate-100 hover:border-primary-200 hover:shadow-xl hover:shadow-primary-500/5 hover:-translate-y-0.5'
+            }`}
+        >
+            {/* Top accent line */}
+            {!isSoldOut && (
+                <div className={`h-0.5 ${isHot ? 'bg-gradient-to-r from-orange-400 via-red-400 to-pink-400' : 'bg-gradient-to-r from-primary-400 to-primary-600'}`} />
+            )}
+
+            <div className="p-5">
+                {/* Tags row */}
+                <div className="flex items-center gap-2 mb-3 flex-wrap">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-50 px-2.5 py-1 rounded-md">
+                        <BriefcaseIcon className="w-3 h-3 text-slate-400" />
+                        {lead.service}
                     </span>
-                    <div className="flex items-center gap-1.5 flex-shrink-0">
-                        {isNew && (
-                            <span className="inline-flex items-center gap-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full">
-                                <StarIcon className="w-3 h-3" />
-                                NEU
-                            </span>
-                        )}
-                        {isSoldOut && (
-                            <span className="bg-red-100 text-red-600 text-[10px] font-black px-2 py-0.5 rounded-full">
-                                AUSVERKAUFT
-                            </span>
-                        )}
-                    </div>
+                    {isNew && (
+                        <span className="inline-flex items-center gap-1 bg-primary-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">
+                            Neu
+                        </span>
+                    )}
+                    {isHot && (
+                        <span className="inline-flex items-center gap-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">
+                            Beliebt
+                        </span>
+                    )}
+                    {isSoldOut && (
+                        <span className="inline-flex items-center gap-1 bg-slate-200 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">
+                            Vergeben
+                        </span>
+                    )}
                 </div>
 
-                <h3 className="text-sm font-bold text-slate-900 mb-2 line-clamp-2 group-hover:text-primary-700 transition-colors leading-snug">
+                {/* Title */}
+                <h3 className="text-[15px] font-bold text-slate-900 mb-2 line-clamp-2 leading-snug group-hover:text-primary-700 transition-colors">
                     {lead.title}
                 </h3>
 
-                <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
-                    <div className="flex items-center gap-1">
-                        <MapPinIcon className="w-3.5 h-3.5 text-slate-400" />
-                        <span className="font-medium">{lead.location}</span>
+                {/* Meta */}
+                <div className="flex items-center gap-4 text-xs text-slate-400 mb-4">
+                    <div className="flex items-center gap-1.5">
+                        <MapPinIcon className="w-3.5 h-3.5" />
+                        <span>{lead.location}</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                        <CalendarDaysIcon className="w-3.5 h-3.5 text-slate-400" />
-                        <span className="font-medium">{formatDate(lead.date)}</span>
+                    <div className="flex items-center gap-1.5">
+                        <CalendarDaysIcon className="w-3.5 h-3.5" />
+                        <span>{formatRelativeDate(lead.date)}</span>
                     </div>
                 </div>
 
-                <div className="flex items-center justify-between gap-2 pt-3 border-t border-slate-100">
-                    <div className="flex items-center gap-3">
-                        <div>
-                            <div className="text-[10px] font-bold text-slate-400 uppercase">Preis</div>
-                            <div className={`text-base font-black ${isSoldOut ? 'text-slate-400' : 'text-primary-600'}`}>
-                                {isSoldOut ? '—' : `CHF ${lead.price.toFixed(0)}`}
-                            </div>
+                {/* Availability bar */}
+                {!isSoldOut && (
+                    <div className="mb-4">
+                        <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
+                            <span>{availableCount} von 5 verfuegbar</span>
+                            <span className={`font-semibold ${availableCount <= 2 ? 'text-orange-500' : 'text-emerald-500'}`}>
+                                {Math.round((availableCount / 5) * 100)}%
+                            </span>
                         </div>
-                        <div className="w-px h-8 bg-slate-200"></div>
-                        <div>
-                            <div className="text-[10px] font-bold text-slate-400 uppercase">Verfügbar</div>
-                            <div className={`text-base font-black ${isSoldOut ? 'text-red-400' : availableCount >= 3 ? 'text-green-600' : 'text-orange-500'}`}>
-                                {availableCount}<span className="text-xs text-slate-400 font-normal">/5</span>
-                            </div>
+                        <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                            <div
+                                className={`h-full rounded-full transition-all duration-500 ${
+                                    availableCount <= 2 ? 'bg-gradient-to-r from-orange-400 to-red-400' : 'bg-gradient-to-r from-emerald-400 to-emerald-500'
+                                }`}
+                                style={{ width: `${(availableCount / 5) * 100}%` }}
+                            />
                         </div>
+                    </div>
+                )}
+
+                {/* Footer */}
+                <div className="flex items-center justify-between pt-4 border-t border-slate-50">
+                    <div>
+                        <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Lead-Preis</span>
+                        <p className={`text-lg font-extrabold ${isSoldOut ? 'text-slate-300' : 'text-slate-900'}`}>
+                            {isSoldOut ? '---' : `CHF ${lead.price.toFixed(0)}`}
+                        </p>
                     </div>
                     <button
                         type="button"
-                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (!isSoldOut) onViewDetails(lead._id); }}
+                        onClick={(e) => { e.stopPropagation(); if (!isSoldOut) onViewDetails(lead._id); }}
                         disabled={isSoldOut}
-                        className={`px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 ${isSoldOut
-                                ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                                : 'bg-primary-600 text-white hover:bg-primary-700 shadow-sm hover:shadow-md'
-                            }`}
+                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+                            isSoldOut
+                                ? 'bg-slate-50 text-slate-300 cursor-not-allowed'
+                                : 'bg-primary-600 text-white hover:bg-primary-700 active:scale-95 shadow-sm shadow-primary-600/20'
+                        }`}
                     >
-                        <span>Details</span>
-                        {!isSoldOut && <ArrowRightIcon className="w-3.5 h-3.5" />}
+                        Ansehen
+                        {!isSoldOut && <ArrowRightIcon className="w-3 h-3" />}
                     </button>
                 </div>
             </div>
@@ -180,130 +225,135 @@ const LeadCard: React.FC<{ lead: Lead; onViewDetails: (id: string) => void }> = 
     );
 };
 
+// --- Purchased Lead Card ---
 const PurchasedLeadCard: React.FC<{ lead: Lead; onStatusChange: (id: string, status: Status) => void }> = ({ lead, onStatusChange }) => {
     const config = statusConfig[lead.status];
     return (
-        <article className={`group relative bg-white rounded-2xl border ${config.bgColor.includes('green') ? 'border-green-200' : config.bgColor.includes('blue') ? 'border-blue-200' : config.bgColor.includes('red') ? 'border-red-200' : 'border-slate-200'} shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden`}>
-            <div className="p-4">
+        <article className="group bg-white rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-lg transition-all duration-300 overflow-hidden">
+            <div className="p-5">
                 <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-bold ${config.bgColor} ${config.color}`}>
-                        <div className={`w-1.5 h-1.5 rounded-full ${config.dotColor}`}></div>
-                        {config.title}
-                    </span>
+                    <StatusDropdown lead={lead} onStatusChange={onStatusChange} />
+                    <span className="text-[11px] text-slate-400 font-medium">{formatRelativeDate(lead.date)}</span>
                 </div>
 
-                <div className="mb-2">
-                    <p className="text-[10px] font-bold text-primary-600 uppercase tracking-wider">{lead.service}</p>
-                    <h3 className="text-sm font-bold text-slate-900 group-hover:text-primary-700 transition-colors line-clamp-2 leading-snug">
+                <div className="mb-3">
+                    <p className="text-[10px] font-semibold text-primary-500 uppercase tracking-wider mb-0.5">{lead.service}</p>
+                    <h3 className="text-[15px] font-bold text-slate-900 group-hover:text-primary-700 transition-colors line-clamp-2 leading-snug">
                         {lead.title}
                     </h3>
                 </div>
 
-                <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
-                    <div className="flex items-center gap-1">
-                        <MapPinIcon className="w-3.5 h-3.5 text-slate-400" />
-                        <span className="font-medium">{lead.location}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <CalendarDaysIcon className="w-3.5 h-3.5 text-slate-400" />
-                        <span className="font-medium">{formatDate(lead.date)}</span>
+                <div className="flex items-center gap-3 text-xs text-slate-400 mb-4">
+                    <div className="flex items-center gap-1.5">
+                        <MapPinIcon className="w-3.5 h-3.5" />
+                        <span>{lead.location}</span>
                     </div>
                 </div>
 
                 {lead.customerName && lead.customerName !== 'Vertraulich' && (
-                    <div className="flex items-center gap-2 bg-slate-50 rounded-lg px-2.5 py-1.5 mb-3 border border-slate-100">
-                        <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <UserIcon className="w-3 h-3 text-primary-600" />
+                    <div className="flex items-center gap-2.5 bg-slate-50 rounded-lg px-3 py-2 mb-4">
+                        <div className="w-7 h-7 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <UserIcon className="w-3.5 h-3.5 text-primary-600" />
                         </div>
                         <div className="min-w-0 flex-1">
                             <p className="text-xs font-semibold text-slate-700 truncate">{lead.customerName}</p>
                             {lead.customerInfo?.email && (
-                                <p className="text-[10px] text-slate-500 truncate">{lead.customerInfo.email}</p>
+                                <p className="text-[10px] text-slate-400 truncate">{lead.customerInfo.email}</p>
                             )}
                         </div>
                     </div>
                 )}
 
-                <div className="mb-3">
-                    <StatusDropdown lead={lead} onStatusChange={onStatusChange} />
-                </div>
-
                 <Link
                     to={`/partner/requests/${lead._id}`}
-                    className="w-full py-2 rounded-xl font-bold text-xs bg-primary-600 text-white hover:bg-primary-700 shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
+                    className="w-full py-2 rounded-lg font-semibold text-xs bg-slate-900 text-white hover:bg-slate-800 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
                 >
-                    <EyeIcon className="w-4 h-4" />
-                    Details
+                    <EyeIcon className="w-3.5 h-3.5" />
+                    Details anzeigen
                 </Link>
             </div>
         </article>
     );
 };
 
+// --- Purchased Leads Table ---
 const PurchasedLeadsTable: React.FC<{ leads: Lead[]; onStatusChange: (id: string, status: Status) => void }> = ({ leads, onStatusChange }) => (
-    <div className="bg-white rounded-3xl border-2 border-slate-200 shadow-xl overflow-hidden">
+    <div className="bg-white rounded-xl border border-slate-100 overflow-hidden">
         <div className="overflow-x-auto">
             <table className="w-full text-sm">
-                <thead className="bg-gradient-to-r from-slate-50 to-slate-100">
-                    <tr>
-                        <th scope="col" className="px-6 py-4 text-left font-black text-slate-700 uppercase text-xs tracking-wider">Auftrag</th>
-                        <th scope="col" className="px-6 py-4 text-left font-black text-slate-700 uppercase text-xs tracking-wider">Kunde</th>
-                        <th scope="col" className="px-6 py-4 text-left font-black text-slate-700 uppercase text-xs tracking-wider">Datum</th>
-                        <th scope="col" className="px-6 py-4 text-left font-black text-slate-700 uppercase text-xs tracking-wider">Status</th>
-                        <th scope="col" className="px-6 py-4 text-right font-black text-slate-700 uppercase text-xs tracking-wider">Aktion</th>
+                <thead>
+                    <tr className="border-b border-slate-100">
+                        <th scope="col" className="px-5 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Auftrag</th>
+                        <th scope="col" className="px-5 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Kunde</th>
+                        <th scope="col" className="px-5 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Datum</th>
+                        <th scope="col" className="px-5 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Status</th>
+                        <th scope="col" className="px-5 py-3.5 text-right text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Aktion</th>
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
-                    {leads.map(lead => {
-                        return (
-                            <tr key={lead._id} className="hover:bg-slate-50/50 transition-colors">
-                                <td className="px-6 py-4">
-                                    <div className="font-black text-slate-900 text-base">{lead.title}</div>
-                                    <div className="flex items-center gap-2 text-xs text-slate-500 mt-1">
-                                        <span className="inline-flex items-center gap-1 bg-slate-100 px-2 py-0.5 rounded font-semibold">
-                                            <BriefcaseIcon className="w-3 h-3" />
-                                            {lead.service}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center gap-1 text-xs text-slate-400 mt-1">
-                                        <MapPinIcon className="w-3 h-3" /> {lead.location}
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4">
-                                    {lead.customerName && lead.customerName !== 'Vertraulich' ? (
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-9 h-9 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                                <UserIcon className="w-4 h-4 text-primary-600" />
-                                            </div>
-                                            <div className="min-w-0">
-                                                <p className="font-bold text-slate-700 truncate">{lead.customerName}</p>
-                                                {lead.customerInfo?.email && (
-                                                    <p className="text-xs text-slate-500 truncate">{lead.customerInfo.email}</p>
-                                                )}
-                                            </div>
+                <tbody className="divide-y divide-slate-50">
+                    {leads.map(lead => (
+                        <tr key={lead._id} className="hover:bg-slate-50/50 transition-colors">
+                            <td className="px-5 py-4">
+                                <div className="font-semibold text-slate-900">{lead.title}</div>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <span className="text-[11px] text-slate-400 flex items-center gap-1">
+                                        <BriefcaseIcon className="w-3 h-3" />
+                                        {lead.service}
+                                    </span>
+                                    <span className="text-slate-200">|</span>
+                                    <span className="text-[11px] text-slate-400 flex items-center gap-1">
+                                        <MapPinIcon className="w-3 h-3" />
+                                        {lead.location}
+                                    </span>
+                                </div>
+                            </td>
+                            <td className="px-5 py-4">
+                                {lead.customerName && lead.customerName !== 'Vertraulich' ? (
+                                    <div className="flex items-center gap-2.5">
+                                        <div className="w-8 h-8 bg-primary-50 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <UserIcon className="w-3.5 h-3.5 text-primary-600" />
                                         </div>
-                                    ) : (
-                                        <span className="text-slate-400">—</span>
-                                    )}
-                                </td>
-                                <td className="px-6 py-4 text-slate-600 font-semibold">{formatDate(lead.date)}</td>
-                                <td className="px-6 py-4">
-                                    <StatusDropdown lead={lead} onStatusChange={onStatusChange} />
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <Link
-                                        to={`/partner/requests/${lead._id}`}
-                                        className="inline-flex items-center justify-center gap-2 h-10 px-5 rounded-xl bg-gradient-to-r from-primary-600 to-primary-700 text-white font-black text-sm hover:from-primary-700 hover:to-primary-800 shadow-md hover:shadow-lg transition-all"
-                                    >
-                                        <EyeIcon className="w-4 h-4" />
-                                        Öffnen
-                                    </Link>
-                                </td>
-                            </tr>
-                        );
-                    })}
+                                        <div className="min-w-0">
+                                            <p className="font-medium text-slate-700 text-sm truncate">{lead.customerName}</p>
+                                            {lead.customerInfo?.email && (
+                                                <p className="text-[11px] text-slate-400 truncate">{lead.customerInfo.email}</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <span className="text-slate-300">---</span>
+                                )}
+                            </td>
+                            <td className="px-5 py-4 text-sm text-slate-500">{formatDate(lead.date)}</td>
+                            <td className="px-5 py-4">
+                                <StatusDropdown lead={lead} onStatusChange={onStatusChange} />
+                            </td>
+                            <td className="px-5 py-4 text-right">
+                                <Link
+                                    to={`/partner/requests/${lead._id}`}
+                                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 active:scale-95 transition-all"
+                                >
+                                    <EyeIcon className="w-3.5 h-3.5" />
+                                    Oeffnen
+                                </Link>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
+        </div>
+    </div>
+);
+
+// --- Stat Card ---
+const StatCard: React.FC<{ label: string; value: number; icon: React.ReactNode; color: string }> = ({ label, value, icon, color }) => (
+    <div className="bg-white rounded-xl border border-slate-100 p-4 flex items-center gap-3">
+        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${color}`}>
+            {icon}
+        </div>
+        <div>
+            <p className="text-2xl font-extrabold text-slate-900">{value}</p>
+            <p className="text-[11px] text-slate-400 font-medium">{label}</p>
         </div>
     </div>
 );
@@ -318,7 +368,6 @@ const PartnerRequestsPage: React.FC = () => {
 
     const isPurchasedView = useMemo(() => new URLSearchParams(locationHook.search).get('view') === 'purchased', [locationHook.search]);
 
-    // Live data states
     const [availableLeads, setAvailableLeads] = useState<Lead[]>([]);
     const [purchasedLeads, setPurchasedLeads] = useState<Lead[]>([]);
     const [loading, setLoading] = useState(true);
@@ -332,7 +381,6 @@ const PartnerRequestsPage: React.FC = () => {
     const [priceFilter, setPriceFilter] = useState('');
     const [sortOption, setSortOption] = useState('newest');
     const [currentPage, setCurrentPage] = useState(1);
-    const [showFilters, setShowFilters] = useState(false);
 
     const fetchLeads = useCallback(async () => {
         try {
@@ -373,9 +421,7 @@ const PartnerRequestsPage: React.FC = () => {
                 headers: getAuthHeaders(),
                 body: JSON.stringify({ status: newStatus }),
             });
-            if (!response.ok) throw new Error('Status konnte nicht geändert werden');
-
-            // Update local state
+            if (!response.ok) throw new Error('Status konnte nicht geaendert werden');
             setPurchasedLeads(prev => prev.map(l => l._id === leadId ? { ...l, status: newStatus } : l));
         } catch (err: any) {
             alert(err.message);
@@ -392,10 +438,10 @@ const PartnerRequestsPage: React.FC = () => {
     const swissCantons = [
         'Alle Kantone',
         'Aargau', 'Appenzell Ausserrhoden', 'Appenzell Innerrhoden', 'Basel-Landschaft',
-        'Basel-Stadt', 'Bern', 'Freiburg', 'Genf', 'Glarus', 'Graubünden',
+        'Basel-Stadt', 'Bern', 'Freiburg', 'Genf', 'Glarus', 'Graubuenden',
         'Jura', 'Luzern', 'Neuenburg', 'Nidwalden', 'Obwalden', 'Schaffhausen',
         'Schwyz', 'Solothurn', 'St. Gallen', 'Tessin', 'Thurgau', 'Uri',
-        'Waadt', 'Wallis', 'Zug', 'Zürich'
+        'Waadt', 'Wallis', 'Zug', 'Zuerich'
     ];
 
     const filteredRequests = useMemo(() => {
@@ -449,7 +495,6 @@ const PartnerRequestsPage: React.FC = () => {
         new: purchasedLeads.filter(l => l.status === 'Neu').length,
     }), [purchasedLeads]);
 
-    // Convert leads for KanbanBoard compatibility
     const kanbanLeads = useMemo(() => filteredRequests.map(l => ({
         ...l,
         id: l._id as any,
@@ -457,187 +502,190 @@ const PartnerRequestsPage: React.FC = () => {
         customerEmail: l.customerInfo?.email || '',
     })), [filteredRequests]);
 
+    const activeFiltersCount = [
+        locationFilter,
+        serviceFilter !== 'Alle' ? serviceFilter : '',
+        statusFilter !== 'Alle' ? statusFilter : '',
+        priceFilter,
+    ].filter(Boolean).length;
+
     return (
         <div className="max-w-7xl mx-auto">
-            {/* Filter Section */}
-            <div className="mb-8 space-y-4">
-                <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <MagnifyingGlassIcon className="w-5 h-5 text-slate-400" />
+            {/* Header */}
+            <div className="mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+                    <div>
+                        <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                            {isPurchasedView ? 'Meine Leads' : 'Lead-Marktplatz'}
+                        </h1>
+                        <p className="text-sm text-slate-400 mt-1">
+                            {isPurchasedView
+                                ? `${filteredRequests.length} Leads in Ihrem Portfolio`
+                                : `${filteredRequests.length} Leads verfuegbar`
+                            }
+                        </p>
                     </div>
-                    <input
-                        type="search"
-                        placeholder={isPurchasedView ? "Auftrag oder Kunde suchen..." : "Nach Aufträgen suchen..."}
-                        value={searchTerm}
-                        onChange={e => setSearchTerm(e.target.value)}
-                        className="w-full h-12 pl-12 pr-4 rounded-full border border-slate-200 bg-white font-medium text-slate-700 placeholder:text-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-all shadow-sm"
-                    />
+                    {!isPurchasedView && (
+                        <div className="flex items-center gap-2">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </span>
+                            <span className="text-xs text-slate-400 font-medium">Live</span>
+                            <button
+                                onClick={() => { setLoading(true); fetchLeads(); }}
+                                className="ml-2 text-xs font-semibold text-primary-600 hover:text-primary-700 transition-colors"
+                            >
+                                Aktualisieren
+                            </button>
+                        </div>
+                    )}
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2">
-                    <div className="relative">
-                        <MapPinIcon className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                        <select
-                            value={locationFilter || 'Alle Kantone'}
-                            onChange={e => setLocationFilter(e.target.value === 'Alle Kantone' ? '' : e.target.value)}
-                            className="h-10 pl-9 pr-8 rounded-full bg-white border border-slate-200 hover:border-slate-300 text-sm font-medium text-slate-700 outline-none appearance-none cursor-pointer transition-all shadow-sm"
-                        >
-                            {swissCantons.map(k => <option key={k} value={k}>{k}</option>)}
-                        </select>
-                        <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                {/* Stats for purchased view */}
+                {isPurchasedView && (
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                        <StatCard
+                            label="Gesamt"
+                            value={stats.total}
+                            icon={<BriefcaseIcon className="w-4 h-4 text-slate-600" />}
+                            color="bg-slate-50"
+                        />
+                        <StatCard
+                            label="Neu"
+                            value={stats.new}
+                            icon={<BellIcon className="w-4 h-4 text-blue-600" />}
+                            color="bg-blue-50"
+                        />
+                        <StatCard
+                            label="In Bearbeitung"
+                            value={stats.inProgress}
+                            icon={<ChatBubbleLeftRightIcon className="w-4 h-4 text-amber-600" />}
+                            color="bg-amber-50"
+                        />
+                        <StatCard
+                            label="Gewonnen"
+                            value={stats.won}
+                            icon={<CheckCircleIcon className="w-4 h-4 text-emerald-600" />}
+                            color="bg-emerald-50"
+                        />
                     </div>
+                )}
 
-                    {!isPurchasedView ? (
-                        <>
-                            <div className="relative">
-                                <select
-                                    value={serviceFilter}
-                                    onChange={e => setServiceFilter(e.target.value)}
-                                    className="h-10 pl-4 pr-8 rounded-full bg-white border border-slate-200 hover:border-slate-300 text-sm font-medium text-slate-700 outline-none appearance-none cursor-pointer transition-all shadow-sm"
-                                >
-                                    {availableServices.map(s => <option key={s} value={s}>{s}</option>)}
-                                </select>
-                                <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                            </div>
+                {/* Search + Filters */}
+                <div className="flex flex-col gap-3">
+                    <div className="flex items-center gap-3">
+                        <div className="relative flex-1">
+                            <MagnifyingGlassIcon className="w-4 h-4 text-slate-300 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            <input
+                                type="search"
+                                placeholder={isPurchasedView ? "Auftrag oder Kunde suchen..." : "Leads durchsuchen..."}
+                                value={searchTerm}
+                                onChange={e => setSearchTerm(e.target.value)}
+                                className="w-full h-10 pl-10 pr-4 rounded-lg border border-slate-200 bg-white text-sm text-slate-700 placeholder:text-slate-300 focus:border-primary-400 focus:ring-1 focus:ring-primary-400 outline-none transition-all"
+                            />
+                        </div>
 
-                            <div className="relative">
-                                <button
-                                    onClick={() => setShowFilters(!showFilters)}
-                                    className={`flex items-center gap-2 h-10 px-4 rounded-full border text-sm font-medium transition-all shadow-sm ${priceFilter
-                                            ? 'bg-primary-50 border-primary-200 text-primary-700'
-                                            : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700'
-                                        }`}
-                                >
-                                    <BanknotesIcon className="w-4 h-4" />
-                                    {priceFilter ? `Max. CHF ${priceFilter}` : 'Preis'}
-                                </button>
-                            </div>
-
-                            <div className="relative ml-auto">
-                                <select
-                                    value={sortOption}
-                                    onChange={e => setSortOption(e.target.value)}
-                                    className="h-10 pl-4 pr-8 rounded-full bg-slate-100 border-0 text-sm font-medium text-slate-600 outline-none appearance-none cursor-pointer transition-all"
-                                >
-                                    <option value="newest">Neueste</option>
-                                    <option value="price_asc">Preis ↑</option>
-                                    <option value="price_desc">Preis ↓</option>
-                                    <option value="availability">Verfügbarkeit</option>
-                                </select>
-                                <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <div className="relative">
-                                <select
-                                    value={statusFilter}
-                                    onChange={e => setStatusFilter(e.target.value)}
-                                    className="h-10 pl-4 pr-8 rounded-full bg-white border border-slate-200 hover:border-slate-300 text-sm font-medium text-slate-700 outline-none appearance-none cursor-pointer transition-all shadow-sm"
-                                >
-                                    <option value="Alle">Alle Status</option>
-                                    {statuses.map(s => <option key={s} value={s}>{statusConfig[s].title}</option>)}
-                                </select>
-                                <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                            </div>
-
-                            <div className="flex items-center gap-1 bg-slate-100 rounded-full p-1 ml-auto">
+                        {isPurchasedView && (
+                            <div className="flex items-center bg-slate-100 rounded-lg p-0.5">
                                 <button
                                     onClick={() => setPurchasedViewMode('cards')}
-                                    className={`p-2 rounded-full transition-all ${purchasedViewMode === 'cards' ? 'bg-white text-primary-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                    className={`p-2 rounded-md transition-all ${purchasedViewMode === 'cards' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                                     title="Karten"
                                 >
                                     <Squares2X2Icon className="w-4 h-4" />
                                 </button>
                                 <button
                                     onClick={() => setPurchasedViewMode('table')}
-                                    className={`p-2 rounded-full transition-all ${purchasedViewMode === 'table' ? 'bg-white text-primary-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                                    title="Liste"
+                                    className={`p-2 rounded-md transition-all ${purchasedViewMode === 'table' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                    title="Tabelle"
                                 >
                                     <ListBulletIcon className="w-4 h-4" />
                                 </button>
                                 <button
                                     onClick={() => setPurchasedViewMode('board')}
-                                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${purchasedViewMode === 'board' ? 'bg-white text-primary-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                    className={`px-2.5 py-1.5 rounded-md text-xs font-medium transition-all ${purchasedViewMode === 'board' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                                 >
                                     Board
                                 </button>
                             </div>
-                        </>
-                    )}
-                </div>
-
-                {!isPurchasedView && showFilters && (
-                    <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200">
-                        <div className="flex items-center gap-4">
-                            <label className="text-sm font-semibold text-slate-600">Max. Lead-Preis:</label>
-                            <div className="flex items-center gap-2">
-                                <span className="text-sm text-slate-500">CHF</span>
-                                <input
-                                    type="number"
-                                    placeholder="0"
-                                    value={priceFilter}
-                                    onChange={e => setPriceFilter(e.target.value)}
-                                    className="w-24 h-9 px-3 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none"
-                                />
-                            </div>
-                            <button
-                                onClick={() => { setPriceFilter(''); setShowFilters(false); }}
-                                className="ml-auto text-sm font-medium text-slate-500 hover:text-slate-700"
-                            >
-                                Zurücksetzen
-                            </button>
-                        </div>
+                        )}
                     </div>
-                )}
-            </div>
 
-            {/* Results Header */}
-            <div className="mb-6">
-                <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div className="flex items-center gap-4">
-                            <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl shadow-lg shadow-primary-500/30">
-                                <span className="text-2xl font-black text-white">{filteredRequests.length}</span>
-                            </div>
-                            <div>
-                                <h2 className="text-xl font-bold text-slate-900">
-                                    {filteredRequests.length === 1 ? 'Lead gefunden' : 'Leads gefunden'}
-                                </h2>
-                                <p className="text-sm text-slate-500">
-                                    {isPurchasedView ? 'In Ihrem Portfolio' : 'Verfügbar zum Kaufen'}
-                                </p>
-                            </div>
+                    {/* Filter chips */}
+                    <div className="flex flex-wrap items-center gap-2">
+                        <div className="relative">
+                            <MapPinIcon className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            <select
+                                value={locationFilter || 'Alle Kantone'}
+                                onChange={e => setLocationFilter(e.target.value === 'Alle Kantone' ? '' : e.target.value)}
+                                className="h-8 pl-8 pr-7 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-600 outline-none appearance-none cursor-pointer hover:border-slate-300 transition-all"
+                            >
+                                {swissCantons.map(k => <option key={k} value={k}>{k}</option>)}
+                            </select>
+                            <ChevronUpDownIcon className="w-3.5 h-3.5 text-slate-300 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
                         </div>
 
-                        {isPurchasedView ? (
-                            <div className="flex items-center gap-2 flex-wrap">
-                                <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-full">
-                                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                                    <span className="text-sm font-semibold text-blue-700">{stats.new} Neu</span>
+                        {!isPurchasedView ? (
+                            <>
+                                <div className="relative">
+                                    <select
+                                        value={serviceFilter}
+                                        onChange={e => setServiceFilter(e.target.value)}
+                                        className="h-8 pl-3 pr-7 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-600 outline-none appearance-none cursor-pointer hover:border-slate-300 transition-all"
+                                    >
+                                        {availableServices.map(s => <option key={s} value={s}>{s === 'Alle' ? 'Alle Services' : s}</option>)}
+                                    </select>
+                                    <ChevronUpDownIcon className="w-3.5 h-3.5 text-slate-300 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
                                 </div>
-                                <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-50 rounded-full">
-                                    <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
-                                    <span className="text-sm font-semibold text-orange-700">{stats.inProgress} In Bearbeitung</span>
+
+                                <div className="relative">
+                                    <BanknotesIcon className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                    <input
+                                        type="number"
+                                        placeholder="Max. CHF"
+                                        value={priceFilter}
+                                        onChange={e => setPriceFilter(e.target.value)}
+                                        className="h-8 w-28 pl-8 pr-3 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-600 outline-none placeholder:text-slate-300 hover:border-slate-300 focus:border-primary-400 focus:ring-1 focus:ring-primary-400 transition-all"
+                                    />
                                 </div>
-                                <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full">
-                                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                                    <span className="text-sm font-semibold text-green-700">{stats.won} Gewonnen</span>
+
+                                <div className="relative ml-auto">
+                                    <select
+                                        value={sortOption}
+                                        onChange={e => setSortOption(e.target.value)}
+                                        className="h-8 pl-3 pr-7 rounded-lg bg-slate-50 border-0 text-xs font-medium text-slate-500 outline-none appearance-none cursor-pointer transition-all"
+                                    >
+                                        <option value="newest">Neueste zuerst</option>
+                                        <option value="price_asc">Preis aufsteigend</option>
+                                        <option value="price_desc">Preis absteigend</option>
+                                        <option value="availability">Verfuegbarkeit</option>
+                                    </select>
+                                    <ChevronUpDownIcon className="w-3.5 h-3.5 text-slate-300 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
                                 </div>
-                            </div>
+                            </>
                         ) : (
-                            <div className="flex items-center gap-3">
-                                <div className="flex items-center gap-2 text-sm text-slate-500">
-                                    <span className="relative flex h-2 w-2">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                    </span>
-                                    Live-Daten
-                                </div>
-                                <button onClick={() => { setLoading(true); fetchLeads(); }} className="text-sm font-semibold text-primary-600 hover:text-primary-700">
-                                    ↻ Aktualisieren
-                                </button>
+                            <div className="relative">
+                                <select
+                                    value={statusFilter}
+                                    onChange={e => setStatusFilter(e.target.value)}
+                                    className="h-8 pl-3 pr-7 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-600 outline-none appearance-none cursor-pointer hover:border-slate-300 transition-all"
+                                >
+                                    <option value="Alle">Alle Status</option>
+                                    {statuses.map(s => <option key={s} value={s}>{statusConfig[s].title}</option>)}
+                                </select>
+                                <ChevronUpDownIcon className="w-3.5 h-3.5 text-slate-300 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
                             </div>
+                        )}
+
+                        {activeFiltersCount > 0 && (
+                            <button
+                                onClick={() => { setLocationFilter(''); setServiceFilter('Alle'); setStatusFilter('Alle'); setPriceFilter(''); }}
+                                className="h-8 px-3 rounded-lg text-xs font-medium text-rose-600 bg-rose-50 hover:bg-rose-100 transition-all flex items-center gap-1.5"
+                            >
+                                <XMarkIcon className="w-3 h-3" />
+                                Filter zuruecksetzen
+                            </button>
                         )}
                     </div>
                 </div>
@@ -645,14 +693,20 @@ const PartnerRequestsPage: React.FC = () => {
 
             {/* Content */}
             {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                     {[...Array(6)].map((_, i) => <CardSkeleton key={i} />)}
                 </div>
             ) : error ? (
-                <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
-                    <p className="text-red-600 font-bold text-lg mb-2">Fehler beim Laden</p>
-                    <p className="text-red-500 mb-4">{error}</p>
-                    <button onClick={() => { setLoading(true); fetchLeads(); }} className="bg-red-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-red-700">
+                <div className="bg-white border border-rose-100 rounded-xl p-10 text-center">
+                    <div className="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <XCircleIcon className="w-6 h-6 text-rose-400" />
+                    </div>
+                    <p className="text-base font-bold text-slate-900 mb-1">Fehler beim Laden</p>
+                    <p className="text-sm text-slate-400 mb-5">{error}</p>
+                    <button
+                        onClick={() => { setLoading(true); fetchLeads(); }}
+                        className="bg-slate-900 text-white font-semibold px-5 py-2 rounded-lg text-sm hover:bg-slate-800 transition-colors"
+                    >
                         Erneut versuchen
                     </button>
                 </div>
@@ -665,81 +719,36 @@ const PartnerRequestsPage: React.FC = () => {
                     ) : isPurchasedView && purchasedViewMode === 'cards' ? (
                         paginatedRequests.length > 0 ? (
                             <>
-                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                                     {paginatedRequests.map(lead => (
-                                        <PurchasedLeadCard
-                                            key={lead._id}
-                                            lead={lead}
-                                            onStatusChange={handleStatusChange}
-                                        />
+                                        <PurchasedLeadCard key={lead._id} lead={lead} onStatusChange={handleStatusChange} />
                                     ))}
                                 </div>
-                                {totalPages > 1 && (
-                                    <div className="flex justify-center items-center gap-2">
-                                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                                            <button
-                                                key={page}
-                                                onClick={() => setCurrentPage(page)}
-                                                className={`w-12 h-12 rounded-xl font-black text-sm transition-all ${currentPage === page
-                                                        ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg scale-110'
-                                                        : 'bg-white hover:bg-slate-50 border-2 border-slate-200 text-slate-700 hover:border-primary-300'
-                                                    }`}
-                                            >
-                                                {page}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
+                                {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />}
                             </>
                         ) : (
-                            <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-slate-300">
-                                <UsersIcon className="w-16 h-16 mx-auto text-slate-300 mb-4" />
-                                <h3 className="text-xl font-black text-slate-700 mb-2">Keine gekauften Leads</h3>
-                                <p className="text-sm text-slate-500 font-semibold mb-6">Kaufen Sie Leads, um hier Ihre Aufträge zu verwalten.</p>
-                                <Link
-                                    to="/partner/requests"
-                                    className="inline-flex px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-700 text-white font-bold rounded-xl hover:from-primary-700 hover:to-primary-800 transition-colors shadow-lg"
-                                >
-                                    Verfügbare Leads ansehen
-                                </Link>
-                            </div>
+                            <EmptyState
+                                icon={<UsersIcon className="w-10 h-10 text-slate-300" />}
+                                title="Keine gekauften Leads"
+                                description="Kaufen Sie Leads, um hier Ihre Auftraege zu verwalten."
+                                action={<Link to="/partner/requests" className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 transition-colors">Leads entdecken <ArrowRightIcon className="w-3.5 h-3.5" /></Link>}
+                            />
                         )
                     ) : paginatedRequests.length > 0 ? (
                         <>
-                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                                 {paginatedRequests.map(lead => (
-                                    <LeadCard
-                                        key={lead._id}
-                                        lead={lead}
-                                        onViewDetails={(id) => {
-                                            setLocalSelectedLeadId(id);
-                                        }}
-                                    />
+                                    <LeadCard key={lead._id} lead={lead} onViewDetails={(id) => setLocalSelectedLeadId(id)} />
                                 ))}
                             </div>
-                            {totalPages > 1 && (
-                                <div className="flex justify-center items-center gap-2">
-                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                                        <button
-                                            key={page}
-                                            onClick={() => setCurrentPage(page)}
-                                            className={`w-12 h-12 rounded-xl font-black text-sm transition-all ${currentPage === page
-                                                    ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg scale-110'
-                                                    : 'bg-white hover:bg-slate-50 border-2 border-slate-200 text-slate-700 hover:border-primary-300'
-                                                }`}
-                                        >
-                                            {page}
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
+                            {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />}
                         </>
                     ) : (
-                        <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-slate-300">
-                            <MagnifyingGlassIcon className="w-16 h-16 mx-auto text-slate-400 mb-4" />
-                            <h3 className="text-xl font-black text-slate-700 mb-2">Keine Leads gefunden</h3>
-                            <p className="text-sm text-slate-500 font-semibold">Passen Sie Ihre Filter an oder schauen Sie später wieder vorbei.</p>
-                        </div>
+                        <EmptyState
+                            icon={<MagnifyingGlassIcon className="w-10 h-10 text-slate-300" />}
+                            title="Keine Leads gefunden"
+                            description="Passen Sie Ihre Filter an oder schauen Sie spaeter wieder vorbei."
+                        />
                     )}
                 </>
             )}
@@ -754,5 +763,34 @@ const PartnerRequestsPage: React.FC = () => {
         </div>
     );
 };
+
+// --- Pagination ---
+const Pagination: React.FC<{ currentPage: number; totalPages: number; onPageChange: (page: number) => void }> = ({ currentPage, totalPages, onPageChange }) => (
+    <div className="flex justify-center items-center gap-1.5 mt-8">
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+            <button
+                key={page}
+                onClick={() => onPageChange(page)}
+                className={`w-9 h-9 rounded-lg text-xs font-semibold transition-all ${
+                    currentPage === page
+                        ? 'bg-slate-900 text-white shadow-sm'
+                        : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-300 hover:text-slate-700'
+                }`}
+            >
+                {page}
+            </button>
+        ))}
+    </div>
+);
+
+// --- Empty State ---
+const EmptyState: React.FC<{ icon: React.ReactNode; title: string; description: string; action?: React.ReactNode }> = ({ icon, title, description, action }) => (
+    <div className="text-center py-16 bg-white rounded-xl border border-dashed border-slate-200">
+        <div className="mb-4">{icon}</div>
+        <h3 className="text-base font-bold text-slate-700 mb-1">{title}</h3>
+        <p className="text-sm text-slate-400 mb-5">{description}</p>
+        {action}
+    </div>
+);
 
 export default PartnerRequestsPage;
