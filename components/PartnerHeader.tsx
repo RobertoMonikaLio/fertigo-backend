@@ -73,13 +73,13 @@ const PartnerHeader: React.FC = () => {
                 className={({ isActive }) => {
                     const baseClasses = "flex items-center gap-3 rounded-md font-semibold transition-colors";
                     const mobileClasses = `${baseClasses} p-4 text-lg ${isActive ? 'bg-primary-100 text-primary-700' : 'text-slate-700 hover:bg-slate-100'}`;
-                    const desktopClasses = `rounded-md font-semibold transition-colors px-3 py-2 text-sm ${isActive ? 'text-primary-600' : 'text-slate-600 hover:text-slate-900'}`;
+                    const desktopClasses = `flex items-center gap-1.5 rounded-md font-semibold transition-colors px-3 py-2 text-sm ${isActive ? 'text-primary-600' : 'text-slate-600 hover:text-slate-900'}`;
                     return isMobile ? mobileClasses : desktopClasses;
                 }}
             >
                 {({ isActive }) => (
                     <>
-                        {isMobile && <link.icon className={`w-6 h-6 flex-shrink-0 ${isActive ? 'text-primary-500' : ''}`} />}
+                        <link.icon className={`${isMobile ? 'w-6 h-6' : 'w-4 h-4'} flex-shrink-0 ${isActive ? 'text-primary-500' : ''}`} />
                         <span>{link.name}</span>
                     </>
                 )}
