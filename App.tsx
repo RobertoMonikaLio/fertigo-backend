@@ -52,6 +52,7 @@ const PartnerRequestDetailPage = lazy(() => import('./pages/PartnerRequestDetail
 const PartnerMessagesPage = lazy(() => import('./pages/PartnerMessagesPage'));
 const PartnerRentPage = lazy(() => import('./pages/PartnerRentPage'));
 const PartnerPricingPage = lazy(() => import('./pages/PartnerPricingPage'));
+const PartnerToolsPage = lazy(() => import('./pages/PartnerToolsPage'));
 
 
 // Admin Pages
@@ -228,6 +229,7 @@ const AppContent: React.FC = () => {
                             <Route path="/partner/marketplace/rent" element={<PartnerRentPage />} />
                             <Route path="/partner/messages" element={<PartnerMessagesPage />} />
                             <Route path="/partner/pricing" element={<PartnerPricingPage />} />
+                            <Route path="/partner/tools" element={<PartnerToolsPage />} />
                         </Route>
 
                         {/* Admin pages */}
