@@ -11,7 +11,8 @@ import {
     getAdminFinance,
     getAdminProfile,
     updateAdminProfile,
-    updateAdminPassword
+    updateAdminPassword,
+    createAdminLead
 } from '../controllers/statsController';
 
 const router = express.Router();
@@ -30,6 +31,7 @@ router.put('/partners/:id/status', updatePartnerStatus);
 
 // Requests (Leads)
 router.get('/requests', getAdminRequests);
+router.post('/leads', createAdminLead);
 router.delete('/requests/:id', deleteAdminRequest);
 
 // Users

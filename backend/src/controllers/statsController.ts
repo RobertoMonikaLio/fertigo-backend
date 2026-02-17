@@ -506,3 +506,15 @@ export const updateAdminPassword = async (req: Request, res: Response) => {
         res.status(500).json({ message: error.message || 'Server Error' });
     }
 };
+
+// @desc    Create a new lead (Admin)
+// @route   POST /api/admin/leads
+// @access  Private (Admin)
+export const createAdminLead = async (req: Request, res: Response) => {
+    try {
+        const lead = await Lead.create(req.body);
+        res.status(201).json(lead);
+    } catch (error: any) {
+        res.status(500).json({ message: error.message || 'Server Error' });
+    }
+};
