@@ -119,10 +119,13 @@ const PartnerHeader: React.FC = () => {
                     {/* Left Side */}
                     <div className="flex items-center gap-6">
                          <Link to="/partner/requests" className="flex items-center gap-2">
-                            <div className="bg-primary-600 text-white p-1.5 rounded-lg">
-                                <Squares2X2Icon className="w-5 h-5" />
-                            </div>
-                            <span className="font-extrabold text-lg text-slate-900 tracking-tight hidden sm:block">FertigoPortal<span className="text-primary-600"></span></span>
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-primary-600">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M6 2H14V6H18V10H22V18C22 20.2091 20.2091 22 18 22H6C3.79086 22 2 20.2091 2 18V6C2 3.79086 3.79086 2 6 2ZM7 6V18H11V14H15V11H11V9H17V6H7Z" />
+                                <rect x="15" y="2" width="3" height="3" rx="0.5" />
+                                <rect x="19" y="2" width="3" height="3" rx="0.5" />
+                                <rect x="19" y="6" width="3" height="3" rx="0.5" />
+                            </svg>
+                            <span className="font-extrabold text-lg text-slate-900 tracking-tight hidden sm:block">Fertigo<span className="text-primary-600">Portal</span></span>
                         </Link>
 
                         {/* Desktop Navigation */}
