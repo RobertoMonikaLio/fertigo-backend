@@ -8,43 +8,43 @@ interface IconProps {
 
 // --- NEW ICONS for Features Section ---
 // Handgezeichneter skizzenhafter Stil für Schritt 1
-export const HowItWorksStep1Icon: React.FC<IconProps> = ({ 
-    className, 
-    color = "#16a34a" 
+export const HowItWorksStep1Icon: React.FC<IconProps> = ({
+    className,
+    color = "#16a34a"
 }) => (
-    <svg 
-        viewBox="0 0 100 100" 
-        className={className} 
-        xmlns="http://www.w3.org/2000/svg" 
+    <svg
+        viewBox="0 0 100 100"
+        className={className}
+        xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="xMidYMid meet"
     >
         {/* Schwarzer Hintergrund */}
         <rect width="100" height="100" fill="#000000" />
-        
+
         {/* Notizblock/Clipboard mit Stift - handgezeichneter Stil */}
         <g stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
             {/* Clipboard/Notizblock - leicht schief und unregelmäßig */}
-            <path d="M 25 20 Q 24 18, 26 18 L 74 18 Q 76 18, 75 20 L 75 75 Q 76 77, 74 77 L 26 77 Q 24 77, 25 75 Z" 
-                  strokeWidth="3" />
-            
+            <path d="M 25 20 Q 24 18, 26 18 L 74 18 Q 76 18, 75 20 L 75 75 Q 76 77, 74 77 L 26 77 Q 24 77, 25 75 Z"
+                strokeWidth="3" />
+
             {/* Clip oben - handgezeichnet */}
             <path d="M 45 18 Q 47 15, 50 15 Q 53 15, 55 18" strokeWidth="3" />
             <path d="M 47 15 Q 48 12, 50 12 Q 52 12, 53 15" strokeWidth="2.5" />
-            
+
             {/* Linien auf dem Papier - leicht wellig */}
-            <path d="M 30 30 Q 32 28, 35 30 T 40 30 T 45 30 T 50 30 T 55 30 T 60 30 T 65 30 T 70 30" 
-                  strokeWidth="1.5" opacity="0.6" />
-            <path d="M 30 38 Q 32 36, 35 38 T 40 38 T 45 38 T 50 38 T 55 38 T 60 38 T 65 38 T 70 38" 
-                  strokeWidth="1.5" opacity="0.6" />
-            <path d="M 30 46 Q 32 44, 35 46 T 40 46 T 45 46 T 50 46 T 55 46 T 60 46 T 65 46 T 70 46" 
-                  strokeWidth="1.5" opacity="0.6" />
-            <path d="M 30 54 Q 32 52, 35 54 T 40 54 T 45 54 T 50 54 T 55 54 T 60 54 T 65 54 T 70 54" 
-                  strokeWidth="1.5" opacity="0.5" />
-            
+            <path d="M 30 30 Q 32 28, 35 30 T 40 30 T 45 30 T 50 30 T 55 30 T 60 30 T 65 30 T 70 30"
+                strokeWidth="1.5" opacity="0.6" />
+            <path d="M 30 38 Q 32 36, 35 38 T 40 38 T 45 38 T 50 38 T 55 38 T 60 38 T 65 38 T 70 38"
+                strokeWidth="1.5" opacity="0.6" />
+            <path d="M 30 46 Q 32 44, 35 46 T 40 46 T 45 46 T 50 46 T 55 46 T 60 46 T 65 46 T 70 46"
+                strokeWidth="1.5" opacity="0.6" />
+            <path d="M 30 54 Q 32 52, 35 54 T 40 54 T 45 54 T 50 54 T 55 54 T 60 54 T 65 54 T 70 54"
+                strokeWidth="1.5" opacity="0.5" />
+
             {/* Text/Projektbeschreibung - handgeschrieben */}
             <path d="M 32 62 Q 34 60, 36 62 Q 38 64, 40 62 Q 42 60, 44 62" strokeWidth="2" />
             <path d="M 32 68 Q 34 66, 36 68 Q 38 70, 40 68" strokeWidth="2" />
-            
+
             {/* Stift - schräg positioniert */}
             <g transform="translate(68, 25) rotate(25)">
                 {/* Stift Körper */}
@@ -55,7 +55,7 @@ export const HowItWorksStep1Icon: React.FC<IconProps> = ({
                 <line x1="2" y1="0" x2="2" y2="3" stroke="#000000" strokeWidth="0.5" opacity="0.3" />
                 <line x1="6" y1="0" x2="6" y2="3" stroke="#000000" strokeWidth="0.5" opacity="0.3" />
             </g>
-            
+
             {/* Handgezeichnete Akzente - kleine Striche */}
             <path d="M 28 22 L 30 20" strokeWidth="1.5" opacity="0.4" />
             <path d="M 72 22 L 70 20" strokeWidth="1.5" opacity="0.4" />
@@ -65,51 +65,51 @@ export const HowItWorksStep1Icon: React.FC<IconProps> = ({
     </svg>
 );
 
-export const HowItWorksStep1IconDesktop: React.FC<IconProps> = ({ 
-    className, 
-    color = "#16a34a" 
+export const HowItWorksStep1IconDesktop: React.FC<IconProps> = ({
+    className,
+    color = "#16a34a"
 }) => (
-    <svg 
-        viewBox="0 0 100 100" 
-        className={className} 
-        xmlns="http://www.w3.org/2000/svg" 
+    <svg
+        viewBox="0 0 100 100"
+        className={className}
+        xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="xMidYMid meet"
     >
         {/* Schwarzer Hintergrund */}
         <rect width="100" height="100" fill="#000000" />
-        
+
         {/* Desktop-Computer - handgezeichneter skizzenhafter Stil */}
         <g stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
             {/* Monitor - leicht unregelmäßig und skizzenhaft */}
-            <path d="M 15 20 Q 14 18, 16 18 L 84 18 Q 86 18, 85 20 L 85 60 Q 86 62, 84 62 L 16 62 Q 14 62, 15 60 Z" 
-                  strokeWidth="3" />
-            
+            <path d="M 15 20 Q 14 18, 16 18 L 84 18 Q 86 18, 85 20 L 85 60 Q 86 62, 84 62 L 16 62 Q 14 62, 15 60 Z"
+                strokeWidth="3" />
+
             {/* Monitor Standfuß */}
             <path d="M 40 62 L 42 75 L 58 75 L 60 62" strokeWidth="2.5" />
             <path d="M 35 75 L 65 75" strokeWidth="3" />
-            
+
             {/* Bildschirminhalt - Fertigo Logo und Text */}
             <g fill={color}>
                 {/* Fertigo Logo (stilisiertes F mit Quadraten) */}
                 <g transform="translate(30, 32)">
                     {/* F Form */}
-                    <path d="M 0 0 L 0 12 L 6 12 L 6 8 L 3 8 L 3 4 L 6 4 L 6 0 Z" 
-                          stroke={color} strokeWidth="2" fill="none" />
+                    <path d="M 0 0 L 0 12 L 6 12 L 6 8 L 3 8 L 3 4 L 6 4 L 6 0 Z"
+                        stroke={color} strokeWidth="2" fill="none" />
                     {/* Kleine Quadrate oben rechts */}
                     <rect x="8" y="0" width="3" height="3" stroke={color} strokeWidth="1.5" fill="none" />
                     <rect x="12" y="0" width="3" height="3" stroke={color} strokeWidth="1.5" fill="none" />
                 </g>
-                
+
                 {/* "Fertigo." Text */}
                 <text x="50" y="45" fontSize="6" fontFamily="sans-serif" fontWeight="bold" fill={color}>
                     Fertigo.
                 </text>
             </g>
-            
+
             {/* Tastatur - unterhalb des Monitors */}
             <g transform="translate(20, 78)">
-                <path d="M 0 0 Q 2 -1, 4 0 L 36 0 Q 38 -1, 40 0 L 40 8 Q 38 9, 36 8 L 4 8 Q 2 9, 0 8 Z" 
-                      strokeWidth="2.5" />
+                <path d="M 0 0 Q 2 -1, 4 0 L 36 0 Q 38 -1, 40 0 L 40 8 Q 38 9, 36 8 L 4 8 Q 2 9, 0 8 Z"
+                    strokeWidth="2.5" />
                 {/* Tastatur-Tasten (vereinfacht) */}
                 <line x1="8" y1="2" x2="12" y2="2" strokeWidth="1.5" opacity="0.6" />
                 <line x1="16" y1="2" x2="20" y2="2" strokeWidth="1.5" opacity="0.6" />
@@ -117,14 +117,14 @@ export const HowItWorksStep1IconDesktop: React.FC<IconProps> = ({
                 <line x1="8" y1="5" x2="16" y2="5" strokeWidth="1.5" opacity="0.6" />
                 <line x1="20" y1="5" x2="28" y2="5" strokeWidth="1.5" opacity="0.6" />
             </g>
-            
+
             {/* Computermaus - rechts neben der Tastatur */}
             <g transform="translate(65, 80)">
                 <ellipse cx="6" cy="4" rx="5" ry="3" strokeWidth="2.5" />
                 {/* Mauskabel - verbindet mit Monitor */}
                 <path d="M 0 4 Q -5 0, -8 -3" strokeWidth="2" opacity="0.7" />
             </g>
-            
+
             {/* Handgezeichnete Akzente - kleine unregelmäßige Striche für skizzenhaften Look */}
             <path d="M 18 20 L 20 18" strokeWidth="1.5" opacity="0.4" />
             <path d="M 82 20 L 80 18" strokeWidth="1.5" opacity="0.4" />
@@ -575,3 +575,5 @@ export const FireIcon: React.FC<IconProps> = ({ className }) => (<svg className=
 export const EnvelopeIcon: React.FC<IconProps> = ({ className }) => (<svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>);
 export const DocumentCheckIcon: React.FC<IconProps> = ({ className }) => (<svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-12M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12" /></svg>);
 export const CameraIcon: React.FC<IconProps> = ({ className }) => (<svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" /></svg>);
+export const ShoppingBagIcon: React.FC<IconProps> = ({ className }) => (<svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" /></svg>);
+export const CurrencyIcon: React.FC<IconProps> = ({ className }) => (<svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>);

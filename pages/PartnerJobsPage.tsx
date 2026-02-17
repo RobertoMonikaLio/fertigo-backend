@@ -1,18 +1,29 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { 
-    PencilIcon, TrashIcon, XMarkIcon, UsersIcon, CheckCircleIcon, PlusIcon, EyeIcon, 
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import {
+    PencilIcon, TrashIcon, XMarkIcon, UsersIcon, CheckCircleIcon, PlusIcon, EyeIcon,
     CalendarDaysIcon, MapPinIcon, MagnifyingGlassIcon, ChevronUpDownIcon, BriefcaseIcon,
-    ClockIcon, ArrowLeftIcon, UserIcon, MailIcon, PhoneIcon
+    ClockIcon, ArrowLeftIcon, UserIcon, MailIcon, PhoneIcon, SpinnerIcon
 } from '../components/icons';
 import JobPostings from '../components/JobPostings';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+
+const getAuthHeaders = () => {
+    const stored = localStorage.getItem('fertigo_provider');
+    const token = stored ? JSON.parse(stored)?.token : null;
+    return {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
+};
 
 type JobStatus = 'Aktiv' | 'Inaktiv' | 'Entwurf';
 
 interface Job {
-    id: number;
+    _id: string;
     title: string;
     status: JobStatus;
-    created: string;
+    createdAt: string;
     applicants: number;
     location: string;
     type: string;
@@ -25,13 +36,6 @@ interface Job {
     };
 }
 
-const mockJobs: Job[] = [
-    { id: 1, title: 'Maler EFZ (m/w/d)', status: 'Aktiv', created: '15. Juli 2024', applicants: 12, location: 'Zürich', type: 'Vollzeit', description: 'Wir suchen einen erfahrenen Maler für Renovationsprojekte. Sie arbeiten selbständig und im Team an verschiedenen Objekten.', salary: 'CHF 5\'200 - 6\'000 / Monat', contact: { person: 'Hans Meier', email: 'jobs@mueller-bau.ch', phone: '044 123 45 67' } },
-    { id: 2, title: 'Sanitärinstallateur/in EFZ', status: 'Aktiv', created: '10. Juli 2024', applicants: 8, location: 'Bern', type: 'Vollzeit', description: 'Installation und Wartung von Sanitäranlagen in Neubauten und Renovationen.', salary: 'CHF 5\'500 - 6\'500 / Monat', contact: { person: 'Hans Meier', email: 'jobs@mueller-bau.ch', phone: '044 123 45 67' } },
-    { id: 3, title: 'Schreiner EFZ (Entwurf)', status: 'Entwurf', created: '05. Juli 2024', applicants: 0, location: 'Luzern', type: 'Vollzeit', description: 'Herstellung von massgefertigten Möbeln und Innenausbauten.', salary: 'Nach Vereinbarung', contact: { person: 'Hans Meier', email: 'jobs@mueller-bau.ch', phone: '044 123 45 67' } },
-    { id: 4, title: 'Gärtner/in mit Erfahrung', status: 'Inaktiv', created: '01. Juni 2024', applicants: 25, location: 'Basel', type: 'Teilzeit', description: 'Pflege von Privatgärten und öffentlichen Anlagen. Erfahrung im Garten- und Landschaftsbau erwünscht.', salary: 'CHF 28 - 32 / Stunde', contact: { person: 'Hans Meier', email: 'jobs@mueller-bau.ch', phone: '044 123 45 67' } },
-];
-
 const statusConfig: { [key in JobStatus]: { color: string, dotColor: string, bgColor: string } } = {
     'Aktiv': { color: 'text-emerald-800', dotColor: 'bg-emerald-500', bgColor: 'bg-emerald-100' },
     'Entwurf': { color: 'text-amber-800', dotColor: 'bg-amber-500', bgColor: 'bg-amber-100' },
@@ -39,6 +43,10 @@ const statusConfig: { [key in JobStatus]: { color: string, dotColor: string, bgC
 };
 
 const allStatuses: JobStatus[] = ['Aktiv', 'Entwurf', 'Inaktiv'];
+
+const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString('de-CH', { day: 'numeric', month: 'long', year: 'numeric' });
+};
 
 const JobDetailModal: React.FC<{
     job: Job;
@@ -64,7 +72,7 @@ const JobDetailModal: React.FC<{
                         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                             <defs>
                                 <pattern id="grid-job" width="10" height="10" patternUnits="userSpaceOnUse">
-                                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5"/>
+                                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5" />
                                 </pattern>
                             </defs>
                             <rect width="100" height="100" fill="url(#grid-job)" />
@@ -91,12 +99,12 @@ const JobDetailModal: React.FC<{
                             </div>
                             <div className="flex items-center gap-1.5">
                                 <CalendarDaysIcon className="w-4 h-4" />
-                                <span className="font-semibold">{job.created}</span>
+                                <span className="font-semibold">{formatDate(job.createdAt)}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="p-6 overflow-y-auto flex-1">
                     <div className="grid grid-cols-2 gap-4 mb-6">
                         {job.salary && (
@@ -115,14 +123,14 @@ const JobDetailModal: React.FC<{
                         <h3 className="font-black text-slate-800 mb-3">Stellenbeschreibung</h3>
                         <p className="text-slate-600 leading-relaxed">{job.description}</p>
                     </div>
-                    
+
                     {job.contact && (
                         <div className="bg-slate-50 rounded-2xl p-5">
                             <h3 className="font-black text-slate-800 mb-4">Kontaktperson</h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                                 <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200">
                                     <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <UserIcon className="w-5 h-5 text-primary-600"/>
+                                        <UserIcon className="w-5 h-5 text-primary-600" />
                                     </div>
                                     <div className="min-w-0">
                                         <p className="text-xs text-slate-400 font-bold">Name</p>
@@ -131,7 +139,7 @@ const JobDetailModal: React.FC<{
                                 </div>
                                 <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200">
                                     <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <MailIcon className="w-5 h-5 text-primary-600"/>
+                                        <MailIcon className="w-5 h-5 text-primary-600" />
                                     </div>
                                     <div className="min-w-0">
                                         <p className="text-xs text-slate-400 font-bold">E-Mail</p>
@@ -140,7 +148,7 @@ const JobDetailModal: React.FC<{
                                 </div>
                                 <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200">
                                     <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <PhoneIcon className="w-5 h-5 text-primary-600"/>
+                                        <PhoneIcon className="w-5 h-5 text-primary-600" />
                                     </div>
                                     <div className="min-w-0">
                                         <p className="text-xs text-slate-400 font-bold">Telefon</p>
@@ -151,7 +159,7 @@ const JobDetailModal: React.FC<{
                         </div>
                     )}
                 </div>
-                
+
                 <div className="p-5 bg-slate-50 border-t border-slate-200 flex justify-between items-center">
                     <button className="flex items-center gap-2 px-5 py-2.5 text-slate-600 hover:text-slate-800 font-bold rounded-xl hover:bg-slate-200 transition-colors">
                         <PencilIcon className="w-5 h-5" />
@@ -172,9 +180,9 @@ const JobCard: React.FC<{
     onDelete: () => void;
 }> = ({ job, onView, onDelete }) => {
     const config = statusConfig[job.status];
-    
+
     return (
-        <article 
+        <article
             onClick={onView}
             className="group relative bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer overflow-hidden"
         >
@@ -200,12 +208,12 @@ const JobCard: React.FC<{
 
                 <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
                     <div className="flex items-center gap-1">
-                        <MapPinIcon className="w-3.5 h-3.5 text-slate-400"/>
-                        <span className="font-medium">{job.location}</span>
+                        <MapPinIcon className="w-3.5 h-3.5 text-slate-400" />
+                        <span className="font-medium">{job.location || '–'}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                        <CalendarDaysIcon className="w-3.5 h-3.5 text-slate-400"/>
-                        <span className="font-medium">{job.created}</span>
+                        <CalendarDaysIcon className="w-3.5 h-3.5 text-slate-400" />
+                        <span className="font-medium">{formatDate(job.createdAt)}</span>
                     </div>
                 </div>
 
@@ -220,19 +228,19 @@ const JobCard: React.FC<{
                 </div>
 
                 <div className="flex items-center gap-2" onClick={e => e.stopPropagation()}>
-                    <button 
+                    <button
                         onClick={onView}
                         className="flex-1 py-2 rounded-xl font-bold text-xs bg-primary-600 text-white hover:bg-primary-700 shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
                     >
-                        <EyeIcon className="w-4 h-4"/>
+                        <EyeIcon className="w-4 h-4" />
                         Details
                     </button>
-                    <button 
+                    <button
                         onClick={onDelete}
-                        className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors border border-slate-200 hover:border-red-200" 
+                        className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors border border-slate-200 hover:border-red-200"
                         title="Löschen"
                     >
-                        <TrashIcon className="w-4 h-4"/>
+                        <TrashIcon className="w-4 h-4" />
                     </button>
                 </div>
             </div>
@@ -240,13 +248,54 @@ const JobCard: React.FC<{
     );
 };
 
+// --- Skeleton ---
+const JobsSkeleton = () => (
+    <div className="max-w-7xl mx-auto animate-pulse">
+        <div className="bg-white rounded-2xl border-2 border-slate-200 p-6 mb-8">
+            <div className="h-14 bg-slate-200 rounded-xl w-full" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {[...Array(3)].map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl border border-slate-200 p-4 space-y-3">
+                    <div className="h-4 bg-slate-200 rounded w-20" />
+                    <div className="h-5 bg-slate-200 rounded w-3/4" />
+                    <div className="h-3 bg-slate-100 rounded w-full" />
+                    <div className="h-10 bg-slate-200 rounded-xl" />
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
 const PartnerJobsPage: React.FC = () => {
-    const [jobs, setJobs] = useState<Job[]>(mockJobs);
+    const [jobs, setJobs] = useState<Job[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('Alle');
     const [isCreatingJob, setIsCreatingJob] = useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = useState('');
     const [viewingJob, setViewingJob] = useState<Job | null>(null);
+
+    const fetchJobs = useCallback(async () => {
+        try {
+            setError(null);
+            const response = await fetch(`${API_URL}/api/partner/jobs`, {
+                headers: getAuthHeaders(),
+            });
+            if (!response.ok) throw new Error('Stellen konnten nicht geladen werden');
+            const data = await response.json();
+            setJobs(data);
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchJobs();
+    }, [fetchJobs]);
 
     useEffect(() => {
         if (showSuccessMessage) {
@@ -269,39 +318,70 @@ const PartnerJobsPage: React.FC = () => {
         applicants: jobs.reduce((sum, j) => sum + j.applicants, 0),
     }), [jobs]);
 
-    const handleCreateJobSuccess = (posted: boolean) => {
+    const handleCreateJobSuccess = async (posted: boolean) => {
         if (posted) {
-            const newJob: Job = {
-                id: Date.now(),
-                title: 'Neue Stelle (Demo)',
-                status: 'Aktiv',
-                created: new Date().toLocaleDateString('de-CH'),
-                applicants: 0,
-                location: 'Zürich',
-                type: 'Vollzeit',
-                description: 'Dies ist eine neu erstellte Stelle.',
-                salary: 'Nach Vereinbarung',
-                contact: { person: 'Hans Meier', email: 'jobs@mueller-bau.ch', phone: '044 123 45 67' }
-            };
-            setJobs(prev => [newJob, ...prev]);
-            setShowSuccessMessage("Stelle erfolgreich veröffentlicht!");
+            try {
+                const response = await fetch(`${API_URL}/api/partner/jobs`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({
+                        title: 'Neue Stelle',
+                        status: 'Aktiv',
+                        location: '',
+                        type: 'Vollzeit',
+                        description: '',
+                    }),
+                });
+                if (response.ok) {
+                    await fetchJobs();
+                    setShowSuccessMessage("Stelle erfolgreich veröffentlicht!");
+                }
+            } catch (err) {
+                console.error('Error creating job:', err);
+            }
         }
         setIsCreatingJob(false);
     };
 
-    const handleDeleteJob = (jobId: number, e: React.MouseEvent) => {
+    const handleDeleteJob = async (jobId: string, e: React.MouseEvent) => {
         e.stopPropagation();
         if (window.confirm("Möchten Sie diese Stelle wirklich löschen?")) {
-            setJobs(prev => prev.filter(j => j.id !== jobId));
-            setShowSuccessMessage("Stelle gelöscht!");
+            try {
+                const response = await fetch(`${API_URL}/api/partner/jobs/${jobId}`, {
+                    method: 'DELETE',
+                    headers: getAuthHeaders(),
+                });
+                if (response.ok) {
+                    setJobs(prev => prev.filter(j => j._id !== jobId));
+                    setShowSuccessMessage("Stelle gelöscht!");
+                }
+            } catch (err) {
+                console.error('Error deleting job:', err);
+            }
         }
     };
+
+    if (loading) return <JobsSkeleton />;
+
+    if (error) {
+        return (
+            <div className="max-w-4xl mx-auto">
+                <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
+                    <p className="text-red-600 font-bold text-lg mb-2">Fehler beim Laden</p>
+                    <p className="text-red-500 mb-4">{error}</p>
+                    <button onClick={() => { setLoading(true); fetchJobs(); }} className="bg-red-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-red-700">
+                        Erneut versuchen
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     if (isCreatingJob) {
         return (
             <div className="animate-fade-in max-w-4xl mx-auto">
-                <button 
-                    onClick={() => setIsCreatingJob(false)} 
+                <button
+                    onClick={() => setIsCreatingJob(false)}
                     className="mb-6 flex items-center gap-2 text-slate-500 hover:text-slate-800 font-bold transition-colors group"
                 >
                     <ArrowLeftIcon className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> Zurück zur Übersicht
@@ -314,7 +394,7 @@ const PartnerJobsPage: React.FC = () => {
     return (
         <div className="max-w-7xl mx-auto">
             {viewingJob && <JobDetailModal job={viewingJob} onClose={() => setViewingJob(null)} />}
-            
+
             {showSuccessMessage && (
                 <div className="mb-6 bg-emerald-50 border-2 border-emerald-200 text-emerald-800 px-6 py-4 rounded-2xl flex items-center gap-3 animate-fade-in shadow-lg" role="alert">
                     <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -324,25 +404,30 @@ const PartnerJobsPage: React.FC = () => {
                 </div>
             )}
 
+            {/* Live-Daten Indicator */}
+            <div className="flex items-center justify-end mb-4">
+                <span className="text-green-600 font-semibold text-sm">● Live-Daten</span>
+            </div>
+
             <div className="mb-8">
                 <div className="bg-white rounded-2xl border-2 border-slate-200 shadow-lg p-6">
                     <div className="flex flex-col lg:flex-row gap-4">
                         <div className="flex-1 relative">
                             <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-                            <input 
-                                type="search" 
+                            <input
+                                type="search"
                                 placeholder="Stellen durchsuchen..."
-                                value={searchTerm} 
-                                onChange={e => setSearchTerm(e.target.value)} 
+                                value={searchTerm}
+                                onChange={e => setSearchTerm(e.target.value)}
                                 className="w-full h-14 pl-12 pr-4 rounded-xl border-2 border-slate-200 bg-slate-50 font-semibold text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-100 outline-none transition-all"
                             />
                         </div>
 
                         <div className="flex flex-wrap gap-3">
                             <div className="relative">
-                                <select 
-                                    value={statusFilter} 
-                                    onChange={e => setStatusFilter(e.target.value)} 
+                                <select
+                                    value={statusFilter}
+                                    onChange={e => setStatusFilter(e.target.value)}
                                     className="h-14 px-4 pr-10 rounded-xl border-2 border-slate-200 bg-slate-50 font-semibold text-slate-700 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-100 outline-none appearance-none transition-all min-w-[160px]"
                                 >
                                     <option value="Alle">Alle Status</option>
@@ -351,8 +436,8 @@ const PartnerJobsPage: React.FC = () => {
                                 <ChevronUpDownIcon className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                             </div>
 
-                            <button 
-                                onClick={() => setIsCreatingJob(true)} 
+                            <button
+                                onClick={() => setIsCreatingJob(true)}
                                 className="h-14 px-6 bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 text-white font-black rounded-xl hover:from-primary-700 hover:via-primary-800 hover:to-primary-900 shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
                             >
                                 <PlusIcon className="w-5 h-5" />
@@ -377,11 +462,11 @@ const PartnerJobsPage: React.FC = () => {
             {filteredJobs.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {filteredJobs.map(job => (
-                        <JobCard 
-                            key={job.id}
+                        <JobCard
+                            key={job._id}
                             job={job}
                             onView={() => setViewingJob(job)}
-                            onDelete={(e: any) => handleDeleteJob(job.id, e)}
+                            onDelete={(e: any) => handleDeleteJob(job._id, e)}
                         />
                     ))}
                 </div>
@@ -391,13 +476,13 @@ const PartnerJobsPage: React.FC = () => {
                     <h3 className="text-xl font-black text-slate-700 mb-2">Keine Stellen gefunden</h3>
                     <p className="text-sm text-slate-500 font-semibold mb-6">Passen Sie Ihre Filter an oder erstellen Sie eine neue Stelle.</p>
                     <div className="flex justify-center gap-3">
-                        <button 
-                            onClick={() => {setSearchTerm(''); setStatusFilter('Alle');}} 
+                        <button
+                            onClick={() => { setSearchTerm(''); setStatusFilter('Alle'); }}
                             className="px-6 py-3 text-slate-600 font-bold hover:bg-slate-100 rounded-xl transition-colors border-2 border-slate-200"
                         >
                             Filter zurücksetzen
                         </button>
-                        <button 
+                        <button
                             onClick={() => setIsCreatingJob(true)}
                             className="px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-700 text-white font-bold rounded-xl hover:from-primary-700 hover:to-primary-800 transition-colors shadow-lg"
                         >

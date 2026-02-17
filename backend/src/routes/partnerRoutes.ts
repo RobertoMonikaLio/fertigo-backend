@@ -11,6 +11,20 @@ import {
     getPartnerProfile,
     updatePartnerProfile,
     changePartnerPassword,
+    // Jobs
+    getPartnerJobs,
+    createJob,
+    updateJob,
+    deleteJob,
+    // Conversations
+    getConversations,
+    getConversationById,
+    sendMessage,
+    // Marketplace
+    getMarketplaceListings,
+    createMarketplaceListing,
+    updateMarketplaceListing,
+    deleteMarketplaceListing,
 } from '../controllers/partnerController';
 
 const router = express.Router();
@@ -35,5 +49,22 @@ router.get('/billing', getPartnerBilling);
 router.get('/profile', getPartnerProfile);
 router.put('/profile', updatePartnerProfile);
 router.put('/password', changePartnerPassword);
+
+// Jobs
+router.get('/jobs', getPartnerJobs);
+router.post('/jobs', createJob);
+router.put('/jobs/:id', updateJob);
+router.delete('/jobs/:id', deleteJob);
+
+// Conversations / Messages
+router.get('/conversations', getConversations);
+router.get('/conversations/:id', getConversationById);
+router.post('/conversations/:id/messages', sendMessage);
+
+// Marketplace Listings (used by both Marketplace and Rent pages)
+router.get('/marketplace', getMarketplaceListings);
+router.post('/marketplace', createMarketplaceListing);
+router.put('/marketplace/:id', updateMarketplaceListing);
+router.delete('/marketplace/:id', deleteMarketplaceListing);
 
 export default router;

@@ -2,6 +2,9 @@ import { Request, Response } from 'express';
 import Lead from '../models/Lead';
 import Provider from '../models/Provider';
 import Transaction from '../models/Transaction';
+import Job from '../models/Job';
+import Conversation from '../models/Conversation';
+import MarketplaceListing from '../models/MarketplaceListing';
 import bcrypt from 'bcryptjs';
 
 // @desc    Get partner dashboard stats
@@ -395,6 +398,208 @@ export const changePartnerPassword = async (req: any, res: Response) => {
         await provider.save();
 
         res.json({ message: 'Passwort erfolgreich geändert' });
+    } catch (error: any) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// =============================================================
+// JOBS (Stelleninserate)
+// =============================================================
+
+// @desc    Get all jobs for this partner
+// @route   GET /api/partner/jobs
+// @access  Private (Partner)
+export const getPartnerJobs = async (req: any, res: Response) => {
+    try {
+        const jobs = await Job.find({ providerId: req.user._id }).sort({ createdAt: -1 });
+        res.json(jobs);
+    } catch (error: any) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// @desc    Create a new job
+// @route   POST /api/partner/jobs
+// @access  Private (Partner)
+export const createJob = async (req: any, res: Response) => {
+    try {
+        const { title, description, location, type, salary, status, contact } = req.body;
+        const job = await Job.create({
+            providerId: req.user._id,
+            title, description, location, type, salary,
+            status: status || 'Aktiv',
+            contact,
+        });
+        res.status(201).json(job);
+    } catch (error: any) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// @desc    Update a job
+// @route   PUT /api/partner/jobs/:id
+// @access  Private (Partner)
+export const updateJob = async (req: any, res: Response) => {
+    try {
+        const job = await Job.findOneAndUpdate(
+            { _id: req.params.id, providerId: req.user._id },
+            req.body,
+            { new: true, runValidators: true }
+        );
+        if (!job) return res.status(404).json({ message: 'Stelle nicht gefunden' });
+        res.json(job);
+    } catch (error: any) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// @desc    Delete a job
+// @route   DELETE /api/partner/jobs/:id
+// @access  Private (Partner)
+export const deleteJob = async (req: any, res: Response) => {
+    try {
+        const job = await Job.findOneAndDelete({ _id: req.params.id, providerId: req.user._id });
+        if (!job) return res.status(404).json({ message: 'Stelle nicht gefunden' });
+        res.json({ message: 'Stelle gelöscht' });
+    } catch (error: any) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// =============================================================
+// CONVERSATIONS / MESSAGES (Nachrichten)
+// =============================================================
+
+// @desc    Get all conversations for this partner
+// @route   GET /api/partner/conversations
+// @access  Private (Partner)
+export const getConversations = async (req: any, res: Response) => {
+    try {
+        const conversations = await Conversation.find({ providerId: req.user._id })
+            .sort({ updatedAt: -1 });
+        res.json(conversations);
+    } catch (error: any) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// @desc    Get a single conversation
+// @route   GET /api/partner/conversations/:id
+// @access  Private (Partner)
+export const getConversationById = async (req: any, res: Response) => {
+    try {
+        const conversation = await Conversation.findOne({
+            _id: req.params.id,
+            providerId: req.user._id,
+        });
+        if (!conversation) return res.status(404).json({ message: 'Konversation nicht gefunden' });
+
+        // Mark as read
+        if (conversation.unread) {
+            conversation.unread = false;
+            await conversation.save();
+        }
+
+        res.json(conversation);
+    } catch (error: any) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// @desc    Send a message in a conversation
+// @route   POST /api/partner/conversations/:id/messages
+// @access  Private (Partner)
+export const sendMessage = async (req: any, res: Response) => {
+    try {
+        const { text } = req.body;
+        const conversation = await Conversation.findOne({
+            _id: req.params.id,
+            providerId: req.user._id,
+        });
+        if (!conversation) return res.status(404).json({ message: 'Konversation nicht gefunden' });
+
+        conversation.messages.push({
+            sender: 'partner',
+            text,
+            timestamp: new Date(),
+        });
+        await conversation.save();
+
+        res.json(conversation);
+    } catch (error: any) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// =============================================================
+// MARKETPLACE LISTINGS (Marktplatz-Inserate)
+// =============================================================
+
+// @desc    Get all marketplace listings for this partner
+// @route   GET /api/partner/marketplace
+// @access  Private (Partner)
+export const getMarketplaceListings = async (req: any, res: Response) => {
+    try {
+        const { type } = req.query;
+        const query: any = { providerId: req.user._id };
+        if (type && type !== 'Alle') {
+            query.type = type;
+        }
+        const listings = await MarketplaceListing.find(query).sort({ createdAt: -1 });
+        res.json(listings);
+    } catch (error: any) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// @desc    Create a marketplace listing
+// @route   POST /api/partner/marketplace
+// @access  Private (Partner)
+export const createMarketplaceListing = async (req: any, res: Response) => {
+    try {
+        const { name, description, type, images, category, location, price, pricePerDay, status, contact } = req.body;
+        const listing = await MarketplaceListing.create({
+            providerId: req.user._id,
+            name, description, type, images, category, location,
+            price, pricePerDay,
+            status: status || 'Aktiv',
+            contact,
+        });
+        res.status(201).json(listing);
+    } catch (error: any) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// @desc    Update a marketplace listing
+// @route   PUT /api/partner/marketplace/:id
+// @access  Private (Partner)
+export const updateMarketplaceListing = async (req: any, res: Response) => {
+    try {
+        const listing = await MarketplaceListing.findOneAndUpdate(
+            { _id: req.params.id, providerId: req.user._id },
+            req.body,
+            { new: true, runValidators: true }
+        );
+        if (!listing) return res.status(404).json({ message: 'Inserat nicht gefunden' });
+        res.json(listing);
+    } catch (error: any) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// @desc    Delete a marketplace listing
+// @route   DELETE /api/partner/marketplace/:id
+// @access  Private (Partner)
+export const deleteMarketplaceListing = async (req: any, res: Response) => {
+    try {
+        const listing = await MarketplaceListing.findOneAndDelete({
+            _id: req.params.id,
+            providerId: req.user._id,
+        });
+        if (!listing) return res.status(404).json({ message: 'Inserat nicht gefunden' });
+        res.json({ message: 'Inserat gelöscht' });
     } catch (error: any) {
         res.status(500).json({ message: 'Server Error' });
     }
