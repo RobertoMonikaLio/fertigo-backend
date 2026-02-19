@@ -126,11 +126,10 @@ const LeadCard: React.FC<{ lead: Lead; onViewDetails: (id: string) => void }> = 
     return (
         <article
             onClick={() => { if (!isSoldOut) onViewDetails(lead._id); }}
-            className={`group relative bg-white rounded-xl border transition-all duration-300 cursor-pointer overflow-hidden ${
-                isSoldOut
+            className={`group relative bg-white rounded-xl border transition-all duration-300 cursor-pointer overflow-hidden ${isSoldOut
                     ? 'border-slate-100 opacity-50 cursor-not-allowed'
                     : 'border-slate-100 hover:border-primary-200 hover:shadow-xl hover:shadow-primary-500/5 hover:-translate-y-0.5'
-            }`}
+                }`}
         >
             {/* Top accent line */}
             {!isSoldOut && (
@@ -189,9 +188,8 @@ const LeadCard: React.FC<{ lead: Lead; onViewDetails: (id: string) => void }> = 
                         </div>
                         <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
                             <div
-                                className={`h-full rounded-full transition-all duration-500 ${
-                                    availableCount <= 2 ? 'bg-gradient-to-r from-orange-400 to-red-400' : 'bg-gradient-to-r from-emerald-400 to-emerald-500'
-                                }`}
+                                className={`h-full rounded-full transition-all duration-500 ${availableCount <= 2 ? 'bg-gradient-to-r from-orange-400 to-red-400' : 'bg-gradient-to-r from-emerald-400 to-emerald-500'
+                                    }`}
                                 style={{ width: `${(availableCount / 5) * 100}%` }}
                             />
                         </div>
@@ -210,11 +208,10 @@ const LeadCard: React.FC<{ lead: Lead; onViewDetails: (id: string) => void }> = 
                         type="button"
                         onClick={(e) => { e.stopPropagation(); if (!isSoldOut) onViewDetails(lead._id); }}
                         disabled={isSoldOut}
-                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
-                            isSoldOut
+                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${isSoldOut
                                 ? 'bg-slate-50 text-slate-300 cursor-not-allowed'
                                 : 'bg-primary-600 text-white hover:bg-primary-700 active:scale-95 shadow-sm shadow-primary-600/20'
-                        }`}
+                            }`}
                     >
                         Ansehen
                         {!isSoldOut && <ArrowRightIcon className="w-3 h-3" />}
@@ -755,9 +752,10 @@ const PartnerRequestsPage: React.FC = () => {
 
             {localSelectedLeadId && (
                 <LeadQuickViewModal
-                    leadId={localSelectedLeadId as any}
+                    leadId={localSelectedLeadId}
                     isOpen={!!localSelectedLeadId}
                     onClose={() => setLocalSelectedLeadId(null)}
+                    initialLead={leads.find(l => l._id === localSelectedLeadId)}
                 />
             )}
         </div>
@@ -771,11 +769,10 @@ const Pagination: React.FC<{ currentPage: number; totalPages: number; onPageChan
             <button
                 key={page}
                 onClick={() => onPageChange(page)}
-                className={`w-9 h-9 rounded-lg text-xs font-semibold transition-all ${
-                    currentPage === page
+                className={`w-9 h-9 rounded-lg text-xs font-semibold transition-all ${currentPage === page
                         ? 'bg-slate-900 text-white shadow-sm'
                         : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-300 hover:text-slate-700'
-                }`}
+                    }`}
             >
                 {page}
             </button>

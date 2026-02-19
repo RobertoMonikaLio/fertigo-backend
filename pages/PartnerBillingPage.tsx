@@ -27,9 +27,7 @@ interface PaymentMethod {
     icon: React.ReactNode;
 }
 
-const initialPaymentMethods: PaymentMethod[] = [
-    { id: 1, type: 'Kreditkarte', details: '**** 4242', expiry: '12/25', icon: <CreditCardIcon className="w-8 h-8" /> },
-];
+const initialPaymentMethods: PaymentMethod[] = [];
 
 interface LiveTransaction {
     _id: string;
@@ -321,6 +319,13 @@ const PartnerBillingPage: React.FC = () => {
     const initiateTopUp = () => {
         const amount = parseFloat(topUpAmount);
         if (isNaN(amount) || amount <= 0) return;
+
+        if (paymentMethods.length === 0) {
+            alert("Bitte fügen Sie zuerst eine Zahlungsmethode hinzu.");
+            setIsAddModalOpen(true);
+            return;
+        }
+
         setIsTopUpModalOpen(true);
     };
 
@@ -394,7 +399,7 @@ const PartnerBillingPage: React.FC = () => {
         <div className="max-w-6xl mx-auto">
             {isAddModalOpen && <AddPaymentMethodModal onClose={() => setIsAddModalOpen(false)} onAdd={handleAddMethod} />}
 
-            {isTopUpModalOpen && (
+            {isTopUpModalOpen && defaultMethod && (
                 <TopUpConfirmationModal
                     amount={topUpAmount}
                     method={defaultMethod}
@@ -419,8 +424,8 @@ const PartnerBillingPage: React.FC = () => {
                                     key={type}
                                     onClick={() => setFilterType(type)}
                                     className={`px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${filterType === type
-                                            ? 'text-slate-600 bg-slate-100'
-                                            : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'
+                                        ? 'text-slate-600 bg-slate-100'
+                                        : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'
                                         }`}
                                 >
                                     {type}
@@ -447,8 +452,8 @@ const PartnerBillingPage: React.FC = () => {
                                     <div key={item._id} className="bg-white rounded-xl border border-slate-200 p-4 hover:border-slate-300 hover:shadow-sm transition-all group">
                                         <div className="flex items-center gap-4">
                                             <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${isTopUp
-                                                    ? 'bg-gradient-to-br from-green-400 to-emerald-500'
-                                                    : 'bg-gradient-to-br from-slate-400 to-slate-500'
+                                                ? 'bg-gradient-to-br from-green-400 to-emerald-500'
+                                                : 'bg-gradient-to-br from-slate-400 to-slate-500'
                                                 }`}>
                                                 {isTopUp ? (
                                                     <BanknotesIcon className="w-6 h-6 text-white" />
@@ -548,8 +553,13 @@ const PartnerBillingPage: React.FC = () => {
                         </div>
 
                         <div className="space-y-4">
-                            {defaultMethod && (
+                            {defaultMethod ? (
                                 <VisualCreditCard method={defaultMethod} onEdit={() => { }} compact={true} />
+                            ) : (
+                                <div onClick={() => setIsAddModalOpen(true)} className="border-2 border-dashed border-slate-300 rounded-2xl p-6 flex flex-col items-center justify-center text-slate-400 hover:text-primary-600 hover:border-primary-400 hover:bg-slate-50 cursor-pointer transition-all h-28">
+                                    <PlusIcon className="w-8 h-8 mb-2" />
+                                    <span className="font-bold text-sm">Methode hinzufügen</span>
+                                </div>
                             )}
 
                             {paymentMethods.length > 1 && (

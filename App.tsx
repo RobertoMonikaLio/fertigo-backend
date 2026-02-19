@@ -10,7 +10,7 @@ import Footer from './components/Footer';
 import QuoteRequestModal from './components/QuoteRequestModal';
 import CookieConsent from './components/CookieConsent';
 import { LeadQuickViewModal } from './components/LeadQuickViewModal';
-import LiveActivityToast from './components/LiveActivityToast';
+
 import VideoIntro from './components/VideoIntro';
 
 // Lazy load pages for code splitting
@@ -261,7 +261,6 @@ const AppContent: React.FC = () => {
                 />
             ) : null}
             {isPublicRoute && <CookieConsent />}
-            {isPublicRoute && <LiveActivityToast />}
         </div>
     );
 };

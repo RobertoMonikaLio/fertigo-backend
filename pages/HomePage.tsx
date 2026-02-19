@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import Hero from '../components/Hero';
 import LazyLoad from '../components/LazyLoad';
-import StickyCta from '../components/StickyCta';
+
 
 // Lazy load components that are likely below the fold
 const RadialJourney = lazy(() => import('../components/RadialJourney'));
@@ -288,7 +288,7 @@ const HomePage: React.FC = () => {
             <LazyLoad fallback={<FeaturesSkeleton />}>
                 <NewsletterSection />
             </LazyLoad>
-            <StickyCta />
+
         </div>
     );
 };

@@ -13,8 +13,9 @@ function buildSignature(bodyString: string): string {
 }
 
 function toFormBody(params: Record<string, string>): string {
-  return Object.entries(params)
-    .map(([k, v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v))
+  return Object.keys(params)
+    .sort()
+    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
     .join('&');
 }
 

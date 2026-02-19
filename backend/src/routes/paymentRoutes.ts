@@ -19,16 +19,16 @@ router.post('/create-gateway', async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Provider not found' });
     }
 
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const frontendUrl = process.env.FRONTEND_URL || 'https://fertigo-frontend.onrender.com';
 
     const gateway = await createGateway({
-        amount: parseFloat(amount),
-        referenceId: providerId,
-        purpose: `Fertigo-Guthaben-CHF-${parseFloat(amount).toFixed(2)}`,
-        successRedirectUrl: `${frontendUrl}/partner/billing?payment=success&amount=${amount}`,
-        failedRedirectUrl: `${frontendUrl}/partner/billing?payment=failed`,
-        cancelRedirectUrl: `${frontendUrl}/partner/billing?payment=cancelled`,
-      });
+      amount: parseFloat(amount),
+      referenceId: providerId,
+      purpose: `Fertigo-Guthaben-CHF-${parseFloat(amount).toFixed(2)}`,
+      successRedirectUrl: `${frontendUrl}/partner/billing?payment=success&amount=${amount}`,
+      failedRedirectUrl: `${frontendUrl}/partner/billing?payment=failed`,
+      cancelRedirectUrl: `${frontendUrl}/partner/billing?payment=cancelled`,
+    });
 
     res.json({ gatewayId: gateway.id, paymentUrl: gateway.link });
   } catch (error: any) {

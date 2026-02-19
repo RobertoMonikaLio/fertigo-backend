@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import { useAppContext } from '../pages/AppContext';
+import { translations } from './translations';
+
 const NewsletterSection: React.FC = () => {
     const { ref, inView } = useInView({
         triggerOnce: true,
@@ -9,6 +12,9 @@ const NewsletterSection: React.FC = () => {
 
     const [email, setEmail] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const { language } = useAppContext();
+    const t = translations[language] || translations['de'];
+    const content = t.newsletter;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -20,13 +26,13 @@ const NewsletterSection: React.FC = () => {
 
     return (
         <section ref={ref} className="relative py-12 sm:py-16 lg:py-20 bg-green-600 overflow-hidden">
-            
+
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
                 <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <pattern id="nlDots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-                            <circle cx="2" cy="2" r="1.5" fill="white"/>
+                            <circle cx="2" cy="2" r="1.5" fill="white" />
                         </pattern>
                     </defs>
                     <rect width="100%" height="100%" fill="url(#nlDots)" />
@@ -35,7 +41,7 @@ const NewsletterSection: React.FC = () => {
 
             <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className={`transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                    
+
                     {/* ===== MOBILE ONLY ===== */}
                     <div className="sm:hidden text-center px-1">
                         {/* Mail icon */}
@@ -50,10 +56,10 @@ const NewsletterSection: React.FC = () => {
 
                         {/* Headline */}
                         <h2 className="text-white font-black text-xl leading-tight mb-1.5">
-                            Nichts verpassen
+                            {content.mobileTitle}
                         </h2>
                         <p className="text-white/60 text-xs leading-relaxed mb-5 mx-auto max-w-[260px]">
-                            Tipps, Checklisten & exklusive Angebote — direkt in Ihr Postfach.
+                            {content.mobileSubtitle}
                         </p>
 
                         {/* Form */}
@@ -63,7 +69,7 @@ const NewsletterSection: React.FC = () => {
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="ihre@email.ch"
+                                    placeholder={content.placeholder}
                                     required
                                     className="w-full px-4 py-3.5 bg-white rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-white/20 text-sm font-medium shadow-lg"
                                 />
@@ -71,7 +77,7 @@ const NewsletterSection: React.FC = () => {
                                     type="submit"
                                     className="w-full py-3.5 bg-slate-900 text-white font-bold rounded-xl transition-all duration-200 text-sm active:scale-[0.98] shadow-lg shadow-black/20 flex items-center justify-center gap-2"
                                 >
-                                    Kostenlos abonnieren
+                                    {content.mobileButton}
                                     <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
                                         <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                                     </svg>
@@ -84,32 +90,33 @@ const NewsletterSection: React.FC = () => {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                                     </svg>
                                 </div>
-                                <span className="font-bold text-slate-900 text-sm">Erfolgreich angemeldet!</span>
-                                <span className="text-slate-500 text-xs">Bestätigung folgt per E-Mail.</span>
+                                <span className="font-bold text-slate-900 text-sm">{content.successTitle}</span>
+                                <span className="text-slate-500 text-xs">{content.successSubtitle}</span>
                             </div>
                         )}
 
                         {/* Trust */}
                         <div className="mt-4 flex items-center justify-center gap-3 text-white/40 text-[10px] font-medium">
-                            <span>Kein Spam</span>
-                            <span>·</span>
-                            <span>Kostenlos</span>
-                            <span>·</span>
-                            <span>Jederzeit kündbar</span>
+                            {content.trust.map((item, index) => (
+                                <React.Fragment key={index}>
+                                    <span>{item}</span>
+                                    {index < content.trust.length - 1 && <span>·</span>}
+                                </React.Fragment>
+                            ))}
                         </div>
                     </div>
 
                     {/* ===== DESKTOP (unchanged) ===== */}
                     <div className="hidden sm:block">
                         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-12">
-                            
+
                             {/* Left Content */}
                             <div className="lg:max-w-lg">
                                 <h2 className="text-3xl sm:text-4xl font-black text-white mb-3">
-                                    Fertigo-Newsletter
+                                    {content.title}
                                 </h2>
                                 <p className="text-green-100 text-lg">
-                                    Experten-Wissen, das andere teuer bezahlen. Bei uns kostenlos.
+                                    {content.subtitle}
                                 </p>
                             </div>
 
@@ -121,7 +128,7 @@ const NewsletterSection: React.FC = () => {
                                             type="email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
-                                            placeholder="ihre@email.ch"
+                                            placeholder={content.placeholder}
                                             required
                                             className="flex-1 px-5 py-4 bg-white rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-white/30 transition-all text-lg"
                                         />
@@ -129,7 +136,7 @@ const NewsletterSection: React.FC = () => {
                                             type="submit"
                                             className="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition-all duration-300 whitespace-nowrap flex items-center justify-center gap-2"
                                         >
-                                            Anmelden
+                                            {content.button}
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                             </svg>
@@ -143,32 +150,22 @@ const NewsletterSection: React.FC = () => {
                                             </svg>
                                         </div>
                                         <div>
-                                            <div className="font-bold text-slate-900">Erfolgreich angemeldet!</div>
-                                            <div className="text-slate-500 text-sm">Bestätigung folgt per E-Mail.</div>
+                                            <div className="font-bold text-slate-900">{content.successTitle}</div>
+                                            <div className="text-slate-500 text-sm">{content.successSubtitle}</div>
                                         </div>
                                     </div>
                                 )}
-                                
+
                                 {/* Trust Points */}
                                 <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-green-100">
-                                    <span className="flex items-center gap-1.5">
-                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        Kostenlos
-                                    </span>
-                                    <span className="flex items-center gap-1.5">
-                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        Kein Spam
-                                    </span>
-                                    <span className="flex items-center gap-1.5">
-                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        Jederzeit abbestellbar
-                                    </span>
+                                    {content.trust.map((item, index) => (
+                                        <span key={index} className="flex items-center gap-1.5">
+                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                            </svg>
+                                            {item}
+                                        </span>
+                                    ))}
                                 </div>
                             </div>
                         </div>

@@ -2,87 +2,73 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRightIcon, CheckIcon } from './icons';
 import { useAppContext } from '../pages/AppContext';
+import { translations } from './translations';
 import { useInView } from 'react-intersection-observer';
 
-const services = [
-    {
-        id: 'umzug',
-        name: 'Umzug & Transport',
-        shortName: 'Umzug',
-        tagline: 'Ihr neues Zuhause wartet',
-        description: 'Von der Planung bis zum Auspacken – wir machen Ihren Umzug stressfrei.',
+const servicesConfig: Record<string, { image: string, stats: { partners: string, rating: string, jobs: string }, accent: string, icon: string }> = {
+    umzug: {
         image: '/assets/umzug-service.png',
         stats: { partners: '250+', rating: '4.9', jobs: '5.2k' },
-        features: ['Verpackung', 'Transport', 'Versicherung', 'Einlagerung', 'Möbelmontage', 'Entrümpelung'],
         accent: '#22C55E',
         icon: '🚚',
     },
-    {
-        id: 'reinigung',
-        name: 'Reinigung & Pflege',
-        shortName: 'Reinigung',
-        tagline: 'Glänzend sauber',
-        description: 'Professionelle Reinigung für Ihr Zuhause oder Geschäft.',
+    reinigung: {
         image: '/assets/reinigung-service.png',
         stats: { partners: '180+', rating: '4.8', jobs: '3.8k' },
-        features: ['Umzugsreinigung', 'Büroreinigung', 'Fenster', 'Teppichreinigung', 'Grundreinigung', 'Unterhaltsreinigung'],
         accent: '#22C55E',
         icon: '✨',
     },
-    {
-        id: 'maler',
-        name: 'Maler & Gipser',
-        shortName: 'Maler',
-        tagline: 'Farbe für Ihr Leben',
-        description: 'Kreative Wandgestaltung und professionelle Malerarbeiten.',
+    maler: {
         image: '/assets/maler-service-v2.png',
         stats: { partners: '150+', rating: '4.9', jobs: '2.1k' },
-        features: ['Innenbereich', 'Fassaden', 'Tapezieren', 'Spachteln', 'Streichen', 'Lackieren'],
         accent: '#22C55E',
         icon: '🎨',
     },
-    {
-        id: 'garten',
-        name: 'Garten & Landschaft',
-        shortName: 'Garten',
-        tagline: 'Grüne Träume',
-        description: 'Professionelle Gartenpflege und Landschaftsgestaltung.',
+    garten: {
         image: '/assets/garten-service.png',
         stats: { partners: '120+', rating: '4.7', jobs: '1.5k' },
-        features: ['Rasenpflege', 'Baumschnitt', 'Gestaltung', 'Heckenschnitt', 'Bepflanzung', 'Bewässerung'],
         accent: '#22C55E',
         icon: '🌳',
     },
-    {
-        id: 'handwerker',
-        name: 'All. Handwerker',
-        shortName: 'Handwerker',
-        tagline: 'Für jedes Projekt',
-        description: 'Reparaturen, Montagen und Renovierungen aus einer Hand.',
+    handwerker: {
         image: '/assets/boden-service.png',
         stats: { partners: '200+', rating: '4.8', jobs: '4.3k' },
-        features: ['Montage', 'Reparatur', 'Renovierung', 'Installation', 'Wartung', 'Notdienst'],
         accent: '#22C55E',
         icon: '🔧',
-    },
-];
+    }
+};
+
+interface Service {
+    id: string;
+    name: string;
+    shortName: string;
+    tagline: string;
+    description: string;
+    image: string;
+    stats: { partners: string, rating: string, jobs: string };
+    features: string[];
+    accent: string;
+    icon: string;
+}
 
 interface ServiceCardProps {
-    service: typeof services[0];
+    service: Service;
     index: number;
     isHovered: boolean;
     onMouseEnter: () => void;
     onMouseLeave: () => void;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ 
-    service, 
-    index, 
-    isHovered, 
-    onMouseEnter, 
-    onMouseLeave 
+const ServiceCard: React.FC<ServiceCardProps> = ({
+    service,
+    index,
+    isHovered,
+    onMouseEnter,
+    onMouseLeave
 }) => {
     const { openQuoteModal } = useAppContext();
+    const { language } = useAppContext();
+    const t = translations[language];
     const cardRef = useRef<HTMLDivElement>(null);
 
     return (
@@ -100,8 +86,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 className={`
                     relative h-full rounded-2xl sm:rounded-3xl overflow-hidden
                     bg-white transition-all duration-700 flex flex-col
-                    ${isHovered 
-                        ? 'shadow-2xl scale-[1.02]' 
+                    ${isHovered
+                        ? 'shadow-2xl scale-[1.02]'
                         : 'shadow-lg scale-100'
                     }
                 `}
@@ -130,7 +116,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 {/* Content Section */}
                 <div className="p-3 sm:p-6 lg:p-8 flex flex-col flex-1 min-h-0">
                     {/* Title */}
-                    <h3 
+                    <h3
                         className="text-sm sm:text-xl lg:text-2xl font-black text-slate-900 mb-1 sm:mb-3 leading-tight"
                         style={{
                             color: isHovered ? service.accent : undefined,
@@ -158,7 +144,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                                 transition-all duration-300 group/btn
                                 shadow-lg hover:shadow-xl
                             `}
-                            style={{ 
+                            style={{
                                 background: 'linear-gradient(to right, rgb(34, 197, 94), rgb(16, 185, 129))',
                             }}
                             onMouseEnter={(e) => {
@@ -170,7 +156,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                                 e.currentTarget.style.boxShadow = '0 10px 20px -5px rgba(0,0,0,0.2)';
                             }}
                         >
-                            <span>Offerten</span>
+                            <span>{t.ctaButtonLabel}</span>
                             <ArrowRightIcon className="w-3 h-3 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform" />
                         </button>
                     </div>
@@ -196,7 +182,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 // CTA Button Component
 const CTAButton: React.FC = () => {
     const { openQuoteModal } = useAppContext();
-    
+
     return (
         <button
             onClick={() => {
@@ -218,6 +204,8 @@ const MoreServicesCard: React.FC<{
     onMouseLeave: () => void;
 }> = ({ index, isHovered, onMouseEnter, onMouseLeave }) => {
     const navigate = useNavigate();
+    const { language } = useAppContext();
+    const t = translations[language] || translations['de'];
 
     return (
         <div
@@ -234,8 +222,8 @@ const MoreServicesCard: React.FC<{
                     relative h-full rounded-2xl sm:rounded-3xl overflow-hidden
                     bg-gradient-to-br from-slate-100 to-slate-200 border-2 border-slate-300
                     transition-all duration-700 flex flex-col
-                    ${isHovered 
-                        ? 'shadow-2xl scale-[1.02] border-slate-400' 
+                    ${isHovered
+                        ? 'shadow-2xl scale-[1.02] border-slate-400'
                         : 'shadow-lg scale-100'
                     }
                 `}
@@ -259,12 +247,12 @@ const MoreServicesCard: React.FC<{
 
                         {/* Title */}
                         <h3 className="text-sm sm:text-2xl lg:text-3xl font-black text-slate-900 leading-tight">
-                            Weitere Dienstleistungen
+                            {t.moreServicesTitle}
                         </h3>
 
                         {/* Description */}
                         <p className="text-slate-600 text-[11px] sm:text-sm leading-relaxed max-w-xs line-clamp-2 sm:line-clamp-none">
-                            Entdecken Sie alle unsere Service-Kategorien und finden Sie den perfekten Partner für Ihr Projekt.
+                            {t.moreServicesRef}
                         </p>
                     </div>
 
@@ -285,8 +273,8 @@ const MoreServicesCard: React.FC<{
                                 e.currentTarget.style.transform = 'scale(1) translateY(0)';
                             }}
                         >
-                        <span>Alle Services</span>
-                        <ArrowRightIcon className="w-3 h-3 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform" />
+                            <span>{t.popularServicesViewAll}</span>
+                            <ArrowRightIcon className="w-3 h-3 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform" />
                         </button>
                     </div>
                 </div>
@@ -311,6 +299,14 @@ const MoreServicesCard: React.FC<{
 const PopularServices: React.FC = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+    const { language } = useAppContext();
+    const t = translations[language] || translations['de'];
+
+    // Combine translations with config
+    const services: Service[] = (t.servicesList || translations['de'].servicesList).map(service => ({
+        ...service,
+        ...(servicesConfig[service.id] || { image: '', stats: { partners: '', rating: '', jobs: '' }, accent: '#cccccc', icon: '❓' })
+    }));
 
     return (
         <section
@@ -329,17 +325,17 @@ const PopularServices: React.FC = () => {
                 >
                     {/* Title */}
                     <h2 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 mb-3 sm:mb-4 leading-tight lg:whitespace-nowrap">
-                        <span className="sm:hidden">Unsere Beliebte<br/></span>
-                        <span className="hidden sm:inline">Beliebte{' '}</span>
+                        <span className="sm:hidden">{t.popularServicesTitlePrefix}<br /></span>
+                        <span className="hidden sm:inline">{t.popularServicesTitlePrefix}{' '}</span>
                         <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">
-                            Fertigo Services
+                            {t.popularServicesTitleHighlight}
                             <svg className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
-                                <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradient2)" strokeWidth="4" strokeLinecap="round"/>
+                                <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradient2)" strokeWidth="4" strokeLinecap="round" />
                                 <defs>
                                     <linearGradient id="underlineGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="#16a34a"/>
-                                        <stop offset="50%" stopColor="#10b981"/>
-                                        <stop offset="100%" stopColor="#14b8a6"/>
+                                        <stop offset="0%" stopColor="#16a34a" />
+                                        <stop offset="50%" stopColor="#10b981" />
+                                        <stop offset="100%" stopColor="#14b8a6" />
                                     </linearGradient>
                                 </defs>
                             </svg>
@@ -348,7 +344,7 @@ const PopularServices: React.FC = () => {
 
                     {/* Subtitle */}
                     <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed lg:whitespace-nowrap max-w-xs sm:max-w-none mx-auto">
-                        Über 2'500 geprüfte Schweizer Partner stehen bereit, um Ihr Projekt zu realisieren.
+                        {t.popularServicesSubtitle}
                     </p>
                 </div>
 

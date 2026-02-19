@@ -16,7 +16,9 @@ const LazyLoad: React.FC<LazyLoadProps> = ({ children, fallback }) => {
         <div ref={ref} style={{ minHeight: '1px' }}>
             {inView ? (
                 <Suspense fallback={fallback}>
-                    {children}
+                    <div className="animate-fade-in ease-out duration-700">
+                        {children}
+                    </div>
                 </Suspense>
             ) : (
                 fallback

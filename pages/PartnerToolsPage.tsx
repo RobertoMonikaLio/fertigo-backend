@@ -54,19 +54,6 @@ const tools = [
     badgeColor: 'bg-amber-100 text-amber-700',
   },
   {
-    id: 'analytics',
-    title: 'Statistiken',
-    description: 'Analysieren Sie Ihre Performance und Umsätze.',
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-      </svg>
-    ),
-    badge: null,
-    color: 'bg-rose-50 text-rose-600',
-    badgeColor: '',
-  },
-  {
     id: 'checklist',
     title: 'Checklisten',
     description: 'Projekt-Checklisten für einen reibungslosen Ablauf.',
@@ -160,12 +147,12 @@ const tools = [
   },
 ];
 
-// --- Kostenrechner Tool ---
+// --- Kostenrechner Tool (Local) ---
 const CostCalculator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-  const [items, setItems] = useState([{ description: 'Materialkosten', quantity: 1, unitPrice: 0 }]);
+  const [items, setItems] = useState([{ description: '', quantity: 1, unitPrice: 0 }]);
   const [laborHours, setLaborHours] = useState(0);
-  const [hourlyRate, setHourlyRate] = useState(85);
-  const [margin, setMargin] = useState(15);
+  const [hourlyRate, setHourlyRate] = useState(0);
+  const [margin, setMargin] = useState(0);
 
   const addItem = () => setItems([...items, { description: '', quantity: 1, unitPrice: 0 }]);
   const removeItem = (i: number) => setItems(items.filter((_, idx) => idx !== i));
@@ -189,7 +176,6 @@ const CostCalculator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       </button>
 
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Input */}
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-xl border border-slate-200 p-6">
             <h3 className="font-bold text-lg mb-4">Materialkosten</h3>
@@ -236,7 +222,6 @@ const CostCalculator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           </div>
         </div>
 
-        {/* Summary */}
         <div className="bg-white rounded-xl border border-slate-200 p-6 h-fit sticky top-28">
           <h3 className="font-bold text-lg mb-5">Zusammenfassung</h3>
           <div className="space-y-3 text-sm">
@@ -259,12 +244,7 @@ const CostCalculator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
 // --- Dokumente Tool ---
 const DocumentsTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-  const docs = [
-    { name: 'Vorlage: Offerte', type: 'PDF', size: '45 KB', date: '12.02.2026' },
-    { name: 'Vorlage: Rechnung', type: 'PDF', size: '38 KB', date: '10.02.2026' },
-    { name: 'AGB Fertigo Partner', type: 'PDF', size: '120 KB', date: '01.01.2026' },
-    { name: 'Vorlage: Arbeitsvertrag', type: 'DOCX', size: '65 KB', date: '15.01.2026' },
-  ];
+  const docs: any[] = [];
 
   return (
     <div>
@@ -278,62 +258,8 @@ const DocumentsTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <h3 className="font-bold text-lg">Dokumente & Vorlagen</h3>
           <button className="bg-primary text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">+ Hochladen</button>
         </div>
-        <div className="divide-y divide-slate-100">
-          {docs.map((doc, i) => (
-            <div key={i} className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center text-xs font-bold">{doc.type}</div>
-                <div>
-                  <p className="font-semibold text-sm">{doc.name}</p>
-                  <p className="text-xs text-slate-400">{doc.size} · {doc.date}</p>
-                </div>
-              </div>
-              <button className="text-primary text-sm font-semibold hover:text-primary/70 transition-colors">Herunterladen</button>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// --- Statistiken Tool ---
-const StatsTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-  const months = ['Sep', 'Okt', 'Nov', 'Dez', 'Jan', 'Feb'];
-  const values = [3200, 4800, 4100, 5600, 6200, 4900];
-  const max = Math.max(...values);
-
-  return (
-    <div>
-      <button onClick={onBack} className="flex items-center gap-2 text-slate-500 hover:text-slate-700 mb-6 font-medium transition-colors">
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
-        Zurück zu Tools
-      </button>
-
-      <div className="grid md:grid-cols-3 gap-4 mb-6">
-        {[
-          { label: 'Umsatz (Monat)', value: 'CHF 4\'900', change: '-21%', negative: true },
-          { label: 'Aufträge (Monat)', value: '12', change: '+8%', negative: false },
-          { label: 'Durchschn. Auftragswert', value: 'CHF 408', change: '+3%', negative: false },
-        ].map((stat, i) => (
-          <div key={i} className="bg-white rounded-xl border border-slate-200 p-5">
-            <p className="text-sm text-slate-500">{stat.label}</p>
-            <p className="text-2xl font-bold mt-1">{stat.value}</p>
-            <p className={`text-sm font-semibold mt-1 ${stat.negative ? 'text-red-500' : 'text-emerald-500'}`}>{stat.change}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="bg-white rounded-xl border border-slate-200 p-6">
-        <h3 className="font-bold text-lg mb-6">Umsatz der letzten 6 Monate</h3>
-        <div className="flex items-end gap-3 h-48">
-          {months.map((month, i) => (
-            <div key={i} className="flex-1 flex flex-col items-center gap-2">
-              <span className="text-xs font-semibold text-slate-600">CHF {(values[i] / 1000).toFixed(1)}k</span>
-              <div className="w-full bg-primary/80 rounded-t-lg transition-all hover:bg-primary" style={{ height: `${(values[i] / max) * 100}%` }} />
-              <span className="text-xs text-slate-500">{month}</span>
-            </div>
-          ))}
+        <div className="p-10 text-center text-slate-500">
+          <p>Keine Dokumente gefunden.</p>
         </div>
       </div>
     </div>
@@ -342,17 +268,15 @@ const StatsTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
 // --- Checklisten Tool ---
 const ChecklistTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-  const [checks, setChecks] = useState([
-    { text: 'Begehung vor Ort durchführen', done: true },
-    { text: 'Fotos vom aktuellen Zustand machen', done: true },
-    { text: 'Materialliste erstellen', done: false },
-    { text: 'Offerte an Kunden senden', done: false },
-    { text: 'Termin für Arbeitsbeginn vereinbaren', done: false },
-    { text: 'Material bestellen', done: false },
-    { text: 'Arbeiten durchführen', done: false },
-    { text: 'Abnahme mit Kunden', done: false },
-    { text: 'Rechnung stellen', done: false },
-  ]);
+  const [checks, setChecks] = useState<{ text: string, done: boolean }[]>([]);
+  const [newCheck, setNewCheck] = useState('');
+
+  const addCheck = () => {
+    if (newCheck.trim()) {
+      setChecks([...checks, { text: newCheck, done: false }]);
+      setNewCheck('');
+    }
+  };
 
   const toggle = (i: number) => {
     const updated = [...checks];
@@ -361,7 +285,7 @@ const ChecklistTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   };
 
   const doneCount = checks.filter(c => c.done).length;
-  const progress = Math.round((doneCount / checks.length) * 100);
+  const progress = checks.length > 0 ? Math.round((doneCount / checks.length) * 100) : 0;
 
   return (
     <div>
@@ -380,7 +304,20 @@ const ChecklistTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <div className="bg-primary h-2 rounded-full transition-all" style={{ width: `${progress}%` }} />
         </div>
 
+        <div className="flex gap-2 mb-4">
+          <input
+            type="text"
+            value={newCheck}
+            onChange={e => setNewCheck(e.target.value)}
+            placeholder="Neuer Punkt..."
+            className="flex-1 px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+            onKeyDown={e => e.key === 'Enter' && addCheck()}
+          />
+          <button onClick={addCheck} className="bg-primary text-white px-4 py-2 rounded-lg font-semibold">+</button>
+        </div>
+
         <div className="space-y-1">
+          {checks.length === 0 && <p className="text-slate-500 text-center py-4">Liste ist leer.</p>}
           {checks.map((item, i) => (
             <button key={i} onClick={() => toggle(i)} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors text-left">
               <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${item.done ? 'bg-primary border-primary' : 'border-slate-300'}`}>
@@ -397,13 +334,7 @@ const ChecklistTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
 // --- Zeiterfassung Tool ---
 const TimeTrackerTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-  const [entries, setEntries] = useState([
-    { project: 'Badezimmer Renovation Müller', date: '17.02.2026', start: '08:00', end: '12:30', hours: 4.5, note: 'Fliesen verlegt' },
-    { project: 'Badezimmer Renovation Müller', date: '17.02.2026', start: '13:30', end: '17:00', hours: 3.5, note: 'Fugenmasse aufgetragen' },
-    { project: 'Küche Meier', date: '16.02.2026', start: '08:00', end: '16:00', hours: 8, note: 'Küchenmontage Tag 1' },
-    { project: 'Gartenzaun Schmidt', date: '15.02.2026', start: '09:00', end: '15:00', hours: 6, note: 'Pfosten gesetzt' },
-    { project: 'Malerarbeiten Weber', date: '14.02.2026', start: '07:30', end: '16:30', hours: 9, note: 'Wohnzimmer + Flur gestrichen' },
-  ]);
+  const [entries, setEntries] = useState<any[]>([]);
   const [isAdding, setIsAdding] = useState(false);
   const [newEntry, setNewEntry] = useState({ project: '', date: '', start: '', end: '', note: '' });
 
@@ -414,7 +345,7 @@ const TimeTrackerTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       const startParts = newEntry.start.split(':').map(Number);
       const endParts = newEntry.end.split(':').map(Number);
       const hours = Math.round(((endParts[0] * 60 + endParts[1]) - (startParts[0] * 60 + startParts[1])) / 60 * 10) / 10;
-      setEntries([{ ...newEntry, date: newEntry.date || '17.02.2026', hours: Math.max(0, hours) }, ...entries]);
+      setEntries([{ ...newEntry, date: newEntry.date || new Date().toLocaleDateString(), hours: Math.max(0, hours) }, ...entries]);
       setNewEntry({ project: '', date: '', start: '', end: '', note: '' });
       setIsAdding(false);
     }
@@ -431,17 +362,6 @@ const TimeTrackerTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         <div className="bg-white rounded-xl border border-slate-200 p-5">
           <p className="text-sm text-slate-500">Diese Woche</p>
           <p className="text-2xl font-bold mt-1">{totalWeek}h</p>
-          <p className="text-sm text-slate-400 mt-1">{entries.length} Einträge</p>
-        </div>
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
-          <p className="text-sm text-slate-500">Heute</p>
-          <p className="text-2xl font-bold mt-1">{entries.filter(e => e.date === '17.02.2026').reduce((s, e) => s + e.hours, 0)}h</p>
-          <p className="text-sm text-slate-400 mt-1">{entries.filter(e => e.date === '17.02.2026').length} Einträge</p>
-        </div>
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
-          <p className="text-sm text-slate-500">Durchschnitt/Tag</p>
-          <p className="text-2xl font-bold mt-1">{(totalWeek / 5).toFixed(1)}h</p>
-          <p className="text-sm text-slate-400 mt-1">letzte 5 Tage</p>
         </div>
       </div>
 
@@ -467,6 +387,7 @@ const TimeTrackerTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         )}
 
         <div className="divide-y divide-slate-100">
+          {entries.length === 0 && <p className="text-slate-500 text-center py-6">Keine Einträge.</p>}
           {entries.map((entry, i) => (
             <div key={i} className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors">
               <div className="flex items-center gap-4">
@@ -486,14 +407,7 @@ const TimeTrackerTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
 // --- Notizen Tool ---
 const NotesTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-  const [notes, setNotes] = useState([
-    { id: 1, title: 'Badezimmer Müller', content: 'Kunde möchte matte Fliesen, Format 60x30. Farbe: Anthrazit. Randleiste in Edelstahl.', date: '17.02.2026', color: 'bg-yellow-50 border-yellow-200' },
-    { id: 2, title: 'Material bestellen', content: 'Silikon (transparent), Fliesenkleber 25kg x3, Fugenmasse weiss, Abstandhalter 3mm', date: '16.02.2026', color: 'bg-blue-50 border-blue-200' },
-    { id: 3, title: 'Küche Meier - Masse', content: 'Arbeitsplatte: 280cm x 60cm. Spüle Einbau links. Hängeschränke Höhe: 72cm. Steckdosen versetzen!', date: '15.02.2026', color: 'bg-green-50 border-green-200' },
-    { id: 4, title: 'Offerte Schmidt', content: 'Gartenzaun 25m, Höhe 1.2m, Holz Lärche imprägniert. Inkl. Tor 1x. Fundamente nötig.', date: '14.02.2026', color: 'bg-purple-50 border-purple-200' },
-    { id: 5, title: 'Ideen für Website', content: 'Referenzfotos hochladen, Bewertungen sammeln, Kontaktformular optimieren.', date: '13.02.2026', color: 'bg-pink-50 border-pink-200' },
-    { id: 6, title: 'Werkzeug-Check', content: 'Akkuschrauber Akku schwach - neuen bestellen. Fliesenschneider Scheibe wechseln.', date: '12.02.2026', color: 'bg-orange-50 border-orange-200' },
-  ]);
+  const [notes, setNotes] = useState<any[]>([]);
   const [editing, setEditing] = useState<number | null>(null);
 
   return (
@@ -508,8 +422,8 @@ const NotesTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         <button
           onClick={() => {
             const colors = ['bg-yellow-50 border-yellow-200', 'bg-blue-50 border-blue-200', 'bg-green-50 border-green-200', 'bg-purple-50 border-purple-200', 'bg-pink-50 border-pink-200', 'bg-orange-50 border-orange-200'];
-            const newId = Math.max(...notes.map(n => n.id)) + 1;
-            setNotes([{ id: newId, title: 'Neue Notiz', content: '', date: '17.02.2026', color: colors[newId % colors.length] }, ...notes]);
+            const newId = notes.length > 0 ? Math.max(...notes.map(n => n.id)) + 1 : 1;
+            setNotes([{ id: newId, title: 'Neue Notiz', content: '', date: new Date().toLocaleDateString(), color: colors[newId % colors.length] }, ...notes]);
             setEditing(newId);
           }}
           className="bg-primary text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
@@ -519,6 +433,7 @@ const NotesTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {notes.length === 0 && <p className="col-span-3 text-center text-slate-500 py-8">Keine Notizen.</p>}
         {notes.map(note => (
           <div key={note.id} className={`rounded-xl border p-5 ${note.color} transition-all hover:shadow-md`}>
             {editing === note.id ? (
@@ -561,14 +476,17 @@ const NotesTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
 // --- Kundenverwaltung Tool ---
 const ContactsTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-  const contacts = [
-    { name: 'Hans Müller', email: 'hans.mueller@bluewin.ch', phone: '079 123 45 67', projects: 3, lastContact: '17.02.2026', status: 'Aktiv' },
-    { name: 'Anna Meier', email: 'a.meier@gmail.com', phone: '078 234 56 78', projects: 1, lastContact: '16.02.2026', status: 'Aktiv' },
-    { name: 'Peter Schmidt', email: 'p.schmidt@gmx.ch', phone: '076 345 67 89', projects: 2, lastContact: '15.02.2026', status: 'Aktiv' },
-    { name: 'Maria Weber', email: 'maria.weber@outlook.com', phone: '079 456 78 90', projects: 1, lastContact: '14.02.2026', status: 'Abgeschlossen' },
-    { name: 'Thomas Keller', email: 't.keller@sunrise.ch', phone: '078 567 89 01', projects: 4, lastContact: '10.02.2026', status: 'Abgeschlossen' },
-    { name: 'Sandra Brunner', email: 's.brunner@bluewin.ch', phone: '076 678 90 12', projects: 1, lastContact: '08.02.2026', status: 'Interessent' },
-  ];
+  const [contacts, setContacts] = useState<any[]>([]); // No dummy contacts
+  const [isAdding, setIsAdding] = useState(false);
+  const [newContact, setNewContact] = useState({ name: '', email: '', phone: '' });
+
+  const addContact = () => {
+    if (newContact.name) {
+      setContacts([...contacts, { ...newContact, projects: 0, status: 'Aktiv', lastContact: new Date().toLocaleDateString() }]);
+      setNewContact({ name: '', email: '', phone: '' });
+      setIsAdding(false);
+    }
+  };
 
   return (
     <div>
@@ -577,41 +495,33 @@ const ContactsTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         Zurück zu Tools
       </button>
 
-      <div className="grid md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
-          <p className="text-sm text-slate-500">Gesamt Kunden</p>
-          <p className="text-2xl font-bold mt-1">{contacts.length}</p>
-        </div>
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
-          <p className="text-sm text-slate-500">Aktive Projekte</p>
-          <p className="text-2xl font-bold mt-1">{contacts.filter(c => c.status === 'Aktiv').length}</p>
-        </div>
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
-          <p className="text-sm text-slate-500">Gesamt Projekte</p>
-          <p className="text-2xl font-bold mt-1">{contacts.reduce((s, c) => s + c.projects, 0)}</p>
-        </div>
-      </div>
-
       <div className="bg-white rounded-xl border border-slate-200">
         <div className="p-6 border-b border-slate-200 flex justify-between items-center">
           <h3 className="font-bold text-lg">Kontakte</h3>
-          <button className="bg-primary text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">+ Kontakt</button>
+          <button onClick={() => setIsAdding(!isAdding)} className="bg-primary text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">+ Kontakt</button>
         </div>
-        <div className="divide-y divide-slate-100">
+
+        {isAdding && (
+          <div className="p-4 bg-slate-50 border-b border-slate-200 grid gap-3">
+            <input value={newContact.name} onChange={e => setNewContact({ ...newContact, name: e.target.value })} placeholder="Name" className="p-2 rounded border" />
+            <input value={newContact.email} onChange={e => setNewContact({ ...newContact, email: e.target.value })} placeholder="Email" className="p-2 rounded border" />
+            <input value={newContact.phone} onChange={e => setNewContact({ ...newContact, phone: e.target.value })} placeholder="Telefon" className="p-2 rounded border" />
+            <button onClick={addContact} className="bg-primary text-white p-2 rounded">Speichern</button>
+          </div>
+        )}
+
+        <div className="divide-y divide-slate-100 p-6">
+          {contacts.length === 0 && <p className="text-center text-slate-500">Keine Kontakte.</p>}
           {contacts.map((c, i) => (
-            <div key={i} className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors">
+            <div key={i} className="flex items-center justify-between py-4 hover:bg-slate-50 transition-colors">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-sm">
-                  {c.name.split(' ').map(n => n[0]).join('')}
+                  {c.name.split(' ').map((n: string) => n[0]).join('')}
                 </div>
                 <div>
                   <p className="font-semibold text-sm">{c.name}</p>
                   <p className="text-xs text-slate-400">{c.email} · {c.phone}</p>
                 </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="text-xs text-slate-400">{c.projects} Projekte</span>
-                <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${c.status === 'Aktiv' ? 'bg-emerald-100 text-emerald-700' : c.status === 'Interessent' ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-600'}`}>{c.status}</span>
               </div>
             </div>
           ))}
@@ -623,14 +533,7 @@ const ContactsTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
 // --- Fahrtenprotokoll Tool ---
 const MileageTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-  const [trips, setTrips] = useState([
-    { date: '17.02.2026', from: 'Büro Zürich', to: 'Müller, Winterthur', km: 52, purpose: 'Badezimmer Renovation' },
-    { date: '16.02.2026', from: 'Büro Zürich', to: 'Meier, Uster', km: 28, purpose: 'Küchenmontage' },
-    { date: '16.02.2026', from: 'Meier, Uster', to: 'Baumarkt Volketswil', km: 8, purpose: 'Material abholen' },
-    { date: '15.02.2026', from: 'Büro Zürich', to: 'Schmidt, Kloten', km: 18, purpose: 'Gartenzaun Begehung' },
-    { date: '14.02.2026', from: 'Büro Zürich', to: 'Weber, Dietikon', km: 22, purpose: 'Malerarbeiten' },
-    { date: '13.02.2026', from: 'Büro Zürich', to: 'Bauhaus Spreitenbach', km: 30, purpose: 'Materialeinkauf' },
-  ]);
+  const [trips, setTrips] = useState<any[]>([]); // No dummy trips
   const [isAdding, setIsAdding] = useState(false);
   const [newTrip, setNewTrip] = useState({ date: '', from: '', to: '', km: '', purpose: '' });
 
@@ -648,17 +551,6 @@ const MileageTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         <div className="bg-white rounded-xl border border-slate-200 p-5">
           <p className="text-sm text-slate-500">Gesamtstrecke</p>
           <p className="text-2xl font-bold mt-1">{totalKm} km</p>
-          <p className="text-sm text-slate-400 mt-1">diese Woche</p>
-        </div>
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
-          <p className="text-sm text-slate-500">Fahrten</p>
-          <p className="text-2xl font-bold mt-1">{trips.length}</p>
-          <p className="text-sm text-slate-400 mt-1">Einträge</p>
-        </div>
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
-          <p className="text-sm text-slate-500">Erstattung (CHF {ratePerKm}/km)</p>
-          <p className="text-2xl font-bold mt-1 text-emerald-600">CHF {(totalKm * ratePerKm).toFixed(2)}</p>
-          <p className="text-sm text-slate-400 mt-1">abrechenbar</p>
         </div>
       </div>
 
@@ -679,7 +571,7 @@ const MileageTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               <input type="number" value={newTrip.km} onChange={e => setNewTrip({ ...newTrip, km: e.target.value })} placeholder="km" className="h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
               <button onClick={() => {
                 if (newTrip.from && newTrip.to && newTrip.km) {
-                  setTrips([{ ...newTrip, date: newTrip.date || '17.02.2026', km: Number(newTrip.km), purpose: newTrip.purpose }, ...trips]);
+                  setTrips([{ ...newTrip, date: newTrip.date || new Date().toLocaleDateString(), km: Number(newTrip.km), purpose: newTrip.purpose }, ...trips]);
                   setNewTrip({ date: '', from: '', to: '', km: '', purpose: '' });
                   setIsAdding(false);
                 }
@@ -690,6 +582,7 @@ const MileageTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         )}
 
         <div className="divide-y divide-slate-100">
+          {trips.length === 0 && <p className="text-center text-slate-500 py-6">Keine Fahrten.</p>}
           {trips.map((trip, i) => (
             <div key={i} className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors">
               <div className="flex items-center gap-4">
@@ -714,7 +607,6 @@ const PartnerToolsPage: React.FC = () => {
 
   if (activeTool === 'calculator') return <CostCalculator onBack={() => setActiveTool(null)} />;
   if (activeTool === 'documents') return <DocumentsTool onBack={() => setActiveTool(null)} />;
-  if (activeTool === 'analytics') return <StatsTool onBack={() => setActiveTool(null)} />;
   if (activeTool === 'checklist') return <ChecklistTool onBack={() => setActiveTool(null)} />;
   if (activeTool === 'timetracker') return <TimeTrackerTool onBack={() => setActiveTool(null)} />;
   if (activeTool === 'notes') return <NotesTool onBack={() => setActiveTool(null)} />;

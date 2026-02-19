@@ -192,6 +192,10 @@ const PartnerRequestDetailPage: React.FC<{ requestId: string }> = ({ requestId }
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || 'Kauf fehlgeschlagen');
+
+            // Dispatch event to update balance in header
+            window.dispatchEvent(new Event('balanceUpdated'));
+
             // Refetch to update view
             await fetchLead();
         } catch (err: any) {

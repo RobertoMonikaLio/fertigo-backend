@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAppContext } from '../pages/AppContext';
 import { ArrowRightIcon, SwissFlagIcon } from './icons';
+import { translations } from './translations';
 
-const rotatingWords = ['Maler', 'Umzugsfirma', 'Reinigung', 'Elektriker', 'Gärtner', 'Handwerker'];
 const rotatingImages = [
     '/hero-maler.png',
     '/hero-umzug.png',
@@ -13,10 +13,13 @@ const rotatingImages = [
 ];
 
 const Hero: React.FC = () => {
-    const { openQuoteModal } = useAppContext();
+    const { openQuoteModal, language } = useAppContext();
     const [mounted, setMounted] = useState(false);
     const [wordIndex, setWordIndex] = useState(0);
     const [isFlipping, setIsFlipping] = useState(false);
+
+    const t = translations[language];
+    const rotatingWords = t.heroRotatingWords;
 
     useEffect(() => {
         const t = setTimeout(() => setMounted(true), 50);
@@ -32,7 +35,7 @@ const Hero: React.FC = () => {
             }, 350);
         }, 2800);
         return () => clearInterval(interval);
-    }, []);
+    }, [rotatingWords.length]);
 
     const handleCTA = useCallback(() => {
         openQuoteModal({});
@@ -66,9 +69,8 @@ const Hero: React.FC = () => {
                         key={src}
                         src={src}
                         alt={rotatingWords[i]}
-                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
-                            i === wordIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                        }`}
+                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${i === wordIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                            }`}
                     />
                 ))}
             </div>
@@ -81,9 +83,8 @@ const Hero: React.FC = () => {
                         key={src}
                         src={src}
                         alt={rotatingWords[i]}
-                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
-                            i === wordIndex ? 'opacity-100 z-[1]' : 'opacity-0 z-0'
-                        }`}
+                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${i === wordIndex ? 'opacity-100 z-[1]' : 'opacity-0 z-0'
+                            }`}
                     />
                 ))}
             </div>
@@ -97,18 +98,17 @@ const Hero: React.FC = () => {
                             {/* Schweiz-Badge */}
                             <div className="inline-flex items-center gap-2 bg-white/[0.06] backdrop-blur-md border border-white/[0.08] rounded-full px-4 py-2 mb-4 sm:mb-7 group hover:bg-white/[0.1] transition-colors">
                                 <SwissFlagIcon className="w-4 h-4 flex-shrink-0" />
-                                <span className="text-white/60 text-xs sm:text-sm font-medium">Schweizer Handwerker-Plattform</span>
+                                <span className="text-white/60 text-xs sm:text-sm font-medium">{t.heroBadge}</span>
                             </div>
 
                             {/* Headline */}
                             <h1 className="text-3xl sm:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] font-black leading-[1.08] tracking-tight mb-5 sm:mb-6 lg:whitespace-nowrap">
-                                <span className="text-white">Finden Sie den perfekten</span>
+                                <span className="text-white">{t.heroTitlePrefix}</span>
                                 <br />
                                 <span className="relative inline-block overflow-hidden" style={{ minWidth: '180px' }}>
                                     <span
-                                        className={`inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-300 to-teal-400 animate-text-gradient transition-all duration-300 ${
-                                            isFlipping ? 'opacity-0 -translate-y-6 blur-sm' : 'opacity-100 translate-y-0 blur-0'
-                                        }`}
+                                        className={`inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-300 to-teal-400 animate-text-gradient transition-all duration-300 ${isFlipping ? 'opacity-0 -translate-y-6 blur-sm' : 'opacity-100 translate-y-0 blur-0'
+                                            }`}
                                         style={{ backgroundSize: '200% auto' }}
                                     >
                                         {rotatingWords[wordIndex]}
@@ -117,25 +117,26 @@ const Hero: React.FC = () => {
                             </h1>
 
                             {/* Beschreibung */}
-                            <p className="text-white/40 text-sm sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-md">
-                                Beschreiben Sie Ihr Projekt und erhalten Sie innert Stunden <span className="text-white/70 font-medium">bis zu 5 Offerten</span> von geprüften Fachbetrieben aus Ihrer Region.
-                            </p>
+                            <p
+                                className="text-white/40 text-sm sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-md"
+                                dangerouslySetInnerHTML={{ __html: t.heroDescription }}
+                            />
 
                             {/* CTA Button */}
                             <button
                                 onClick={handleCTA}
                                 className="group inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-bold px-8 py-4 rounded-2xl text-base sm:text-lg shadow-lg shadow-green-500/20 hover:shadow-xl hover:shadow-green-500/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 mb-6 sm:mb-8 w-full sm:w-auto"
                             >
-                                Offerte erhalten
+                                {t.heroCta}
                                 <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </button>
 
                             {/* Trust-Zeile */}
                             <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-x-5 gap-y-2.5">
                                 {[
-                                    { icon: '✓', text: '100% Kostenlos' },
-                                    { icon: '✓', text: 'Unabhängig und neutral' },
-                                    { icon: '✓', text: 'Geprüfte Handwerker' },
+                                    { icon: '✓', text: t.heroTrust1 },
+                                    { icon: '✓', text: t.heroTrust2 },
+                                    { icon: '✓', text: t.heroTrust3 },
                                 ].map((item, i) => (
                                     <span key={i} className="flex items-center gap-1.5 text-xs sm:text-sm text-white/30">
                                         <span className="w-4 h-4 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 text-[10px] font-bold">{item.icon}</span>

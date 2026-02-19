@@ -2,6 +2,7 @@ import React from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useAppContext } from '../pages/AppContext';
 import { ArrowRightIcon, SwissFlagIcon } from './icons';
+import { translations } from './translations';
 
 const RadialJourney: React.FC = () => {
     const { openQuoteModal } = useAppContext();
@@ -9,43 +10,46 @@ const RadialJourney: React.FC = () => {
         threshold: 0.1,
         triggerOnce: false
     });
+    const { language } = useAppContext();
+    const t = translations[language] || translations['de'];
+    const journey = t.journey;
 
     const steps = [
         {
             id: 0,
-            number: "1",
+            number: journey.step1.number,
             icon: "✍️",
-            title: "Projekt beschreiben",
-            time: "60 Sekunden",
-            description: "Beschreiben Sie Ihr Vorhaben in wenigen Klicks. Unser System führt Sie intuitiv durch den Prozess.",
-            features: ["Intuitive Eingabe", "KI-Unterstützung", "100% kostenlos"],
+            title: journey.step1.title,
+            time: journey.step1.time,
+            description: journey.step1.description,
+            features: journey.step1.features,
             gradient: "from-green-500 to-emerald-500",
             bgGradient: "from-green-50 to-emerald-50",
-            swissValue: "Schweizer Präzision"
+            swissValue: journey.step1.swissValue
         },
         {
             id: 1,
-            number: "2",
+            number: journey.step2.number,
             icon: "🔍",
-            title: "Experten finden",
-            time: "30 Sekunden",
-            description: "Unsere KI durchsucht über 2'500 geprüfte Schweizer Fachbetriebe und findet die perfekten Partner für Ihr Projekt.",
-            features: ["Smart-Matching", "Regionale Experten", "Geprüfte Qualität"],
+            title: journey.step2.title,
+            time: journey.step2.time,
+            description: journey.step2.description,
+            features: journey.step2.features,
             gradient: "from-emerald-500 to-teal-500",
             bgGradient: "from-emerald-50 to-teal-50",
-            swissValue: "Lokale Expertise"
+            swissValue: journey.step2.swissValue
         },
         {
             id: 2,
-            number: "3",
+            number: journey.step3.number,
             icon: "✅",
-            title: "Angebot wählen",
-            time: "2 Minuten",
-            description: "Vergleichen Sie transparente Offerten, prüfen Sie Bewertungen und entscheiden Sie sich für den besten Anbieter.",
-            features: ["Preisvergleich", "Echte Bewertungen", "Qualitätsgarantie"],
+            title: journey.step3.title,
+            time: journey.step3.time,
+            description: journey.step3.description,
+            features: journey.step3.features,
             gradient: "from-teal-500 to-cyan-500",
             bgGradient: "from-teal-50 to-cyan-50",
-            swissValue: "Schweizer Qualität"
+            swissValue: journey.step3.swissValue
         }
     ];
 
@@ -63,12 +67,12 @@ const RadialJourney: React.FC = () => {
                         <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">
                             perfekten Handwerker
                             <svg className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
-                                <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradient)" strokeWidth="4" strokeLinecap="round"/>
+                                <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradient)" strokeWidth="4" strokeLinecap="round" />
                                 <defs>
                                     <linearGradient id="underlineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="#16a34a"/>
-                                        <stop offset="50%" stopColor="#10b981"/>
-                                        <stop offset="100%" stopColor="#14b8a6"/>
+                                        <stop offset="0%" stopColor="#16a34a" />
+                                        <stop offset="50%" stopColor="#10b981" />
+                                        <stop offset="100%" stopColor="#14b8a6" />
                                     </linearGradient>
                                 </defs>
                             </svg>
@@ -234,9 +238,9 @@ const RadialJourney: React.FC = () => {
                                                     bg-gradient-to-br ${step.bgGradient}
                                                     border border-green-200
                                                 `}>
-                                                    <svg 
+                                                    <svg
                                                         className="w-3 h-3 text-green-600"
-                                                        fill="currentColor" 
+                                                        fill="currentColor"
                                                         viewBox="0 0 20 20"
                                                     >
                                                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />

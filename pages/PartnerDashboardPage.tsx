@@ -474,6 +474,14 @@ const PartnerDashboardPage: React.FC = () => {
                     <p className="text-sm text-slate-600 dark:text-slate-400">Aktuell gibt es keine neuen Aufgaben. Nutzen Sie die Zeit, um Ihr Portfolio zu aktualisieren.</p>
                 </div>
             </div>
+
+            {quickViewLeadId && (
+                <LeadQuickViewModal
+                    leadId={quickViewLeadId}
+                    isOpen={!!quickViewLeadId}
+                    onClose={() => setQuickViewLeadId(null)}
+                />
+            )}
         </div>
     );
 };
