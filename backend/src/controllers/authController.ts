@@ -14,7 +14,7 @@ const generateToken = (id: string) => {
 // @route   POST /api/auth/register
 // @access  Public
 export const registerProvider = async (req: Request, res: Response) => {
-  const { name, email, password, location, services } = req.body;
+  const { name, email, password, location, services, firstName, lastName, position, companyPhone, companyEmail, companyAddress } = req.body;
 
   try {
     if (!name || !email || !password || !location) {
@@ -40,8 +40,19 @@ export const registerProvider = async (req: Request, res: Response) => {
       location,
       services: services || [],
       balance: 50, // Startguthaben Bonus
-      contact: { phone: '', website: '', address: location },
-      details: { founded: new Date().getFullYear().toString(), employees: '1-5', uid: '' }
+      contact: {
+        phone: companyPhone || '',
+        website: '',
+        address: companyAddress || location,
+        email: companyEmail || email
+      },
+      details: {
+        founded: new Date().getFullYear().toString(),
+        employees: '1-5',
+        uid: '',
+        owner: `${firstName} ${lastName}`.trim(),
+        position: position || ''
+      }
     });
 
     if (provider) {

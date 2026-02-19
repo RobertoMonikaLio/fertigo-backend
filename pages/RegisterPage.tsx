@@ -447,7 +447,12 @@ const RegisterPage: React.FC = () => {
                         password: password,
                         location: `${companyZip} ${companyCity}`,
                         services: selectedServices,
-                        // Additional fields would normally be sent here too
+                        firstName,
+                        lastName,
+                        position,
+                        companyPhone,
+                        companyEmail,
+                        companyAddress
                     }),
                 });
 
