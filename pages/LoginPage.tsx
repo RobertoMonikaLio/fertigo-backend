@@ -13,6 +13,83 @@ const LoginPage: React.FC = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const formRef = useRef<HTMLFormElement>(null);
 
+    const [view, setView] = useState<'login' | 'forgotPassword' | 'resetCode'>('login');
+    const [resetEmail, setResetEmail] = useState('');
+    const [resetMessage, setResetMessage] = useState<string | null>(null);
+    const [resetCode, setResetCode] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
+
+    const handleForgotPassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(null);
+        setResetMessage(null);
+        setLoginState('loading');
+
+        try {
+            const res = await fetch(`${API_URL}/api/email/send-password-reset`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: resetEmail }),
+            });
+
+            if (res.ok) {
+                setResetMessage('Ein Zurücksetzungscode wurde an Ihre E-Mail gesendet.');
+                setView('resetCode');
+            } else {
+                const data = await res.json();
+                setError(data.message || 'Fehler beim Senden des Codes.');
+            }
+        } catch (err) {
+            setError('Server nicht erreichbar.');
+        } finally {
+            setLoginState('idle');
+        }
+    };
+
+    const handleResetPassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(null);
+
+        if (newPassword !== newPasswordConfirm) {
+            setError('Passwörter stimmen nicht überein.');
+            return;
+        }
+
+        if (newPassword.length < 8) {
+            setError('Passwort muss mindestens 8 Zeichen lang sein.');
+            return;
+        }
+
+        setLoginState('loading');
+
+        try {
+            const res = await fetch(`${API_URL}/api/email/reset-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: resetEmail,
+                    code: resetCode,
+                    newPassword
+                }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                setResetMessage('Passwort erfolgreich geändert! Sie können sich jetzt anmelden.');
+                setView('login');
+                setLoginState('idle');
+            } else {
+                setError(data.message || 'Fehler beim Zurücksetzen des Passworts.');
+            }
+        } catch (err) {
+            setError('Server nicht erreichbar.');
+        } finally {
+            setLoginState('idle');
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (loginState === 'loading' || loginState === 'success') return;
@@ -101,101 +178,241 @@ const LoginPage: React.FC = () => {
                             Sicherer Login
                         </div>
                         <h1 className="text-4xl font-black text-slate-900 mb-3">
-                            Partnerportal
+                            {view === 'login' ? 'Partnerportal' : 'Passwort vergessen'}
                         </h1>
                         <p className="text-slate-500 text-lg">
-                            Melden Sie sich mit Ihrem Konto an
+                            {view === 'login' ? 'Melden Sie sich mit Ihrem Konto an' : 'Geben Sie Ihre E-Mail ein, um ein neues Passwort zu erhalten'}
                         </p>
                     </div>
 
-                    {/* Form */}
-                    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-                        {/* Email */}
-                        <div>
-                            <div className="relative">
-                                <input
-                                    id="email"
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => { setEmail(e.target.value); if (error) setError(null); }}
-                                    required
-                                    className="peer w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
-                                    placeholder="E-Mail"
-                                />
-                                <label
-                                    htmlFor="email"
-                                    className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
-                                >
-                                    E-Mail Adresse
-                                </label>
+                    {view === 'login' ? (
+                        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                            {/* Email */}
+                            <div>
+                                <div className="relative">
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => { setEmail(e.target.value); if (error) setError(null); }}
+                                        required
+                                        className="peer w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
+                                        placeholder="E-Mail"
+                                    />
+                                    <label
+                                        htmlFor="email"
+                                        className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
+                                    >
+                                        E-Mail Adresse
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Password */}
-                        <div>
-                            <div className="relative">
-                                <input
-                                    id="password"
-                                    type={isPasswordVisible ? "text" : "password"}
-                                    value={password}
-                                    onChange={(e) => { setPassword(e.target.value); if (error) setError(null); }}
-                                    required
-                                    className="peer w-full px-5 py-4 pr-14 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
-                                    placeholder="Passwort"
-                                />
-                                <label
-                                    htmlFor="password"
-                                    className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
-                                >
-                                    Passwort
+                            {/* Password */}
+                            <div>
+                                <div className="relative">
+                                    <input
+                                        id="password"
+                                        type={isPasswordVisible ? "text" : "password"}
+                                        value={password}
+                                        onChange={(e) => { setPassword(e.target.value); if (error) setError(null); }}
+                                        required
+                                        className="peer w-full px-5 py-4 pr-14 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
+                                        placeholder="Passwort"
+                                    />
+                                    <label
+                                        htmlFor="password"
+                                        className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
+                                    >
+                                        Passwort
+                                    </label>
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                                        className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                                    >
+                                        {isPasswordVisible ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Options Row */}
+                            <div className="flex items-center justify-between py-2">
+                                <label className="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500" />
+                                    <span className="text-sm text-slate-600">Angemeldet bleiben</span>
                                 </label>
                                 <button
                                     type="button"
-                                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                                    className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                                    onClick={() => setView('forgotPassword')}
+                                    className="text-sm font-medium text-primary-600 hover:text-primary-700"
                                 >
-                                    {isPasswordVisible ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+                                    Passwort vergessen?
                                 </button>
                             </div>
-                        </div>
 
-                        {/* Options Row */}
-                        <div className="flex items-center justify-between py-2">
-                            <label className="flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500" />
-                                <span className="text-sm text-slate-600">Angemeldet bleiben</span>
-                            </label>
-                            <a href="#" className="text-sm font-medium text-primary-600 hover:text-primary-700">
-                                Passwort vergessen?
-                            </a>
-                        </div>
+                            {/* Error */}
+                            {error && (
+                                <div className="p-4 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-sm flex items-center gap-3">
+                                    <XCircleIcon className="h-5 w-5 flex-shrink-0" />
+                                    {error}
+                                </div>
+                            )}
 
-                        {/* Error */}
-                        {error && (
-                            <div className="p-4 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-sm flex items-center gap-3">
-                                <XCircleIcon className="h-5 w-5 flex-shrink-0" />
-                                {error}
-                            </div>
-                        )}
-
-                        {/* Submit Button */}
-                        <button
-                            type="submit"
-                            disabled={loginState === 'loading' || loginState === 'success'}
-                            className={`w-full py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${loginState === 'success'
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                disabled={loginState === 'loading' || loginState === 'success'}
+                                className={`w-full py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${loginState === 'success'
                                     ? 'bg-emerald-500 text-white'
                                     : 'bg-slate-900 text-white hover:bg-slate-800'
-                                } disabled:cursor-not-allowed`}
-                        >
-                            {loginState === 'loading' ? (
-                                <><SpinnerIcon className="h-5 w-5 animate-spin" /><span>Anmelden...</span></>
-                            ) : loginState === 'success' ? (
-                                <><CheckIcon className="h-6 w-6" /><span>Erfolgreich!</span></>
-                            ) : (
-                                <span>Anmelden</span>
+                                    } disabled:cursor-not-allowed`}
+                            >
+                                {loginState === 'loading' ? (
+                                    <><SpinnerIcon className="h-5 w-5 animate-spin" /><span>Anmelden...</span></>
+                                ) : loginState === 'success' ? (
+                                    <><CheckIcon className="h-6 w-6" /><span>Erfolgreich!</span></>
+                                ) : (
+                                    <span>Anmelden</span>
+                                )}
+                            </button>
+                        </form>
+                    ) : view === 'forgotPassword' ? (
+                        <form onSubmit={handleForgotPassword} className="space-y-4">
+                            <div>
+                                <div className="relative">
+                                    <input
+                                        id="reset-email"
+                                        type="email"
+                                        value={resetEmail}
+                                        onChange={(e) => setResetEmail(e.target.value)}
+                                        required
+                                        className="peer w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
+                                        placeholder="E-Mail"
+                                    />
+                                    <label
+                                        htmlFor="reset-email"
+                                        className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
+                                    >
+                                        Ihre E-Mail Adresse
+                                    </label>
+                                </div>
+                            </div>
+
+                            {error && (
+                                <div className="p-4 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-sm flex items-center gap-3">
+                                    <XCircleIcon className="h-5 w-5 flex-shrink-0" />
+                                    {error}
+                                </div>
                             )}
-                        </button>
-                    </form>
+
+                            <button
+                                type="submit"
+                                disabled={loginState === 'loading'}
+                                className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold text-lg hover:bg-slate-800 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                            >
+                                {loginState === 'loading' ? <SpinnerIcon className="h-5 w-5 animate-spin" /> : null}
+                                Code anfordern
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => { setView('login'); setError(null); }}
+                                className="w-full py-2 text-slate-500 hover:text-slate-700 text-sm font-medium"
+                            >
+                                Zurück zum Login
+                            </button>
+                        </form>
+                    ) : (
+                        <form onSubmit={handleResetPassword} className="space-y-4">
+                            <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-2xl text-emerald-700 text-sm mb-2 text-center">
+                                Code gesendet an <strong>{resetEmail}</strong>
+                            </div>
+
+                            {/* Code */}
+                            <div className="relative">
+                                <input
+                                    id="reset-code"
+                                    type="text"
+                                    maxLength={6}
+                                    value={resetCode}
+                                    onChange={(e) => setResetCode(e.target.value.replace(/\D/g, ''))}
+                                    required
+                                    className="peer w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent text-center text-2xl font-bold tracking-widest"
+                                    placeholder="000000"
+                                />
+                                <label
+                                    htmlFor="reset-code"
+                                    className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
+                                >
+                                    6-stelliger Code
+                                </label>
+                            </div>
+
+                            {/* New Password */}
+                            <div className="relative">
+                                <input
+                                    id="new-password"
+                                    type={isPasswordVisible ? "text" : "password"}
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    required
+                                    className="peer w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
+                                    placeholder="Neues Passwort"
+                                />
+                                <label
+                                    htmlFor="new-password"
+                                    className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
+                                >
+                                    Neues Passwort
+                                </label>
+                            </div>
+
+                            {/* Confirm Password */}
+                            <div className="relative">
+                                <input
+                                    id="confirm-password"
+                                    type={isPasswordVisible ? "text" : "password"}
+                                    value={newPasswordConfirm}
+                                    onChange={(e) => setNewPasswordConfirm(e.target.value)}
+                                    required
+                                    className="peer w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
+                                    placeholder="Passwort bestätigen"
+                                />
+                                <label
+                                    htmlFor="confirm-password"
+                                    className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
+                                >
+                                    Passwort bestätigen
+                                </label>
+                            </div>
+
+                            {error && (
+                                <div className="p-4 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-sm flex items-center gap-3">
+                                    <XCircleIcon className="h-5 w-5 flex-shrink-0" />
+                                    {error}
+                                </div>
+                            )}
+
+                            <button
+                                type="submit"
+                                disabled={loginState === 'loading'}
+                                className="w-full py-4 bg-primary-600 text-white rounded-2xl font-bold text-lg hover:bg-primary-700 transition-all flex items-center justify-center gap-3 disabled:opacity-50 shadow-lg shadow-primary-500/20"
+                            >
+                                {loginState === 'loading' ? <SpinnerIcon className="h-5 w-5 animate-spin" /> : null}
+                                Passwort speichern
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => setView('login')}
+                                className="w-full py-2 text-slate-500 hover:text-slate-700 text-sm font-medium"
+                            >
+                                Abbrechen
+                            </button>
+                        </form>
+                    )}
+
 
                     {/* Divider */}
                     <div className="relative my-8">
@@ -216,10 +433,10 @@ const LoginPage: React.FC = () => {
                         <ArrowRightIcon className="w-4 h-4" />
                     </Link>
                 </div>
-            </main>
+            </main >
 
 
-        </div>
+        </div >
     );
 };
 
