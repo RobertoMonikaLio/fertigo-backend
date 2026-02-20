@@ -3,7 +3,7 @@ import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
 import { BanknotesIcon, ArrowTrendingUpIcon, TagIcon, ArrowDownTrayIcon, MagnifyingGlassIcon, ChevronUpDownIcon, ChartBarIcon, UsersIcon, CheckCircleIcon, SpinnerIcon } from '../components/icons';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 // --- Reusable Components ---
 

@@ -7,6 +7,8 @@
     "start": "node dist/index.js",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "seed:admin": "ts-node-dev src/seedAdmin.ts",
+    "seed:leads": "ts-node-dev src/seedLeads.ts",
+    "topup": "ts-node src/topUpBalance.ts",
     "build": "tsc"
   },
   "dependencies": {

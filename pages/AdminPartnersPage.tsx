@@ -9,7 +9,7 @@ import {
     PhoneIcon, BriefcaseIcon, StarIcon, CalendarDaysIcon, UserIcon, ShieldCheckIcon, PaperClipIcon
 } from '../components/icons';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 interface Partner {
     id: string;

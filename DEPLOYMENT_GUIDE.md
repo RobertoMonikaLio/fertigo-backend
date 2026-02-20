@@ -17,7 +17,7 @@ You **MUST** set these environment variables in your hosting provider's dashboar
 | Variable | Description | Example Value |
 |----------|-------------|---------------|
 | `NODE_ENV` | Environment mode | `production` |
-| `PORT` | Server port | `10000` (or `5001`) |
+| `PORT` | Server port | `10000` (or `5000`) |
 | `MONGO_URI` | Connection string | `mongodb+srv://user:pass@cluster.mongodb.net/fertigo` |
 | `JWT_SECRET` | Secret for auth tokens | `super_secure_random_string` |
 | `PAYREXX_INSTANCE` | Your Payrexx instance name | `Fertigo` |

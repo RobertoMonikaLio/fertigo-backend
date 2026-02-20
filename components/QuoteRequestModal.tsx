@@ -200,8 +200,8 @@ const ProgressSidebar: React.FC<{ step: number; service: string; }> = ({ step })
                     {stepsConfig.map((s, index) => (
                         <li key={s.name} className="flex items-center gap-4" aria-current={currentProgressStep === index + 1 ? 'step' : undefined}>
                             <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-2 transition-all duration-300 ${currentProgressStep > index + 1 ? 'bg-primary-600 border-primary-600 text-white' :
-                                    currentProgressStep === index + 1 ? 'bg-white border-primary-600 text-primary-600' :
-                                        'bg-slate-100 border-slate-300 text-slate-500'
+                                currentProgressStep === index + 1 ? 'bg-white border-primary-600 text-primary-600' :
+                                    'bg-slate-100 border-slate-300 text-slate-500'
                                 }`}>
                                 {currentProgressStep > index + 1 ? <CheckCircleIcon className="w-6 h-6" /> : s.icon}
                             </div>
@@ -447,7 +447,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
         setFormData(prev => ({ ...prev, files: prev.files.filter(file => file !== fileToRemove) }));
     };
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
     const sendVerificationEmail = async () => {
         setVerificationCode('');
@@ -530,30 +530,44 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 ? formData.companyName
                 : `${formData.firstName} ${formData.lastName}`;
 
-            const newRequest = {
+            const newRequestData = {
                 title: `${formData.service} - ${location}`,
                 service: formData.service,
-                customer: customerName,
+                customerName: customerName,
                 location: location,
-                date: formattedDate,
-                status: 'Neu' as const,
+                status: 'Neu',
                 price: 15.00,
                 details: details,
                 description: formData.projectDescription || 'Keine Beschreibung angegeben.',
-                files: formData.files.map(f => ({ name: f.name, url: '#' })),
                 customerInfo: {
                     name: `${formData.firstName} ${formData.lastName}`,
                     address: `${formData.address}, ${formData.postalCode} ${formData.city}`,
                     email: formData.email,
-                    phone: formData.phone || null,
-                    mobile: formData.showMobileToProviders ? (formData.mobile || null) : null,
+                    phone: formData.phone || undefined,
+                    mobile: formData.showMobileToProviders ? (formData.mobile || undefined) : undefined,
                 },
-                onSiteVisit: formData.onSiteVisit || undefined,
                 qualityScore: Math.floor(Math.random() * 30) + 70,
             };
 
-            const newId = addNewRequest(newRequest);
-            console.log("New lead created with ID:", newId);
+            // Save to Backend
+            const saveRes = await fetch(`${API_URL}/api/leads`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newRequestData),
+            });
+
+            if (!saveRes.ok) {
+                const errorData = await saveRes.json();
+                setVerificationError(errorData.message || 'Fehler beim Speichern der Anfrage.');
+                return;
+            }
+
+            const savedLead = await saveRes.json();
+            console.log("New lead saved to backend:", savedLead);
+
+            // Also update local context for immediate UI feedback if needed
+            const newLocalRequest = { ...newRequestData, id: savedLead._id, date: formattedDate, customer: customerName, status: 'Neu' as const, files: formData.files.map(f => ({ name: f.name, url: '#' })) };
+            addNewRequest(newLocalRequest as any);
 
             setStep(6);
             setIsSuccess(true);
