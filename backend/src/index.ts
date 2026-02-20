@@ -21,11 +21,15 @@ const allowedOrigins = [
   'https://robertosteiner.github.io',
   'https://fertigo-frontend.onrender.com',
   'https://fertigo.onrender.com',
-  process.env.FRONTEND_URL,
-].filter(Boolean);
+];
+
+// Add FRONTEND_URL if provided
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
 
 app.use(cors({
-  origin: allowedOrigins as string[],
+  origin: allowedOrigins,
   credentials: true,
 }));
 app.use(express.json());

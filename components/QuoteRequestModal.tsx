@@ -447,7 +447,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
         setFormData(prev => ({ ...prev, files: prev.files.filter(file => file !== fileToRemove) }));
     };
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const API_URL = import.meta.env.VITE_API_URL;
 
     const sendVerificationEmail = async () => {
         setVerificationCode('');

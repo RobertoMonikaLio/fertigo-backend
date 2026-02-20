@@ -7,7 +7,7 @@ import {
     ChevronUpDownIcon, MapPinIcon, TagIcon, XMarkIcon, MailIcon, PhoneIcon, UserIcon, PencilIcon, CheckCircleIcon
 } from '../components/icons';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface RequestItem {
     id: string;

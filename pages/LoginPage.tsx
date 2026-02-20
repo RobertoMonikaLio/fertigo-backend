@@ -1,8 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MailIcon, LockClosedIcon, ArrowRightIcon, SpinnerIcon, CheckIcon, XCircleIcon, EyeIcon, EyeSlashIcon, BriefcaseIcon, ShieldCheckIcon } from '../components/icons';
+import { useAppContext } from './AppContext';
+import { translations } from '../components/translations';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
@@ -11,7 +14,10 @@ const LoginPage: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const { language } = useAppContext();
+    const t = (translations[language] as any).loginPage;
     const formRef = useRef<HTMLFormElement>(null);
+
 
     const [view, setView] = useState<'login' | 'forgotPassword' | 'resetCode'>('login');
     const [resetEmail, setResetEmail] = useState('');
@@ -34,15 +40,16 @@ const LoginPage: React.FC = () => {
             });
 
             if (res.ok) {
-                setResetMessage('Ein Zurücksetzungscode wurde an Ihre E-Mail gesendet.');
+                setResetMessage(t.resetCodeSent || 'Ein Zurücksetzungscode wurde an Ihre E-Mail gesendet.');
                 setView('resetCode');
             } else {
                 const data = await res.json();
-                setError(data.message || 'Fehler beim Senden des Codes.');
+                setError(data.message || t.requestError);
             }
         } catch (err) {
-            setError('Server nicht erreichbar.');
+            setError(t.serverUnreachable);
         } finally {
+
             setLoginState('idle');
         }
     };
@@ -52,12 +59,12 @@ const LoginPage: React.FC = () => {
         setError(null);
 
         if (newPassword !== newPasswordConfirm) {
-            setError('Passwörter stimmen nicht überein.');
+            setError(t.passwordMismatch);
             return;
         }
 
         if (newPassword.length < 8) {
-            setError('Passwort muss mindestens 8 Zeichen lang sein.');
+            setError(t.passwordTooShort);
             return;
         }
 
@@ -77,15 +84,16 @@ const LoginPage: React.FC = () => {
             const data = await res.json();
 
             if (res.ok) {
-                setResetMessage('Passwort erfolgreich geändert! Sie können sich jetzt anmelden.');
+                setResetMessage(t.resetSuccess);
                 setView('login');
                 setLoginState('idle');
             } else {
-                setError(data.message || 'Fehler beim Zurücksetzen des Passworts.');
+                setError(data.message || t.resetError);
             }
         } catch (err) {
-            setError('Server nicht erreichbar.');
+            setError(t.serverUnreachable);
         } finally {
+
             setLoginState('idle');
         }
     };
@@ -149,13 +157,14 @@ const LoginPage: React.FC = () => {
 
             // Both failed
             setLoginState('error');
-            setError('Ungültige E-Mail oder Passwort.');
+            setError(t.invalidCredentials);
             setTimeout(() => setLoginState('idle'), 2000);
         } catch (err) {
             setLoginState('error');
-            setError('Server nicht erreichbar. Bitte versuchen Sie es später.');
+            setError(t.serverError);
             setTimeout(() => setLoginState('idle'), 2000);
         }
+
     };
 
     return (
@@ -175,15 +184,16 @@ const LoginPage: React.FC = () => {
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                             </svg>
-                            Sicherer Login
+                            {t.secureLogin}
                         </div>
                         <h1 className="text-4xl font-black text-slate-900 mb-3">
-                            {view === 'login' ? 'Partnerportal' : 'Passwort vergessen'}
+                            {view === 'login' ? t.partnerPortal : t.forgotPassword}
                         </h1>
                         <p className="text-slate-500 text-lg">
-                            {view === 'login' ? 'Melden Sie sich mit Ihrem Konto an' : 'Geben Sie Ihre E-Mail ein, um ein neues Passwort zu erhalten'}
+                            {view === 'login' ? t.loginSubtitle : t.forgotSubtitle}
                         </p>
                     </div>
+
 
                     {view === 'login' ? (
                         <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
@@ -197,15 +207,16 @@ const LoginPage: React.FC = () => {
                                         onChange={(e) => { setEmail(e.target.value); if (error) setError(null); }}
                                         required
                                         className="peer w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
-                                        placeholder="E-Mail"
+                                        placeholder={t.emailPlaceholder}
                                     />
                                     <label
                                         htmlFor="email"
                                         className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
                                     >
-                                        E-Mail Adresse
+                                        {t.emailLabel}
                                     </label>
                                 </div>
+
                             </div>
 
                             {/* Password */}
@@ -218,14 +229,15 @@ const LoginPage: React.FC = () => {
                                         onChange={(e) => { setPassword(e.target.value); if (error) setError(null); }}
                                         required
                                         className="peer w-full px-5 py-4 pr-14 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
-                                        placeholder="Passwort"
+                                        placeholder={t.passwordPlaceholder}
                                     />
                                     <label
                                         htmlFor="password"
                                         className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
                                     >
-                                        Passwort
+                                        {t.passwordLabel}
                                     </label>
+
                                     <button
                                         type="button"
                                         onClick={() => setIsPasswordVisible(!isPasswordVisible)}
@@ -240,15 +252,16 @@ const LoginPage: React.FC = () => {
                             <div className="flex items-center justify-between py-2">
                                 <label className="flex items-center gap-2 cursor-pointer">
                                     <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500" />
-                                    <span className="text-sm text-slate-600">Angemeldet bleiben</span>
+                                    <span className="text-sm text-slate-600">{t.rememberMe}</span>
                                 </label>
                                 <button
                                     type="button"
                                     onClick={() => setView('forgotPassword')}
                                     className="text-sm font-medium text-primary-600 hover:text-primary-700"
                                 >
-                                    Passwort vergessen?
+                                    {t.forgotPasswordLink}
                                 </button>
+
                             </div>
 
                             {/* Error */}
@@ -269,13 +282,14 @@ const LoginPage: React.FC = () => {
                                     } disabled:cursor-not-allowed`}
                             >
                                 {loginState === 'loading' ? (
-                                    <><SpinnerIcon className="h-5 w-5 animate-spin" /><span>Anmelden...</span></>
+                                    <><SpinnerIcon className="h-5 w-5 animate-spin" /><span>{t.loggingIn}</span></>
                                 ) : loginState === 'success' ? (
-                                    <><CheckIcon className="h-6 w-6" /><span>Erfolgreich!</span></>
+                                    <><CheckIcon className="h-6 w-6" /><span>{t.success}</span></>
                                 ) : (
-                                    <span>Anmelden</span>
+                                    <span>{t.loginButton}</span>
                                 )}
                             </button>
+
                         </form>
                     ) : view === 'forgotPassword' ? (
                         <form onSubmit={handleForgotPassword} className="space-y-4">
@@ -288,15 +302,16 @@ const LoginPage: React.FC = () => {
                                         onChange={(e) => setResetEmail(e.target.value)}
                                         required
                                         className="peer w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
-                                        placeholder="E-Mail"
+                                        placeholder={t.emailPlaceholder}
                                     />
                                     <label
                                         htmlFor="reset-email"
                                         className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
                                     >
-                                        Ihre E-Mail Adresse
+                                        {t.emailLabel}
                                     </label>
                                 </div>
+
                             </div>
 
                             {error && (
@@ -312,22 +327,25 @@ const LoginPage: React.FC = () => {
                                 className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold text-lg hover:bg-slate-800 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                             >
                                 {loginState === 'loading' ? <SpinnerIcon className="h-5 w-5 animate-spin" /> : null}
-                                Code anfordern
+                                {t.requestButton}
                             </button>
+
 
                             <button
                                 type="button"
                                 onClick={() => { setView('login'); setError(null); }}
                                 className="w-full py-2 text-slate-500 hover:text-slate-700 text-sm font-medium"
                             >
-                                Zurück zum Login
+                                {t.backToLogin}
                             </button>
+
                         </form>
                     ) : (
                         <form onSubmit={handleResetPassword} className="space-y-4">
                             <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-2xl text-emerald-700 text-sm mb-2 text-center">
-                                Code gesendet an <strong>{resetEmail}</strong>
+                                {t.codeSentTo} <strong>{resetEmail}</strong>
                             </div>
+
 
                             {/* Code */}
                             <div className="relative">
@@ -345,9 +363,10 @@ const LoginPage: React.FC = () => {
                                     htmlFor="reset-code"
                                     className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
                                 >
-                                    6-stelliger Code
+                                    {t.resetCodeLabel}
                                 </label>
                             </div>
+
 
                             {/* New Password */}
                             <div className="relative">
@@ -358,15 +377,16 @@ const LoginPage: React.FC = () => {
                                     onChange={(e) => setNewPassword(e.target.value)}
                                     required
                                     className="peer w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
-                                    placeholder="Neues Passwort"
+                                    placeholder={t.newPasswordLabel}
                                 />
                                 <label
                                     htmlFor="new-password"
                                     className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
                                 >
-                                    Neues Passwort
+                                    {t.newPasswordLabel}
                                 </label>
                             </div>
+
 
                             {/* Confirm Password */}
                             <div className="relative">
@@ -377,15 +397,16 @@ const LoginPage: React.FC = () => {
                                     onChange={(e) => setNewPasswordConfirm(e.target.value)}
                                     required
                                     className="peer w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:bg-white focus:border-primary-500 transition-all outline-none text-slate-900 placeholder-transparent"
-                                    placeholder="Passwort bestätigen"
+                                    placeholder={t.confirmPasswordLabel}
                                 />
                                 <label
                                     htmlFor="confirm-password"
                                     className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-all pointer-events-none peer-focus:top-0 peer-focus:text-xs peer-focus:text-primary-600 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2"
                                 >
-                                    Passwort bestätigen
+                                    {t.confirmPasswordLabel}
                                 </label>
                             </div>
+
 
                             {error && (
                                 <div className="p-4 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-sm flex items-center gap-3">
@@ -400,16 +421,18 @@ const LoginPage: React.FC = () => {
                                 className="w-full py-4 bg-primary-600 text-white rounded-2xl font-bold text-lg hover:bg-primary-700 transition-all flex items-center justify-center gap-3 disabled:opacity-50 shadow-lg shadow-primary-500/20"
                             >
                                 {loginState === 'loading' ? <SpinnerIcon className="h-5 w-5 animate-spin" /> : null}
-                                Passwort speichern
+                                {t.savePasswordButton}
                             </button>
+
 
                             <button
                                 type="button"
                                 onClick={() => setView('login')}
                                 className="w-full py-2 text-slate-500 hover:text-slate-700 text-sm font-medium"
                             >
-                                Abbrechen
+                                {t.cancel}
                             </button>
+
                         </form>
                     )}
 
@@ -420,23 +443,22 @@ const LoginPage: React.FC = () => {
                             <div className="w-full border-t border-slate-200"></div>
                         </div>
                         <div className="relative flex justify-center">
-                            <span className="px-4 bg-white text-sm text-slate-400">Neu hier?</span>
+                            <span className="px-4 bg-white text-sm text-slate-400">{t.newUser}</span>
                         </div>
                     </div>
+
 
                     {/* Register Button */}
                     <Link
                         to="/register"
                         className="w-full py-4 rounded-2xl font-semibold text-slate-700 border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
                     >
-                        Konto erstellen
+                        {t.createAccount}
                         <ArrowRightIcon className="w-4 h-4" />
                     </Link>
                 </div>
-            </main >
-
-
-        </div >
+            </main>
+        </div>
     );
 };
 

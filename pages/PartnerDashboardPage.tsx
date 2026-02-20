@@ -7,11 +7,13 @@ import {
     BellIcon, ChatBubbleLeftRightIcon, BanknotesIcon as StatusBanknotesIcon,
     TestsiegerIcon as StatusTestsiegerIcon, XCircleIcon,
     CalendarDaysIcon, TagIcon, AdjustmentsHorizontalIcon,
-    PaperAirplaneIcon, SpinnerIcon
+    PaperAirplaneIcon
 } from '../components/icons';
 import { LeadQuickViewModal } from '../components/LeadQuickViewModal';
+import { useAppContext } from './AppContext';
+import { translations } from '../components/translations';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const getAuthHeaders = () => {
     const stored = localStorage.getItem('fertigo_provider');
@@ -43,16 +45,6 @@ const LeadSkeleton = () => (
             <div className="h-10 w-20 bg-slate-200 rounded-xl" />
         </div>
     </div>
-);
-const TableRowSkeleton = () => (
-    <tr className="animate-pulse">
-        <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-40" /></td>
-        <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-28" /></td>
-        <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-24" /></td>
-        <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-16" /></td>
-        <td className="px-6 py-4"><div className="h-5 bg-slate-200 rounded-full w-20" /></td>
-        <td className="px-6 py-4 text-right"><div className="h-8 bg-slate-200 rounded-lg w-20 ml-auto" /></td>
-    </tr>
 );
 
 // --- Types ---
@@ -102,27 +94,38 @@ const StatCard: React.FC<{ icon: React.ReactNode, value: string, label: string }
 
 type Status = 'Neu' | 'Kontaktiert' | 'Angebot gesendet' | 'In Verhandlung' | 'Gewonnen' | 'Verloren / Abgelehnt';
 
-const statusConfig: { [key in Status]: { icon: React.ReactNode; color: string; bgColor: string; title: string } } = {
-    'Neu': { icon: <BellIcon className="w-4 h-4" />, color: 'text-blue-800', bgColor: 'bg-blue-100', title: 'Neu' },
-    'Kontaktiert': { icon: <ChatBubbleLeftRightIcon className="w-4 h-4" />, color: 'text-cyan-800', bgColor: 'bg-cyan-100', title: 'Kontaktiert' },
-    'Angebot gesendet': { icon: <PaperAirplaneIcon className="w-4 h-4" />, color: 'text-purple-800', bgColor: 'bg-purple-100', title: 'Angebot' },
-    'In Verhandlung': { icon: <StatusBanknotesIcon className="w-4 h-4" />, color: 'text-orange-800', bgColor: 'bg-orange-100', title: 'Verhandlung' },
-    'Gewonnen': { icon: <StatusTestsiegerIcon className="w-4 h-4" />, color: 'text-green-800', bgColor: 'bg-green-100', title: 'Gewonnen' },
-    'Verloren / Abgelehnt': { icon: <XCircleIcon className="w-4 h-4" />, color: 'text-red-800', bgColor: 'bg-red-100', title: 'Verloren' },
+const statusConfig: { [key in Status]: { icon: React.ReactNode; color: string; bgColor: string; key: string } } = {
+    'Neu': { icon: <BellIcon className="w-4 h-4" />, color: 'text-blue-800', bgColor: 'bg-blue-100', key: 'Neu' },
+    'Kontaktiert': { icon: <ChatBubbleLeftRightIcon className="w-4 h-4" />, color: 'text-cyan-800', bgColor: 'bg-cyan-100', key: 'Kontaktiert' },
+    'Angebot gesendet': { icon: <PaperAirplaneIcon className="w-4 h-4" />, color: 'text-purple-800', bgColor: 'bg-purple-100', key: 'Angebot' },
+    'In Verhandlung': { icon: <StatusBanknotesIcon className="w-4 h-4" />, color: 'text-orange-800', bgColor: 'bg-orange-100', key: 'Verhandlung' },
+    'Gewonnen': { icon: <StatusTestsiegerIcon className="w-4 h-4" />, color: 'text-green-800', bgColor: 'bg-green-100', key: 'Gewonnen' },
+    'Verloren / Abgelehnt': { icon: <XCircleIcon className="w-4 h-4" />, color: 'text-red-800', bgColor: 'bg-red-100', key: 'Verloren' },
 };
 
-const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
+const StatusBadge: React.FC<{ status: string, t: any }> = ({ status, t }) => {
     const config = statusConfig[status as Status] || statusConfig['Neu'];
+    const title = t.projects.allStatuses === 'Alle Status' || t.projects.allStatuses === 'All Statuses'
+        ? (status === 'Verloren / Abgelehnt' ? 'Verloren' : status)
+        : (config.key === 'Neu' ? 'Neu' : config.key); // This needs careful mapping if we want full translation of statuses
+
+    // Fallback if we don't have a direct map for statuses in translations yet
+    // For now let's use the config key or a more robust mapping from partner.requests.stats or similar if available
+    const statusLabel = status === 'Verloren / Abgelehnt' ? 'Verloren' : status;
+
     return (
         <span className={`inline-flex items-center gap-2 px-2.5 py-1 text-xs font-semibold rounded-full ${config.bgColor} ${config.color}`}>
             {config.icon}
-            {config.title}
+            {statusLabel}
         </span>
     );
 };
 
 
 const PartnerDashboardPage: React.FC = () => {
+    const { language } = useAppContext();
+    const t = translations[language]?.partner?.dashboard || translations['de'].partner.dashboard;
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -144,7 +147,7 @@ const PartnerDashboardPage: React.FC = () => {
             const response = await fetch(`${API_URL}/api/partner/dashboard`, {
                 headers: getAuthHeaders(),
             });
-            if (!response.ok) throw new Error('Daten konnten nicht geladen werden');
+            if (!response.ok) throw new Error(language === 'de' ? 'Daten konnten nicht geladen werden' : 'Data could not be loaded');
             const data = await response.json();
             setStats(data.stats);
             setPurchasedLeads(data.purchasedLeads);
@@ -156,7 +159,7 @@ const PartnerDashboardPage: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [language]);
 
     useEffect(() => {
         fetchDashboard();
@@ -180,7 +183,7 @@ const PartnerDashboardPage: React.FC = () => {
     const displayLeads = filteredLeads.slice(0, 10);
 
     const formatDate = (dateStr: string) => {
-        return new Date(dateStr).toLocaleDateString('de-CH', { day: '2-digit', month: 'long', year: 'numeric' });
+        return new Date(dateStr).toLocaleDateString(language === 'de' ? 'de-CH' : 'en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
     };
 
     // --- LOADING STATE ---
@@ -203,13 +206,15 @@ const PartnerDashboardPage: React.FC = () => {
 
     // --- ERROR STATE ---
     if (error) {
+        const errorTitle = language === 'de' ? 'Fehler beim Laden' : 'Error loading';
+        const retryText = language === 'de' ? 'Erneut versuchen' : 'Try again';
         return (
             <div className="mx-auto max-w-4xl">
                 <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
-                    <p className="text-red-600 font-bold text-lg mb-2">Fehler beim Laden</p>
+                    <p className="text-red-600 font-bold text-lg mb-2">{errorTitle}</p>
                     <p className="text-red-500 mb-4">{error}</p>
                     <button onClick={() => { setLoading(true); fetchDashboard(); }} className="bg-red-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-red-700">
-                        Erneut versuchen
+                        {retryText}
                     </button>
                 </div>
             </div>
@@ -218,9 +223,9 @@ const PartnerDashboardPage: React.FC = () => {
 
     const greeting = (() => {
         const h = new Date().getHours();
-        if (h < 12) return 'Guten Morgen';
-        if (h < 18) return 'Guten Tag';
-        return 'Guten Abend';
+        if (h < 12) return t.greeting.morning;
+        if (h < 18) return t.greeting.day;
+        return t.greeting.evening;
     })();
 
     const partnerName = provider?.name?.split(' ')?.[0] || 'Partner';
@@ -232,28 +237,28 @@ const PartnerDashboardPage: React.FC = () => {
                 <div className="flex flex-col gap-1">
                     <p className="text-3xl font-bold tracking-tight text-text-light dark:text-text-dark">{greeting}, {partnerName}</p>
                     <p className="text-base font-normal text-slate-600 dark:text-slate-400">
-                        Hier ist Ihre Zusammenfassung.
+                        {t.summary}
                         {lastUpdated && (
-                            <span className="ml-2 text-green-600 font-semibold">● Live-Daten</span>
+                            <span className="ml-2 text-green-600 font-semibold">● {t.liveData}</span>
                         )}
                     </p>
                 </div>
                 <div className="flex gap-3">
                     <button onClick={() => { setLoading(true); fetchDashboard(); }} className="flex h-12 items-center justify-center gap-2 rounded-lg bg-slate-200 px-5 text-base font-bold text-text-light hover:bg-slate-300 dark:bg-slate-800 dark:text-text-dark dark:hover:bg-slate-700">
-                        ↻ Aktualisieren
+                        ↻ {t.refresh}
                     </button>
                     <Link to="/partner/requests" className="flex h-12 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-base font-bold text-white hover:bg-primary/90">
-                        <span className="truncate">Neue Leads suchen</span>
+                        <span className="truncate">{t.searchLeads}</span>
                     </Link>
                 </div>
             </div>
 
             {/* Stats Section */}
             <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                <StatCard icon={<TestsiegerIcon className="size-6" />} value={String(stats?.wonLeads ?? 0)} label="Gewonnene Aufträge" />
-                <StatCard icon={<ArrowTrendingUpIcon className="size-6" />} value={stats?.successRate ?? '0%'} label="Erfolgsquote" />
-                <StatCard icon={<EyeIcon className="size-6" />} value={String(stats?.totalPurchased ?? 0)} label="Gekaufte Leads" />
-                <StatCard icon={<BanknotesIcon className="size-6" />} value={`CHF ${provider?.balance?.toFixed(2) ?? '0.00'}`} label="Guthaben" />
+                <StatCard icon={<TestsiegerIcon className="size-6" />} value={String(stats?.wonLeads ?? 0)} label={t.stats.wonLeads} />
+                <StatCard icon={<ArrowTrendingUpIcon className="size-6" />} value={stats?.successRate ?? '0%'} label={t.stats.successRate} />
+                <StatCard icon={<EyeIcon className="size-6" />} value={String(stats?.totalPurchased ?? 0)} label={t.stats.purchasedLeads} />
+                <StatCard icon={<BanknotesIcon className="size-6" />} value={`CHF ${provider?.balance?.toFixed(2) ?? '0.00'}`} label={t.stats.balance} />
             </div>
 
             {/* Lead-Marktplatz Section */}
@@ -265,15 +270,15 @@ const PartnerDashboardPage: React.FC = () => {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
                             </span>
-                            <span className="text-xs font-bold text-green-600 uppercase tracking-wider">Live Marktplatz</span>
+                            <span className="text-xs font-bold text-green-600 uppercase tracking-wider">{t.marketplace.title.split(' ')[0]} Marktplatz</span>
                         </div>
-                        <h2 className="text-2xl font-bold text-text-light dark:text-text-dark">Neue Aufträge in Ihrer Region</h2>
+                        <h2 className="text-2xl font-bold text-text-light dark:text-text-dark">{t.marketplace.title}</h2>
                     </div>
                     <Link
                         to="/partner/requests"
                         className="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-semibold transition-colors dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300"
                     >
-                        Alle Leads
+                        {t.marketplace.allLeads}
                         <PaperAirplaneIcon className="w-4 h-4" />
                     </Link>
                 </div>
@@ -288,7 +293,7 @@ const PartnerDashboardPage: React.FC = () => {
                             >
                                 {index < 2 && (
                                     <div className="absolute -top-2 -right-2 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg">
-                                        NEU
+                                        {language === 'de' ? 'NEU' : 'NEW'}
                                     </div>
                                 )}
 
@@ -308,12 +313,12 @@ const PartnerDashboardPage: React.FC = () => {
                                         </div>
                                         <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
                                             <span className="flex items-center gap-1">
-                                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                                 {lead.location}
                                             </span>
                                             <span className="hidden sm:inline text-slate-300 dark:text-slate-600">|</span>
                                             <span className="hidden sm:flex items-center gap-1">
-                                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                                 {formatDate(lead.date)}
                                             </span>
                                         </div>
@@ -324,7 +329,7 @@ const PartnerDashboardPage: React.FC = () => {
                                             <div className="text-xl sm:text-2xl font-black text-primary-600 dark:text-primary-400">
                                                 CHF {lead.price.toFixed(0)}
                                             </div>
-                                            <div className="text-xs text-slate-400">Lead-Preis</div>
+                                            <div className="text-xs text-slate-400">{t.marketplace.leadPrice}</div>
                                         </div>
                                         <button
                                             onClick={(e) => {
@@ -344,7 +349,7 @@ const PartnerDashboardPage: React.FC = () => {
                             to="/partner/requests"
                             className="flex sm:hidden items-center justify-center gap-2 w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-semibold transition-colors"
                         >
-                            Alle Leads anzeigen
+                            {t.marketplace.allLeads}
                             <PaperAirplaneIcon className="w-4 h-4" />
                         </Link>
                     </div>
@@ -353,14 +358,14 @@ const PartnerDashboardPage: React.FC = () => {
                         <div className="w-16 h-16 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
                             <TagIcon className="w-8 h-8 text-slate-400" />
                         </div>
-                        <p className="font-bold text-slate-700 dark:text-slate-300 mb-2">Keine neuen Leads verfügbar</p>
-                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-sm mx-auto">Aktuell gibt es keine passenden Aufträge in Ihrer Region. Wir benachrichtigen Sie, sobald neue Leads verfügbar sind.</p>
+                        <p className="font-bold text-slate-700 dark:text-slate-300 mb-2">{t.marketplace.empty.title}</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-sm mx-auto">{t.marketplace.empty.desc}</p>
                         <Link
                             to="/partner/requests"
                             className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold transition-colors shadow-lg shadow-primary-500/30"
                         >
                             <PaperAirplaneIcon className="w-4 h-4" />
-                            Zum Marktplatz
+                            {t.marketplace.empty.button}
                         </Link>
                     </div>
                 )}
@@ -370,7 +375,7 @@ const PartnerDashboardPage: React.FC = () => {
             <div className="mt-8">
                 <div className="overflow-hidden rounded-xl border border-slate-200 bg-card-light shadow-sm dark:border-slate-800 dark:bg-card-dark">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between p-6 gap-4 border-b border-slate-100 dark:border-slate-800">
-                        <h2 className="text-xl font-bold text-text-light dark:text-text-dark whitespace-nowrap">Aktuelle Projekte ({filteredLeads.length})</h2>
+                        <h2 className="text-xl font-bold text-text-light dark:text-text-dark whitespace-nowrap">{t.projects.title} ({filteredLeads.length})</h2>
 
                         <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
                             <div className="relative min-w-[140px] flex-1 sm:flex-none">
@@ -380,7 +385,7 @@ const PartnerDashboardPage: React.FC = () => {
                                     onChange={(e) => setFilterStatus(e.target.value)}
                                     className="w-full pl-9 pr-3 py-2 rounded-lg border border-slate-200 bg-slate-50 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none appearance-none cursor-pointer dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300"
                                 >
-                                    <option value="Alle">Alle Status</option>
+                                    <option value="Alle">{t.projects.allStatuses}</option>
                                     <option value="Neu">Neu</option>
                                     <option value="Kontaktiert">Kontaktiert</option>
                                     <option value="Angebot gesendet">Angebot gesendet</option>
@@ -397,7 +402,7 @@ const PartnerDashboardPage: React.FC = () => {
                                     value={filterDateFrom}
                                     onChange={(e) => setFilterDateFrom(e.target.value)}
                                     className="w-full pl-9 pr-3 py-2 rounded-lg border border-slate-200 bg-slate-50 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300 placeholder-slate-400"
-                                    placeholder="Ab Datum"
+                                    placeholder={language === 'de' ? 'Ab Datum' : 'From date'}
                                 />
                             </div>
                         </div>
@@ -408,12 +413,12 @@ const PartnerDashboardPage: React.FC = () => {
                             <table className="w-full text-sm">
                                 <thead className="bg-slate-50 text-left text-xs uppercase text-slate-500 dark:bg-slate-900/50 dark:text-slate-400">
                                     <tr>
-                                        <th className="px-6 py-3 font-semibold">Auftrag</th>
-                                        <th className="px-6 py-3 font-semibold">Kunde & Standort</th>
-                                        <th className="px-6 py-3 font-semibold">Datum</th>
-                                        <th className="px-6 py-3 font-semibold">Preis</th>
-                                        <th className="px-6 py-3 font-semibold">Status</th>
-                                        <th className="px-6 py-3 font-semibold text-right">Aktion</th>
+                                        <th className="px-6 py-3 font-semibold">{t.projects.table.lead}</th>
+                                        <th className="px-6 py-3 font-semibold">{t.projects.table.customerLocation}</th>
+                                        <th className="px-6 py-3 font-semibold">{t.projects.table.date}</th>
+                                        <th className="px-6 py-3 font-semibold">{t.projects.table.price}</th>
+                                        <th className="px-6 py-3 font-semibold">{t.projects.table.status}</th>
+                                        <th className="px-6 py-3 font-semibold text-right">{t.projects.table.action}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -427,11 +432,11 @@ const PartnerDashboardPage: React.FC = () => {
                                             <td className="px-6 py-4 text-slate-600 dark:text-slate-400">{formatDate(lead.date)}</td>
                                             <td className="px-6 py-4 text-slate-600 dark:text-slate-400">CHF {lead.price.toFixed(2)}</td>
                                             <td className="px-6 py-4">
-                                                <StatusBadge status={lead.status} />
+                                                <StatusBadge status={lead.status} t={t} />
                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 <Link to={`/partner/requests/${lead._id}`} className="flex h-10 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold text-white hover:bg-primary/90 sm:w-auto">
-                                                    Öffnen
+                                                    {t.projects.table.open}
                                                 </Link>
                                             </td>
                                         </tr>
@@ -441,22 +446,22 @@ const PartnerDashboardPage: React.FC = () => {
                         </div>
                     ) : (
                         <div className="p-12 text-center">
-                            <p className="font-semibold text-slate-700 dark:text-slate-300">Keine Projekte gefunden.</p>
+                            <p className="font-semibold text-slate-700 dark:text-slate-300">{t.projects.empty.title}</p>
                             <p className="mt-1 text-sm text-slate-500">
                                 {purchasedLeads.length > 0
-                                    ? "Passen Sie Ihre Filter an, um Ergebnisse zu sehen."
-                                    : "Sie haben noch keine aktiven Projekte. Besuchen Sie den Lead-Marktplatz."}
+                                    ? t.projects.empty.desc
+                                    : t.projects.empty.descNoProjects}
                             </p>
                             {purchasedLeads.length > 0 ? (
                                 <button
                                     onClick={() => { setFilterStatus('Alle'); setFilterDateFrom(''); }}
                                     className="mt-4 inline-flex h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-slate-200 px-4 text-sm font-bold text-slate-700 hover:bg-slate-300"
                                 >
-                                    Filter zurücksetzen
+                                    {t.projects.empty.resetFilters}
                                 </button>
                             ) : (
                                 <Link to="/partner/requests" className="mt-4 inline-flex h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold text-white hover:bg-primary/90">
-                                    Zum Marktplatz
+                                    {t.projects.empty.toMarketplace}
                                 </Link>
                             )}
                         </div>
@@ -470,8 +475,8 @@ const PartnerDashboardPage: React.FC = () => {
                     <span className="material-symbols-outlined">inbox</span>
                 </div>
                 <div className="flex flex-col gap-1">
-                    <p className="font-bold text-text-light dark:text-text-dark">Sie sind auf dem neuesten Stand</p>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Aktuell gibt es keine neuen Aufgaben. Nutzen Sie die Zeit, um Ihr Portfolio zu aktualisieren.</p>
+                    <p className="font-bold text-text-light dark:text-text-dark">{t.upToDate.title}</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">{t.upToDate.desc}</p>
                 </div>
             </div>
 
@@ -487,3 +492,4 @@ const PartnerDashboardPage: React.FC = () => {
 };
 
 export default PartnerDashboardPage;
+

@@ -2,8 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { ArrowRightIcon, SwissFlagIcon } from '../components/icons';
+import { useAppContext } from './AppContext';
+import { translations } from '../components/translations';
 
 const ProvidersPage: React.FC = () => {
+    const { language } = useAppContext();
+    // @ts-ignore - partner might not exist on all languages yet
+    const t = (translations[language] as any).partner.providers;
+
     const { ref: heroRef, inView: heroInView } = useInView({ triggerOnce: true, threshold: 0.1 });
     const { ref: stepsRef, inView: stepsInView } = useInView({ triggerOnce: true, threshold: 0.05 });
     const { ref: benefitsRef, inView: benefitsInView } = useInView({ triggerOnce: true, threshold: 0.1 });
@@ -36,37 +42,34 @@ const ProvidersPage: React.FC = () => {
                             {/* Badge */}
                             <div className="inline-flex items-center gap-2.5 bg-white/[0.06] backdrop-blur-sm border border-white/[0.08] rounded-full px-4 py-2 mb-7">
                                 <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" /><span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" /></span>
-                                <span className="text-white/60 text-xs font-medium">Bereits <span className="text-green-400 font-semibold">2'847</span> Handwerker aktiv</span>
+                                <span className="text-white/60 text-xs font-medium" dangerouslySetInnerHTML={{ __html: t.hero.badge }} />
                             </div>
 
                             {/* Headline */}
-                            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-6xl font-black text-white leading-[1.08] tracking-tight mb-6">
-                                Leads erhalten.{' '}
-                                <span className="hero-gradient-text">Umsatz steigern.</span>
-                            </h1>
+                            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-6xl font-black text-white leading-[1.08] tracking-tight mb-6" dangerouslySetInnerHTML={{ __html: t.hero.title }} />
 
                             <p className="text-base sm:text-lg text-slate-400 leading-relaxed mb-8 max-w-lg">
-                                Fertigo verbindet Sie mit Kunden, die genau Ihren Service brauchen. Ohne Abo-Fallen, ohne Provision – direkt und transparent.
+                                {t.hero.description}
                             </p>
 
                             {/* CTAs */}
                             <div className="flex flex-col sm:flex-row items-start gap-3 mb-10">
                                 <Link to="/register" className="group inline-flex items-center gap-2.5 bg-green-500 hover:bg-green-400 text-slate-950 font-bold px-7 py-3.5 rounded-xl text-sm shadow-lg shadow-green-500/20 hover:shadow-green-400/25 hover:-translate-y-0.5 transition-all duration-300">
-                                    Kostenlos registrieren
+                                    {t.hero.ctaRegister}
                                     <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                                 </Link>
                                 <a href="#so-funktionierts" className="group inline-flex items-center gap-2.5 text-white/60 hover:text-white font-medium text-sm px-5 py-3.5 rounded-xl border border-white/10 hover:border-white/20 hover:bg-white/[0.04] transition-all duration-300">
                                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                                    So funktioniert's
+                                    {t.hero.ctaHowItWorks}
                                 </a>
                             </div>
 
                             {/* Inline Stats */}
                             <div className="grid grid-cols-3 gap-4">
                                 {[
-                                    { value: 'CHF 0.–', label: 'Monatlich' },
-                                    { value: '0%', label: 'Provision' },
-                                    { value: '<5 Min', label: 'Zum Lead' },
+                                    { value: 'CHF 0.–', label: t.hero.stats.monthly },
+                                    { value: '0%', label: t.hero.stats.provision },
+                                    { value: '<5 Min', label: t.hero.stats.toLead },
                                 ].map((s, i) => (
                                     <div key={i} className="text-center py-3 rounded-xl bg-white/[0.04] border border-white/[0.06]">
                                         <div className="text-white font-black text-lg sm:text-xl leading-none">{s.value}</div>
@@ -142,9 +145,9 @@ const ProvidersPage: React.FC = () => {
                                 {/* ── Middle Row: Stats Grid ── */}
                                 <div className="grid grid-cols-3 gap-3">
                                     {[
-                                        { value: '24', label: 'Neue Leads', icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" /></svg>, change: '+6', color: 'from-green-400 to-emerald-500' },
-                                        { value: '94%', label: 'Erfolgsquote', icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" /></svg>, change: '+3%', color: 'from-emerald-400 to-teal-500' },
-                                        { value: '<5m', label: 'Reaktionszeit', icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>, change: 'Top', color: 'from-teal-400 to-cyan-500' },
+                                        { value: '24', label: t.hero.dashboard.newLeads, icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" /></svg>, change: '+6', color: 'from-green-400 to-emerald-500' },
+                                        { value: '94%', label: t.hero.dashboard.successRate, icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" /></svg>, change: '+3%', color: 'from-emerald-400 to-teal-500' },
+                                        { value: '<5m', label: t.hero.dashboard.responseTime, icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>, change: 'Top', color: 'from-teal-400 to-cyan-500' },
                                     ].map((stat, i) => (
                                         <div key={i} className="relative bg-slate-800/60 backdrop-blur-xl rounded-xl border border-white/[0.06] p-4 overflow-hidden group hover:border-white/[0.12] transition-all duration-300">
                                             <div className={`absolute top-0 right-0 w-16 h-16 bg-gradient-to-br ${stat.color} opacity-[0.06] rounded-full blur-2xl group-hover:opacity-[0.12] transition-opacity`} />
@@ -170,8 +173,8 @@ const ProvidersPage: React.FC = () => {
                                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
                                             </span>
-                                            <span className="text-white text-xs font-bold">Live-Anfragen</span>
-                                            <span className="bg-green-500/15 text-green-400 text-[9px] font-bold px-2 py-0.5 rounded-full">3 neu</span>
+                                            <span className="text-white text-xs font-bold">{t.hero.dashboard.liveRequests}</span>
+                                            <span className="bg-green-500/15 text-green-400 text-[9px] font-bold px-2 py-0.5 rounded-full">{t.hero.dashboard.newBadge}</span>
                                         </div>
                                     </div>
 
@@ -242,24 +245,9 @@ const ProvidersPage: React.FC = () => {
 
                     {/* Header */}
                     <div className={`text-center mb-8 sm:mb-16 lg:mb-20 transition-all duration-1000 ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                        <h2 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 mb-3 sm:mb-4 leading-tight lg:whitespace-nowrap">
-                            In 3 Schritten zum{' '}
-                            <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">
-                                nächsten Auftrag
-                                <svg className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
-                                    <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradientProvider)" strokeWidth="4" strokeLinecap="round" />
-                                    <defs>
-                                        <linearGradient id="underlineGradientProvider" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%" stopColor="#16a34a" />
-                                            <stop offset="50%" stopColor="#10b981" />
-                                            <stop offset="100%" stopColor="#14b8a6" />
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
-                            </span>
-                        </h2>
+                        <h2 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 mb-3 sm:mb-4 leading-tight lg:whitespace-nowrap" dangerouslySetInnerHTML={{ __html: t.steps.title }} />
                         <p className="text-sm sm:text-base lg:text-lg text-slate-600 mx-auto lg:whitespace-nowrap max-w-xs sm:max-w-none">
-                            Vom Lead zum zufriedenen Kunden — transparent, fair und ohne Provision
+                            {t.steps.subtitle}
                         </p>
                     </div>
 
@@ -268,25 +256,25 @@ const ProvidersPage: React.FC = () => {
                         <div className="flex gap-4 pl-4 pr-8 overflow-x-auto snap-x snap-mandatory pb-6 scrollbar-hide">
                             {[
                                 {
-                                    number: '1', emoji: '🔍', title: 'Lead prüfen & kaufen',
-                                    time: '2 Minuten', desc: 'Durchstöbern Sie den Live-Marktplatz und wählen Sie passende Anfragen aus Ihrer Region.',
-                                    features: ['Live-Marktplatz', 'Regionale Filterung', 'Transparente Preise'],
+                                    number: '1', emoji: '🔍', title: t.steps.step1.title,
+                                    time: t.steps.step1.time, desc: t.steps.step1.desc,
+                                    features: t.steps.step1.features,
                                     gradient: 'from-green-200 via-green-300 to-emerald-200', chipBg: 'bg-green-100 text-green-700', checkBg: 'bg-green-500 border-green-500',
-                                    swissValue: 'Faire Preise',
+                                    swissValue: t.steps.step1.swiss,
                                 },
                                 {
-                                    number: '2', emoji: '📞', title: 'Direkt Kontakt aufnehmen',
-                                    time: 'Sofort', desc: 'Nach dem Kauf erhalten Sie sofort alle Kontaktdaten. Rufen Sie an oder schreiben Sie eine Nachricht.',
-                                    features: ['Sofort Kontaktdaten', 'Telefon & E-Mail', 'Schnelle Reaktion'],
+                                    number: '2', emoji: '📞', title: t.steps.step2.title,
+                                    time: t.steps.step2.time, desc: t.steps.step2.desc,
+                                    features: t.steps.step2.features,
                                     gradient: 'from-emerald-200 via-emerald-300 to-teal-200', chipBg: 'bg-emerald-100 text-emerald-700', checkBg: 'bg-emerald-500 border-emerald-500',
-                                    swissValue: 'Direkter Draht',
+                                    swissValue: t.steps.step2.swiss,
                                 },
                                 {
-                                    number: '3', emoji: '✅', title: 'Auftrag gewinnen',
-                                    time: '100% Gewinn', desc: 'Überzeugen Sie mit Ihrer Expertise. 100% Ihr Gewinn — keine Provision, keine versteckten Kosten.',
-                                    features: ['100% Ihr Gewinn', '0% Provision', 'Keine versteckten Kosten'],
+                                    number: '3', emoji: '✅', title: t.steps.step3.title,
+                                    time: t.steps.step3.time, desc: t.steps.step3.desc,
+                                    features: t.steps.step3.features,
                                     gradient: 'from-teal-200 via-teal-300 to-cyan-200', chipBg: 'bg-teal-100 text-teal-700', checkBg: 'bg-teal-500 border-teal-500',
-                                    swissValue: 'Null Provision',
+                                    swissValue: t.steps.step3.swiss,
                                 },
                             ].map((step, index) => (
                                 <div
@@ -310,7 +298,7 @@ const ProvidersPage: React.FC = () => {
                                             <h3 className="text-slate-900 font-extrabold text-[19px] leading-tight mb-1">{step.title}</h3>
                                             <div className="flex items-center gap-2 mb-3">
                                                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${step.chipBg}`}>
-                                                    Schritt {step.number}
+                                                    {language === 'de' ? 'Schritt' : language === 'fr' ? 'Étape' : language === 'it' ? 'Passo' : 'Step'} {step.number}
                                                 </span>
                                                 <span className="text-slate-300 text-[10px]">|</span>
                                                 <span className="text-slate-400 text-[10px] font-medium">{step.time}</span>
@@ -344,25 +332,25 @@ const ProvidersPage: React.FC = () => {
                     <div className="hidden sm:grid md:grid-cols-3 gap-6 lg:gap-8 mb-16">
                         {[
                             {
-                                emoji: '🔍', title: 'Lead prüfen & kaufen',
-                                desc: 'Durchstöbern Sie den Live-Marktplatz und wählen Sie passende Anfragen aus Ihrer Region.',
-                                features: ['Live-Marktplatz', 'Regionale Filterung', 'Transparente Preise'],
+                                emoji: '🔍', title: t.steps.step1.title,
+                                desc: t.steps.step1.desc,
+                                features: t.steps.step1.features,
                                 gradient: 'from-green-500 to-emerald-500', bgGradient: 'from-green-50 to-emerald-50',
-                                swissValue: 'Faire Preise',
+                                swissValue: t.steps.step1.swiss,
                             },
                             {
-                                emoji: '📞', title: 'Direkt Kontakt aufnehmen',
-                                desc: 'Nach dem Kauf erhalten Sie sofort alle Kontaktdaten. Rufen Sie an oder schreiben Sie eine Nachricht.',
-                                features: ['Sofort Kontaktdaten', 'Telefon & E-Mail', 'Schnelle Reaktion'],
+                                emoji: '📞', title: t.steps.step2.title,
+                                desc: t.steps.step2.desc,
+                                features: t.steps.step2.features,
                                 gradient: 'from-emerald-500 to-teal-500', bgGradient: 'from-emerald-50 to-teal-50',
-                                swissValue: 'Direkter Draht',
+                                swissValue: t.steps.step2.swiss,
                             },
                             {
-                                emoji: '✅', title: 'Auftrag gewinnen',
-                                desc: 'Überzeugen Sie mit Ihrer Expertise. 100% Ihr Gewinn — keine Provision, keine versteckten Kosten.',
-                                features: ['100% Ihr Gewinn', '0% Provision', 'Keine versteckten Kosten'],
+                                emoji: '✅', title: t.steps.step3.title,
+                                desc: t.steps.step3.desc,
+                                features: t.steps.step3.features,
                                 gradient: 'from-teal-500 to-cyan-500', bgGradient: 'from-teal-50 to-cyan-50',
-                                swissValue: 'Null Provision',
+                                swissValue: t.steps.step3.swiss,
                             },
                         ].map((step, index) => (
                             <div
@@ -434,12 +422,9 @@ const ProvidersPage: React.FC = () => {
                     <div className={`text-center mb-14 transition-all duration-1000 ${benefitsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                         <span className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-1.5 text-sm font-semibold text-green-700 mb-5">
                             <span className="w-2 h-2 rounded-full bg-green-500" />
-                            Ihre Vorteile
+                            {t.benefits.badge}
                         </span>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4">
-                            Was sich mit Fertigo{' '}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">ändert</span>
-                        </h2>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4" dangerouslySetInnerHTML={{ __html: t.benefits.title }} />
                     </div>
 
                     {/* Vergleich */}
@@ -448,26 +433,19 @@ const ProvidersPage: React.FC = () => {
                             <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center">
                                 <svg className="w-3.5 h-3.5 text-red-400" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
                             </div>
-                            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Ohne Fertigo</span>
+                            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t.benefits.without}</span>
                         </div>
                         <div />
                         <div className="flex items-center gap-2">
                             <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
                                 <svg className="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                             </div>
-                            <span className="text-xs font-bold text-green-600 uppercase tracking-widest">Mit Fertigo</span>
+                            <span className="text-xs font-bold text-green-600 uppercase tracking-widest">{t.benefits.with}</span>
                         </div>
                     </div>
 
                     <div className="space-y-3">
-                        {[
-                            { label: 'Aufträge', emoji: '📈', before: 'Mundpropaganda & Zufall', after: '+40% qualifizierte Leads' },
-                            { label: 'Akquise', emoji: '⚡', before: 'Stunden für Kundensuche', after: 'Neue Leads in unter 5 Min.' },
-                            { label: 'Verwaltung', emoji: '📱', before: 'Excel, Zettel, Papierchaos', after: 'Ein digitales Dashboard' },
-                            { label: 'Planung', emoji: '📊', before: 'Nächster Monat? Unklar.', after: 'Konstanter Auftragsfluss' },
-                            { label: 'Kosten', emoji: '💰', before: 'Teure Werbung ohne Garantie', after: 'Pay-per-Lead, 0% Provision' },
-                            { label: 'Reichweite', emoji: '🌍', before: 'Nur Stammkunden im Umfeld', after: 'Schweizweite Sichtbarkeit' },
-                        ].map((row, i) => (
+                        {t.benefits.rows.map((row: any, i: number) => (
                             <div
                                 key={i}
                                 className={`bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-500 ${benefitsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
@@ -509,9 +487,9 @@ const ProvidersPage: React.FC = () => {
                     {/* Pricing Strip */}
                     <div className={`mt-10 grid grid-cols-3 gap-3 sm:gap-5 transition-all duration-1000 delay-500 ${benefitsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                         {[
-                            { icon: '💰', title: 'Pay-per-Lead', desc: 'Keine monatlichen Gebühren' },
-                            { icon: '🔒', title: '0% Provision', desc: '100% Ihr Gewinn' },
-                            { icon: '🚫', title: 'Kein Abo', desc: 'Jederzeit kündbar' },
+                            { icon: '💰', title: t.benefits.pricing.lead, desc: t.benefits.pricing.leadDesc },
+                            { icon: '🔒', title: t.benefits.pricing.provision, desc: t.benefits.pricing.provisionDesc },
+                            { icon: '🚫', title: t.benefits.pricing.noAbo, desc: t.benefits.pricing.noAboDesc },
                         ].map((item, i) => (
                             <div key={i} className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 text-center hover:border-green-200 hover:shadow-sm transition-all duration-300">
                                 <div className="text-2xl sm:text-3xl mb-2">{item.icon}</div>
@@ -529,14 +507,11 @@ const ProvidersPage: React.FC = () => {
                     <div className={`text-center mb-14 transition-all duration-1000 ${categoriesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                         <span className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-1.5 text-sm font-semibold text-green-700 mb-5">
                             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                            50+ Branchen
+                            {t.categories.badge}
                         </span>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4">
-                            Beliebte{' '}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">Kategorien</span>
-                        </h2>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4" dangerouslySetInnerHTML={{ __html: t.categories.title }} />
                         <p className="text-slate-500 text-lg max-w-xl mx-auto">
-                            Anfragen aus über 50 Branchen warten auf Sie
+                            {t.categories.subtitle}
                         </p>
                     </div>
 
@@ -561,7 +536,7 @@ const ProvidersPage: React.FC = () => {
                                 <div className="font-black text-slate-900 text-sm sm:text-base mb-1">{cat.name}</div>
                                 <div className="flex items-center gap-1.5">
                                     <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                                    <span className="text-green-600 text-xs font-bold">{cat.leads} Leads/Mt.</span>
+                                    <span className="text-green-600 text-xs font-bold">{cat.leads} {t.categories.leadsPerMonth}</span>
                                 </div>
                             </div>
                         ))}
@@ -574,22 +549,12 @@ const ProvidersPage: React.FC = () => {
             <section ref={faqRef} className={`py-20 sm:py-28 bg-white transition-all duration-700 ${faqInView ? 'opacity-100' : 'opacity-0'}`}>
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
                     <div className={`text-center mb-12 transition-all duration-1000 ${faqInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-3">
-                            Häufige{' '}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">Fragen</span>
-                        </h2>
-                        <p className="text-slate-500 text-lg">Alles, was Sie wissen müssen</p>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-3" dangerouslySetInnerHTML={{ __html: t.faq.title }} />
+                        <p className="text-slate-500 text-lg">{t.faq.subtitle}</p>
                     </div>
 
                     <div className={`space-y-3 transition-all duration-1000 delay-200 ${faqInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        {[
-                            { q: 'Was kostet die Registrierung?', a: 'Die Registrierung ist komplett kostenlos. Es gibt keine monatliche Gebühr und keine Mindestabnahme. Sie zahlen nur für Leads, die Sie aktiv kaufen.' },
-                            { q: 'Wie funktioniert das Pay-per-Lead Modell?', a: 'Sie sehen alle verfügbaren Anfragen auf dem Live-Marktplatz. Wählen Sie die Leads aus, die zu Ihrem Betrieb passen, und kaufen Sie diese einzeln. Sie behalten 100% des Auftrags – keine Provision.' },
-                            { q: 'In welchen Regionen gibt es Leads?', a: 'Fertigo ist in allen 26 Kantonen der Schweiz aktiv. Sie können Ihr Einzugsgebiet bis auf PLZ-Ebene definieren und erhalten nur passende Anfragen.' },
-                            { q: 'Wie schnell erhalte ich Leads?', a: 'Viele Partner erhalten bereits innerhalb der ersten 24 Stunden ihre ersten Leads. Die Geschwindigkeit hängt von Ihrer Region und Branche ab.' },
-                            { q: 'Kann ich jederzeit pausieren oder kündigen?', a: 'Ja, absolut. Es gibt keine Vertragsbindung. Sie können Ihr Konto jederzeit pausieren oder löschen – ohne Kosten oder Fristen.' },
-                            { q: 'Sind die Leads exklusiv?', a: 'Leads werden an maximal 3 Partner vermittelt, um faire Chancen zu gewährleisten. So bleibt die Qualität hoch und der Wettbewerb überschaubar.' },
-                        ].map((item, i) => (
+                        {t.faq.items.map((item: any, i: number) => (
                             <div
                                 key={i}
                                 className={`bg-slate-50 rounded-2xl border transition-all duration-300 ${openFaq === i ? 'border-green-200 shadow-md bg-white' : 'border-slate-200'}`}
@@ -628,22 +593,22 @@ const ProvidersPage: React.FC = () => {
                     <div className={`text-center transition-all duration-1000 ${ctaInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                         <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 mb-8">
                             <SwissFlagIcon className="w-4 h-4" />
-                            <span className="text-white/80 text-sm font-semibold">100% Schweizer Qualität</span>
+                            <span className="text-white/80 text-sm font-semibold">{t.finalCta.badge}</span>
                         </div>
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-4">
-                            Bereit für mehr Aufträge?
+                            {t.finalCta.title}
                         </h2>
                         <p className="text-white/60 text-lg mb-10 max-w-md mx-auto">
-                            Starten Sie kostenlos und erhalten Sie Ihre ersten Leads noch heute.
+                            {t.finalCta.description}
                         </p>
                         <Link
                             to="/register"
                             className="group inline-flex items-center gap-2 bg-white text-green-700 font-black px-10 py-4 rounded-xl text-lg shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300"
                         >
-                            Jetzt kostenlos starten
+                            {t.finalCta.button}
                             <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
-                        <p className="mt-4 text-white/40 text-sm">Keine Kreditkarte erforderlich</p>
+                        <p className="mt-4 text-white/40 text-sm">{t.finalCta.noCard}</p>
                     </div>
                 </div>
             </section>

@@ -8,7 +8,7 @@ import {
 import NotificationDropdown from './NotificationDropdown';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const getAuthHeaders = () => {
     const stored = localStorage.getItem('fertigo_provider');

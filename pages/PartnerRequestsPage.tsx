@@ -1,19 +1,18 @@
-
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import KanbanBoard from '../components/KanbanBoard';
 import { useAppContext } from './AppContext';
 import { LeadQuickViewModal } from '../components/LeadQuickViewModal';
+import { translations } from '../components/translations';
 import {
     MagnifyingGlassIcon, MapPinIcon, CalendarDaysIcon, BanknotesIcon,
-    ArrowRightIcon, SpinnerIcon, UsersIcon, CheckCircleIcon, BriefcaseIcon, ChevronUpDownIcon,
+    ArrowPathIcon, UsersIcon, CheckCircleIcon, BriefcaseIcon, ChevronUpDownIcon,
     BellIcon, ChatBubbleLeftRightIcon, PaperAirplaneIcon, TestsiegerIcon, XCircleIcon,
-    XMarkIcon, Squares2X2Icon, ListBulletIcon, StarIcon,
-    EyeIcon, UserIcon
+    XMarkIcon, Squares2X2Icon, TableCellsIcon, QueueListIcon,
+    EyeIcon, UserIcon, ChevronLeftIcon, ChevronRightIcon, TagIcon, ChevronDownIcon
 } from '../components/icons';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-const ITEMS_PER_PAGE = 12;
+const API_URL = import.meta.env.VITE_API_URL;
 
 const getAuthHeaders = () => {
     const stored = localStorage.getItem('fertigo_provider');
@@ -46,748 +45,503 @@ type Status = Lead['status'];
 
 const statuses: Status[] = ['Neu', 'Kontaktiert', 'Angebot gesendet', 'In Verhandlung', 'Gewonnen', 'Verloren / Abgelehnt'];
 
-const statusConfig: { [key in Status]: { icon: React.ReactNode; color: string; bgColor: string; textColor: string; title: string; dotColor: string } } = {
-    'Neu': { icon: <BellIcon className="w-3.5 h-3.5" />, color: 'text-blue-700', bgColor: 'bg-blue-50', textColor: 'text-blue-600', title: 'Neu', dotColor: 'bg-blue-500' },
-    'Kontaktiert': { icon: <ChatBubbleLeftRightIcon className="w-3.5 h-3.5" />, color: 'text-cyan-700', bgColor: 'bg-cyan-50', textColor: 'text-cyan-600', title: 'Kontaktiert', dotColor: 'bg-cyan-500' },
-    'Angebot gesendet': { icon: <PaperAirplaneIcon className="w-3.5 h-3.5" />, color: 'text-violet-700', bgColor: 'bg-violet-50', textColor: 'text-violet-600', title: 'Angebot gesendet', dotColor: 'bg-violet-500' },
-    'In Verhandlung': { icon: <BanknotesIcon className="w-3.5 h-3.5" />, color: 'text-amber-700', bgColor: 'bg-amber-50', textColor: 'text-amber-600', title: 'Verhandlung', dotColor: 'bg-amber-500' },
-    'Gewonnen': { icon: <TestsiegerIcon className="w-3.5 h-3.5" />, color: 'text-emerald-700', bgColor: 'bg-emerald-50', textColor: 'text-emerald-600', title: 'Gewonnen', dotColor: 'bg-emerald-500' },
-    'Verloren / Abgelehnt': { icon: <XCircleIcon className="w-3.5 h-3.5" />, color: 'text-rose-700', bgColor: 'bg-rose-50', textColor: 'text-rose-600', title: 'Verloren', dotColor: 'bg-rose-500' },
+const statusConfig: { [key in Status]: { icon: React.ReactNode; color: string; bgColor: string; key: string } } = {
+    'Neu': { icon: <BellIcon className="w-3.5 h-3.5" />, color: 'text-blue-700', bgColor: 'bg-blue-50', key: 'Neu' },
+    'Kontaktiert': { icon: <ChatBubbleLeftRightIcon className="w-3.5 h-3.5" />, color: 'text-cyan-700', bgColor: 'bg-cyan-50', key: 'Kontaktiert' },
+    'Angebot gesendet': { icon: <PaperAirplaneIcon className="w-3.5 h-3.5" />, color: 'text-violet-700', bgColor: 'bg-violet-50', key: 'Angebot' },
+    'In Verhandlung': { icon: <BanknotesIcon className="w-3.5 h-3.5" />, color: 'text-amber-700', bgColor: 'bg-amber-50', key: 'Verhandlung' },
+    'Gewonnen': { icon: <TestsiegerIcon className="w-3.5 h-3.5" />, color: 'text-emerald-700', bgColor: 'bg-emerald-50', key: 'Gewonnen' },
+    'Verloren / Abgelehnt': { icon: <XCircleIcon className="w-3.5 h-3.5" />, color: 'text-rose-700', bgColor: 'bg-rose-50', key: 'Verloren' },
 };
 
-const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('de-CH', { day: '2-digit', month: 'short', year: 'numeric' });
+const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('de-CH', { style: 'currency', currency: 'CHF' }).format(price);
 };
 
-const formatRelativeDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    if (diffHours < 1) return 'Gerade eben';
-    if (diffHours < 24) return `Vor ${diffHours}h`;
-    if (diffDays < 7) return `Vor ${diffDays}d`;
-    return formatDate(dateStr);
+const formatDate = (dateStr: string, language: string) => {
+    return new Date(dateStr).toLocaleDateString(language === 'de' ? 'de-CH' : 'en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
 };
 
-// --- Skeleton ---
-const CardSkeleton = () => (
-    <div className="bg-white rounded-xl border border-slate-100 p-5 animate-pulse">
-        <div className="flex items-center gap-3 mb-4">
-            <div className="h-5 bg-slate-100 rounded-full w-20" />
-            <div className="h-5 bg-slate-100 rounded-full w-16 ml-auto" />
-        </div>
-        <div className="h-5 bg-slate-100 rounded w-4/5 mb-2" />
-        <div className="h-4 bg-slate-50 rounded w-3/5 mb-4" />
-        <div className="flex gap-2 mb-4">
-            <div className="h-8 bg-slate-50 rounded-lg w-24" />
-            <div className="h-8 bg-slate-50 rounded-lg w-28" />
-        </div>
-        <div className="h-px bg-slate-100 mb-4" />
-        <div className="flex items-center justify-between">
-            <div className="h-7 bg-slate-100 rounded w-20" />
-            <div className="h-9 bg-slate-100 rounded-lg w-24" />
-        </div>
-    </div>
-);
-
-// --- Status Dropdown for Purchased ---
-const StatusDropdown: React.FC<{ lead: Lead; onStatusChange: (id: string, status: Status) => void }> = ({ lead, onStatusChange }) => {
-    const currentConfig = statusConfig[lead.status];
+const StatusBadge: React.FC<{ status: string; t: any }> = ({ status, t }) => {
+    const config = statusConfig[status as Status] || statusConfig['Neu'];
+    // For now we use the key or a simple mapping if available in translations
     return (
-        <div className="relative">
-            <select
-                value={lead.status}
-                onChange={e => onStatusChange(lead._id, e.target.value as Status)}
-                className={`appearance-none cursor-pointer rounded-lg border-0 px-3 py-1.5 pr-7 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary-400 transition-all ${currentConfig.bgColor} ${currentConfig.color}`}
-            >
-                {statuses.map(s => <option key={s} value={s}>{statusConfig[s].title}</option>)}
-            </select>
-            <ChevronUpDownIcon className={`w-3.5 h-3.5 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none ${currentConfig.color} opacity-60`} />
-        </div>
+        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold inline-flex items-center gap-1 ${config.bgColor} ${config.color}`}>
+            {config.icon}
+            {status === 'Verloren / Abgelehnt' ? 'Verloren' : status}
+        </span>
     );
 };
 
-// --- Available Lead Card (Marketplace) ---
-const LeadCard: React.FC<{ lead: Lead; onViewDetails: (id: string) => void }> = ({ lead, onViewDetails }) => {
-    const purchaseCount = lead.purchaseCount || 0;
-    const isSoldOut = purchaseCount >= 5;
-    const availableCount = 5 - purchaseCount;
-
-    const leadDate = new Date(lead.date);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    leadDate.setHours(0, 0, 0, 0);
-    const diffDays = Math.floor((today.getTime() - leadDate.getTime()) / (1000 * 60 * 60 * 24));
-    const isNew = diffDays <= 1;
-    const isHot = availableCount <= 2 && !isSoldOut;
-
-    return (
-        <article
-            onClick={() => { if (!isSoldOut) onViewDetails(lead._id); }}
-            className={`group relative bg-white rounded-xl border transition-all duration-300 cursor-pointer overflow-hidden ${isSoldOut
-                    ? 'border-slate-100 opacity-50 cursor-not-allowed'
-                    : 'border-slate-100 hover:border-primary-200 hover:shadow-xl hover:shadow-primary-500/5 hover:-translate-y-0.5'
-                }`}
-        >
-            {/* Top accent line */}
-            {!isSoldOut && (
-                <div className={`h-0.5 ${isHot ? 'bg-gradient-to-r from-orange-400 via-red-400 to-pink-400' : 'bg-gradient-to-r from-primary-400 to-primary-600'}`} />
-            )}
-
-            <div className="p-5">
-                {/* Tags row */}
-                <div className="flex items-center gap-2 mb-3 flex-wrap">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-50 px-2.5 py-1 rounded-md">
-                        <BriefcaseIcon className="w-3 h-3 text-slate-400" />
-                        {lead.service}
-                    </span>
-                    {isNew && (
-                        <span className="inline-flex items-center gap-1 bg-primary-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">
-                            Neu
-                        </span>
-                    )}
-                    {isHot && (
-                        <span className="inline-flex items-center gap-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">
-                            Beliebt
-                        </span>
-                    )}
-                    {isSoldOut && (
-                        <span className="inline-flex items-center gap-1 bg-slate-200 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">
-                            Vergeben
-                        </span>
-                    )}
-                </div>
-
-                {/* Title */}
-                <h3 className="text-[15px] font-bold text-slate-900 mb-2 line-clamp-2 leading-snug group-hover:text-primary-700 transition-colors">
-                    {lead.title}
-                </h3>
-
-                {/* Meta */}
-                <div className="flex items-center gap-4 text-xs text-slate-400 mb-4">
-                    <div className="flex items-center gap-1.5">
-                        <MapPinIcon className="w-3.5 h-3.5" />
-                        <span>{lead.location}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                        <CalendarDaysIcon className="w-3.5 h-3.5" />
-                        <span>{formatRelativeDate(lead.date)}</span>
-                    </div>
-                </div>
-
-                {/* Availability bar */}
-                {!isSoldOut && (
-                    <div className="mb-4">
-                        <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
-                            <span>{availableCount} von 5 verfuegbar</span>
-                            <span className={`font-semibold ${availableCount <= 2 ? 'text-orange-500' : 'text-emerald-500'}`}>
-                                {Math.round((availableCount / 5) * 100)}%
-                            </span>
-                        </div>
-                        <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                            <div
-                                className={`h-full rounded-full transition-all duration-500 ${availableCount <= 2 ? 'bg-gradient-to-r from-orange-400 to-red-400' : 'bg-gradient-to-r from-emerald-400 to-emerald-500'
-                                    }`}
-                                style={{ width: `${(availableCount / 5) * 100}%` }}
-                            />
-                        </div>
-                    </div>
-                )}
-
-                {/* Footer */}
-                <div className="flex items-center justify-between pt-4 border-t border-slate-50">
-                    <div>
-                        <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Lead-Preis</span>
-                        <p className={`text-lg font-extrabold ${isSoldOut ? 'text-slate-300' : 'text-slate-900'}`}>
-                            {isSoldOut ? '---' : `CHF ${lead.price.toFixed(0)}`}
-                        </p>
-                    </div>
-                    <button
-                        type="button"
-                        onClick={(e) => { e.stopPropagation(); if (!isSoldOut) onViewDetails(lead._id); }}
-                        disabled={isSoldOut}
-                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${isSoldOut
-                                ? 'bg-slate-50 text-slate-300 cursor-not-allowed'
-                                : 'bg-primary-600 text-white hover:bg-primary-700 active:scale-95 shadow-sm shadow-primary-600/20'
-                            }`}
-                    >
-                        Ansehen
-                        {!isSoldOut && <ArrowRightIcon className="w-3 h-3" />}
-                    </button>
-                </div>
-            </div>
-        </article>
-    );
-};
-
-// --- Purchased Lead Card ---
-const PurchasedLeadCard: React.FC<{ lead: Lead; onStatusChange: (id: string, status: Status) => void }> = ({ lead, onStatusChange }) => {
-    const config = statusConfig[lead.status];
-    return (
-        <article className="group bg-white rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-lg transition-all duration-300 overflow-hidden">
-            <div className="p-5">
-                <div className="flex items-center justify-between gap-2 mb-3">
-                    <StatusDropdown lead={lead} onStatusChange={onStatusChange} />
-                    <span className="text-[11px] text-slate-400 font-medium">{formatRelativeDate(lead.date)}</span>
-                </div>
-
-                <div className="mb-3">
-                    <p className="text-[10px] font-semibold text-primary-500 uppercase tracking-wider mb-0.5">{lead.service}</p>
-                    <h3 className="text-[15px] font-bold text-slate-900 group-hover:text-primary-700 transition-colors line-clamp-2 leading-snug">
-                        {lead.title}
-                    </h3>
-                </div>
-
-                <div className="flex items-center gap-3 text-xs text-slate-400 mb-4">
-                    <div className="flex items-center gap-1.5">
-                        <MapPinIcon className="w-3.5 h-3.5" />
-                        <span>{lead.location}</span>
-                    </div>
-                </div>
-
-                {lead.customerName && lead.customerName !== 'Vertraulich' && (
-                    <div className="flex items-center gap-2.5 bg-slate-50 rounded-lg px-3 py-2 mb-4">
-                        <div className="w-7 h-7 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <UserIcon className="w-3.5 h-3.5 text-primary-600" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                            <p className="text-xs font-semibold text-slate-700 truncate">{lead.customerName}</p>
-                            {lead.customerInfo?.email && (
-                                <p className="text-[10px] text-slate-400 truncate">{lead.customerInfo.email}</p>
-                            )}
-                        </div>
-                    </div>
-                )}
-
-                <Link
-                    to={`/partner/requests/${lead._id}`}
-                    className="w-full py-2 rounded-lg font-semibold text-xs bg-slate-900 text-white hover:bg-slate-800 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
-                >
-                    <EyeIcon className="w-3.5 h-3.5" />
-                    Details anzeigen
-                </Link>
-            </div>
-        </article>
-    );
-};
-
-// --- Purchased Leads Table ---
-const PurchasedLeadsTable: React.FC<{ leads: Lead[]; onStatusChange: (id: string, status: Status) => void }> = ({ leads, onStatusChange }) => (
-    <div className="bg-white rounded-xl border border-slate-100 overflow-hidden">
-        <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-                <thead>
-                    <tr className="border-b border-slate-100">
-                        <th scope="col" className="px-5 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Auftrag</th>
-                        <th scope="col" className="px-5 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Kunde</th>
-                        <th scope="col" className="px-5 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Datum</th>
-                        <th scope="col" className="px-5 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Status</th>
-                        <th scope="col" className="px-5 py-3.5 text-right text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Aktion</th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-50">
-                    {leads.map(lead => (
-                        <tr key={lead._id} className="hover:bg-slate-50/50 transition-colors">
-                            <td className="px-5 py-4">
-                                <div className="font-semibold text-slate-900">{lead.title}</div>
-                                <div className="flex items-center gap-2 mt-1">
-                                    <span className="text-[11px] text-slate-400 flex items-center gap-1">
-                                        <BriefcaseIcon className="w-3 h-3" />
-                                        {lead.service}
-                                    </span>
-                                    <span className="text-slate-200">|</span>
-                                    <span className="text-[11px] text-slate-400 flex items-center gap-1">
-                                        <MapPinIcon className="w-3 h-3" />
-                                        {lead.location}
-                                    </span>
-                                </div>
-                            </td>
-                            <td className="px-5 py-4">
-                                {lead.customerName && lead.customerName !== 'Vertraulich' ? (
-                                    <div className="flex items-center gap-2.5">
-                                        <div className="w-8 h-8 bg-primary-50 rounded-full flex items-center justify-center flex-shrink-0">
-                                            <UserIcon className="w-3.5 h-3.5 text-primary-600" />
-                                        </div>
-                                        <div className="min-w-0">
-                                            <p className="font-medium text-slate-700 text-sm truncate">{lead.customerName}</p>
-                                            {lead.customerInfo?.email && (
-                                                <p className="text-[11px] text-slate-400 truncate">{lead.customerInfo.email}</p>
-                                            )}
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <span className="text-slate-300">---</span>
-                                )}
-                            </td>
-                            <td className="px-5 py-4 text-sm text-slate-500">{formatDate(lead.date)}</td>
-                            <td className="px-5 py-4">
-                                <StatusDropdown lead={lead} onStatusChange={onStatusChange} />
-                            </td>
-                            <td className="px-5 py-4 text-right">
-                                <Link
-                                    to={`/partner/requests/${lead._id}`}
-                                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 active:scale-95 transition-all"
-                                >
-                                    <EyeIcon className="w-3.5 h-3.5" />
-                                    Oeffnen
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    </div>
-);
-
-// --- Stat Card ---
-const StatCard: React.FC<{ label: string; value: number; icon: React.ReactNode; color: string }> = ({ label, value, icon, color }) => (
-    <div className="bg-white rounded-xl border border-slate-100 p-4 flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${color}`}>
-            {icon}
-        </div>
-        <div>
-            <p className="text-2xl font-extrabold text-slate-900">{value}</p>
-            <p className="text-[11px] text-slate-400 font-medium">{label}</p>
-        </div>
-    </div>
-);
-
-// --- Main Page ---
 const PartnerRequestsPage: React.FC = () => {
-    const context = useAppContext();
-    const { openQuickView, isQuickViewOpen = false, closeQuickView, quickViewLeadId = null } = context || {};
+    const { language } = useAppContext();
+    const t = translations[language]?.partner?.requests || translations['de'].partner.requests;
 
-    const locationHook = useLocation();
-    const [localSelectedLeadId, setLocalSelectedLeadId] = useState<string | null>(null);
-
-    const isPurchasedView = useMemo(() => new URLSearchParams(locationHook.search).get('view') === 'purchased', [locationHook.search]);
-
-    const [availableLeads, setAvailableLeads] = useState<Lead[]>([]);
-    const [purchasedLeads, setPurchasedLeads] = useState<Lead[]>([]);
+    const [isPurchasedView, setIsPurchasedView] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [leads, setLeads] = useState<Lead[]>([]);
+    const [purchasedLeads, setPurchasedLeads] = useState<Lead[]>([]);
 
-    const [purchasedViewMode, setPurchasedViewMode] = useState<'cards' | 'table' | 'board'>('cards');
+    // Filters & Sorting
     const [searchTerm, setSearchTerm] = useState('');
-    const [locationFilter, setLocationFilter] = useState('');
-    const [serviceFilter, setServiceFilter] = useState('Alle');
-    const [statusFilter, setStatusFilter] = useState('Alle');
-    const [priceFilter, setPriceFilter] = useState('');
-    const [sortOption, setSortOption] = useState('newest');
+    const [selectedCanton, setSelectedCanton] = useState(language === 'de' ? 'Alle Kantone' : t.filterAllCantons);
+    const [selectedService, setSelectedService] = useState(language === 'de' ? 'Alle Services' : t.filterAllServices);
+    const [maxPrice, setMaxPrice] = useState<number>(1000);
+    const [sortOption, setSortOption] = useState(language === 'de' ? 'Neueste zuerst' : t.sort.newest);
+
+    // View Options
+    const [purchasedViewMode, setPurchasedViewMode] = useState<'cards' | 'table' | 'board'>('cards');
+
+    // Pagination
     const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 9;
+
+    // Quick View
+    const [quickViewLeadId, setQuickViewLeadId] = useState<string | null>(null);
 
     const fetchLeads = useCallback(async () => {
         try {
+            setLoading(true);
             setError(null);
-            const headers = getAuthHeaders();
+            const endpoint = isPurchasedView ? '/api/partner/leads/purchased' : '/api/partner/leads/available';
+            const response = await fetch(`${API_URL}${endpoint}`, {
+                headers: getAuthHeaders(),
+            });
+
+            if (!response.ok) throw new Error(language === 'de' ? 'Das Laden der Leads ist fehlgeschlagen' : 'Failed to load leads');
+            const data = await response.json();
 
             if (isPurchasedView) {
-                const response = await fetch(`${API_URL}/api/partner/leads/purchased`, { headers });
-                if (!response.ok) throw new Error('Leads konnten nicht geladen werden');
-                const data = await response.json();
                 setPurchasedLeads(data);
             } else {
-                const response = await fetch(`${API_URL}/api/partner/leads/available`, { headers });
-                if (!response.ok) throw new Error('Leads konnten nicht geladen werden');
-                const data = await response.json();
-                setAvailableLeads(data);
+                setLeads(data);
             }
         } catch (err: any) {
             setError(err.message);
         } finally {
             setLoading(false);
         }
-    }, [isPurchasedView]);
+    }, [isPurchasedView, language]);
 
     useEffect(() => {
-        setLoading(true);
         fetchLeads();
     }, [fetchLeads]);
 
-    useEffect(() => {
-        if (isPurchasedView) setPurchasedViewMode('cards');
-    }, [isPurchasedView]);
+    const activeList = isPurchasedView ? purchasedLeads : leads;
 
-    const handleStatusChange = async (leadId: string, newStatus: Status) => {
+    const filteredRequests = useMemo(() => {
+        return activeList
+            .filter(lead => {
+                const searchStr = (lead.title + (lead.customerName || '') + lead.location).toLowerCase();
+                if (searchTerm && !searchStr.includes(searchTerm.toLowerCase())) return false;
+                if (!isPurchasedView) {
+                    if (selectedCanton !== (language === 'de' ? 'Alle Kantone' : t.filterAllCantons) && lead.location !== selectedCanton) return false;
+                    if (selectedService !== (language === 'de' ? 'Alle Services' : t.filterAllServices) && lead.service !== selectedService) return false;
+                    if (lead.price > maxPrice) return false;
+                }
+                return true;
+            })
+            .sort((a, b) => {
+                if (sortOption === (language === 'de' ? 'Neueste zuerst' : (t.sort?.newest || 'Neueste zuerst'))) {
+                    return new Date(b.date).getTime() - new Date(a.date).getTime();
+                }
+                if (sortOption === (language === 'de' ? 'Preis aufsteigend' : (t.sort?.priceAsc || 'Preis aufsteigend'))) {
+                    return a.price - b.price;
+                }
+                if (sortOption === (language === 'de' ? 'Preis absteigend' : (t.sort?.priceDesc || 'Preis absteigend'))) {
+                    return b.price - a.price;
+                }
+                return 0;
+            });
+    }, [activeList, searchTerm, selectedCanton, selectedService, maxPrice, sortOption, isPurchasedView, language, t]);
+
+    const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
+    const paginatedRequests = filteredRequests.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    const stats = useMemo(() => {
+        if (!isPurchasedView) return null;
+        return {
+            total: purchasedLeads.length,
+            new: purchasedLeads.filter(l => l.status === 'Neu').length,
+            inProgress: purchasedLeads.filter(l => ['Kontaktiert', 'Angebot gesendet', 'In Verhandlung'].includes(l.status)).length,
+            won: purchasedLeads.filter(l => l.status === 'Gewonnen').length
+        };
+    }, [purchasedLeads, isPurchasedView]);
+
+    const handleStatusChange = async (leadId: string, newStatus: string) => {
         try {
             const response = await fetch(`${API_URL}/api/partner/leads/${leadId}/status`, {
-                method: 'PUT',
+                method: 'PATCH',
                 headers: getAuthHeaders(),
                 body: JSON.stringify({ status: newStatus }),
             });
-            if (!response.ok) throw new Error('Status konnte nicht geaendert werden');
-            setPurchasedLeads(prev => prev.map(l => l._id === leadId ? { ...l, status: newStatus } : l));
-        } catch (err: any) {
-            alert(err.message);
+            if (response.ok) {
+                setPurchasedLeads(prev => prev.map(l => l._id === leadId ? { ...l, status: newStatus as Status } : l));
+            }
+        } catch (err) {
+            console.error('Failed to update status:', err);
         }
     };
 
-    const leads = isPurchasedView ? purchasedLeads : availableLeads;
-
-    const availableServices = useMemo(() => {
-        const services = new Set(leads.map(r => r.service));
-        return ['Alle', ...Array.from(services).sort()];
-    }, [leads]);
-
-    const swissCantons = [
-        'Alle Kantone',
-        'Aargau', 'Appenzell Ausserrhoden', 'Appenzell Innerrhoden', 'Basel-Landschaft',
-        'Basel-Stadt', 'Bern', 'Freiburg', 'Genf', 'Glarus', 'Graubuenden',
-        'Jura', 'Luzern', 'Neuenburg', 'Nidwalden', 'Obwalden', 'Schaffhausen',
-        'Schwyz', 'Solothurn', 'St. Gallen', 'Tessin', 'Thurgau', 'Uri',
-        'Waadt', 'Wallis', 'Zug', 'Zuerich'
-    ];
-
-    const filteredRequests = useMemo(() => {
-        const filtered = leads
-            .filter(req =>
-                req.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                (isPurchasedView && req.customerName?.toLowerCase().includes(searchTerm.toLowerCase()))
-            )
-            .filter(req =>
-                req.location.toLowerCase().includes(locationFilter.toLowerCase())
-            )
-            .filter(req =>
-                serviceFilter === 'Alle' || req.service === serviceFilter
-            )
-            .filter(req => {
-                if (!isPurchasedView || statusFilter === 'Alle') return true;
-                return req.status === statusFilter;
-            })
-            .filter(req => {
-                if (!priceFilter) return true;
-                const maxPrice = parseFloat(priceFilter);
-                return !isNaN(maxPrice) && req.price <= maxPrice;
-            });
-
-        filtered.sort((a, b) => {
-            if (!isPurchasedView) {
-                switch (sortOption) {
-                    case 'price_asc': return a.price - b.price;
-                    case 'price_desc': return b.price - a.price;
-                    case 'availability': return (b.purchaseCount || 0) - (a.purchaseCount || 0);
-                    case 'newest': default: return new Date(b.date).getTime() - new Date(a.date).getTime();
-                }
-            }
-            return new Date(b.date).getTime() - new Date(a.date).getTime();
-        });
-
-        return filtered;
-    }, [searchTerm, locationFilter, serviceFilter, statusFilter, priceFilter, sortOption, isPurchasedView, leads]);
-
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [searchTerm, locationFilter, serviceFilter, statusFilter, priceFilter, sortOption, isPurchasedView]);
-
-    const totalPages = Math.ceil(filteredRequests.length / ITEMS_PER_PAGE);
-    const paginatedRequests = filteredRequests.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
-
-    const stats = useMemo(() => ({
-        total: purchasedLeads.length,
-        won: purchasedLeads.filter(l => l.status === 'Gewonnen').length,
-        inProgress: purchasedLeads.filter(l => ['Kontaktiert', 'Angebot gesendet', 'In Verhandlung'].includes(l.status)).length,
-        new: purchasedLeads.filter(l => l.status === 'Neu').length,
-    }), [purchasedLeads]);
-
-    const kanbanLeads = useMemo(() => filteredRequests.map(l => ({
-        ...l,
-        id: l._id as any,
-        customer: l.customerName,
-        customerEmail: l.customerInfo?.email || '',
-    })), [filteredRequests]);
-
-    const activeFiltersCount = [
-        locationFilter,
-        serviceFilter !== 'Alle' ? serviceFilter : '',
-        statusFilter !== 'Alle' ? statusFilter : '',
-        priceFilter,
-    ].filter(Boolean).length;
+    const resetFilters = () => {
+        setSearchTerm('');
+        setSelectedCanton(language === 'de' ? 'Alle Kantone' : t.filterAllCantons);
+        setSelectedService(language === 'de' ? 'Alle Services' : t.filterAllServices);
+        setMaxPrice(1000);
+    };
 
     return (
-        <div className="max-w-7xl mx-auto">
-            {/* Header */}
-            <div className="mb-6">
-                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
-                    <div>
-                        <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                            {isPurchasedView ? 'Meine Leads' : 'Lead-Marktplatz'}
-                        </h1>
-                        <p className="text-sm text-slate-400 mt-1">
-                            {isPurchasedView
-                                ? `${filteredRequests.length} Leads in Ihrem Portfolio`
-                                : `${filteredRequests.length} Leads verfuegbar`
-                            }
-                        </p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {/* Header Section */}
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8">
+                <div>
+                    <div className="flex bg-slate-100 p-1 rounded-xl w-fit mb-4">
+                        <button
+                            onClick={() => { setIsPurchasedView(false); setCurrentPage(1); }}
+                            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${!isPurchasedView ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-700'}`}
+                        >
+                            {t.leadsAvailable}
+                        </button>
+                        <button
+                            onClick={() => { setIsPurchasedView(true); setCurrentPage(1); }}
+                            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${isPurchasedView ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-700'}`}
+                        >
+                            {t.myLeadsTitle}
+                        </button>
                     </div>
-                    {!isPurchasedView && (
-                        <div className="flex items-center gap-2">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+                        {isPurchasedView ? t.myLeadsTitle : (t.title || 'Lead-Marktplatz')}
+                    </h1>
+                    <p className="text-slate-500 mt-1">
+                        {isPurchasedView ? t.leadsInPortfolio : `${leads.length} ${t.leadsAvailable}`}
+                        {!isPurchasedView && (
+                            <span className="ml-3 inline-flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-50 px-2.5 py-1 rounded-full ring-1 ring-inset ring-green-600/20">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                </span>
+                                {t.live || 'LIVE'}
                             </span>
-                            <span className="text-xs text-slate-400 font-medium">Live</span>
-                            <button
-                                onClick={() => { setLoading(true); fetchLeads(); }}
-                                className="ml-2 text-xs font-semibold text-primary-600 hover:text-primary-700 transition-colors"
-                            >
-                                Aktualisieren
-                            </button>
-                        </div>
-                    )}
+                        )}
+                    </p>
                 </div>
 
-                {/* Stats for purchased view */}
-                {isPurchasedView && (
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                        <StatCard
-                            label="Gesamt"
-                            value={stats.total}
-                            icon={<BriefcaseIcon className="w-4 h-4 text-slate-600" />}
-                            color="bg-slate-50"
-                        />
-                        <StatCard
-                            label="Neu"
-                            value={stats.new}
-                            icon={<BellIcon className="w-4 h-4 text-blue-600" />}
-                            color="bg-blue-50"
-                        />
-                        <StatCard
-                            label="In Bearbeitung"
-                            value={stats.inProgress}
-                            icon={<ChatBubbleLeftRightIcon className="w-4 h-4 text-amber-600" />}
-                            color="bg-amber-50"
-                        />
-                        <StatCard
-                            label="Gewonnen"
-                            value={stats.won}
-                            icon={<CheckCircleIcon className="w-4 h-4 text-emerald-600" />}
-                            color="bg-emerald-50"
+                <button
+                    onClick={fetchLeads}
+                    className="flex items-center justify-center gap-2 h-11 px-5 bg-white border border-slate-200 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-primary transition-all font-bold shadow-sm"
+                >
+                    <ArrowPathIcon className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                    {t.refresh}
+                </button>
+            </div>
+
+            {/* Stats Dashboard for My Leads */}
+            {isPurchasedView && stats && (
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.stats?.total || 'Gesamt'}</p>
+                        <p className="text-2xl font-black text-slate-900 mt-1">{stats.total}</p>
+                    </div>
+                    <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-blue-500">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.stats?.new || 'Neu'}</p>
+                        <p className="text-2xl font-black text-slate-900 mt-1">{stats.new}</p>
+                    </div>
+                    <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-orange-500">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.stats?.inProgress || 'In Bearbeitung'}</p>
+                        <p className="text-2xl font-black text-slate-900 mt-1">{stats.inProgress}</p>
+                    </div>
+                    <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-green-500">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.stats?.won || 'Gewonnen'}</p>
+                        <p className="text-2xl font-black text-slate-900 mt-1">{stats.won}</p>
+                    </div>
+                </div>
+            )}
+
+            {/* Filters Section */}
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                    <div className="lg:col-span-4 relative">
+                        <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                        <input
+                            type="text"
+                            placeholder={isPurchasedView ? (t.searchPurchasedPlaceholder || "Auftrag oder Kunde suchen...") : (t.searchPlaceholder || "Leads durchsuchen...")}
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full h-12 pl-12 pr-4 bg-slate-50 border-none rounded-xl text-slate-900 focus:ring-2 focus:ring-primary/20 transition-all font-medium"
                         />
                     </div>
-                )}
 
-                {/* Search + Filters */}
-                <div className="flex flex-col gap-3">
-                    <div className="flex items-center gap-3">
+                    {!isPurchasedView && (
+                        <>
+                            <div className="lg:col-span-2 relative">
+                                <MapPinIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                <select
+                                    value={selectedCanton}
+                                    onChange={(e) => setSelectedCanton(e.target.value)}
+                                    className="w-full h-12 pl-10 pr-8 bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-700 appearance-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
+                                >
+                                    <option>{t.filterAllCantons}</option>
+                                    {['Zürich', 'Bern', 'Luzern', 'Aargau', 'St. Gallen'].map(c => <option key={c}>{c}</option>)}
+                                </select>
+                                <ChevronDownIcon className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            </div>
+
+                            <div className="lg:col-span-2 relative">
+                                <TagIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                <select
+                                    value={selectedService}
+                                    onChange={(e) => setSelectedService(e.target.value)}
+                                    className="w-full h-12 pl-10 pr-8 bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-700 appearance-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
+                                >
+                                    <option>{t.filterAllServices}</option>
+                                    {['Umzug', 'Reinigung', 'Maler', 'Bodenleger'].map(s => <option key={s}>{s}</option>)}
+                                </select>
+                                <ChevronDownIcon className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            </div>
+
+                            <div className="lg:col-span-2 hidden sm:block">
+                                <div className="flex items-center gap-3 h-12 px-4 bg-slate-50 rounded-xl">
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase whitespace-nowrap">{t.filterMaxPrice || 'Max. CHF'}</span>
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="2000"
+                                        step="50"
+                                        value={maxPrice}
+                                        onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                                        className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                                    />
+                                    <span className="text-sm font-bold text-primary w-10 text-right">{maxPrice}</span>
+                                </div>
+                            </div>
+                        </>
+                    )}
+
+                    <div className={`${isPurchasedView ? 'lg:col-span-8' : 'lg:col-span-2'} flex gap-3`}>
                         <div className="relative flex-1">
-                            <MagnifyingGlassIcon className="w-4 h-4 text-slate-300 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                            <input
-                                type="search"
-                                placeholder={isPurchasedView ? "Auftrag oder Kunde suchen..." : "Leads durchsuchen..."}
-                                value={searchTerm}
-                                onChange={e => setSearchTerm(e.target.value)}
-                                className="w-full h-10 pl-10 pr-4 rounded-lg border border-slate-200 bg-white text-sm text-slate-700 placeholder:text-slate-300 focus:border-primary-400 focus:ring-1 focus:ring-primary-400 outline-none transition-all"
-                            />
+                            <select
+                                value={sortOption}
+                                onChange={(e) => setSortOption(e.target.value)}
+                                className="w-full h-12 pl-4 pr-10 bg-slate-100 border-none rounded-xl text-sm font-bold text-slate-700 appearance-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
+                            >
+                                <option>{t.sort?.newest || 'Neueste zuerst'}</option>
+                                <option>{t.sort?.priceAsc || 'Preis aufsteigend'}</option>
+                                <option>{t.sort?.priceDesc || 'Preis absteigend'}</option>
+                            </select>
+                            <ChevronDownIcon className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                         </div>
 
                         {isPurchasedView && (
-                            <div className="flex items-center bg-slate-100 rounded-lg p-0.5">
+                            <div className="flex bg-slate-100 p-1 rounded-xl h-12">
                                 <button
                                     onClick={() => setPurchasedViewMode('cards')}
-                                    className={`p-2 rounded-md transition-all ${purchasedViewMode === 'cards' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
-                                    title="Karten"
+                                    className={`p-2 rounded-lg transition-all ${purchasedViewMode === 'cards' ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-700'}`}
                                 >
-                                    <Squares2X2Icon className="w-4 h-4" />
+                                    <Squares2X2Icon className="w-5 h-5" />
                                 </button>
                                 <button
                                     onClick={() => setPurchasedViewMode('table')}
-                                    className={`p-2 rounded-md transition-all ${purchasedViewMode === 'table' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
-                                    title="Tabelle"
+                                    className={`p-2 rounded-lg transition-all ${purchasedViewMode === 'table' ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-700'}`}
                                 >
-                                    <ListBulletIcon className="w-4 h-4" />
+                                    <TableCellsIcon className="w-5 h-5" />
                                 </button>
                                 <button
                                     onClick={() => setPurchasedViewMode('board')}
-                                    className={`px-2.5 py-1.5 rounded-md text-xs font-medium transition-all ${purchasedViewMode === 'board' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                    className={`p-2 rounded-lg transition-all ${purchasedViewMode === 'board' ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-700'}`}
                                 >
-                                    Board
+                                    <QueueListIcon className="w-5 h-5" />
                                 </button>
                             </div>
                         )}
                     </div>
-
-                    {/* Filter chips */}
-                    <div className="flex flex-wrap items-center gap-2">
-                        <div className="relative">
-                            <MapPinIcon className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                            <select
-                                value={locationFilter || 'Alle Kantone'}
-                                onChange={e => setLocationFilter(e.target.value === 'Alle Kantone' ? '' : e.target.value)}
-                                className="h-8 pl-8 pr-7 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-600 outline-none appearance-none cursor-pointer hover:border-slate-300 transition-all"
-                            >
-                                {swissCantons.map(k => <option key={k} value={k}>{k}</option>)}
-                            </select>
-                            <ChevronUpDownIcon className="w-3.5 h-3.5 text-slate-300 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
-                        </div>
-
-                        {!isPurchasedView ? (
-                            <>
-                                <div className="relative">
-                                    <select
-                                        value={serviceFilter}
-                                        onChange={e => setServiceFilter(e.target.value)}
-                                        className="h-8 pl-3 pr-7 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-600 outline-none appearance-none cursor-pointer hover:border-slate-300 transition-all"
-                                    >
-                                        {availableServices.map(s => <option key={s} value={s}>{s === 'Alle' ? 'Alle Services' : s}</option>)}
-                                    </select>
-                                    <ChevronUpDownIcon className="w-3.5 h-3.5 text-slate-300 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                </div>
-
-                                <div className="relative">
-                                    <BanknotesIcon className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                    <input
-                                        type="number"
-                                        placeholder="Max. CHF"
-                                        value={priceFilter}
-                                        onChange={e => setPriceFilter(e.target.value)}
-                                        className="h-8 w-28 pl-8 pr-3 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-600 outline-none placeholder:text-slate-300 hover:border-slate-300 focus:border-primary-400 focus:ring-1 focus:ring-primary-400 transition-all"
-                                    />
-                                </div>
-
-                                <div className="relative ml-auto">
-                                    <select
-                                        value={sortOption}
-                                        onChange={e => setSortOption(e.target.value)}
-                                        className="h-8 pl-3 pr-7 rounded-lg bg-slate-50 border-0 text-xs font-medium text-slate-500 outline-none appearance-none cursor-pointer transition-all"
-                                    >
-                                        <option value="newest">Neueste zuerst</option>
-                                        <option value="price_asc">Preis aufsteigend</option>
-                                        <option value="price_desc">Preis absteigend</option>
-                                        <option value="availability">Verfuegbarkeit</option>
-                                    </select>
-                                    <ChevronUpDownIcon className="w-3.5 h-3.5 text-slate-300 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                </div>
-                            </>
-                        ) : (
-                            <div className="relative">
-                                <select
-                                    value={statusFilter}
-                                    onChange={e => setStatusFilter(e.target.value)}
-                                    className="h-8 pl-3 pr-7 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-600 outline-none appearance-none cursor-pointer hover:border-slate-300 transition-all"
-                                >
-                                    <option value="Alle">Alle Status</option>
-                                    {statuses.map(s => <option key={s} value={s}>{statusConfig[s].title}</option>)}
-                                </select>
-                                <ChevronUpDownIcon className="w-3.5 h-3.5 text-slate-300 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
-                            </div>
-                        )}
-
-                        {activeFiltersCount > 0 && (
-                            <button
-                                onClick={() => { setLocationFilter(''); setServiceFilter('Alle'); setStatusFilter('Alle'); setPriceFilter(''); }}
-                                className="h-8 px-3 rounded-lg text-xs font-medium text-rose-600 bg-rose-50 hover:bg-rose-100 transition-all flex items-center gap-1.5"
-                            >
-                                <XMarkIcon className="w-3 h-3" />
-                                Filter zuruecksetzen
-                            </button>
-                        )}
-                    </div>
                 </div>
+
+                {/* Reset Filters Prompt */}
+                {(searchTerm || (selectedCanton !== (language === 'de' ? 'Alle Kantone' : t.filterAllCantons)) || (selectedService !== (language === 'de' ? 'Alle Services' : t.filterAllServices)) || maxPrice < 2000) && (
+                    <div className="flex items-center gap-2 mt-4 pt-4 border-t border-slate-100">
+                        <button
+                            onClick={resetFilters}
+                            className="text-xs font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-1.5"
+                        >
+                            <XMarkIcon className="w-3.5 h-3.5" />
+                            {t.resetFilters}
+                        </button>
+                    </div>
+                )}
             </div>
 
-            {/* Content */}
+            {/* Content Section */}
             {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                    {[...Array(6)].map((_, i) => <CardSkeleton key={i} />)}
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {[1, 2, 3, 4, 5, 6].map(i => (
+                        <div key={i} className="h-72 bg-white border border-slate-100 rounded-3xl animate-pulse" />
+                    ))}
                 </div>
             ) : error ? (
-                <div className="bg-white border border-rose-100 rounded-xl p-10 text-center">
-                    <div className="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <XCircleIcon className="w-6 h-6 text-rose-400" />
+                <div className="p-16 text-center bg-red-50 rounded-3xl border border-red-100">
+                    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <XCircleIcon className="w-8 h-8 text-red-600" />
                     </div>
-                    <p className="text-base font-bold text-slate-900 mb-1">Fehler beim Laden</p>
-                    <p className="text-sm text-slate-400 mb-5">{error}</p>
-                    <button
-                        onClick={() => { setLoading(true); fetchLeads(); }}
-                        className="bg-slate-900 text-white font-semibold px-5 py-2 rounded-lg text-sm hover:bg-slate-800 transition-colors"
-                    >
-                        Erneut versuchen
+                    <p className="text-red-900 font-bold text-lg mb-2">{language === 'de' ? 'Ein Fehler ist aufgetreten' : 'An error occurred'}</p>
+                    <p className="text-red-600 text-sm mb-6 max-w-md mx-auto">{error}</p>
+                    <button onClick={fetchLeads} className="bg-red-600 text-white font-black px-8 py-3 rounded-2xl hover:bg-red-700 transition-all shadow-lg shadow-red-600/20 active:scale-95">
+                        {t.refresh}
                     </button>
                 </div>
-            ) : (
-                <>
+            ) : paginatedRequests.length > 0 ? (
+                <div className="space-y-10">
                     {isPurchasedView && purchasedViewMode === 'board' ? (
-                        <KanbanBoard leads={kanbanLeads as any} />
+                        <KanbanBoard leads={filteredRequests as any} />
                     ) : isPurchasedView && purchasedViewMode === 'table' ? (
-                        <PurchasedLeadsTable leads={filteredRequests} onStatusChange={handleStatusChange} />
-                    ) : isPurchasedView && purchasedViewMode === 'cards' ? (
-                        paginatedRequests.length > 0 ? (
-                            <>
-                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                            <table className="w-full text-left">
+                                <thead className="bg-slate-50 border-b border-slate-200">
+                                    <tr>
+                                        <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.projects?.table?.lead || 'Auftrag'}</th>
+                                        <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.projects?.table?.customerLocation || 'Kunde'}</th>
+                                        <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.projects?.table?.date || 'Datum'}</th>
+                                        <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.projects?.table?.status || 'Status'}</th>
+                                        <th className="px-6 py-4 text-right text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.projects?.table?.action || 'Aktion'}</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100">
                                     {paginatedRequests.map(lead => (
-                                        <PurchasedLeadCard key={lead._id} lead={lead} onStatusChange={handleStatusChange} />
+                                        <tr key={lead._id} className="hover:bg-slate-50/50 transition-colors">
+                                            <td className="px-6 py-4">
+                                                <div className="font-bold text-slate-900">{lead.title}</div>
+                                                <div className="text-xs text-slate-400 mt-0.5">{lead.service}</div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="font-medium text-slate-700">{lead.customerName}</div>
+                                                <div className="text-xs text-slate-400">{lead.location}</div>
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-slate-500">{formatDate(lead.date, language)}</td>
+                                            <td className="px-6 py-4">
+                                                <StatusBadge status={lead.status} t={t} />
+                                            </td>
+                                            <td className="px-6 py-4 text-right">
+                                                <button onClick={() => setQuickViewLeadId(lead._id)} className="text-primary font-bold text-sm hover:underline">{t.projects?.table?.open || 'Details'}</button>
+                                            </td>
+                                        </tr>
                                     ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                            {paginatedRequests.map(lead => (
+                                <div
+                                    key={lead._id}
+                                    onClick={() => setQuickViewLeadId(lead._id)}
+                                    className="group bg-white border border-slate-200 rounded-3xl p-6 hover:shadow-2xl hover:shadow-primary-500/10 hover:border-primary-200 transition-all cursor-pointer relative overflow-hidden"
+                                >
+                                    <div className="flex justify-between items-start mb-4">
+                                        <span className="px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-black rounded-lg uppercase tracking-wider">{lead.service}</span>
+                                        {!isPurchasedView && (
+                                            <span className="text-lg font-black text-primary">{formatPrice(lead.price)}</span>
+                                        )}
+                                        {isPurchasedView && <StatusBadge status={lead.status} t={t} />}
+                                    </div>
+                                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors line-clamp-2 min-h-[3.5rem] leading-tight">{lead.title}</h3>
+                                    <div className="space-y-3 text-sm text-slate-500 mb-6">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
+                                                <MapPinIcon className="w-4 h-4" />
+                                            </div>
+                                            <span className="font-medium">{lead.location}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
+                                                <CalendarDaysIcon className="w-4 h-4" />
+                                            </div>
+                                            <span className="font-medium">{formatDate(lead.date, language)}</span>
+                                        </div>
+                                        {isPurchasedView && (
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-8 h-8 rounded-full bg-primary-50 flex items-center justify-center text-primary-500">
+                                                    <UserIcon className="w-4 h-4" />
+                                                </div>
+                                                <span className="font-bold text-slate-700">{lead.customerName}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="flex items-center justify-between pt-5 border-t border-slate-100 mt-auto">
+                                        <div className="flex items-center gap-2">
+                                            {!isPurchasedView && (
+                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                                                    <CheckCircleIcon className="w-3.5 h-3.5" />
+                                                    {t.card?.available || 'Verfügbar'}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div className="flex items-center gap-1.5 font-black text-sm text-primary group-hover:gap-2.5 transition-all">
+                                            {t.card?.view || 'Details'}
+                                            <ChevronRightIcon className="w-4 h-4" />
+                                        </div>
+                                    </div>
                                 </div>
-                                {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />}
-                            </>
-                        ) : (
-                            <EmptyState
-                                icon={<UsersIcon className="w-10 h-10 text-slate-300" />}
-                                title="Keine gekauften Leads"
-                                description="Kaufen Sie Leads, um hier Ihre Auftraege zu verwalten."
-                                action={<Link to="/partner/requests" className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 transition-colors">Leads entdecken <ArrowRightIcon className="w-3.5 h-3.5" /></Link>}
-                            />
-                        )
-                    ) : paginatedRequests.length > 0 ? (
-                        <>
-                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                                {paginatedRequests.map(lead => (
-                                    <LeadCard key={lead._id} lead={lead} onViewDetails={(id) => setLocalSelectedLeadId(id)} />
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Pagination Bar */}
+                    {totalPages > 1 && (
+                        <div className="flex items-center justify-center gap-3 pt-6">
+                            <button
+                                disabled={currentPage === 1}
+                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                className="w-12 h-12 flex items-center justify-center border border-slate-200 rounded-2xl disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-50 transition-all"
+                            >
+                                <ChevronLeftIcon className="w-5 h-5" />
+                            </button>
+                            <div className="flex items-center gap-2">
+                                {[...Array(totalPages)].map((_, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => setCurrentPage(i + 1)}
+                                        className={`w-12 h-12 rounded-2xl font-black text-sm transition-all ${currentPage === i + 1 ? 'bg-primary text-white shadow-xl shadow-primary-500/30' : 'hover:bg-slate-100 text-slate-600'}`}
+                                    >
+                                        {i + 1}
+                                    </button>
                                 ))}
                             </div>
-                            {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />}
-                        </>
-                    ) : (
-                        <EmptyState
-                            icon={<MagnifyingGlassIcon className="w-10 h-10 text-slate-300" />}
-                            title="Keine Leads gefunden"
-                            description="Passen Sie Ihre Filter an oder schauen Sie spaeter wieder vorbei."
-                        />
+                            <button
+                                disabled={currentPage === totalPages}
+                                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                className="w-12 h-12 flex items-center justify-center border border-slate-200 rounded-2xl disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-50 transition-all"
+                            >
+                                <ChevronRightIcon className="w-5 h-5" />
+                            </button>
+                        </div>
                     )}
-                </>
+                </div>
+            ) : (
+                <div className="flex flex-col items-center justify-center py-20 px-6 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 text-center">
+                    <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-6">
+                        <MagnifyingGlassIcon className="w-10 h-10 text-slate-300" />
+                    </div>
+                    <h3 className="text-2xl font-black text-slate-900 mb-3">{isPurchasedView ? (t.empty?.noPurchasedTitle || 'Keine gekauften Leads') : (t.empty?.noResultsTitle || 'Keine Leads gefunden')}</h3>
+                    <p className="text-slate-500 max-w-sm mb-8">{isPurchasedView ? (t.empty?.noPurchasedDesc || 'Kaufen Sie Leads, um hier Ihre Aufträge zu verwalten.') : (t.empty?.noResultsDesc || 'Passen Sie Ihre Filter an oder schauen Sie später wieder vorbei.')}</p>
+                    <button
+                        onClick={isPurchasedView ? () => setIsPurchasedView(false) : resetFilters}
+                        className="px-8 py-3 bg-primary text-white font-black rounded-2xl shadow-xl shadow-primary-500/20 active:scale-95 transition-all"
+                    >
+                        {isPurchasedView ? (t.empty?.noPurchasedButton || 'Leads entdecken') : t.resetFilters}
+                    </button>
+                </div>
             )}
 
-            {localSelectedLeadId && (
+            {/* Modal for Details */}
+            {quickViewLeadId && (
                 <LeadQuickViewModal
-                    leadId={localSelectedLeadId}
-                    isOpen={!!localSelectedLeadId}
-                    onClose={() => setLocalSelectedLeadId(null)}
-                    initialLead={leads.find(l => l._id === localSelectedLeadId)}
+                    leadId={quickViewLeadId}
+                    isOpen={!!quickViewLeadId}
+                    onClose={() => setQuickViewLeadId(null)}
                 />
             )}
         </div>
     );
 };
-
-// --- Pagination ---
-const Pagination: React.FC<{ currentPage: number; totalPages: number; onPageChange: (page: number) => void }> = ({ currentPage, totalPages, onPageChange }) => (
-    <div className="flex justify-center items-center gap-1.5 mt-8">
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-            <button
-                key={page}
-                onClick={() => onPageChange(page)}
-                className={`w-9 h-9 rounded-lg text-xs font-semibold transition-all ${currentPage === page
-                        ? 'bg-slate-900 text-white shadow-sm'
-                        : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-300 hover:text-slate-700'
-                    }`}
-            >
-                {page}
-            </button>
-        ))}
-    </div>
-);
-
-// --- Empty State ---
-const EmptyState: React.FC<{ icon: React.ReactNode; title: string; description: string; action?: React.ReactNode }> = ({ icon, title, description, action }) => (
-    <div className="text-center py-16 bg-white rounded-xl border border-dashed border-slate-200">
-        <div className="mb-4">{icon}</div>
-        <h3 className="text-base font-bold text-slate-700 mb-1">{title}</h3>
-        <p className="text-sm text-slate-400 mb-5">{description}</p>
-        {action}
-    </div>
-);
 
 export default PartnerRequestsPage;

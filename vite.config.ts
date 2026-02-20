@@ -25,6 +25,37 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
+      },
+      build: {
+        chunkSizeWarningLimit: 600,
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              vendor: ['react', 'react-dom', 'react-router-dom'],
+              utils: ['zustand'],
+              admin: [
+                './pages/AdminDashboardPage.tsx',
+                './pages/AdminFinancePage.tsx',
+                './pages/AdminPartnersPage.tsx',
+                './pages/AdminProfilePage.tsx',
+                './pages/AdminRequestsPage.tsx',
+                './pages/AdminUsersPage.tsx'
+              ],
+              partner: [
+                './pages/PartnerDashboardPage.tsx',
+                './pages/PartnerBillingPage.tsx',
+                './pages/PartnerJobsPage.tsx',
+                './pages/PartnerMarketplacePage.tsx',
+                './pages/PartnerMessagesPage.tsx',
+                './pages/PartnerProfilePage.tsx',
+                './pages/PartnerRequestDetailPage.tsx',
+                './pages/PartnerRequestsPage.tsx',
+                './pages/PartnerRentPage.tsx',
+                './pages/PartnerSettingsPage.tsx'
+              ]
+            }
+          }
+        }
       }
     };
 });
