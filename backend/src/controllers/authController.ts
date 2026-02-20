@@ -39,7 +39,7 @@ export const registerProvider = async (req: Request, res: Response) => {
       password: hashedPassword,
       location,
       services: services || [],
-      balance: 50, // Startguthaben Bonus
+      balance: 0,
       contact: {
         phone: companyPhone || '',
         website: '',
