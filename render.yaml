@@ -7,7 +7,7 @@ services:
     plan: free
     buildCommand: npm install && npm run build
     startCommand: npm start
-    rootDirectory: backend
+    rootDir: backend
     envVars:
       - key: NODE_ENV
         value: production
@@ -26,17 +26,12 @@ services:
       - key: RESEND_API_KEY
         sync: false
 
+
   # 2. Frontend Service (Static Site)
   - type: web
     runtime: static
     name: fertigo-frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
-    rootDirectory: .
+    rootDir: .
     envVars:
-      - key: VITE_API_URL
-        sync: false # Set this to your backend .onrender.com URL
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
