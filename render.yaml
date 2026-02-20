@@ -27,7 +27,7 @@ services:
         sync: false
 
   # 2. Frontend Service (Static Site)
-  - type: static
+  - type: static_site
     name: fertigo-frontend
     buildCommand: npm install && npm run build
     publishPath: dist
