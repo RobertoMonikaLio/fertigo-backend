@@ -350,6 +350,9 @@ export const translations = {
                 myLeadsTitle: 'Meine Leads',
                 leadsAvailable: 'Leads verfügbar',
                 leadsInPortfolio: 'Leads in Ihrem Portfolio',
+                systemStatus: 'Systemstatus',
+                systemOperational: 'Einsatzbereit',
+                dossierSuffix: '.dossier',
                 live: 'Live',
                 refresh: 'Aktualisieren',
                 stats: {
@@ -2203,6 +2206,9 @@ export const translations = {
                 myLeadsTitle: 'My Leads',
                 leadsAvailable: 'Leads Available',
                 leadsInPortfolio: 'Leads in Your Portfolio',
+                systemStatus: 'System Status',
+                systemOperational: 'Operational',
+                dossierSuffix: '.dossier',
                 live: 'Live',
                 refresh: 'Refresh',
                 stats: {
