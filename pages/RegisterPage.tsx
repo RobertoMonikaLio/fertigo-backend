@@ -269,8 +269,7 @@ const VerificationFileUploader: React.FC<{
 
 const RegisterPage: React.FC = () => {
     const { language } = useAppContext();
-    // @ts-ignore - partner might not exist on all languages yet
-    const t = (translations[language] as any).partner.register;
+    const t = (translations[language] as any).partner?.register || (translations['de'] as any).partner.register;
 
     const STEPS = [
         { name: t.steps.company, step: 1, icon: <BuildingOfficeIcon className="w-6 h-6" /> },
