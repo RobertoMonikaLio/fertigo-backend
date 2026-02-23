@@ -9,7 +9,7 @@ import {
     ArrowPathIcon, UsersIcon, CheckCircleIcon, BriefcaseIcon, ChevronUpDownIcon,
     BellIcon, ChatBubbleLeftRightIcon, PaperAirplaneIcon, TestsiegerIcon, XCircleIcon,
     XMarkIcon, Squares2X2Icon, TableCellsIcon, QueueListIcon,
-    EyeIcon, UserIcon, ChevronLeftIcon, ChevronRightIcon, TagIcon, ChevronDownIcon
+    EyeIcon, UserIcon, ChevronLeftIcon, ChevronRightIcon, TagIcon, ChevronDownIcon, ArrowRightIcon
 } from '../components/icons';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -75,7 +75,7 @@ const StatusBadge: React.FC<{ status: string; t: any }> = ({ status, t }) => {
 
 const PartnerRequestsPage: React.FC = () => {
     const { language } = useAppContext();
-    const t = translations[language]?.partner?.requests || translations['de'].partner.requests;
+    const t = (translations[language] as any)?.partner?.requests || (translations['de'] as any).partner.requests;
 
     const [isPurchasedView, setIsPurchasedView] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -192,117 +192,136 @@ const PartnerRequestsPage: React.FC = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {/* Header Section */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8">
-                <div>
-                    <div className="flex bg-slate-100 p-1 rounded-xl w-fit mb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            {/* Header Section - More Premium & Strategic */}
+            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-8 mb-12">
+                <div className="space-y-4">
+                    <div className="inline-flex p-1.5 bg-slate-100/80 backdrop-blur-sm rounded-2xl border border-slate-200/50">
                         <button
                             onClick={() => { setIsPurchasedView(false); setCurrentPage(1); }}
-                            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${!isPurchasedView ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-700'}`}
+                            className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-black transition-all duration-300 ${!isPurchasedView ? 'bg-white shadow-lg shadow-slate-200/50 text-slate-900 border border-slate-100' : 'text-slate-500 hover:text-slate-800'}`}
                         >
+                            <Squares2X2Icon className="w-4 h-4" />
                             {t.leadsAvailable}
                         </button>
                         <button
                             onClick={() => { setIsPurchasedView(true); setCurrentPage(1); }}
-                            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${isPurchasedView ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-700'}`}
+                            className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-black transition-all duration-300 ${isPurchasedView ? 'bg-white shadow-lg shadow-slate-200/50 text-slate-900 border border-slate-100' : 'text-slate-500 hover:text-slate-800'}`}
                         >
+                            <QueueListIcon className="w-4 h-4" />
                             {t.myLeadsTitle}
                         </button>
                     </div>
-                    <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-                        {isPurchasedView ? t.myLeadsTitle : (t.title || 'Lead-Marktplatz')}
-                    </h1>
-                    <p className="text-slate-500 mt-1">
-                        {isPurchasedView ? t.leadsInPortfolio : `${leads.length} ${t.leadsAvailable}`}
-                        {!isPurchasedView && (
-                            <span className="ml-3 inline-flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-50 px-2.5 py-1 rounded-full ring-1 ring-inset ring-green-600/20">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+
+                    <div>
+                        <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+                            {isPurchasedView ? t.myLeadsTitle : (t.title || 'Lead-Marktplatz')}
+                        </h1>
+                        <p className="text-lg text-slate-500 mt-2 flex items-center gap-2">
+                            {isPurchasedView ? t.leadsInPortfolio : `${leads.length} ${t.leadsAvailable}`}
+                            {!isPurchasedView && (
+                                <span className="inline-flex items-center gap-2 ml-2 text-[10px] font-black tracking-tighter text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
+                                    <span className="relative flex h-2 w-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                    </span>
+                                    {t.live || 'LIVE UPDATE'}
                                 </span>
-                                {t.live || 'LIVE'}
-                            </span>
-                        )}
-                    </p>
+                            )}
+                        </p>
+                    </div>
                 </div>
 
-                <button
-                    onClick={fetchLeads}
-                    className="flex items-center justify-center gap-2 h-11 px-5 bg-white border border-slate-200 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-primary transition-all font-bold shadow-sm"
-                >
-                    <ArrowPathIcon className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-                    {t.refresh}
-                </button>
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={fetchLeads}
+                        className="group flex items-center justify-center gap-3 h-14 px-8 bg-slate-900 text-white rounded-2xl hover:bg-slate-800 transition-all font-black text-sm shadow-xl shadow-slate-900/10 active:scale-95"
+                    >
+                        <ArrowPathIcon className={`w-5 h-5 transition-transform duration-700 ${loading ? 'animate-spin' : 'group-hover:rotate-180'}`} />
+                        {t.refresh || 'Aktualisieren'}
+                    </button>
+                </div>
             </div>
 
             {/* Stats Dashboard for My Leads */}
             {isPurchasedView && stats && (
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.stats?.total || 'Gesamt'}</p>
-                        <p className="text-2xl font-black text-slate-900 mt-1">{stats.total}</p>
-                    </div>
-                    <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-blue-500">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.stats?.new || 'Neu'}</p>
-                        <p className="text-2xl font-black text-slate-900 mt-1">{stats.new}</p>
-                    </div>
-                    <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-orange-500">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.stats?.inProgress || 'In Bearbeitung'}</p>
-                        <p className="text-2xl font-black text-slate-900 mt-1">{stats.inProgress}</p>
-                    </div>
-                    <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-green-500">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.stats?.won || 'Gewonnen'}</p>
-                        <p className="text-2xl font-black text-slate-900 mt-1">{stats.won}</p>
-                    </div>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                    {[
+                        { label: t.stats?.total || 'Gesamt', value: stats.total, color: 'slate' },
+                        { label: t.stats?.new || 'Neu', value: stats.new, color: 'blue' },
+                        { label: t.stats?.inProgress || 'In Bearbeitung', value: stats.inProgress, color: 'amber' },
+                        { label: t.stats?.won || 'Gewonnen', value: stats.won, color: 'emerald' }
+                    ].map((stat, idx) => (
+                        <div key={idx} className="group bg-white p-6 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300">
+                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">{stat.label}</p>
+                            <div className="flex items-end justify-between">
+                                <p className="text-3xl font-black text-slate-900 tracking-tighter">{stat.value}</p>
+                                <div className={`w-10 h-10 rounded-2xl bg-${stat.color}-50 flex items-center justify-center text-${stat.color}-600 group-hover:scale-110 transition-transform`}>
+                                    {idx === 0 ? <Squares2X2Icon className="w-5 h-5" /> : idx === 1 ? <BellIcon className="w-5 h-5" /> : idx === 2 ? <ChatBubbleLeftRightIcon className="w-5 h-5" /> : <CheckCircleIcon className="w-5 h-5" />}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             )}
 
-            {/* Filters Section */}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-8">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-                    <div className="lg:col-span-4 relative">
-                        <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-                        <input
-                            type="text"
-                            placeholder={isPurchasedView ? (t.searchPurchasedPlaceholder || "Auftrag oder Kunde suchen...") : (t.searchPlaceholder || "Leads durchsuchen...")}
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full h-12 pl-12 pr-4 bg-slate-50 border-none rounded-xl text-slate-900 focus:ring-2 focus:ring-primary/20 transition-all font-medium"
-                        />
+            {/* Filters Section - Modern & Clean */}
+            <div className="bg-slate-50/50 backdrop-blur-md rounded-[2rem] border border-slate-200 p-8 mb-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+                    <div className="lg:col-span-4 space-y-2">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{isPurchasedView ? 'Suche' : 'Stichwort-Suche'}</label>
+                        <div className="relative group">
+                            <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-primary transition-colors" />
+                            <input
+                                type="text"
+                                placeholder={isPurchasedView ? (t.searchPurchasedPlaceholder || "Auftrag oder Kunde suchen...") : (t.searchPlaceholder || "Maler, Umzug, Zürich...")}
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full h-14 pl-12 pr-4 bg-white border-2 border-slate-100 rounded-2xl text-slate-900 focus:border-primary focus:ring-0 transition-all font-bold placeholder:text-slate-300 shadow-sm"
+                            />
+                        </div>
                     </div>
 
                     {!isPurchasedView && (
                         <>
-                            <div className="lg:col-span-2 relative">
-                                <MapPinIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                <select
-                                    value={selectedCanton}
-                                    onChange={(e) => setSelectedCanton(e.target.value)}
-                                    className="w-full h-12 pl-10 pr-8 bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-700 appearance-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
-                                >
-                                    <option>{t.filterAllCantons}</option>
-                                    {['Zürich', 'Bern', 'Luzern', 'Aargau', 'St. Gallen'].map(c => <option key={c}>{c}</option>)}
-                                </select>
-                                <ChevronDownIcon className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            <div className="lg:col-span-2 space-y-2">
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{language === 'de' ? 'Region' : 'Region'}</label>
+                                <div className="relative">
+                                    <MapPinIcon className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                    <select
+                                        value={selectedCanton}
+                                        onChange={(e) => setSelectedCanton(e.target.value)}
+                                        className="w-full h-14 pl-11 pr-10 bg-white border-2 border-slate-100 rounded-2xl text-sm font-black text-slate-700 appearance-none focus:border-primary focus:ring-0 cursor-pointer shadow-sm hover:bg-slate-50 transition-colors"
+                                    >
+                                        <option>{t.filterAllCantons}</option>
+                                        {['Zürich', 'Bern', 'Luzern', 'Aargau', 'St. Gallen', 'Genf', 'Basel'].map(c => <option key={c}>{c}</option>)}
+                                    </select>
+                                    <ChevronDownIcon className="w-4 h-4 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                </div>
                             </div>
 
-                            <div className="lg:col-span-2 relative">
-                                <TagIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                <select
-                                    value={selectedService}
-                                    onChange={(e) => setSelectedService(e.target.value)}
-                                    className="w-full h-12 pl-10 pr-8 bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-700 appearance-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
-                                >
-                                    <option>{t.filterAllServices}</option>
-                                    {['Umzug', 'Reinigung', 'Maler', 'Bodenleger'].map(s => <option key={s}>{s}</option>)}
-                                </select>
-                                <ChevronDownIcon className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            <div className="lg:col-span-2 space-y-2">
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{language === 'de' ? 'Kategorie' : 'Category'}</label>
+                                <div className="relative">
+                                    <TagIcon className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                    <select
+                                        value={selectedService}
+                                        onChange={(e) => setSelectedService(e.target.value)}
+                                        className="w-full h-14 pl-11 pr-10 bg-white border-2 border-slate-100 rounded-2xl text-sm font-black text-slate-700 appearance-none focus:border-primary focus:ring-0 cursor-pointer shadow-sm hover:bg-slate-50 transition-colors"
+                                    >
+                                        <option>{t.filterAllServices}</option>
+                                        {['Umzug', 'Reinigung', 'Maler', 'Bodenleger', 'Gartenbau', 'Elektriker'].map(s => <option key={s}>{s}</option>)}
+                                    </select>
+                                    <ChevronDownIcon className="w-4 h-4 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                </div>
                             </div>
 
-                            <div className="lg:col-span-2 hidden sm:block">
-                                <div className="flex items-center gap-3 h-12 px-4 bg-slate-50 rounded-xl">
-                                    <span className="text-[10px] font-bold text-slate-400 uppercase whitespace-nowrap">{t.filterMaxPrice || 'Max. CHF'}</span>
+                            <div className="lg:col-span-2 hidden sm:block space-y-3">
+                                <div className="flex justify-between items-center px-1">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t.filterMaxPrice || 'Max. CHF'}</label>
+                                    <span className="text-xs font-black text-primary px-2 py-0.5 bg-primary/10 rounded-md">CHF {maxPrice}</span>
+                                </div>
+                                <div className="h-10 flex items-center px-2">
                                     <input
                                         type="range"
                                         min="0"
@@ -310,45 +329,44 @@ const PartnerRequestsPage: React.FC = () => {
                                         step="50"
                                         value={maxPrice}
                                         onChange={(e) => setMaxPrice(parseInt(e.target.value))}
-                                        className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                                        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary"
                                     />
-                                    <span className="text-sm font-bold text-primary w-10 text-right">{maxPrice}</span>
                                 </div>
                             </div>
                         </>
                     )}
 
-                    <div className={`${isPurchasedView ? 'lg:col-span-8' : 'lg:col-span-2'} flex gap-3`}>
-                        <div className="relative flex-1">
+                    <div className={`${isPurchasedView ? 'lg:col-span-8' : 'lg:col-span-2'} flex gap-3 h-14 items-end`}>
+                        <div className="flex-1 relative">
                             <select
                                 value={sortOption}
                                 onChange={(e) => setSortOption(e.target.value)}
-                                className="w-full h-12 pl-4 pr-10 bg-slate-100 border-none rounded-xl text-sm font-bold text-slate-700 appearance-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
+                                className="w-full h-14 pl-4 pr-10 bg-white border-2 border-slate-100 rounded-2xl text-xs font-black text-slate-700 appearance-none focus:border-primary focus:ring-0 cursor-pointer shadow-sm"
                             >
                                 <option>{t.sort?.newest || 'Neueste zuerst'}</option>
                                 <option>{t.sort?.priceAsc || 'Preis aufsteigend'}</option>
                                 <option>{t.sort?.priceDesc || 'Preis absteigend'}</option>
                             </select>
-                            <ChevronDownIcon className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            <ChevronDownIcon className="w-4 h-4 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
                         </div>
 
                         {isPurchasedView && (
-                            <div className="flex bg-slate-100 p-1 rounded-xl h-12">
+                            <div className="flex bg-slate-200/50 p-1.5 rounded-2xl h-14 border border-slate-200">
                                 <button
                                     onClick={() => setPurchasedViewMode('cards')}
-                                    className={`p-2 rounded-lg transition-all ${purchasedViewMode === 'cards' ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-700'}`}
+                                    className={`px-3 rounded-xl transition-all ${purchasedViewMode === 'cards' ? 'bg-white shadow-md text-primary' : 'text-slate-500 hover:text-slate-700'}`}
                                 >
                                     <Squares2X2Icon className="w-5 h-5" />
                                 </button>
                                 <button
                                     onClick={() => setPurchasedViewMode('table')}
-                                    className={`p-2 rounded-lg transition-all ${purchasedViewMode === 'table' ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-700'}`}
+                                    className={`px-3 rounded-xl transition-all ${purchasedViewMode === 'table' ? 'bg-white shadow-md text-primary' : 'text-slate-500 hover:text-slate-700'}`}
                                 >
                                     <TableCellsIcon className="w-5 h-5" />
                                 </button>
                                 <button
                                     onClick={() => setPurchasedViewMode('board')}
-                                    className={`p-2 rounded-lg transition-all ${purchasedViewMode === 'board' ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-700'}`}
+                                    className={`px-3 rounded-xl transition-all ${purchasedViewMode === 'board' ? 'bg-white shadow-md text-primary' : 'text-slate-500 hover:text-slate-700'}`}
                                 >
                                     <QueueListIcon className="w-5 h-5" />
                                 </button>
@@ -359,69 +377,73 @@ const PartnerRequestsPage: React.FC = () => {
 
                 {/* Reset Filters Prompt */}
                 {(searchTerm || (selectedCanton !== (language === 'de' ? 'Alle Kantone' : t.filterAllCantons)) || (selectedService !== (language === 'de' ? 'Alle Services' : t.filterAllServices)) || maxPrice < 2000) && (
-                    <div className="flex items-center gap-2 mt-4 pt-4 border-t border-slate-100">
+                    <div className="flex items-center gap-4 mt-8 pt-6 border-t border-slate-200/50">
+                        <span className="text-xs font-bold text-slate-400 italic">Filter aktiv</span>
                         <button
                             onClick={resetFilters}
-                            className="text-xs font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-1.5"
+                            className="text-xs font-black text-primary hover:text-primary-700 transition-colors flex items-center gap-2 bg-primary/5 px-4 py-2 rounded-xl border border-primary/10"
                         >
-                            <XMarkIcon className="w-3.5 h-3.5" />
-                            {t.resetFilters}
+                            <XMarkIcon className="w-4 h-4" />
+                            {t.resetFilters || 'Filter zurücksetzen'}
                         </button>
                     </div>
                 )}
             </div>
 
-            {/* Content Section */}
+            {/* Content Section - The New Cards Look */}
             {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                     {[1, 2, 3, 4, 5, 6].map(i => (
-                        <div key={i} className="h-72 bg-white border border-slate-100 rounded-3xl animate-pulse" />
+                        <div key={i} className="h-96 bg-white border border-slate-100 rounded-[2.5rem] animate-pulse" />
                     ))}
                 </div>
             ) : error ? (
-                <div className="p-16 text-center bg-red-50 rounded-3xl border border-red-100">
-                    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <XCircleIcon className="w-8 h-8 text-red-600" />
+                <div className="p-20 text-center bg-white rounded-[3rem] border border-slate-200 shadow-2xl shadow-red-500/5">
+                    <div className="w-24 h-24 bg-red-50 rounded-[2rem] flex items-center justify-center mx-auto mb-8 border border-red-100">
+                        <XCircleIcon className="w-10 h-10 text-red-600 animate-pulse" />
                     </div>
-                    <p className="text-red-900 font-bold text-lg mb-2">{language === 'de' ? 'Ein Fehler ist aufgetreten' : 'An error occurred'}</p>
-                    <p className="text-red-600 text-sm mb-6 max-w-md mx-auto">{error}</p>
-                    <button onClick={fetchLeads} className="bg-red-600 text-white font-black px-8 py-3 rounded-2xl hover:bg-red-700 transition-all shadow-lg shadow-red-600/20 active:scale-95">
-                        {t.refresh}
+                    <h2 className="text-2xl font-black text-slate-900 mb-3">{language === 'de' ? 'Ups! Etwas lief schief' : 'An error occurred'}</h2>
+                    <p className="text-slate-500 text-lg mb-10 max-w-md mx-auto">{error}</p>
+                    <button onClick={fetchLeads} className="bg-slate-900 text-white font-black px-12 py-4 rounded-3xl hover:bg-slate-800 transition-all shadow-2xl shadow-slate-900/20 active:scale-95 flex items-center gap-3 mx-auto">
+                        <ArrowPathIcon className="w-5 h-5" />
+                        {t.refresh || 'Erneut versuchen'}
                     </button>
                 </div>
             ) : paginatedRequests.length > 0 ? (
-                <div className="space-y-10">
+                <div className="space-y-16">
                     {isPurchasedView && purchasedViewMode === 'board' ? (
                         <KanbanBoard leads={filteredRequests as any} />
                     ) : isPurchasedView && purchasedViewMode === 'table' ? (
-                        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                        <div className="bg-white rounded-[2.5rem] border border-slate-200 overflow-hidden shadow-2xl shadow-slate-200/50">
                             <table className="w-full text-left">
-                                <thead className="bg-slate-50 border-b border-slate-200">
+                                <thead className="bg-slate-50/80 border-b border-slate-200">
                                     <tr>
-                                        <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.projects?.table?.lead || 'Auftrag'}</th>
-                                        <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.projects?.table?.customerLocation || 'Kunde'}</th>
-                                        <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.projects?.table?.date || 'Datum'}</th>
-                                        <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.projects?.table?.status || 'Status'}</th>
-                                        <th className="px-6 py-4 text-right text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.projects?.table?.action || 'Aktion'}</th>
+                                        <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{t.projects?.table?.lead || 'Auftrag'}</th>
+                                        <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{t.projects?.table?.customerLocation || 'Kunde'}</th>
+                                        <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{t.projects?.table?.date || 'Datum'}</th>
+                                        <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{t.projects?.table?.status || 'Status'}</th>
+                                        <th className="px-8 py-6 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{t.projects?.table?.action || 'Aktion'}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
                                     {paginatedRequests.map(lead => (
-                                        <tr key={lead._id} className="hover:bg-slate-50/50 transition-colors">
-                                            <td className="px-6 py-4">
-                                                <div className="font-bold text-slate-900">{lead.title}</div>
-                                                <div className="text-xs text-slate-400 mt-0.5">{lead.service}</div>
+                                        <tr key={lead._id} className="hover:bg-slate-50/50 transition-colors group">
+                                            <td className="px-8 py-6">
+                                                <div className="font-black text-slate-900 group-hover:text-primary transition-colors">{lead.title}</div>
+                                                <div className="text-[10px] font-black uppercase text-slate-400 mt-1 tracking-widest">{lead.service}</div>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <div className="font-medium text-slate-700">{lead.customerName}</div>
+                                            <td className="px-8 py-6">
+                                                <div className="font-bold text-slate-700">{lead.customerName}</div>
                                                 <div className="text-xs text-slate-400">{lead.location}</div>
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-slate-500">{formatDate(lead.date, language)}</td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-8 py-6 text-sm font-bold text-slate-500">{formatDate(lead.date, language)}</td>
+                                            <td className="px-8 py-6">
                                                 <StatusBadge status={lead.status} t={t} />
                                             </td>
-                                            <td className="px-6 py-4 text-right">
-                                                <button onClick={() => setQuickViewLeadId(lead._id)} className="text-primary font-bold text-sm hover:underline">{t.projects?.table?.open || 'Details'}</button>
+                                            <td className="px-8 py-6 text-right">
+                                                <button onClick={() => setQuickViewLeadId(lead._id)} className="bg-slate-100 hover:bg-primary hover:text-white px-5 py-2.5 rounded-xl font-black text-xs text-slate-600 transition-all uppercase tracking-widest shadow-sm">
+                                                    {t.projects?.table?.open || 'Details'}
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
@@ -429,78 +451,103 @@ const PartnerRequestsPage: React.FC = () => {
                             </table>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                             {paginatedRequests.map(lead => (
                                 <div
                                     key={lead._id}
                                     onClick={() => setQuickViewLeadId(lead._id)}
-                                    className="group bg-white border border-slate-200 rounded-3xl p-6 hover:shadow-2xl hover:shadow-primary-500/10 hover:border-primary-200 transition-all cursor-pointer relative overflow-hidden"
+                                    className="group relative bg-white border border-slate-200 rounded-[3rem] p-8 hover:shadow-[0_20px_60px_-15px_rgba(22,163,74,0.12)] hover:border-primary/30 transition-all duration-500 cursor-pointer overflow-hidden flex flex-col"
                                 >
-                                    <div className="flex justify-between items-start mb-4">
-                                        <span className="px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-black rounded-lg uppercase tracking-wider">{lead.service}</span>
+                                    {/* Left Accent Bar */}
+                                    <div className="absolute left-0 top-1/4 bottom-1/4 w-1 bg-primary/20 group-hover:bg-primary group-hover:scale-y-125 transition-all duration-500 rounded-r-full"></div>
+
+                                    <div className="flex justify-between items-start mb-6">
+                                        <span className="px-4 py-1.5 bg-slate-900 text-white text-[9px] font-black rounded-xl uppercase tracking-[0.15em]">{lead.service}</span>
                                         {!isPurchasedView && (
-                                            <span className="text-lg font-black text-primary">{formatPrice(lead.price)}</span>
+                                            <div className="flex flex-col items-end">
+                                                <span className="text-xs font-black text-slate-400 uppercase tracking-widest mb-0.5">Preis</span>
+                                                <span className="text-2xl font-black text-slate-900 tracking-tighter group-hover:text-primary transition-colors">{formatPrice(lead.price)}</span>
+                                            </div>
                                         )}
                                         {isPurchasedView && <StatusBadge status={lead.status} t={t} />}
                                     </div>
-                                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors line-clamp-2 min-h-[3.5rem] leading-tight">{lead.title}</h3>
-                                    <div className="space-y-3 text-sm text-slate-500 mb-6">
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
-                                                <MapPinIcon className="w-4 h-4" />
+
+                                    <h3 className="text-2xl font-black text-slate-900 mb-6 group-hover:translate-x-1 transition-transform duration-300 line-clamp-2 min-h-[4rem] leading-[1.15] tracking-tight">
+                                        {lead.title}
+                                    </h3>
+
+                                    <div className="space-y-4 mb-10 flex-grow">
+                                        <div className="flex items-center gap-4 group/item">
+                                            <div className="w-11 h-11 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover/item:bg-primary/10 group-hover/item:text-primary transition-all duration-300 border border-slate-100">
+                                                <MapPinIcon className="w-5 h-5" />
                                             </div>
-                                            <span className="font-medium">{lead.location}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
-                                                <CalendarDaysIcon className="w-4 h-4" />
+                                            <div className="flex flex-col">
+                                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Standort</span>
+                                                <span className="font-bold text-slate-700">{lead.location}</span>
                                             </div>
-                                            <span className="font-medium">{formatDate(lead.date, language)}</span>
                                         </div>
+
+                                        <div className="flex items-center gap-4 group/item">
+                                            <div className="w-11 h-11 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover/item:bg-primary/10 group-hover/item:text-primary transition-all duration-300 border border-slate-100">
+                                                <CalendarDaysIcon className="w-5 h-5" />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Datum</span>
+                                                <span className="font-bold text-slate-700">{formatDate(lead.date, language)}</span>
+                                            </div>
+                                        </div>
+
                                         {isPurchasedView && (
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-8 h-8 rounded-full bg-primary-50 flex items-center justify-center text-primary-500">
-                                                    <UserIcon className="w-4 h-4" />
+                                            <div className="flex items-center gap-4 group/item">
+                                                <div className="w-11 h-11 rounded-2xl bg-primary/5 flex items-center justify-center text-primary-500 group-hover/item:bg-primary group-hover/item:text-white transition-all duration-300 border border-primary/10">
+                                                    <UserIcon className="w-5 h-5" />
                                                 </div>
-                                                <span className="font-bold text-slate-700">{lead.customerName}</span>
+                                                <div className="flex flex-col">
+                                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Kunde</span>
+                                                    <span className="font-black text-slate-900">{lead.customerName}</span>
+                                                </div>
                                             </div>
                                         )}
                                     </div>
-                                    <div className="flex items-center justify-between pt-5 border-t border-slate-100 mt-auto">
-                                        <div className="flex items-center gap-2">
+
+                                    <div className="flex items-center justify-between pt-6 border-t border-slate-100">
+                                        <div className="flex items-center gap-3">
                                             {!isPurchasedView && (
-                                                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                                                    <CheckCircleIcon className="w-3.5 h-3.5" />
-                                                    {t.card?.available || 'Verfügbar'}
+                                                <span className="flex items-center gap-1.5 text-[10px] font-black tracking-[0.1em] text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                                    {t.card?.available || 'AKTIV'}
                                                 </span>
                                             )}
                                         </div>
-                                        <div className="flex items-center gap-1.5 font-black text-sm text-primary group-hover:gap-2.5 transition-all">
+                                        <div className="flex items-center gap-2 px-6 py-3 bg-slate-50 group-hover:bg-primary group-hover:text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] text-slate-600 transition-all duration-300">
                                             {t.card?.view || 'Details'}
-                                            <ChevronRightIcon className="w-4 h-4" />
+                                            <ChevronRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                         </div>
                                     </div>
+
+                                    {/* Subtle Gradient Hover Effect */}
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/5 to-transparent rounded-bl-[5rem] translate-x-32 -translate-y-32 group-hover:translate-x-12 group-hover:-translate-y-12 transition-transform duration-700 ease-out"></div>
                                 </div>
                             ))}
                         </div>
                     )}
 
-                    {/* Pagination Bar */}
+                    {/* Pagination Bar - Premium Style */}
                     {totalPages > 1 && (
-                        <div className="flex items-center justify-center gap-3 pt-6">
+                        <div className="flex items-center justify-center gap-6 pt-12">
                             <button
                                 disabled={currentPage === 1}
-                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                                className="w-12 h-12 flex items-center justify-center border border-slate-200 rounded-2xl disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-50 transition-all"
+                                onClick={() => { setCurrentPage(prev => Math.max(1, prev - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                className="w-14 h-14 flex items-center justify-center border-2 border-slate-100 bg-white text-slate-400 rounded-2xl shadow-sm disabled:opacity-30 disabled:cursor-not-allowed hover:border-primary hover:text-primary transition-all active:scale-90"
                             >
-                                <ChevronLeftIcon className="w-5 h-5" />
+                                <ChevronLeftIcon className="w-6 h-6" />
                             </button>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-3 bg-white p-2 rounded-[2rem] border-2 border-slate-100 shadow-sm">
                                 {[...Array(totalPages)].map((_, i) => (
                                     <button
                                         key={i}
-                                        onClick={() => setCurrentPage(i + 1)}
-                                        className={`w-12 h-12 rounded-2xl font-black text-sm transition-all ${currentPage === i + 1 ? 'bg-primary text-white shadow-xl shadow-primary-500/30' : 'hover:bg-slate-100 text-slate-600'}`}
+                                        onClick={() => { setCurrentPage(i + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                        className={`w-12 h-12 rounded-[1.2rem] font-black text-sm transition-all duration-300 ${currentPage === i + 1 ? 'bg-slate-900 text-white shadow-xl shadow-slate-900/20' : 'hover:bg-slate-50 text-slate-500'}`}
                                     >
                                         {i + 1}
                                     </button>
@@ -508,26 +555,27 @@ const PartnerRequestsPage: React.FC = () => {
                             </div>
                             <button
                                 disabled={currentPage === totalPages}
-                                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                                className="w-12 h-12 flex items-center justify-center border border-slate-200 rounded-2xl disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-50 transition-all"
+                                onClick={() => { setCurrentPage(prev => Math.min(totalPages, prev + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                className="w-14 h-14 flex items-center justify-center border-2 border-slate-100 bg-white text-slate-400 rounded-2xl shadow-sm disabled:opacity-30 disabled:cursor-not-allowed hover:border-primary hover:text-primary transition-all active:scale-90"
                             >
-                                <ChevronRightIcon className="w-5 h-5" />
+                                <ChevronRightIcon className="w-6 h-6" />
                             </button>
                         </div>
                     )}
                 </div>
             ) : (
-                <div className="flex flex-col items-center justify-center py-20 px-6 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 text-center">
-                    <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-6">
-                        <MagnifyingGlassIcon className="w-10 h-10 text-slate-300" />
+                <div className="flex flex-col items-center justify-center py-32 px-10 bg-white rounded-[3rem] border-2 border-dashed border-slate-200 text-center shadow-sm">
+                    <div className="w-28 h-28 bg-slate-50 rounded-[2.5rem] flex items-center justify-center shadow-inner mb-8 border border-slate-100 group">
+                        <MagnifyingGlassIcon className="w-12 h-12 text-slate-200 group-hover:scale-110 transition-transform duration-500" />
                     </div>
-                    <h3 className="text-2xl font-black text-slate-900 mb-3">{isPurchasedView ? (t.empty?.noPurchasedTitle || 'Keine gekauften Leads') : (t.empty?.noResultsTitle || 'Keine Leads gefunden')}</h3>
-                    <p className="text-slate-500 max-w-sm mb-8">{isPurchasedView ? (t.empty?.noPurchasedDesc || 'Kaufen Sie Leads, um hier Ihre Aufträge zu verwalten.') : (t.empty?.noResultsDesc || 'Passen Sie Ihre Filter an oder schauen Sie später wieder vorbei.')}</p>
+                    <h3 className="text-3xl font-black text-slate-900 mb-4">{isPurchasedView ? (t.empty?.noPurchasedTitle || 'Ihr Portfolio ist noch leer') : (t.empty?.noResultsTitle || 'Keine passenden Leads')}</h3>
+                    <p className="text-slate-500 text-lg max-w-sm mb-12 leading-relaxed font-medium">{isPurchasedView ? (t.empty?.noPurchasedDesc || 'Sobald Sie Leads auf dem Marktplatz kaufen, werden diese hier übersichtlich für Sie aufgelistet.') : (t.empty?.noResultsDesc || 'Leider entsprechen aktuell keine Leads Ihren Filtereinstellungen. Versuchen Sie es mit einer breiteren Suche.')}</p>
                     <button
                         onClick={isPurchasedView ? () => setIsPurchasedView(false) : resetFilters}
-                        className="px-8 py-3 bg-primary text-white font-black rounded-2xl shadow-xl shadow-primary-500/20 active:scale-95 transition-all"
+                        className="group px-12 py-5 bg-slate-900 text-white font-black rounded-3xl shadow-2xl shadow-slate-900/20 active:scale-95 transition-all flex items-center gap-3 hover:bg-slate-800"
                     >
-                        {isPurchasedView ? (t.empty?.noPurchasedButton || 'Leads entdecken') : t.resetFilters}
+                        {isPurchasedView ? (t.empty?.noPurchasedButton || 'Marktplatz erkunden') : t.resetFilters}
+                        <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </button>
                 </div>
             )}
