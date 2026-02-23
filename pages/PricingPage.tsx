@@ -57,7 +57,7 @@ const PricingPage: React.FC = () => {
 
     return (
         <div className="bg-white">
-             <script
+            <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredFaqData) }}
             />
@@ -89,9 +89,13 @@ const PricingPage: React.FC = () => {
                                 Preis schätzen
                             </button>
                             {priceResult && (
-                                <div className="mt-4 text-center bg-green-50 text-green-800 border border-green-200 rounded-lg p-4 w-full" aria-live="polite">
-                                  <p className="font-bold text-lg">{priceResult}</p>
-                                  <p className="text-sm">Dies ist eine unverbindliche Schätzung.</p>
+                                <div className="mt-4 text-center bg-primary-50 text-slate-800 border border-primary-100 rounded-xl p-6 w-full shadow-inner animate-fade-in" aria-live="polite">
+                                    <p className="text-sm font-semibold text-primary-600 uppercase tracking-wider mb-1">Unverbindliche Schätzung</p>
+                                    <p className="font-black text-2xl mb-2">{priceResult}</p>
+                                    <div className="h-px bg-primary-100 w-12 mx-auto mb-3"></div>
+                                    <p className="text-xs text-slate-500 leading-relaxed italic">
+                                        HINWEIS: Dies ist eine grobe Kalkulation. Um exakte Preise zu erhalten, empfehlen wir den kostenlosen Offerten-Vergleich.
+                                    </p>
                                 </div>
                             )}
                         </form>
@@ -102,9 +106,9 @@ const PricingPage: React.FC = () => {
                         <div className="space-y-4">
                             {faqs.map((item, idx) => (
                                 <div key={idx} className="border border-slate-200 rounded-lg overflow-hidden bg-white shadow-sm">
-                                    <button 
-                                        type="button" 
-                                        className="w-full flex justify-between items-center text-left p-5 font-semibold text-slate-900 hover:bg-slate-50 transition-colors" 
+                                    <button
+                                        type="button"
+                                        className="w-full flex justify-between items-center text-left p-5 font-semibold text-slate-900 hover:bg-slate-50 transition-colors"
                                         onClick={() => toggleFaq(idx)}
                                         aria-expanded={faqOpen === idx}
                                         aria-controls={`faq-content-${idx}`}

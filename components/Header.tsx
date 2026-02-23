@@ -106,6 +106,7 @@ const Header: React.FC = () => {
         { name: t.home, to: '/' },
         { name: t.services, to: '/services' },
         { name: t.becomePartner, to: '/providers' },
+        { name: t.aboutUs, to: '/ueber-uns' },
         { name: t.vorlagen, to: '/vorlagen' },
         { name: t.contact, to: '/kontakt' },
     ];

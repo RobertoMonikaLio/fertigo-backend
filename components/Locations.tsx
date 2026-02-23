@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAppContext } from '../pages/AppContext';
 import { useInView } from 'react-intersection-observer';
 
@@ -31,10 +32,10 @@ const translations = {
 
 // Switzerland Map Illustration Component
 const SwitzerlandMap: React.FC<{ className?: string }> = ({ className = "" }) => (
-    <svg 
-        viewBox="0 0 400 300" 
-        className={className} 
-        fill="none" 
+    <svg
+        viewBox="0 0 400 300"
+        className={className}
+        fill="none"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="xMidYMid meet"
     >
@@ -49,14 +50,14 @@ const SwitzerlandMap: React.FC<{ className?: string }> = ({ className = "" }) =>
                 <stop offset="100%" stopColor="#6366f1" />
             </linearGradient>
             <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feGaussianBlur stdDeviation="3" result="coloredBlur" />
                 <feMerge>
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
                 </feMerge>
             </filter>
         </defs>
-        
+
         {/* Switzerland Outline - Simplified but recognizable shape */}
         <path
             d="M 200 50 
@@ -90,40 +91,40 @@ const SwitzerlandMap: React.FC<{ className?: string }> = ({ className = "" }) =>
             className="animate-pulse"
             style={{ animationDuration: '3s' }}
         />
-        
+
         {/* Major City Markers */}
         {/* Zürich */}
         <circle cx="220" cy="120" r="6" fill="#3b82f6" className="animate-ping" style={{ animationDuration: '2s' }} />
         <circle cx="220" cy="120" r="4" fill="#ffffff" stroke="#3b82f6" strokeWidth="2" />
-        
+
         {/* Bern */}
         <circle cx="180" cy="140" r="6" fill="#6366f1" className="animate-ping" style={{ animationDuration: '2.5s', animationDelay: '0.3s' }} />
         <circle cx="180" cy="140" r="4" fill="#ffffff" stroke="#6366f1" strokeWidth="2" />
-        
+
         {/* Basel */}
         <circle cx="150" cy="100" r="5" fill="#8b5cf6" className="animate-ping" style={{ animationDuration: '2.2s', animationDelay: '0.6s' }} />
         <circle cx="150" cy="100" r="3" fill="#ffffff" stroke="#8b5cf6" strokeWidth="2" />
-        
+
         {/* Genf */}
         <circle cx="120" cy="200" r="5" fill="#3b82f6" className="animate-ping" style={{ animationDuration: '2.4s', animationDelay: '0.9s' }} />
         <circle cx="120" cy="200" r="3" fill="#ffffff" stroke="#3b82f6" strokeWidth="2" />
-        
+
         {/* Lausanne */}
         <circle cx="160" cy="180" r="5" fill="#6366f1" className="animate-ping" style={{ animationDuration: '2.3s', animationDelay: '1.2s' }} />
         <circle cx="160" cy="180" r="3" fill="#ffffff" stroke="#6366f1" strokeWidth="2" />
-        
+
         {/* Luzern */}
         <circle cx="200" cy="150" r="5" fill="#8b5cf6" className="animate-ping" style={{ animationDuration: '2.1s', animationDelay: '1.5s' }} />
         <circle cx="200" cy="150" r="3" fill="#ffffff" stroke="#8b5cf6" strokeWidth="2" />
-        
+
         {/* St. Gallen */}
         <circle cx="260" cy="130" r="4" fill="#3b82f6" className="animate-ping" style={{ animationDuration: '2.6s', animationDelay: '1.8s' }} />
         <circle cx="260" cy="130" r="3" fill="#ffffff" stroke="#3b82f6" strokeWidth="2" />
-        
+
         {/* Lugano */}
         <circle cx="250" cy="210" r="4" fill="#6366f1" className="animate-ping" style={{ animationDuration: '2.2s', animationDelay: '2.1s' }} />
         <circle cx="250" cy="210" r="3" fill="#ffffff" stroke="#6366f1" strokeWidth="2" />
-        
+
         {/* Connection Lines (subtle) */}
         <path
             d="M 220 120 L 180 140 L 200 150"
@@ -192,24 +193,13 @@ const Locations: React.FC = () => {
                     {/* Major Cities - Featured Cards */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4 mb-8">
                         {majorCities.map((city: string, index: number) => (
-                            <a
+                            <Link
                                 key={index}
-                                href="#"
-                                className="group relative bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-primary-400 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                                to="/services"
+                                className="px-3 py-1.5 bg-slate-50 hover:bg-primary-50 border border-slate-200 hover:border-primary-300 rounded-lg text-slate-700 hover:text-primary-700 text-sm font-medium transition-all duration-200"
                             >
-                                <div className="absolute top-2 right-2 w-2 h-2 bg-primary-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                <div className="text-center">
-                                    <div className="text-2xl font-black text-slate-900 mb-1 group-hover:text-primary-600 transition-colors">
-                                        {city}
-                                    </div>
-                                    <div className="text-xs text-slate-500 font-medium">
-                                        {index < 4 ? 'Top-Stadt' : 'Verfügbar'}
-                                    </div>
-                                </div>
-                                <div className="mt-4 h-1 bg-slate-100 rounded-full overflow-hidden">
-                                    <div className="h-full bg-primary-600 rounded-full w-0 group-hover:w-full transition-all duration-500"></div>
-                                </div>
-                            </a>
+                                {city}
+                            </Link>
                         ))}
                     </div>
 
@@ -220,13 +210,13 @@ const Locations: React.FC = () => {
                         </h3>
                         <div className="flex flex-wrap justify-center gap-2">
                             {otherCities.map((city: string, index: number) => (
-                                <a
+                                <Link
                                     key={index}
-                                    href="#"
+                                    to="/services"
                                     className="px-3 py-1.5 bg-slate-50 hover:bg-primary-50 border border-slate-200 hover:border-primary-300 rounded-lg text-slate-700 hover:text-primary-700 text-sm font-medium transition-all duration-200"
                                 >
                                     {city}
-                                </a>
+                                </Link>
                             ))}
                         </div>
                     </div>
@@ -239,7 +229,7 @@ const Locations: React.FC = () => {
                             { value: '2\'500+', label: 'Partner' },
                             { value: '24/7', label: 'Verfügbar' }
                         ].map((stat, index) => (
-                            <div 
+                            <div
                                 key={index}
                                 className="bg-white rounded-xl p-4 border border-slate-200 text-center hover:border-primary-300 hover:shadow-md transition-all"
                             >

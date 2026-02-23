@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRightIcon, CalendarDaysIcon, UserIcon } from './icons';
 
 const blogPosts = [
@@ -43,14 +44,14 @@ const BlogPreview: React.FC = () => {
                     {blogPosts.map((post, index) => {
                         const baseUrl = `${post.imageUrl.split('?')[0]}?auto=format&fit=crop&q=75`;
                         return (
-                            <a href="#" key={index} className="group bg-white rounded-2xl border border-slate-200/80 shadow-lg overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                            <Link to="/tipps" key={index} className="group bg-white rounded-2xl border border-slate-200/80 shadow-lg overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
                                 <div className="relative">
-                                    <img 
+                                    <img
                                         src={`${baseUrl}&w=400`}
                                         srcSet={`${baseUrl}&w=400 400w, ${baseUrl}&w=800 800w`}
                                         sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                                        alt={post.title} 
-                                        className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105" 
+                                        alt={post.title}
+                                        className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105"
                                     />
                                     <span className="absolute top-4 left-4 bg-primary-700 text-white text-xs font-bold uppercase px-3 py-1 rounded-full">{post.category}</span>
                                 </div>
@@ -68,15 +69,15 @@ const BlogPreview: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </a>
+                            </Link>
                         );
                     })}
                 </div>
-                 <div className="text-center mt-16">
-                    <a href="#" className="font-bold text-primary-700 inline-flex items-center gap-2 group">
+                <div className="text-center mt-16">
+                    <Link to="/tipps" className="font-bold text-primary-700 inline-flex items-center gap-2 group">
                         <span>Alle Artikel ansehen</span>
                         <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                    </a>
+                    </Link>
                 </div>
             </div>
         </section>

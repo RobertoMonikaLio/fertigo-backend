@@ -23,8 +23,8 @@ const Footer: React.FC = () => {
         [t.company]: [
             { name: t.aboutUs, to: '/ueber-uns' },
             { name: t.contact, to: '/kontakt' },
-            { name: t.career, to: '/jobs' },
-            { name: t.press, to: '#' },
+            { name: t.career, to: '/ueber-uns' }, // Changed from /jobs to /ueber-uns
+            { name: t.press, to: '/kontakt' },    // Changed from # to /kontakt
             { name: t.becomePartnerFooter, to: '/providers' },
         ],
         [t.legal]: [
@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
                     {/* Brand Header */}
                     <div className="flex flex-col items-start">
                         <Link to="/" className="flex items-center gap-2 mb-3">
-                            <span className="font-extrabold text-3xl text-white tracking-tighter">Fertigo<span className="text-primary-500">.</span></span>
+                            <span className="font-extrabold text-3xl text-white tracking-tighter">Fertigo<span className="text-primary-600">.</span></span>
                         </Link>
                         <p className="text-slate-500 text-sm font-medium leading-relaxed max-w-xs">{t.footerSlogan}</p>
                     </div>
@@ -86,7 +86,7 @@ const Footer: React.FC = () => {
                 <div className="hidden md:grid md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12">
                     <div className="col-span-2 lg:col-span-2 mb-8 lg:mb-0">
                         <Link to="/" className="flex flex-col mb-4">
-                            <span className="font-extrabold text-xl text-white tracking-tight">Fertigo</span>
+                            <span className="font-extrabold text-xl text-white tracking-tight">Fertigo<span className="text-primary-600">.</span></span>
                             <span className="text-xs font-normal text-primary-400 tracking-tight -mt-1">Clever, Günstig, Flexibel</span>
                         </Link>
                         <p className="text-slate-400 text-sm md:text-base max-w-sm mt-4">{t.footerSlogan}</p>

@@ -28,6 +28,7 @@ import {
     CheckCircleIcon,
     SwissFlagIcon,
 } from '../components/icons';
+import { Link } from 'react-router-dom';
 import { useAppContext } from './AppContext';
 import { useInView } from 'react-intersection-observer';
 
@@ -702,10 +703,10 @@ const TrustSection: React.FC = () => {
                     </table>
                 </div>
                 <div className="mt-10 flex justify-center">
-                    <a href="#" className="inline-flex items-center gap-2 bg-emerald-600 text-white font-bold px-6 py-3 rounded-full shadow hover:bg-emerald-700 transition text-lg">
+                    <Link to="/register" className="inline-flex items-center gap-2 bg-emerald-600 text-white font-bold px-6 py-3 rounded-full shadow hover:bg-emerald-700 transition text-lg">
                         Jetzt kostenlos testen
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </section>

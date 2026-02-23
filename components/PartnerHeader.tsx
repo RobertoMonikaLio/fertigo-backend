@@ -229,8 +229,8 @@ const PartnerHeader: React.FC = () => {
                             title={isBalanceLow ? "Ihr Guthaben ist niedrig. Jetzt aufladen!" : "Guthaben verwalten"}
                         >
                             <div className={`relative flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all duration-200 hover:shadow-md ${isBalanceLow
-                                    ? 'bg-amber-50 border-amber-200 hover:border-amber-300'
-                                    : 'bg-slate-50 border-slate-200 hover:border-slate-300'
+                                ? 'bg-amber-50 border-amber-200 hover:border-amber-300'
+                                : 'bg-slate-50 border-slate-200 hover:border-slate-300'
                                 }`}>
                                 <div className={`flex items-center justify-center w-8 h-8 rounded-md ${isBalanceLow ? 'bg-amber-100' : 'bg-primary-100'
                                     }`}>
@@ -314,20 +314,20 @@ const PartnerHeader: React.FC = () => {
 
                                     <div className="p-2 border-t border-slate-100">
                                         <p className="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Support</p>
-                                        <a href="#" className="flex items-center gap-3 px-3 py-2.5 text-slate-700 hover:bg-slate-50 rounded-lg font-medium transition-colors">
+                                        <Link to="/partner/settings" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-3 py-2.5 text-slate-700 hover:bg-slate-50 rounded-lg font-medium transition-colors">
                                             <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center"><QuestionMarkCircleIcon className="w-4 h-4 text-slate-500" /></div>
                                             <div>
                                                 <span className="text-sm">Hilfe & FAQ</span>
                                                 <p className="text-xs text-slate-400">Antworten finden</p>
                                             </div>
-                                        </a>
-                                        <a href="#" className="flex items-center gap-3 px-3 py-2.5 text-slate-700 hover:bg-slate-50 rounded-lg font-medium transition-colors">
+                                        </Link>
+                                        <Link to="/kontakt" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-3 py-2.5 text-slate-700 hover:bg-slate-50 rounded-lg font-medium transition-colors">
                                             <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center"><PhoneIcon className="w-4 h-4 text-slate-500" /></div>
                                             <div>
                                                 <span className="text-sm">Kontakt</span>
                                                 <p className="text-xs text-slate-400">Support kontaktieren</p>
                                             </div>
-                                        </a>
+                                        </Link>
                                     </div>
 
                                     {/* Logout */}
@@ -373,8 +373,8 @@ const PartnerHeader: React.FC = () => {
                             to="/partner/billing"
                             onClick={() => setIsMobileMenuOpen(false)}
                             className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${isBalanceLow
-                                    ? 'bg-amber-50 border-amber-200'
-                                    : 'bg-slate-50 border-slate-200'
+                                ? 'bg-amber-50 border-amber-200'
+                                : 'bg-slate-50 border-slate-200'
                                 }`}
                         >
                             <div className={`flex items-center justify-center w-12 h-12 rounded-lg ${isBalanceLow ? 'bg-amber-100' : 'bg-primary-100'
