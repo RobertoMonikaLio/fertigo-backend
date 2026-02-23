@@ -15,7 +15,7 @@ const LoginPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const { language } = useAppContext();
-    const t = (translations[language] as any).loginPage || (translations['de'] as any).loginPage;
+    const t = (translations[language] as any)?.partner?.loginPage || (translations['de'] as any).partner.loginPage;
     const formRef = useRef<HTMLFormElement>(null);
 
 
