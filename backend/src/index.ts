@@ -21,6 +21,8 @@ const allowedOrigins = [
   'https://robertosteiner.github.io',
   'https://fertigo-frontend.onrender.com',
   'https://fertigo.onrender.com',
+  'https://fertigo.ch',
+  'https://www.fertigo.ch',
 ];
 
 // Add FRONTEND_URL if provided

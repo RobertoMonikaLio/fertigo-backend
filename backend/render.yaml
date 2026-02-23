@@ -22,6 +22,6 @@ services:
       - key: RESEND_API_KEY
         sync: false
       - key: FRONTEND_URL
-        sync: false
+        value: https://fertigo.ch
       - key: PORT
         value: 10000

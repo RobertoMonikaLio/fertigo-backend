@@ -35,3 +35,5 @@ services:
     staticPublishPath: dist
     rootDir: .
     envVars:
+      - key: VITE_API_URL
+        value: https://fertigo-backend.onrender.com
