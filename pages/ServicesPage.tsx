@@ -188,17 +188,29 @@ const getServiceIcon = (serviceName: string): React.ReactNode => {
                 <path d="M12 12v4" />
             </svg>
         ),
-        'Klaviertransport': (
+        'Spezialumzug': (
             <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 18V5l12-2v13" />
                 <circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" />
             </svg>
         ),
-        'Entsorgung & Räumung': (
+        'Transport': (
+            <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="4" y="8" width="16" height="12" rx="2" />
+                <path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                <path d="M12 12v4" />
+            </svg>
+        ),
+        'Entsorgung': (
             <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="3 6 5 6 21 6" />
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
                 <line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" />
+            </svg>
+        ),
+        'Räumung': (
+            <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6m4-6v6" />
             </svg>
         ),
         'Einlagerung': (
@@ -305,9 +317,11 @@ const allServicesData: ServiceItem[] = [
     { name: 'Küchenbau', category: 'Renovation & Gestaltung', description: 'Planung und Montage Ihrer neuen Traumküche.', icon: getServiceIcon('Küchenbau') },
     { name: 'Privatumzug', category: 'Umzug & Transport', description: 'Stressfreier Wohnungswechsel mit erfahrenen Zügelprofis.', icon: getServiceIcon('Privatumzug'), popular: true },
     { name: 'Firmenumzug', category: 'Umzug & Transport', description: 'Effiziente und planmässige Verlagerung Ihres Unternehmens.', icon: getServiceIcon('Firmenumzug') },
+    { name: 'Spezialumzug', category: 'Umzug & Transport', description: 'Spezialtransport für schwere und empfindliche Objekte.', icon: getServiceIcon('Spezialumzug') },
     { name: 'Möbeltransport', category: 'Umzug & Transport', description: 'Sicherer Transport für einzelne Möbelstücke oder ganze Ladungen.', icon: getServiceIcon('Möbeltransport') },
-    { name: 'Klaviertransport', category: 'Umzug & Transport', description: 'Spezialtransport für Klaviere und Flügel.', icon: getServiceIcon('Klaviertransport') },
-    { name: 'Entsorgung & Räumung', category: 'Umzug & Transport', description: 'Fachgerechte Entsorgung von Sperrmüll und Haushaltsauflösungen.', icon: getServiceIcon('Entsorgung & Räumung') },
+    { name: 'Transport', category: 'Umzug & Transport', description: 'Allgemeine Transportdienste für Ihre Güter.', icon: getServiceIcon('Transport') },
+    { name: 'Räumung', category: 'Umzug & Transport', description: 'Komplette Räumung und Haushaltsauflösungen.', icon: getServiceIcon('Räumung') },
+    { name: 'Entsorgung', category: 'Umzug & Transport', description: 'Fachgerechte Entsorgung von Sperrmüll.', icon: getServiceIcon('Entsorgung') },
     { name: 'Einlagerung', category: 'Umzug & Transport', description: 'Sichere Lagerung Ihrer Möbel und Güter.', icon: getServiceIcon('Einlagerung') },
     { name: 'Umzugsreinigung', category: 'Reinigung & Pflege', description: 'Mit Abnahmegarantie für eine reibungslose Wohnungsübergabe.', icon: getServiceIcon('Umzugsreinigung'), popular: true },
     { name: 'Gebäudereinigung', category: 'Reinigung & Pflege', description: 'Regelmässige Unterhaltsreinigung für Büro- und Wohngebäude.', icon: getServiceIcon('Gebäudereinigung') },
@@ -486,8 +500,8 @@ const ServicesPage: React.FC = () => {
                                                     'Schreiner': '🪚', 'Gipserarbeiten': '🪣', 'Bodenleger': '🪵', 'Plattenleger': '🔲', 'Fenstermontage': '🪟',
                                                     'Sanitär': '🚿', 'Sanitärinstallation': '🚿', 'Heizungsinstallation': '🔥', 'Klimaanlagen-Service': '❄️', 'Klimaanlagen Installation': '❄️', 'Wärmepumpe Installation': '♨️', 'Lüftungsanlagen': '💨',
                                                     'Malerarbeiten': '🎨', 'Küchenbau': '🍳', 'Badezimmerumbau': '🛁', 'Badrenovation': '🛁',
-                                                    'Privatumzug': '📦', 'Firmenumzug': '🏬', 'Möbeltransport': '🛋️', 'Klaviertransport': '🎹',
-                                                    'Entsorgung & Räumung': '🗑️', 'Einlagerung': '📦',
+                                                    'Privatumzug': '📦', 'Firmenumzug': '🏬', 'Spezialumzug': '🎹', 'Möbeltransport': '🛋️', 'Transport': '🚛',
+                                                    'Räumung': '🗑️', 'Entsorgung': '🗑️', 'Einlagerung': '📦',
                                                     'Umzugsreinigung': '🧹', 'Gebäudereinigung': '🏢', 'Fensterreinigung': '🪟',
                                                     'Baureinigung': '🧽', 'Dachreinigung': '🏠', 'Hauswartung': '🔧',
                                                     'Gartenpflege': '🌿', 'Gartenbau': '🌳', 'Baumpflege': '🌲', 'Zaunbau': '🚧',
@@ -535,8 +549,8 @@ const ServicesPage: React.FC = () => {
                                                     'Schreiner': '🪚', 'Gipserarbeiten': '🪣', 'Bodenleger': '🪵', 'Plattenleger': '🔲', 'Fenstermontage': '🪟',
                                                     'Sanitär': '🚿', 'Sanitärinstallation': '🚿', 'Heizungsinstallation': '🔥', 'Klimaanlagen-Service': '❄️', 'Klimaanlagen Installation': '❄️', 'Wärmepumpe Installation': '♨️', 'Lüftungsanlagen': '💨',
                                                     'Malerarbeiten': '🎨', 'Küchenbau': '🍳', 'Badezimmerumbau': '🛁', 'Badrenovation': '🛁',
-                                                    'Privatumzug': '📦', 'Firmenumzug': '🏬', 'Möbeltransport': '🛋️', 'Klaviertransport': '🎹',
-                                                    'Entsorgung & Räumung': '🗑️', 'Einlagerung': '📦',
+                                                    'Privatumzug': '📦', 'Firmenumzug': '🏬', 'Spezialumzug': '🎹', 'Möbeltransport': '🛋️', 'Transport': '🚛',
+                                                    'Räumung': '🗑️', 'Entsorgung': '🗑️', 'Einlagerung': '📦',
                                                     'Umzugsreinigung': '🧹', 'Gebäudereinigung': '🏢', 'Fensterreinigung': '🪟',
                                                     'Baureinigung': '🧽', 'Dachreinigung': '🏠', 'Hauswartung': '🔧',
                                                     'Gartenpflege': '🌿', 'Gartenbau': '🌳', 'Baumpflege': '🌲', 'Zaunbau': '🚧',

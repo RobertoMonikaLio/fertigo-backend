@@ -121,7 +121,7 @@ const allServices = [
     'Dachdecker',
     'Dachreinigung',
     'Einlagerung',
-    'Entsorgung & Räumung',
+    'Entsorgung',
 
     'Fassadenbau',
     'Fenstermontage',
@@ -136,7 +136,6 @@ const allServices = [
     'Hauswartung',
     'Heizungsinstallation',
     'IT-Dienstleistungen',
-    'Klaviertransport',
     'Klimaanlagen Installation',
     'Klimaanlagen-Service',
     'Küchenbau',
@@ -147,10 +146,12 @@ const allServices = [
     'Plattenleger',
     'Privatumzug',
     'Reinigung',
+    'Räumung',
     'Sanitär',
     'Sanitärinstallation',
     'Schreiner',
-    'Umzug',
+    'Spezialumzug',
+    'Transport',
     'Umzugsreinigung',
     'Wärmepumpe Installation',
     'Zaunbau',
@@ -163,7 +164,7 @@ const popularServicesSelection = [
     { name: 'Malerarbeiten', icon: <ColoredPaintRollerIcon className="w-8 h-8" /> },
     { name: 'Bodenleger', icon: <ColoredSquares2X2Icon className="w-8 h-8" /> },
     { name: 'Gartenpflege', icon: <ColoredLeafIcon className="w-8 h-8" /> },
-    { name: 'Entsorgung & Räumung', label: 'Entsorgung', icon: <ColoredTrashIcon className="w-8 h-8" /> },
+    { name: 'Entsorgung', label: 'Entsorgung', icon: <ColoredTrashIcon className="w-8 h-8" /> },
 ];
 
 interface QuoteRequestModalProps {
@@ -296,10 +297,10 @@ export const getLeadPrice = (formData: any): number => {
 
     const pricingTable: Record<string, Record<string, number>> = {
         'Privatumzug': { klein: 25, mittel: 35, gross: 45, premium: 60 },
-        'Umzug': { klein: 25, mittel: 35, gross: 45, premium: 60 },
+        'Spezialumzug': { klein: 30, mittel: 50, gross: 70, premium: 90 },
+        'Transport': { klein: 10, mittel: 20, gross: 30, premium: 30 },
         'Firmenumzug': { klein: 40, mittel: 50, gross: 70, premium: 90 },
         'Möbeltransport': { klein: 10, mittel: 20, gross: 30, premium: 30 },
-        'Klaviertransport': { klein: 30, mittel: 50, gross: 70, premium: 90 },
         'Umzugsreinigung': { klein: 12, mittel: 20, gross: 30, premium: 35 },
         'Reinigung': { klein: 12, mittel: 20, gross: 30, premium: 35 },
         'Malerarbeiten': { klein: 15, mittel: 30, gross: 60, premium: 80 },
@@ -326,7 +327,8 @@ export const getLeadPrice = (formData: any): number => {
         'Gartenbau': { klein: 10, mittel: 25, gross: 50, premium: 60 },
         'Baureinigung': { klein: 15, mittel: 35, gross: 70, premium: 80 },
         'Gebäudereinigung': { klein: 15, mittel: 35, gross: 70, premium: 80 },
-        'Entsorgung & Räumung': { klein: 12, mittel: 30, gross: 50, premium: 60 },
+        'Entsorgung': { klein: 12, mittel: 30, gross: 50, premium: 60 },
+        'Räumung': { klein: 15, mittel: 40, gross: 60, premium: 80 },
     };
 
     const servicePricing = pricingTable[service] || { klein: 20, mittel: 35, gross: 50, premium: 80 };
@@ -361,7 +363,7 @@ export default function QuoteRequestModal({ isOpen, onClose, initialData = {} }:
 
             const newFormData = { ...initialFormData, ...initialData, service: service, projectDescription: initialData.projectTitle || '' };
 
-            const movingServices = ['Umzug', 'Transport', 'Firmenumzug', 'Möbeltransport', 'Klaviertransport', 'Privatumzug'];
+            const movingServices = ['Transport', 'Firmenumzug', 'Möbeltransport', 'Spezialumzug', 'Privatumzug'];
             const isMovingService = movingServices.includes(newFormData.service || '');
 
             if (initialData.location) {

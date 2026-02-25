@@ -15,10 +15,11 @@ import { translations } from '../components/translations';
 // --- MOCK DATA & CONFIG ---
 
 const DIENSTE_LIST = [
-    'Bodenleger', 'Elektriker', 'Entsorgung & Räumung', 'Fenstermontage',
+    'Bodenleger', 'Entsorgung', 'Fenstermontage',
     'Fensterreinigung', 'Gartenbau', 'Gartenpflege', 'Gipserarbeiten',
     'Handwerker Allgemein', 'Küchenbau', 'Malerarbeiten', 'Reinigung',
-    'Sanitär', 'Schreiner', 'Umzug & Transport', 'Umzugsreinigung'
+    'Räumung', 'Sanitär', 'Schreiner', 'Spezialumzug', 'Transport',
+    'Umzug & Transport', 'Umzugsreinigung'
 ];
 
 // --- HELPER & SUB-COMPONENTS ---
