@@ -266,58 +266,63 @@ const FileUploader: React.FC<{ files: File[]; onFilesChange: (e: React.ChangeEve
 };
 
 
-const getLeadPrice = (service: string): number => {
-    switch (service) {
-        case 'Privatumzug':
-        case 'Umzug':
-            return 35; // Mittelauftrag
-        case 'Firmenumzug':
-            return 50;
-        case 'Möbeltransport':
-            return 20;
-        case 'Klaviertransport':
-            return 50;
-        case 'Umzugsreinigung':
-        case 'Reinigung':
-            return 20;
-        case 'Malerarbeiten':
-            return 30;
-        case 'Sanitär':
-            return 45;
-        case 'Elektriker':
-            return 45;
-        case 'Heizungsinstallation':
-        case 'Klimaanlagen-Service':
-            return 60;
-        case 'Badezimmerumbau':
-            return 80;
-        case 'Küchenbau':
-            return 100;
-        case 'Bodenleger':
-        case 'Plattenleger':
-            return 35;
-        case 'Schreiner':
-        case 'Zimmermannarbeiten':
-            return 40;
-        case 'Dachdecker':
-        case 'Dachreinigung':
-            return 70;
-        case 'Fassadenbau':
-            return 80;
-        case 'Fensterreinigung':
-        case 'Fenstermontage':
-            return 25;
-        case 'Gartenpflege':
-        case 'Gartenbau':
-            return 25;
-        case 'Baureinigung':
-        case 'Gebäudereinigung':
-            return 35;
-        case 'Entsorgung & Räumung':
-            return 30;
-        default:
-            return 30; // Standard Mittelauftrag
+export const getLeadPrice = (formData: any): number => {
+    const service: string = formData.service;
+
+    // Determine size based on available data
+    let size = 'mittel';
+    if (formData.numberOfRooms) {
+        let rooms = 0;
+        if (formData.numberOfRooms.includes('Grösser als 6')) {
+            rooms = 7;
+        } else {
+            rooms = parseFloat(formData.numberOfRooms);
+        }
+
+        if (rooms <= 2.5) size = 'klein';
+        else if (rooms <= 4.5) size = 'mittel';
+        else if (rooms <= 5.5) size = 'gross';
+        else size = 'premium';
+    } else {
+        // Fallback or specific logic
+        if (formData.projectDescription?.toLowerCase().includes('notfall')) {
+            size = 'premium';
+        }
     }
+
+    const pricingTable: Record<string, Record<string, number>> = {
+        'Privatumzug': { klein: 25, mittel: 35, gross: 45, premium: 60 },
+        'Umzug': { klein: 25, mittel: 35, gross: 45, premium: 60 },
+        'Firmenumzug': { klein: 40, mittel: 50, gross: 70, premium: 90 },
+        'Möbeltransport': { klein: 10, mittel: 20, gross: 30, premium: 30 },
+        'Klaviertransport': { klein: 30, mittel: 50, gross: 70, premium: 90 },
+        'Umzugsreinigung': { klein: 12, mittel: 20, gross: 30, premium: 35 },
+        'Reinigung': { klein: 12, mittel: 20, gross: 30, premium: 35 },
+        'Malerarbeiten': { klein: 15, mittel: 30, gross: 60, premium: 80 },
+        'Sanitär': { klein: 25, mittel: 45, gross: 70, premium: 100 },
+        'Elektriker': { klein: 25, mittel: 45, gross: 70, premium: 100 },
+        'Heizungsinstallation': { klein: 40, mittel: 60, gross: 80, premium: 100 },
+        'Klimaanlagen-Service': { klein: 40, mittel: 60, gross: 80, premium: 100 },
+        'Badezimmerumbau': { klein: 50, mittel: 80, gross: 120, premium: 140 },
+        'Küchenbau': { klein: 60, mittel: 100, gross: 150, premium: 180 },
+        'Bodenleger': { klein: 15, mittel: 35, gross: 60, premium: 80 },
+        'Plattenleger': { klein: 15, mittel: 35, gross: 60, premium: 80 },
+        'Schreiner': { klein: 15, mittel: 40, gross: 70, premium: 90 },
+        'Zimmermannarbeiten': { klein: 15, mittel: 40, gross: 70, premium: 90 },
+        'Dachdecker': { klein: 40, mittel: 70, gross: 100, premium: 120 },
+        'Dachreinigung': { klein: 40, mittel: 70, gross: 100, premium: 120 },
+        'Fassadenbau': { klein: 50, mittel: 80, gross: 120, premium: 160 },
+        'Fensterreinigung': { klein: 12, mittel: 25, gross: 40, premium: 50 },
+        'Fenstermontage': { klein: 12, mittel: 25, gross: 40, premium: 50 },
+        'Gartenpflege': { klein: 10, mittel: 25, gross: 50, premium: 60 },
+        'Gartenbau': { klein: 10, mittel: 25, gross: 50, premium: 60 },
+        'Baureinigung': { klein: 15, mittel: 35, gross: 70, premium: 80 },
+        'Gebäudereinigung': { klein: 15, mittel: 35, gross: 70, premium: 80 },
+        'Entsorgung & Räumung': { klein: 12, mittel: 30, gross: 50, premium: 60 },
+    };
+
+    const servicePricing = pricingTable[service] || { klein: 20, mittel: 35, gross: 50, premium: 80 };
+    return servicePricing[size] || servicePricing['mittel'];
 };
 
 export default function QuoteRequestModal({ isOpen, onClose, initialData = {} }: QuoteRequestModalProps) {
@@ -590,7 +595,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 customerName: customerName,
                 location: location,
                 status: 'Neu',
-                price: getLeadPrice(formData.service),
+                price: getLeadPrice(formData),
                 details: details,
                 description: formData.projectDescription || 'Keine Beschreibung angegeben.',
                 customerInfo: {
