@@ -1,0 +1,11 @@
+App.tsx(83,14): error TS2339: Property 'state' does not exist on type 'ErrorBoundary'.
+App.tsx(95,18): error TS2339: Property 'state' does not exist on type 'ErrorBoundary'.
+App.tsx(101,35): error TS2339: Property 'state' does not exist on type 'ErrorBoundary'.
+App.tsx(105,38): error TS2339: Property 'setState' does not exist on type 'ErrorBoundary'.
+App.tsx(117,21): error TS2339: Property 'props' does not exist on type 'ErrorBoundary'.
+pages/PartnerDashboardPage.tsx(127,39): error TS2339: Property 'partner' does not exist on type '{ home: string; services: string; marktplatz: string; tipps: string; forProviders: string; becomePartner: string; jobs: string; getQuote: string; changeLang: string; menu: string; closeMenu: string; ... 47 more ...; partner: { ...; }; } | ... 8 more ... | { ...; }'.
+  Property 'partner' does not exist on type '{ home: string; services: string; marktplatz: string; tipps: string; forProviders: string; becomePartner: string; jobs: string; getQuote: string; changeLang: string; menu: string; closeMenu: string; ... 46 more ...; copyright: string; }'.
+pages/PartnerJobsPage.tsx(277,39): error TS2339: Property 'partner' does not exist on type '{ home: string; services: string; marktplatz: string; tipps: string; forProviders: string; becomePartner: string; jobs: string; getQuote: string; changeLang: string; menu: string; closeMenu: string; ... 47 more ...; partner: { ...; }; } | ... 8 more ... | { ...; }'.
+  Property 'partner' does not exist on type '{ home: string; services: string; marktplatz: string; tipps: string; forProviders: string; becomePartner: string; jobs: string; getQuote: string; changeLang: string; menu: string; closeMenu: string; ... 46 more ...; copyright: string; }'.
+pages/PartnerRentPage.tsx(59,34): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Blob'.
+  Type '{}' is missing the following properties from type 'Blob': size, type, arrayBuffer, bytes, and 3 more.

@@ -54,6 +54,7 @@ const PartnerRentPage = lazy(() => import('./pages/PartnerRentPage'));
 const PartnerPricingPage = lazy(() => import('./pages/PartnerPricingPage'));
 const PartnerToolsPage = lazy(() => import('./pages/PartnerToolsPage'));
 const PartnerSettingsPage = lazy(() => import('./pages/PartnerSettingsPage'));
+const PartnerCustomersPage = lazy(() => import('./pages/PartnerCustomersPage'));
 
 
 // Admin Pages
@@ -73,11 +74,12 @@ const LoadingIndicator: React.FC = () => (
 );
 
 // Error Boundary Component
-class ErrorBoundary extends React.Component<
-    { children: React.ReactNode },
-    { hasError: boolean; error: Error | null }
-> {
-    constructor(props: { children: React.ReactNode }) {
+class ErrorBoundary extends React.Component<any, any> {
+    public state: any;
+    public props: any;
+    public setState: any;
+
+    constructor(props: any) {
         super(props);
         this.state = { hasError: false, error: null };
     }
@@ -223,6 +225,7 @@ const AppContent: React.FC = () => {
                             <Route path="/partner/dashboard" element={<PartnerDashboardPage />} />
                             <Route path="/partner/requests" element={<PartnerRequestsPage />} />
                             <Route path="/partner/requests/:requestId" element={<PartnerRequestDetailPageWrapper />} />
+                            <Route path="/partner/customers" element={<PartnerCustomersPage />} />
                             <Route path="/partner/profile" element={<PartnerProfilePage />} />
                             <Route path="/partner/billing" element={<PartnerBillingPage />} />
                             <Route path="/partner/jobs" element={<PartnerJobsPage />} />

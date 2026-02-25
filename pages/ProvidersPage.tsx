@@ -22,218 +22,125 @@ const ProvidersPage: React.FC = () => {
     return (
         <div className="mx-auto overflow-hidden">
 
-            {/* ══════════ HERO – ASYMMETRIC SPLIT SHOWCASE ══════════ */}
-            <section ref={heroRef} className="relative overflow-hidden bg-slate-950 min-h-[100vh]">
-                {/* ── Background ── */}
-                <div className="absolute inset-0">
-                    <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-                    <div className="absolute top-0 right-0 w-[70%] h-full bg-gradient-to-l from-green-500/[0.04] via-emerald-500/[0.02] to-transparent" />
-                    <div className="absolute bottom-0 left-0 w-[50%] h-[60%] bg-gradient-to-tr from-green-600/[0.06] to-transparent blur-[80px]" />
-                    <div className="absolute top-20 right-[20%] w-[350px] h-[350px] border border-green-500/[0.06] rounded-full" />
-                    <div className="absolute top-40 right-[15%] w-[500px] h-[500px] border border-emerald-500/[0.04] rounded-full" />
-                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-500/20 to-transparent" />
+            {/* ══════════ HERO REIMAGINED – LIGHT, PREMIUM & TRUST-FOCUSED ══════════ */}
+            <section ref={heroRef} className="relative overflow-hidden bg-slate-50 min-h-[90vh] pb-24 pt-32 lg:pt-40">
+                {/* ── Background Elements ── */}
+                <div className="absolute inset-0 z-0 pointer-events-none">
+                    {/* Subtle grid pattern */}
+                    <div className="absolute inset-0 opacity-[0.4]" style={{ backgroundImage: 'radial-gradient(#e2e8f0 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+                    {/* Soft gradient blobs for depth */}
+                    <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-gradient-to-bl from-green-50 to-transparent rounded-full blur-3xl opacity-70" />
+                    <div className="absolute bottom-[10%] left-[-10%] w-[40vw] h-[40vw] bg-gradient-to-tr from-emerald-50 to-transparent rounded-full blur-3xl opacity-60" />
                 </div>
 
-                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-28 sm:pt-32 lg:pt-36 pb-20 lg:pb-28">
-                    <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                    <div className="grid lg:grid-cols-2 gap-16 lg:gap-12 items-center">
 
                         {/* ── LEFT: Content ── */}
-                        <div className={`lg:col-span-5 xl:col-span-5 transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                            {/* Badge */}
-                            <div className="inline-flex items-center gap-2.5 bg-white/[0.06] backdrop-blur-sm border border-white/[0.08] rounded-full px-4 py-2 mb-7">
-                                <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" /><span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" /></span>
-                                <span className="text-white/60 text-xs font-medium" dangerouslySetInnerHTML={{ __html: t.hero.badge }} />
-                            </div>
+                        <div className={`transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
 
                             {/* Headline */}
-                            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-6xl font-black text-white leading-[1.08] tracking-tight mb-6" dangerouslySetInnerHTML={{ __html: t.hero.title }} />
+                            <h1 className="text-4xl lg:text-5xl xl:text-[3.5rem] font-black text-slate-900 leading-[1.1] tracking-tight mb-6" dangerouslySetInnerHTML={{ __html: t.hero?.title?.replace('Leads erhalten.', 'Qualifizierte Aufträge erhalten.').replace('Umsatz steigern.', '<br/><span class="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500 pb-1 sm:pb-2">Umsatz steigern.<svg class="absolute bottom-0 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none"><path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#heroUnderlineGradient)" stroke-width="4" stroke-linecap="round"></path><defs><linearGradient id="heroUnderlineGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#16a34a"></stop><stop offset="50%" stop-color="#10b981"></stop><stop offset="100%" stop-color="#14b8a6"></stop></linearGradient></defs></svg></span>') || 'Qualifizierte Aufträge erhalten.<br/><span class="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500 pb-1 sm:pb-2">Umsatz steigern.<svg class="absolute bottom-0 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none"><path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#heroUnderlineGradient)" stroke-width="4" stroke-linecap="round"></path><defs><linearGradient id="heroUnderlineGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#16a34a"></stop><stop offset="50%" stop-color="#10b981"></stop><stop offset="100%" stop-color="#14b8a6"></stop></linearGradient></defs></svg></span>' }} />
 
-                            <p className="text-base sm:text-lg text-slate-400 leading-relaxed mb-8 max-w-lg">
-                                {t.hero.description}
+                            <p className="text-lg lg:text-xl text-slate-600 leading-relaxed mb-10 max-w-lg font-medium">
+                                {t.hero?.description || 'Fertigo verbindet Sie mit Kunden, die genau Ihren Service brauchen. Ohne Abo-Fallen, ohne Provision – direkt und transparent.'}
                             </p>
 
                             {/* CTAs */}
-                            <div className="flex flex-col sm:flex-row items-start gap-3 mb-10">
-                                <Link to="/register" className="group inline-flex items-center gap-2.5 bg-green-500 hover:bg-green-400 text-slate-950 font-bold px-7 py-3.5 rounded-xl text-sm shadow-lg shadow-green-500/20 hover:shadow-green-400/25 hover:-translate-y-0.5 transition-all duration-300">
-                                    {t.hero.ctaRegister}
-                                    <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                            <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
+                                <Link to="/register" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-base shadow-xl shadow-slate-900/20 hover:-translate-y-0.5 transition-all duration-300">
+                                    {t.hero?.ctaRegister || 'Kostenlos registrieren'}
+                                    <ArrowRightIcon className="w-5 h-5 text-green-400" />
                                 </Link>
-                                <a href="#so-funktionierts" className="group inline-flex items-center gap-2.5 text-white/60 hover:text-white font-medium text-sm px-5 py-3.5 rounded-xl border border-white/10 hover:border-white/20 hover:bg-white/[0.04] transition-all duration-300">
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                                    {t.hero.ctaHowItWorks}
-                                </a>
                             </div>
 
-                            {/* Inline Stats */}
-                            <div className="grid grid-cols-3 gap-4">
+                            {/* Key Benefits */}
+                            <ul className="flex flex-col gap-3">
                                 {[
-                                    { value: 'CHF 0.–', label: t.hero.stats.monthly },
-                                    { value: '0%', label: t.hero.stats.provision },
-                                    { value: '<5 Min', label: t.hero.stats.toLead },
-                                ].map((s, i) => (
-                                    <div key={i} className="text-center py-3 rounded-xl bg-white/[0.04] border border-white/[0.06]">
-                                        <div className="text-white font-black text-lg sm:text-xl leading-none">{s.value}</div>
-                                        <div className="text-slate-500 text-[10px] sm:text-xs font-medium mt-1">{s.label}</div>
-                                    </div>
+                                    'Kein Abo',
+                                    'Nur 100% Qualifizierte Leads',
+                                    'Schweizweit Faire Preise'
+                                ].map((item, i) => (
+                                    <li key={i} className="flex items-center gap-3 text-slate-700 font-medium">
+                                        <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                            <svg className="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                        </div>
+                                        {item}
+                                    </li>
                                 ))}
-                            </div>
+                            </ul>
                         </div>
 
-                        {/* ── RIGHT: Dashboard Showcase ── */}
-                        <div className={`lg:col-span-7 xl:col-span-7 relative transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                            {/* Glow */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-transparent blur-3xl scale-110 rounded-3xl" />
+                        {/* ── RIGHT: Dynamic Visual Composition ── */}
+                        <div className={`relative lg:h-[600px] flex items-center justify-center transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
 
-                            {/* ── Premium Dashboard Card Stack ── */}
-                            <div className="relative space-y-3">
+                            {/* Subtle Decorative abstract shape behind */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-green-500/[0.05] to-emerald-500/[0.05] rotate-12 rounded-[5vw] z-0 pointer-events-none" />
 
-                                {/* ── Top: Revenue Highlight Card ── */}
-                                <div className="relative bg-gradient-to-br from-slate-800/90 via-slate-900/95 to-slate-950/90 backdrop-blur-2xl rounded-2xl border border-white/[0.08] shadow-2xl shadow-black/30 overflow-hidden">
-                                    {/* Ambient glow inside card */}
-                                    <div className="absolute top-0 right-0 w-48 h-48 bg-green-500/[0.06] rounded-full blur-3xl" />
-                                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-500/[0.04] rounded-full blur-3xl" />
+                            {/* Main Featured Image/Card */}
+                            <div className="relative z-10 w-full max-w-[420px] rounded-[32px] overflow-hidden bg-white shadow-2xl shadow-green-900/5 border border-slate-100 transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                                {/* Top Image Header */}
+                                <div className="relative h-64 bg-slate-100">
+                                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1000&auto=format&fit=crop" alt="Craftsman working" className="w-full h-full object-cover" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
 
-                                    <div className="relative p-5 sm:p-6">
-                                        {/* Header */}
-                                        <div className="flex items-center justify-between mb-5">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-400 via-emerald-500 to-teal-500 flex items-center justify-center shadow-lg shadow-green-500/20">
-                                                    <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>
-                                                </div>
-                                                <div>
-                                                    <div className="text-white/40 text-[10px] font-medium uppercase tracking-widest">Umsatz diesen Monat</div>
-                                                    <div className="text-white font-black text-2xl sm:text-3xl leading-none mt-0.5 tracking-tight">CHF 8'400</div>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center gap-1.5 bg-green-500/10 border border-green-500/20 rounded-full px-3 py-1.5">
-                                                <svg className="w-3.5 h-3.5 text-green-400" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" /></svg>
-                                                <span className="text-green-400 text-[11px] font-bold">+18%</span>
-                                            </div>
-                                        </div>
-
-                                        {/* Mini Revenue Chart */}
-                                        <div className="relative h-20 mb-1">
-                                            <svg className="w-full h-full" viewBox="0 0 400 80" preserveAspectRatio="none">
-                                                <defs>
-                                                    <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                                                        <stop offset="0%" stopColor="rgb(74,222,128)" stopOpacity="0.3" />
-                                                        <stop offset="100%" stopColor="rgb(74,222,128)" stopOpacity="0" />
-                                                    </linearGradient>
-                                                    <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                                                        <stop offset="0%" stopColor="rgb(52,211,153)" />
-                                                        <stop offset="100%" stopColor="rgb(74,222,128)" />
-                                                    </linearGradient>
-                                                </defs>
-                                                <path d="M0 65 Q30 58 60 52 T120 40 T180 45 T240 30 T300 20 T360 22 T400 10" fill="none" stroke="url(#lineGrad)" strokeWidth="2.5" strokeLinecap="round" />
-                                                <path d="M0 65 Q30 58 60 52 T120 40 T180 45 T240 30 T300 20 T360 22 T400 10 L400 80 L0 80 Z" fill="url(#chartGrad)" />
-                                                {/* Data points */}
-                                                <circle cx="120" cy="40" r="3" fill="rgb(74,222,128)" opacity="0.6" />
-                                                <circle cx="240" cy="30" r="3" fill="rgb(74,222,128)" opacity="0.6" />
-                                                <circle cx="400" cy="10" r="4" fill="rgb(74,222,128)">
-                                                    <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" />
-                                                    <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite" />
-                                                </circle>
-                                            </svg>
-                                            {/* Chart labels */}
-                                            <div className="absolute bottom-0 left-0 right-0 flex justify-between text-[8px] text-slate-600 font-medium px-1">
-                                                <span>Jan</span><span>Feb</span><span>Mär</span><span>Apr</span><span>Mai</span><span>Jun</span><span>Jul</span>
-                                            </div>
-                                        </div>
+                                    {/* Swiss Quality Badge inside image */}
+                                    <div className="absolute bottom-5 left-5 flex items-center gap-2.5 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/20 shadow-lg">
+                                        <SwissFlagIcon className="w-4 h-4" />
+                                        <span className="text-xs font-black text-slate-800 uppercase tracking-wide">Swiss Quality</span>
                                     </div>
                                 </div>
 
-                                {/* ── Middle Row: Stats Grid ── */}
-                                <div className="grid grid-cols-3 gap-3">
-                                    {[
-                                        { value: '24', label: t.hero.dashboard.newLeads, icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" /></svg>, change: '+6', color: 'from-green-400 to-emerald-500' },
-                                        { value: '94%', label: t.hero.dashboard.successRate, icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" /></svg>, change: '+3%', color: 'from-emerald-400 to-teal-500' },
-                                        { value: '<5m', label: t.hero.dashboard.responseTime, icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>, change: 'Top', color: 'from-teal-400 to-cyan-500' },
-                                    ].map((stat, i) => (
-                                        <div key={i} className="relative bg-slate-800/60 backdrop-blur-xl rounded-xl border border-white/[0.06] p-4 overflow-hidden group hover:border-white/[0.12] transition-all duration-300">
-                                            <div className={`absolute top-0 right-0 w-16 h-16 bg-gradient-to-br ${stat.color} opacity-[0.06] rounded-full blur-2xl group-hover:opacity-[0.12] transition-opacity`} />
-                                            <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${stat.color} flex items-center justify-center text-white mb-3 shadow-lg`} style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }}>
-                                                {stat.icon}
-                                            </div>
-                                            <div className="text-white font-black text-xl leading-none">{stat.value}</div>
-                                            <div className="text-slate-500 text-[9px] font-medium uppercase tracking-wider mt-1">{stat.label}</div>
-                                            <div className="flex items-center gap-1 mt-2">
-                                                <div className="w-1 h-1 rounded-full bg-green-400" />
-                                                <span className="text-green-400 text-[9px] font-bold">{stat.change}</span>
-                                            </div>
+                                {/* Content Area */}
+                                <div className="p-7">
+                                    <div className="flex justify-between items-start mb-6">
+                                        <div>
+                                            <h3 className="text-xl font-black text-slate-900 mb-1.5 leading-tight">Neue Anfrage:<br />Badezimmer Sanierung</h3>
+                                            <p className="text-sm font-semibold text-slate-500 flex items-center gap-1.5">
+                                                <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                                Zürich, CH
+                                            </p>
                                         </div>
-                                    ))}
-                                </div>
-
-                                {/* ── Bottom: Live Leads Ticker ── */}
-                                <div className="relative bg-slate-800/60 backdrop-blur-xl rounded-2xl border border-white/[0.06] overflow-hidden">
-                                    {/* Header */}
-                                    <div className="flex items-center justify-between px-5 pt-4 pb-3">
-                                        <div className="flex items-center gap-2">
-                                            <span className="relative flex h-2 w-2">
-                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
-                                            </span>
-                                            <span className="text-white text-xs font-bold">{t.hero.dashboard.liveRequests}</span>
-                                            <span className="bg-green-500/15 text-green-400 text-[9px] font-bold px-2 py-0.5 rounded-full">{t.hero.dashboard.newBadge}</span>
+                                        <div className="bg-green-100 text-green-700 font-extrabold px-3 py-1.5 rounded-lg text-xs tracking-wider animate-pulse flex items-center gap-1.5">
+                                            <div className="w-2 h-2 rounded-full bg-green-500"></div> LIVE
                                         </div>
                                     </div>
 
-                                    {/* Lead Items */}
-                                    <div className="px-4 pb-4 space-y-1.5">
-                                        {[
-                                            { emoji: '🛁', name: 'Badezimmer sanieren', loc: 'Zürich', val: 'CHF 5\'200', time: 'Jetzt', urgent: true },
-                                            { emoji: '🔧', name: 'Küche montieren', loc: 'Bern', val: 'CHF 2\'800', time: '8 Min', urgent: false },
-                                            { emoji: '🎨', name: 'Wand streichen', loc: 'Luzern', val: 'CHF 900', time: '15 Min', urgent: false },
-                                        ].map((lead, i) => (
-                                            <div key={i} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 ${lead.urgent ? 'bg-green-500/[0.08] border border-green-500/20 shadow-sm shadow-green-500/5' : 'bg-white/[0.02] border border-transparent hover:bg-white/[0.04] hover:border-white/[0.06]'}`}>
-                                                <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0 ${lead.urgent ? 'bg-green-500/15 shadow-inner' : 'bg-white/[0.04]'}`}>
-                                                    {lead.emoji}
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="text-white text-[11px] font-semibold truncate">{lead.name}</span>
-                                                        {lead.urgent && (
-                                                            <span className="flex-shrink-0 bg-green-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">Neu</span>
-                                                        )}
-                                                    </div>
-                                                    <div className="text-slate-500 text-[9px] mt-0.5">📍 {lead.loc} · {lead.time}</div>
-                                                </div>
-                                                <div className={`text-xs font-black flex-shrink-0 ${lead.urgent ? 'text-green-400' : 'text-slate-400'}`}>{lead.val}</div>
-                                            </div>
-                                        ))}
+                                    {/* Stats Row */}
+                                    <div className="grid grid-cols-2 gap-4 mb-7">
+                                        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100/50 hover:bg-green-50 hover:border-green-100 transition-colors cursor-default">
+                                            <div className="text-slate-400 text-[11px] font-bold uppercase tracking-wider mb-1">Budget ca.</div>
+                                            <div className="text-[19px] font-black text-green-600">CHF 12'000</div>
+                                        </div>
+                                        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100/50 hover:bg-blue-50 hover:border-blue-100 transition-colors cursor-default">
+                                            <div className="text-slate-400 text-[11px] font-bold uppercase tracking-wider mb-1">Zeitrahmen</div>
+                                            <div className="text-[19px] font-black text-slate-900">In 2 Wochen</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Fake Accept Button */}
+                                    <div className="w-full bg-emerald-500 hover:bg-emerald-400 text-white font-black py-4 rounded-xl text-center shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 cursor-pointer transition-all duration-300">
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                        Jetzt Offerte senden
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Floating UI Elements */}
 
 
                         </div>
                     </div>
                 </div>
 
-
-                {/* Bottom fade */}
-                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none" />
-
-                {/* CSS Animations */}
                 <style>{`
-                    .hero-gradient-text {
-                        background: linear-gradient(135deg, #4ade80 0%, #34d399 40%, #2dd4bf 70%, #4ade80 100%);
-                        background-size: 300% 300%;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-                        background-clip: text;
-                        animation: hero-shimmer 8s ease-in-out infinite;
+                    .animate-float {
+                        animation: float 6s ease-in-out infinite;
                     }
-                    @keyframes hero-shimmer {
-                        0%, 100% { background-position: 0% 50%; }
-                        50% { background-position: 100% 50%; }
-                    }
-                    .hero-float {
-                        animation: hero-bob 6s ease-in-out infinite;
-                    }
-                    @keyframes hero-bob {
-                        0%, 100% { transform: translateY(0); }
-                        50% { transform: translateY(-10px); }
+                    @keyframes float {
+                        0% { transform: translateY(0px); }
+                        50% { transform: translateY(-15px); }
+                        100% { transform: translateY(0px); }
                     }
                 `}</style>
             </section>
@@ -427,61 +334,71 @@ const ProvidersPage: React.FC = () => {
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4" dangerouslySetInnerHTML={{ __html: t.benefits.title }} />
                     </div>
 
-                    {/* Vergleich */}
-                    <div className="hidden sm:grid grid-cols-[1fr_48px_1fr] gap-4 mb-4 px-1">
-                        <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center">
-                                <svg className="w-3.5 h-3.5 text-red-400" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
-                            </div>
-                            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t.benefits.without}</span>
-                        </div>
-                        <div />
-                        <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
-                                <svg className="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
-                            </div>
-                            <span className="text-xs font-bold text-green-600 uppercase tracking-widest">{t.benefits.with}</span>
-                        </div>
-                    </div>
+                    {/* ===== COMPLETELY DIFFERENT DESIGN: MIDNIGHT BENTO GRID ===== */}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-5 max-w-[1400px] mx-auto mb-16 relative z-10 auto-rows-[auto] md:auto-rows-[250px]">
+                        {t.benefits.rows.map((row: any, i: number) => {
+                            // Bento Layout classes for 6 items in a 4-col grid:
+                            // 0: span 2, 1: span 2
+                            // 2: span 1 (tall), 3: span 2, 4: span 1 (tall)
+                            // 5: span 2
+                            const gridClass =
+                                i === 0 ? "md:col-span-2 md:row-span-1" :
+                                    i === 1 ? "md:col-span-2 md:row-span-1" :
+                                        i === 2 ? "md:col-span-1 md:row-span-2" :
+                                            i === 3 ? "md:col-span-2 md:row-span-1" :
+                                                i === 4 ? "md:col-span-1 md:row-span-2" :
+                                                    "md:col-span-2 md:row-span-1";
 
-                    <div className="space-y-3">
-                        {t.benefits.rows.map((row: any, i: number) => (
-                            <div
-                                key={i}
-                                className={`bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-500 ${benefitsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-                                style={{ transitionDelay: `${200 + i * 80}ms` }}
-                            >
-                                {/* Desktop */}
-                                <div className="hidden sm:grid grid-cols-[1fr_48px_1fr] items-center">
-                                    <div className="flex items-center gap-3 px-5 py-4 lg:px-6 lg:py-5">
-                                        <span className="text-slate-300 text-sm line-through font-medium">{row.before}</span>
+                            return (
+                                <div
+                                    key={i}
+                                    className={`group relative rounded-[2.5rem] overflow-hidden bg-slate-950 border border-slate-800/80 shadow-[0_10px_40px_rgba(0,0,0,0.08)] hover:border-green-500/40 hover:shadow-[0_0_50px_rgba(34,197,94,0.15)] hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between p-7 sm:p-9 ${gridClass} ${benefitsInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                                    style={{ transitionDelay: `${150 + i * 100}ms` }}
+                                >
+                                    {/* Deep Space Background Glow & Noise */}
+                                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 to-slate-950 opacity-80 z-0"></div>
+                                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.04] mix-blend-overlay z-0"></div>
+
+                                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0" />
+                                    <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-green-500/20 rounded-full blur-[80px] group-hover:bg-green-400/40 transition-all duration-700 pointer-events-none z-0" />
+
+                                    {/* Top Row: Category & Icon */}
+                                    <div className="flex justify-between items-start z-10 relative">
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] font-black text-green-400 uppercase tracking-widest mb-1 flex items-center gap-2">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-green-500 group-hover:animate-ping" />
+                                                {row.label}
+                                            </span>
+                                        </div>
+                                        <div className="w-12 h-12 rounded-full bg-slate-900/80 border border-slate-800 flex items-center justify-center text-slate-500 group-hover:text-green-400 group-hover:bg-green-500/20 group-hover:border-green-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-inner">
+                                            {/* Dynamic Icons */}
+                                            {i === 0 ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>
+                                                : i === 1 ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.866 8.21 8.21 0 0 0 3 2.48Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z" /></svg>
+                                                    : i === 2 ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>
+                                                        : i === 3 ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" /></svg>
+                                                            : i === 4 ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" /></svg>
+                                                                : <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" /></svg>}
+                                        </div>
                                     </div>
-                                    <div className="flex justify-center">
-                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 flex items-center justify-center text-lg">{row.emoji}</div>
-                                    </div>
-                                    <div className="flex items-center gap-3 px-5 py-4 lg:px-6 lg:py-5">
-                                        <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
-                                        <span className="text-slate-800 text-sm font-semibold">{row.after}</span>
+
+                                    {/* Content Area */}
+                                    <div className="relative z-10 mt-10 flex flex-col justify-end gap-3 flex-1">
+                                        {/* The Old Way (Small, red/gray) */}
+                                        <div className="flex items-center gap-2 opacity-50 group-hover:opacity-40 transition-opacity">
+                                            <svg className="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                            </svg>
+                                            <span className="text-[11px] font-medium text-slate-400 uppercase tracking-widest line-through decoration-red-900/50">{row.before}</span>
+                                        </div>
+
+                                        {/* The New Way (Huge, bright pure white) */}
+                                        <div className={`${(i === 2 || i === 4) ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'} font-black text-white group-hover:text-green-50 transition-colors leading-[1.15] tracking-tight`}>
+                                            {row.after}
+                                        </div>
                                     </div>
                                 </div>
-
-                                {/* Mobile */}
-                                <div className="sm:hidden p-4">
-                                    <div className="flex items-center gap-2.5 mb-3">
-                                        <span className="text-xl">{row.emoji}</span>
-                                        <span className="text-xs font-black text-slate-900 uppercase tracking-wider">{row.label}</span>
-                                    </div>
-                                    <div className="flex items-center gap-2 mb-1.5">
-                                        <svg className="w-3.5 h-3.5 text-red-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
-                                        <span className="text-slate-400 text-xs line-through">{row.before}</span>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <svg className="w-3.5 h-3.5 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
-                                        <span className="text-green-700 text-sm font-bold">{row.after}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
 
                     {/* Pricing Strip */}

@@ -45,33 +45,220 @@ type Status = Lead['status'];
 
 const statuses: Status[] = ['Neu', 'Kontaktiert', 'Angebot gesendet', 'In Verhandlung', 'Gewonnen', 'Verloren / Abgelehnt'];
 
-const statusConfig: { [key in Status]: { icon: React.ReactNode; color: string; bgColor: string; key: string } } = {
-    'Neu': { icon: <BellIcon className="w-3.5 h-3.5" />, color: 'text-blue-700', bgColor: 'bg-blue-50', key: 'Neu' },
-    'Kontaktiert': { icon: <ChatBubbleLeftRightIcon className="w-3.5 h-3.5" />, color: 'text-cyan-700', bgColor: 'bg-cyan-50', key: 'Kontaktiert' },
-    'Angebot gesendet': { icon: <PaperAirplaneIcon className="w-3.5 h-3.5" />, color: 'text-violet-700', bgColor: 'bg-violet-50', key: 'Angebot' },
-    'In Verhandlung': { icon: <BanknotesIcon className="w-3.5 h-3.5" />, color: 'text-amber-700', bgColor: 'bg-amber-50', key: 'Verhandlung' },
-    'Gewonnen': { icon: <TestsiegerIcon className="w-3.5 h-3.5" />, color: 'text-emerald-700', bgColor: 'bg-emerald-50', key: 'Gewonnen' },
-    'Verloren / Abgelehnt': { icon: <XCircleIcon className="w-3.5 h-3.5" />, color: 'text-rose-700', bgColor: 'bg-rose-50', key: 'Verloren' },
+const statusConfig: { [key in Status]: { icon: React.ReactNode; color: string; bgColor: string; borderColor: string; key: string } } = {
+    'Neu': { icon: <BellIcon className="w-3.5 h-3.5" />, color: 'text-blue-700', bgColor: 'bg-blue-50', borderColor: 'border-blue-200', key: 'Neu' },
+    'Kontaktiert': { icon: <ChatBubbleLeftRightIcon className="w-3.5 h-3.5" />, color: 'text-cyan-700', bgColor: 'bg-cyan-50', borderColor: 'border-cyan-200', key: 'Kontaktiert' },
+    'Angebot gesendet': { icon: <PaperAirplaneIcon className="w-3.5 h-3.5" />, color: 'text-violet-700', bgColor: 'bg-violet-50', borderColor: 'border-violet-200', key: 'Angebot' },
+    'In Verhandlung': { icon: <BanknotesIcon className="w-3.5 h-3.5" />, color: 'text-amber-700', bgColor: 'bg-amber-50', borderColor: 'border-amber-200', key: 'Verhandlung' },
+    'Gewonnen': { icon: <TestsiegerIcon className="w-3.5 h-3.5" />, color: 'text-emerald-700', bgColor: 'bg-emerald-50', borderColor: 'border-emerald-200', key: 'Gewonnen' },
+    'Verloren / Abgelehnt': { icon: <XCircleIcon className="w-3.5 h-3.5" />, color: 'text-rose-700', bgColor: 'bg-rose-50', borderColor: 'border-rose-200', key: 'Verloren' },
 };
 
-const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('de-CH', { style: 'currency', currency: 'CHF' }).format(price);
-};
+const formatPrice = (price: number) =>
+    new Intl.NumberFormat('de-CH', { style: 'currency', currency: 'CHF' }).format(price);
 
-const formatDate = (dateStr: string, language: string) => {
-    return new Date(dateStr).toLocaleDateString(language === 'de' ? 'de-CH' : 'en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-};
+const formatDate = (dateStr: string, language: string) =>
+    new Date(dateStr).toLocaleDateString(language === 'de' ? 'de-CH' : 'en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
-const StatusBadge: React.FC<{ status: string; t: any }> = ({ status, t }) => {
+const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
     const config = statusConfig[status as Status] || statusConfig['Neu'];
-    // For now we use the key or a simple mapping if available in translations
     return (
-        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold inline-flex items-center gap-1 ${config.bgColor} ${config.color}`}>
+        <span className={`px-2.5 py-1 rounded-lg text-[11px] font-bold inline-flex items-center gap-1.5 ${config.bgColor} ${config.color} border ${config.borderColor}`}>
             {config.icon}
             {status === 'Verloren / Abgelehnt' ? 'Verloren' : status}
         </span>
     );
 };
+
+const AvailabilityDots: React.FC<{ count: number; max: number }> = ({ count, max }) => {
+    const available = max - count;
+    return (
+        <div className="flex items-center gap-1" title={`${available} von ${max} verfügbar`}>
+            {Array.from({ length: max }).map((_, i) => (
+                <div
+                    key={i}
+                    className={`w-2 h-2 rounded-full transition-colors ${i < available ? 'bg-emerald-500' : 'bg-slate-200'}`}
+                />
+            ))}
+        </div>
+    );
+};
+
+const LeadCard: React.FC<{ lead: Lead; isPurchased: boolean; language: string; onClick: () => void }> = ({ lead, isPurchased, language, onClick }) => {
+    const availableCount = 5 - (lead.purchaseCount || 0);
+    const isSoldOut = !isPurchased && availableCount <= 0;
+    const isHot = !isPurchased && availableCount <= 2 && availableCount > 0;
+    const leadDate = new Date(lead.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    leadDate.setHours(0, 0, 0, 0);
+    const isNew = leadDate.getTime() >= today.getTime();
+
+    return (
+        <article
+            onClick={isSoldOut ? undefined : onClick}
+            className={`group relative bg-white rounded-2xl border transition-all duration-300 overflow-hidden flex flex-col ${isSoldOut
+                ? 'border-slate-200 opacity-60 cursor-not-allowed'
+                : 'border-slate-200 hover:border-primary-300 hover:shadow-xl hover:shadow-primary-100/50 cursor-pointer hover:-translate-y-1'
+                }`}
+        >
+            {/* Top accent bar */}
+            <div className={`h-1 w-full ${isSoldOut ? 'bg-slate-300' : isHot ? 'bg-gradient-to-r from-orange-400 to-red-500' : 'bg-gradient-to-r from-primary-500 to-primary-600'}`} />
+
+            <div className="p-5 flex-1 flex flex-col">
+                {/* Badges */}
+                <div className="flex items-center gap-2 mb-3 flex-wrap">
+                    {isPurchased && <StatusBadge status={lead.status} />}
+                    {isNew && !isSoldOut && (
+                        <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-primary-50 text-primary-700 border border-primary-200 inline-flex items-center gap-1">
+                            <span className="relative flex h-1.5 w-1.5">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-500 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary-600"></span>
+                            </span>
+                            Neu
+                        </span>
+                    )}
+                    {isHot && (
+                        <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-orange-50 text-orange-700 border border-orange-200">
+                            Beliebt
+                        </span>
+                    )}
+                    {isSoldOut && (
+                        <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-100 text-slate-500 border border-slate-200">
+                            Ausverkauft
+                        </span>
+                    )}
+                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-50 text-slate-600 border border-slate-200 ml-auto">
+                        {lead.service}
+                    </span>
+                </div>
+
+                {/* Title */}
+                <h3 className="text-base font-bold text-slate-900 mb-3 line-clamp-2 leading-snug group-hover:text-primary-700 transition-colors">
+                    {lead.title}
+                </h3>
+
+                {/* Meta info */}
+                <div className="space-y-2 mb-4">
+                    <div className="flex items-center gap-2 text-sm text-slate-500">
+                        <MapPinIcon className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                        <span className="font-medium truncate">{lead.location}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-500">
+                        <CalendarDaysIcon className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                        <span className="font-medium">{formatDate(lead.date, language)}</span>
+                    </div>
+                    {isPurchased && lead.customerName && (
+                        <div className="flex items-center gap-2 text-sm text-slate-500">
+                            <UserIcon className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                            <span className="font-medium truncate">{lead.customerName}</span>
+                        </div>
+                    )}
+                </div>
+
+                {/* Footer */}
+                <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                    {!isPurchased ? (
+                        <>
+                            <div>
+                                <p className="text-lg font-extrabold text-slate-900">{formatPrice(lead.price)}</p>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <AvailabilityDots count={lead.purchaseCount || 0} max={5} />
+                                    <span className="text-[11px] text-slate-400 font-medium">{availableCount}/5</span>
+                                </div>
+                            </div>
+                            {!isSoldOut && (
+                                <div className="bg-primary-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold group-hover:bg-primary-700 transition-colors flex items-center gap-1.5 shadow-sm group-hover:shadow-md">
+                                    Ansehen
+                                    <ArrowRightIcon className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            <div className="flex items-center gap-3">
+                                <div className="flex -space-x-2">
+                                    {[1, 2].map(p => (
+                                        <div key={p} className="w-7 h-7 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center">
+                                            <UserIcon className="w-3.5 h-3.5 text-slate-400" />
+                                        </div>
+                                    ))}
+                                </div>
+                                <span className="text-xs text-slate-400 font-medium">{lead.purchaseCount} Käufer</span>
+                            </div>
+                            <div className="text-primary-600 text-xs font-bold flex items-center gap-1 group-hover:gap-2 transition-all">
+                                Details
+                                <ArrowRightIcon className="w-3.5 h-3.5" />
+                            </div>
+                        </>
+                    )}
+                </div>
+            </div>
+        </article>
+    );
+};
+
+const TableRow: React.FC<{ lead: Lead; isPurchased: boolean; language: string; onClick: () => void }> = ({ lead, isPurchased, language, onClick }) => {
+    const availableCount = 5 - (lead.purchaseCount || 0);
+    return (
+        <tr onClick={onClick} className="group hover:bg-primary-50/50 cursor-pointer transition-colors border-b border-slate-100 last:border-0">
+            <td className="py-4 px-5">
+                <div>
+                    <p className="font-bold text-slate-900 group-hover:text-primary-700 transition-colors line-clamp-1">{lead.title}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">{lead.service}</p>
+                </div>
+            </td>
+            <td className="py-4 px-5">
+                <div className="flex items-center gap-1.5 text-sm text-slate-600">
+                    <MapPinIcon className="w-3.5 h-3.5 text-slate-400" />
+                    {lead.location}
+                </div>
+            </td>
+            <td className="py-4 px-5 text-sm text-slate-600 font-medium">
+                {formatDate(lead.date, language)}
+            </td>
+            {isPurchased && (
+                <td className="py-4 px-5">
+                    <StatusBadge status={lead.status} />
+                </td>
+            )}
+            {!isPurchased && (
+                <>
+                    <td className="py-4 px-5">
+                        <span className="font-bold text-slate-900">{formatPrice(lead.price)}</span>
+                    </td>
+                    <td className="py-4 px-5">
+                        <AvailabilityDots count={lead.purchaseCount || 0} max={5} />
+                    </td>
+                </>
+            )}
+            <td className="py-4 px-5 text-right">
+                <span className="text-primary-600 text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity inline-flex items-center gap-1">
+                    Öffnen <ArrowRightIcon className="w-3.5 h-3.5" />
+                </span>
+            </td>
+        </tr>
+    );
+};
+
+const SkeletonCard = () => (
+    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden animate-pulse">
+        <div className="h-1 w-full bg-slate-200" />
+        <div className="p-5 space-y-4">
+            <div className="flex gap-2">
+                <div className="h-6 w-14 bg-slate-100 rounded-lg" />
+                <div className="h-6 w-20 bg-slate-100 rounded-lg" />
+            </div>
+            <div className="h-5 bg-slate-200 rounded w-4/5" />
+            <div className="h-4 bg-slate-100 rounded w-3/5" />
+            <div className="h-4 bg-slate-100 rounded w-2/5" />
+            <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
+                <div className="h-6 w-20 bg-slate-200 rounded" />
+                <div className="h-9 w-24 bg-slate-100 rounded-xl" />
+            </div>
+        </div>
+    </div>
+);
 
 const PartnerRequestsPage: React.FC = () => {
     const { language } = useAppContext();
@@ -83,21 +270,17 @@ const PartnerRequestsPage: React.FC = () => {
     const [leads, setLeads] = useState<Lead[]>([]);
     const [purchasedLeads, setPurchasedLeads] = useState<Lead[]>([]);
 
-    // Filters & Sorting
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCanton, setSelectedCanton] = useState(language === 'de' ? 'Alle Kantone' : t.filterAllCantons);
     const [selectedService, setSelectedService] = useState(language === 'de' ? 'Alle Services' : t.filterAllServices);
     const [maxPrice, setMaxPrice] = useState<number>(1000);
     const [sortOption, setSortOption] = useState(language === 'de' ? 'Neueste zuerst' : t.sort.newest);
 
-    // View Options
-    const [purchasedViewMode, setPurchasedViewMode] = useState<'cards' | 'table' | 'board'>('cards');
+    const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
 
-    // Pagination
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9;
 
-    // Quick View
     const [quickViewLeadId, setQuickViewLeadId] = useState<string | null>(null);
 
     const fetchLeads = useCallback(async () => {
@@ -108,10 +291,8 @@ const PartnerRequestsPage: React.FC = () => {
             const response = await fetch(`${API_URL}${endpoint}`, {
                 headers: getAuthHeaders(),
             });
-
             if (!response.ok) throw new Error(language === 'de' ? 'Das Laden der Leads ist fehlgeschlagen' : 'Failed to load leads');
             const data = await response.json();
-
             if (isPurchasedView) {
                 setPurchasedLeads(data);
             } else {
@@ -191,295 +372,317 @@ const PartnerRequestsPage: React.FC = () => {
         setMaxPrice(1000);
     };
 
+    const availableLeadCount = leads.filter(l => (5 - (l.purchaseCount || 0)) > 0).length;
+
     return (
-        <div className="bg-[#020617] min-h-screen text-slate-100 selection:bg-emerald-500/30 selection:text-emerald-400 font-sans pb-32">
-            {/* Immersive Background Aura */}
-            <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-                <div className="absolute top-[-20%] right-[-10%] w-[70%] h-[70%] bg-emerald-600/10 rounded-full blur-[160px] animate-pulse"></div>
-                <div className="absolute bottom-[-10%] left-[-20%] w-[60%] h-[60%] bg-blue-600/10 rounded-full blur-[140px] animate-pulse" style={{ animationDelay: '3s' }}></div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.05)_0%,transparent_70%)] opacity-50"></div>
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] mix-blend-overlay"></div>
-            </div>
-
-            <div className="relative z-10 max-w-[1700px] mx-auto px-6 sm:px-12 py-16">
-                {/* Luxury Header */}
-                <div className="relative mb-24">
-                    <div className="flex flex-col xl:flex-row items-start xl:items-end justify-between gap-16">
-                        <div className="space-y-10 max-w-4xl">
-                            <div className="inline-flex items-center gap-4 px-5 py-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full backdrop-blur-md shadow-[0_0_20px_rgba(16,185,129,0.1)]">
-                                <span className="relative flex h-2.5 w-2.5">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+        <div className="max-w-[1600px] mx-auto">
+            {/* Page Header */}
+            <div className="mb-4 sm:mb-8">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6">
+                    <div>
+                        <div className="flex items-center justify-between sm:justify-start gap-3 mb-2">
+                            <div className="flex items-center gap-3">
+                                <span className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-full text-[11px] sm:text-xs font-bold text-emerald-700">
+                                    <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-emerald-500"></span>
+                                    </span>
+                                    Live
                                 </span>
-                                <span className="text-[11px] font-black uppercase tracking-[0.4em] text-emerald-400 drop-shadow-sm">System Live // {leads.length} Dossiers found</span>
+                                {!isPurchasedView && (
+                                    <span className="text-xs sm:text-sm text-slate-500 font-medium">
+                                        {availableLeadCount} {availableLeadCount === 1 ? 'Lead' : 'Leads'} verfügbar
+                                    </span>
+                                )}
                             </div>
 
-                            <div className="space-y-6">
-                                <h1 className="text-8xl sm:text-[10rem] font-black text-white tracking-tighter leading-[0.75] italic">
-                                    {isPurchasedView ? 'Dossier' : 'Market'}
-                                    <span className="text-emerald-500 not-italic">.</span>
-                                </h1>
-                                <p className="text-2xl sm:text-3xl text-slate-400 font-light leading-snug max-w-3xl border-l-2 border-slate-800 pl-10 py-2">
-                                    {isPurchasedView ? t.leadsInPortfolio : 'Strategischer Zugriff auf exklusive Projekt-Daten und High-Value Marktopportunitäten.'}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col sm:flex-row items-stretch gap-6 w-full xl:w-auto">
-                            <div className="flex bg-white/[0.03] backdrop-blur-3xl p-2 rounded-[2.5rem] border border-white/10 shadow-2xl ring-1 ring-white/5">
-                                <button
-                                    onClick={() => { setIsPurchasedView(false); setCurrentPage(1); }}
-                                    className={`flex items-center justify-center gap-4 px-12 py-6 rounded-[2rem] text-xs font-black uppercase tracking-[0.25em] transition-all duration-700 ${!isPurchasedView ? 'bg-white text-black shadow-[0_20px_40px_rgba(255,255,255,0.15)] scale-105' : 'text-slate-500 hover:text-white'}`}
-                                >
-                                    <Squares2X2Icon className="w-4 h-4" />
-                                    {t.leadsAvailable}
-                                </button>
-                                <button
-                                    onClick={() => { setIsPurchasedView(true); setCurrentPage(1); }}
-                                    className={`flex items-center justify-center gap-4 px-12 py-6 rounded-[2rem] text-xs font-black uppercase tracking-[0.25em] transition-all duration-700 ${isPurchasedView ? 'bg-white text-black shadow-[0_20px_40px_rgba(255,255,255,0.15)] scale-105' : 'text-slate-500 hover:text-white'}`}
-                                >
-                                    <QueueListIcon className="w-4 h-4" />
-                                    {t.myLeadsTitle}
-                                </button>
-                            </div>
-
+                            {/* Refresh Button moved up on Mobile for space efficiency */}
                             <button
                                 onClick={fetchLeads}
-                                className="h-20 w-20 flex items-center justify-center bg-white/[0.03] border border-white/10 text-white rounded-[2.5rem] hover:bg-white/[0.08] transition-all duration-500 group active:scale-90 shadow-xl"
+                                className="sm:hidden p-2 bg-white border border-slate-200 text-slate-500 rounded-lg hover:bg-slate-50 active:scale-95 transition-all shadow-sm"
+                                title="Aktualisieren"
                             >
-                                <ArrowPathIcon className={`w-8 h-8 group-hover:rotate-180 transition-transform duration-1000 ${loading ? 'animate-spin text-emerald-500' : ''}`} />
+                                <ArrowPathIcon className={`w-4 h-4 ${loading ? 'animate-spin text-primary-600' : ''}`} />
                             </button>
                         </div>
-                    </div>
-                </div>
-
-                <div className="space-y-12">
-                    {/* Bento Stats area for purchased leads */}
-                    {isPurchasedView && stats && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {[
-                                { label: 'TOTAL_ASSETS', value: stats.total, color: 'emerald', icon: Squares2X2Icon },
-                                { label: 'LIVE_ALERTS', value: stats.new, color: 'blue', icon: BellIcon },
-                                { label: 'PROCESS_UNITS', value: stats.inProgress, color: 'amber', icon: ChatBubbleLeftRightIcon },
-                                { label: 'SUCCESS_RATE', value: stats.won, color: 'emerald', icon: TestsiegerIcon }
-                            ].map((stat, i) => (
-                                <div key={i} className="group relative overflow-hidden bg-white/[0.02] backdrop-blur-2xl p-8 rounded-[3rem] border border-white/5 shadow-2xl hover:border-emerald-500/30 transition-all duration-700">
-                                    <div className="relative z-10 flex flex-col justify-between h-full">
-                                        <div className="flex items-start justify-between mb-10">
-                                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">{stat.label}</p>
-                                            <div className={`w-12 h-12 rounded-2xl bg-${stat.color}-500/10 flex items-center justify-center text-${stat.color}-400 group-hover:scale-110 transition-transform`}>
-                                                <stat.icon className="w-5 h-5" />
-                                            </div>
-                                        </div>
-                                        <h4 className="text-6xl font-black text-white tracking-tighter mb-2 group-hover:translate-x-2 transition-transform duration-700">
-                                            {stat.value.toString().padStart(2, '0')}
-                                        </h4>
-                                        <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                            <div className={`h-full bg-${stat.color}-500 w-2/3 group-hover:w-full transition-all duration-1000`}></div>
-                                        </div>
-                                    </div>
-                                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* Sophisticated Filter Bar */}
-                    <div className="sticky top-8 z-40">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-[3rem] blur-2xl opacity-50"></div>
-                        <div className="relative bg-[#0a0a0a]/80 backdrop-blur-3xl border border-white/10 rounded-[3rem] p-4 shadow-2xl flex flex-col xl:flex-row gap-6 items-center">
-                            <div className="relative flex-grow w-full group">
-                                <MagnifyingGlassIcon className="w-7 h-7 text-slate-600 absolute left-8 top-1/2 -translate-y-1/2 group-focus-within:text-emerald-500 transition-colors duration-500" />
-                                <input
-                                    type="text"
-                                    placeholder={t.searchPlaceholder || "SYSTEM_SCAN: Dienstleistung, Ort..."}
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full h-16 pl-20 pr-10 bg-white/[0.03] border-none rounded-[2.2rem] text-white font-medium placeholder:text-slate-600 focus:ring-1 focus:ring-emerald-500/30 transition-all text-lg"
-                                />
-                            </div>
-
-                            <div className="flex flex-wrap items-center gap-4 w-full xl:w-auto">
-                                {!isPurchasedView && (
-                                    <>
-                                        <div className="relative flex-grow sm:flex-grow-0 group">
-                                            <select
-                                                value={selectedCanton}
-                                                onChange={(e) => setSelectedCanton(e.target.value)}
-                                                className="h-16 pl-8 pr-16 bg-white/[0.03] border-none rounded-[2rem] text-sm font-black text-slate-300 appearance-none focus:ring-1 focus:ring-emerald-500/30 cursor-pointer min-w-[200px]"
-                                            >
-                                                <option>{t.filterAllCantons}</option>
-                                                {['Zürich', 'Bern', 'Luzern', 'Aargau', 'St. Gallen'].map(c => <option key={c}>{c}</option>)}
-                                            </select>
-                                            <ChevronUpDownIcon className="w-5 h-5 text-slate-600 absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none group-hover:text-emerald-500 transition-colors" />
-                                        </div>
-                                        <div className="relative flex-grow sm:flex-grow-0 group">
-                                            <select
-                                                value={selectedService}
-                                                onChange={(e) => setSelectedService(e.target.value)}
-                                                className="h-16 pl-8 pr-16 bg-white/[0.03] border-none rounded-[2rem] text-sm font-black text-slate-300 appearance-none focus:ring-1 focus:ring-emerald-500/30 cursor-pointer min-w-[200px]"
-                                            >
-                                                <option>{t.filterAllServices}</option>
-                                                {['Umzug', 'Reinigung', 'Maler', 'Bodenleger'].map(s => <option key={s}>{s}</option>)}
-                                            </select>
-                                            <ChevronUpDownIcon className="w-5 h-5 text-slate-600 absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none group-hover:text-emerald-500 transition-colors" />
-                                        </div>
-                                    </>
-                                )}
-
-                                <div className="h-16 flex items-center bg-white/[0.03] p-2 rounded-[2rem] gap-2">
-                                    <button onClick={() => setPurchasedViewMode('cards')} className={`w-12 h-12 flex items-center justify-center rounded-[1.2rem] transition-all duration-500 ${purchasedViewMode === 'cards' ? 'bg-white text-black shadow-lg' : 'text-slate-500 hover:text-white'}`}>
-                                        <Squares2X2Icon className="w-5 h-5" />
-                                    </button>
-                                    <button onClick={() => setPurchasedViewMode('table')} className={`w-12 h-12 flex items-center justify-center rounded-[1.2rem] transition-all duration-500 ${purchasedViewMode === 'table' ? 'bg-white text-black shadow-lg' : 'text-slate-500 hover:text-white'}`}>
-                                        <TableCellsIcon className="w-5 h-5" />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                            {isPurchasedView ? t.myLeadsTitle : t.title}
+                        </h1>
+                        <p className="text-slate-500 mt-1 font-medium text-sm sm:text-base hidden sm:block">
+                            {isPurchasedView ? t.leadsInPortfolio : 'Entdecken Sie neue Projektanfragen und gewinnen Sie Aufträge.'}
+                        </p>
                     </div>
 
-                    {/* Results Grid - Cyber Luxury Cards */}
-                    {loading ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
-                            {[1, 2, 3, 4, 5, 6].map(i => (
-                                <div key={i} className="bg-white/[0.02] border border-white/5 rounded-[4rem] p-12 min-h-[520px] animate-pulse relative overflow-hidden">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-transparent"></div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : error ? (
-                        <div className="py-32 flex flex-col items-center justify-center bg-red-500/5 rounded-[4rem] border border-red-500/20 text-center">
-                            <XMarkIcon className="w-20 h-20 text-red-500 mb-8" />
-                            <h3 className="text-4xl font-black text-white mb-4 tracking-tighter">INTEGRITY_COMPROMISED</h3>
-                            <p className="text-xl text-slate-400 mb-10 max-w-lg">{error}</p>
-                            <button onClick={fetchLeads} className="px-12 py-5 bg-white text-black font-black rounded-[2rem] hover:scale-105 transition-transform active:scale-95">RETRY_PROTOCOL</button>
-                        </div>
-                    ) : paginatedRequests.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
-                            {paginatedRequests.map(lead => (
-                                <div
-                                    key={lead._id}
-                                    onClick={() => setQuickViewLeadId(lead._id)}
-                                    className="group relative bg-[#0a0a0a] border border-white/[0.06] rounded-[4rem] p-12 hover:border-emerald-500/40 hover:shadow-[0_40px_100px_-20px_rgba(16,185,129,0.2)] transition-all duration-1000 cursor-pointer overflow-hidden flex flex-col min-h-[520px] hover:-translate-y-4"
-                                >
-                                    {/* High Contrast Accents */}
-                                    <div className="flex justify-between items-start mb-12">
-                                        <div className="space-y-3">
-                                            <span className="px-6 py-2.5 bg-white text-black text-[10px] font-black rounded-full uppercase tracking-[0.3em]">{lead.service}</span>
-                                            <div className="flex items-center gap-3">
-                                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                                                <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest leading-none">SECURE_DOSSIER</span>
-                                            </div>
-                                        </div>
-                                        {!isPurchasedView && (
-                                            <div className="p-6 bg-emerald-500/5 rounded-[2.5rem] border border-emerald-500/10 backdrop-blur-xl group-hover:bg-emerald-500 group-hover:text-black transition-all duration-700">
-                                                <p className="text-[9px] font-black uppercase tracking-widest text-center mb-1 transition-colors">VALUATION</p>
-                                                <p className="text-4xl font-black tracking-tighter leading-none transition-colors">{formatPrice(lead.price)}</p>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    <h3 className="text-4xl sm:text-5xl font-black text-white mb-10 leading-[0.9] tracking-tighter group-hover:text-emerald-400 transition-colors duration-700 line-clamp-3">
-                                        {lead.title}
-                                    </h3>
-
-                                    <div className="space-y-6 flex-grow mb-16">
-                                        <div className="flex items-center gap-6 group/item">
-                                            <div className="w-16 h-16 rounded-[2rem] bg-white/[0.03] border border-white/5 flex items-center justify-center text-slate-500 group-hover:border-emerald-500/30 transition-all">
-                                                <MapPinIcon className="w-6 h-6" />
-                                            </div>
-                                            <div>
-                                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">REGION_ID</p>
-                                                <p className="text-xl font-bold text-white tracking-tight">{lead.location}</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-6">
-                                            <div className="w-16 h-16 rounded-[2rem] bg-white/[0.03] border border-white/5 flex items-center justify-center text-slate-500 group-hover:border-emerald-500/30 transition-all">
-                                                <CalendarDaysIcon className="w-6 h-6" />
-                                            </div>
-                                            <div>
-                                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">RECORDED_AT</p>
-                                                <p className="text-xl font-bold text-white tracking-tight">{formatDate(lead.date, language)}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-auto pt-10 border-t border-white/5 flex items-center justify-between">
-                                        <div className="flex items-center gap-4">
-                                            <div className="flex -space-x-4">
-                                                {[1, 2, 3].map(p => (
-                                                    <div key={p} className="w-10 h-10 rounded-full border-4 border-[#0a0a0a] bg-slate-800 flex items-center justify-center shadow-lg">
-                                                        <UserIcon className="w-4 h-4 text-slate-500" />
-                                                    </div>
-                                                ))}
-                                            </div>
-                                            <span className="text-xs font-black text-slate-500 tracking-widest uppercase">VERIFIED</span>
-                                        </div>
-
-                                        <div className="px-10 py-5 bg-white text-black rounded-[2rem] font-black text-xs uppercase tracking-[0.3em] transition-all duration-700 group-hover:bg-emerald-500 shadow-2xl flex items-center gap-4">
-                                            {language === 'de' ? 'ÖFFNEN' : 'OPEN'}
-                                            <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
-                                        </div>
-                                    </div>
-
-                                    {/* Glass reflection effect */}
-                                    <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/[0.05] to-transparent group-hover:left-full transition-all duration-[1500ms] skew-x-[-20deg]"></div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="py-40 flex flex-col items-center justify-center bg-white/[0.02] rounded-[5rem] border-2 border-dashed border-white/5 text-center">
-                            <div className="w-32 h-32 bg-white/[0.03] rounded-full flex items-center justify-center mb-12 shadow-inner border border-white/5">
-                                <MagnifyingGlassIcon className="w-14 h-14 text-slate-700" />
-                            </div>
-                            <h3 className="text-5xl font-black text-white mb-6 tracking-tighter">NULL_RESULTS</h3>
-                            <p className="text-2xl text-slate-500 font-light max-w-xl mb-16 px-6 leading-relaxed">System scan complete. No dossiers match your current filter parameters. Adjust your strategy.</p>
-                            <button onClick={resetFilters} className="px-16 py-6 bg-white text-black font-black rounded-full hover:bg-emerald-500 transition-all active:scale-95 shadow-[0_20px_40px_rgba(255,255,255,0.1)]">RESET_SYSTEM</button>
-                        </div>
-                    )}
-
-                    {/* Mechanical Pagination */}
-                    {totalPages > 1 && (
-                        <div className="flex items-center justify-center gap-4 py-20">
-                            <button
-                                disabled={currentPage === 1}
-                                onClick={() => { setCurrentPage(prev => Math.max(1, prev - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                className="h-20 w-20 flex items-center justify-center bg-white/[0.03] border border-white/10 rounded-[2.5rem] text-slate-500 hover:text-white hover:border-emerald-500/50 transition-all disabled:opacity-5"
-                            >
-                                <ChevronLeftIcon className="w-8 h-8" />
-                            </button>
-                            <div className="flex items-center gap-3">
-                                {[...Array(totalPages)].map((_, i) => (
-                                    <button
-                                        key={i}
-                                        onClick={() => { setCurrentPage(i + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                        className={`h-20 w-20 rounded-[2.5rem] font-black text-lg p-0 transition-all duration-700 ${currentPage === i + 1 ? 'bg-white text-black shadow-[0_0_40px_rgba(255,255,255,0.15)] scale-110' : 'bg-white/[0.03] border border-white/10 text-slate-500 hover:text-white'}`}
-                                    >
-                                        {(i + 1).toString().padStart(2, '0')}
-                                    </button>
-                                ))}
-                            </div>
-                            <button
-                                disabled={currentPage === totalPages}
-                                onClick={() => { setCurrentPage(prev => Math.min(totalPages, prev + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                className="h-20 w-20 flex items-center justify-center bg-white/[0.03] border border-white/10 rounded-[2.5rem] text-slate-500 hover:text-white hover:border-emerald-500/50 transition-all disabled:opacity-5"
-                            >
-                                <ChevronRightIcon className="w-8 h-8" />
-                            </button>
-                        </div>
-                    )}
+                    <div className="hidden sm:flex items-center gap-3">
+                        <button
+                            onClick={fetchLeads}
+                            className="p-2.5 bg-white border border-slate-200 text-slate-500 rounded-xl hover:bg-slate-50 hover:text-slate-700 hover:border-slate-300 transition-all shadow-sm active:scale-95"
+                            title="Aktualisieren"
+                        >
+                            <ArrowPathIcon className={`w-5 h-5 ${loading ? 'animate-spin text-primary-600' : ''}`} />
+                        </button>
+                    </div>
                 </div>
+            </div>
 
-                {/* Secure Modal context */}
-                {quickViewLeadId && (
-                    <LeadQuickViewModal
-                        leadId={quickViewLeadId}
-                        isOpen={!!quickViewLeadId}
-                        onClose={() => setQuickViewLeadId(null)}
+            {/* Stats (Purchased View) */}
+            {isPurchasedView && stats && (
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+                    {[
+                        { label: 'Gesamt', value: stats.total, icon: <Squares2X2Icon className="w-5 h-5" />, color: 'primary' },
+                        { label: 'Neue Leads', value: stats.new, icon: <BellIcon className="w-5 h-5" />, color: 'blue' },
+                        { label: 'In Bearbeitung', value: stats.inProgress, icon: <ChatBubbleLeftRightIcon className="w-5 h-5" />, color: 'amber' },
+                        { label: 'Gewonnen', value: stats.won, icon: <TestsiegerIcon className="w-5 h-5" />, color: 'emerald' }
+                    ].map((stat, i) => (
+                        <div key={i} className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm hover:shadow-md transition-shadow group">
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 gap-2">
+                                <span className="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider">{stat.label}</span>
+                                <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-${stat.color}-50 border border-${stat.color}-200 flex items-center justify-center text-${stat.color}-600 group-hover:scale-110 transition-transform`}>
+                                    {stat.icon}
+                                </div>
+                            </div>
+                            <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">{stat.value}</p>
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {/* Filter Bar — same design as Kunden */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
+                {/* Search */}
+                <div className="relative flex-1 min-w-0 w-full">
+                    <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <input
+                        type="text"
+                        placeholder={isPurchasedView ? (t.searchPurchasedPlaceholder || 'Auftrag oder Kunde suchen...') : (t.searchPlaceholder || 'Leads durchsuchen...')}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full h-10 pl-9 pr-4 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all"
                     />
+                    {searchTerm && (
+                        <button onClick={() => setSearchTerm('')} className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 hover:bg-slate-100 rounded-lg transition-colors">
+                            <XMarkIcon className="w-4 h-4 text-slate-400" />
+                        </button>
+                    )}
+                </div>
+
+                {/* Filters */}
+                <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0 scrollbar-hide flex-nowrap snap-x">
+                    {!isPurchasedView && (
+                        <>
+                            {/* Kanton Dropdown */}
+                            <div className="relative flex-shrink-0 snap-start">
+                                <select
+                                    value={selectedCanton}
+                                    onChange={(e) => { setSelectedCanton(e.target.value); setCurrentPage(1); }}
+                                    className="h-10 pl-3 pr-8 rounded-xl border border-slate-200 bg-white text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-slate-900/10 appearance-none cursor-pointer"
+                                >
+                                    <option>{t.filterAllCantons}</option>
+                                    {['Zürich', 'Bern', 'Luzern', 'Aargau', 'St. Gallen'].map(c => <option key={c}>{c}</option>)}
+                                </select>
+                                <ChevronDownIcon className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                            </div>
+
+                            {/* Dienstleistung Dropdown */}
+                            <div className="relative flex-shrink-0 snap-start">
+                                <select
+                                    value={selectedService}
+                                    onChange={(e) => { setSelectedService(e.target.value); setCurrentPage(1); }}
+                                    className="h-10 pl-3 pr-8 rounded-xl border border-slate-200 bg-white text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-slate-900/10 appearance-none cursor-pointer"
+                                >
+                                    <option>{t.filterAllServices}</option>
+                                    {['Umzug', 'Reinigung', 'Maler', 'Bodenleger'].map(s => <option key={s}>{s}</option>)}
+                                </select>
+                                <ChevronDownIcon className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                            </div>
+                        </>
+                    )}
+
+                    {/* Sort */}
+                    <div className="relative flex-shrink-0 snap-start">
+                        <select
+                            value={sortOption}
+                            onChange={(e) => setSortOption(e.target.value)}
+                            className="h-10 pl-3 pr-8 rounded-xl border border-slate-200 bg-white text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-slate-900/10 appearance-none cursor-pointer"
+                        >
+                            <option>{t.sort?.newest || 'Neueste zuerst'}</option>
+                            <option>{t.sort?.priceAsc || 'Preis aufsteigend'}</option>
+                            <option>{t.sort?.priceDesc || 'Preis absteigend'}</option>
+                        </select>
+                        <ChevronDownIcon className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                    </div>
+
+                    {/* View Toggle */}
+                    <div className="hidden sm:flex items-center h-10 p-1 bg-slate-100 rounded-xl gap-0.5 flex-shrink-0">
+                        <button
+                            onClick={() => setViewMode('cards')}
+                            title="Karten-Ansicht"
+                            className={`h-8 px-3 rounded-lg text-sm font-medium transition-all ${viewMode === 'cards' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        >
+                            <Squares2X2Icon className="w-4 h-4" />
+                        </button>
+                        <button
+                            onClick={() => setViewMode('table')}
+                            title="Tabellen-Ansicht"
+                            className={`h-8 px-3 rounded-lg text-sm font-medium transition-all ${viewMode === 'table' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        >
+                            <TableCellsIcon className="w-4 h-4" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Results Header */}
+            <div className="flex items-center justify-between mb-4 px-1">
+                <p className="text-sm font-semibold text-slate-500">
+                    {filteredRequests.length} {filteredRequests.length === 1 ? 'Ergebnis' : 'Ergebnisse'}
+                    {searchTerm && <span className="text-slate-400"> für «{searchTerm}»</span>}
+                </p>
+                {(searchTerm || selectedCanton !== (language === 'de' ? 'Alle Kantone' : t.filterAllCantons) || selectedService !== (language === 'de' ? 'Alle Services' : t.filterAllServices)) && (
+                    <button onClick={resetFilters} className="text-xs font-bold text-primary-600 hover:text-primary-800 transition-colors flex items-center gap-1">
+                        <XMarkIcon className="w-3.5 h-3.5" />
+                        Filter zurücksetzen
+                    </button>
                 )}
             </div>
+
+            {/* Content */}
+            {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                    {[1, 2, 3, 4, 5, 6].map(i => <SkeletonCard key={i} />)}
+                </div>
+            ) : error ? (
+                <div className="bg-white rounded-2xl border border-red-200 p-12 text-center">
+                    <div className="w-16 h-16 mx-auto bg-red-50 rounded-2xl flex items-center justify-center mb-4">
+                        <XCircleIcon className="w-8 h-8 text-red-500" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">Fehler beim Laden</h3>
+                    <p className="text-slate-500 mb-6 max-w-md mx-auto">{error}</p>
+                    <button
+                        onClick={fetchLeads}
+                        className="px-6 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors shadow-sm"
+                    >
+                        Erneut versuchen
+                    </button>
+                </div>
+            ) : paginatedRequests.length > 0 ? (
+                viewMode === 'cards' ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                        {paginatedRequests.map(lead => (
+                            <LeadCard
+                                key={lead._id}
+                                lead={lead}
+                                isPurchased={isPurchasedView}
+                                language={language}
+                                onClick={() => setQuickViewLeadId(lead._id)}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
+                        <table className="w-full min-w-[700px]">
+                            <thead>
+                                <tr className="bg-slate-50 border-b border-slate-200">
+                                    <th className="text-left py-3.5 px-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Projekt</th>
+                                    <th className="text-left py-3.5 px-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Standort</th>
+                                    <th className="text-left py-3.5 px-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Datum</th>
+                                    {isPurchasedView && <th className="text-left py-3.5 px-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>}
+                                    {!isPurchasedView && (
+                                        <>
+                                            <th className="text-left py-3.5 px-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Preis</th>
+                                            <th className="text-left py-3.5 px-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Verfügbar</th>
+                                        </>
+                                    )}
+                                    <th className="py-3.5 px-5"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {paginatedRequests.map(lead => (
+                                    <TableRow
+                                        key={lead._id}
+                                        lead={lead}
+                                        isPurchased={isPurchasedView}
+                                        language={language}
+                                        onClick={() => setQuickViewLeadId(lead._id)}
+                                    />
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )
+            ) : (
+                <div className="bg-white rounded-2xl border-2 border-dashed border-slate-200 p-16 text-center">
+                    <div className="w-16 h-16 mx-auto bg-slate-100 rounded-2xl flex items-center justify-center mb-4">
+                        <MagnifyingGlassIcon className="w-8 h-8 text-slate-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-800 mb-2">
+                        {isPurchasedView ? 'Keine gekauften Leads' : 'Keine Leads gefunden'}
+                    </h3>
+                    <p className="text-slate-500 max-w-md mx-auto mb-6 font-medium">
+                        {isPurchasedView
+                            ? 'Kaufen Sie Leads auf dem Marktplatz, um Ihre Aufträge hier zu verwalten.'
+                            : 'Passen Sie Ihre Filter an oder schauen Sie später nochmals vorbei.'}
+                    </p>
+                    <div className="flex justify-center gap-3">
+                        {!isPurchasedView && (
+                            <button onClick={resetFilters} className="px-5 py-2.5 text-slate-600 font-bold hover:bg-slate-100 rounded-xl border border-slate-200 transition-colors">
+                                Filter zurücksetzen
+                            </button>
+                        )}
+                        {isPurchasedView && (
+                            <button
+                                onClick={() => { setIsPurchasedView(false); setCurrentPage(1); }}
+                                className="px-5 py-2.5 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors shadow-sm"
+                            >
+                                Leads entdecken
+                            </button>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2 mt-8">
+                    <button
+                        disabled={currentPage === 1}
+                        onClick={() => { setCurrentPage(prev => Math.max(1, prev - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
+                    >
+                        <ChevronLeftIcon className="w-4 h-4" />
+                    </button>
+                    <div className="flex items-center gap-1.5">
+                        {[...Array(totalPages)].map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => { setCurrentPage(i + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                className={`w-10 h-10 rounded-xl font-bold text-sm transition-all shadow-sm ${currentPage === i + 1
+                                    ? 'bg-primary-600 text-white shadow-md'
+                                    : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300'
+                                    }`}
+                            >
+                                {i + 1}
+                            </button>
+                        ))}
+                    </div>
+                    <button
+                        disabled={currentPage === totalPages}
+                        onClick={() => { setCurrentPage(prev => Math.min(totalPages, prev + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
+                    >
+                        <ChevronRightIcon className="w-4 h-4" />
+                    </button>
+                </div>
+            )}
+
+            {/* Quick View Modal */}
+            {quickViewLeadId && (
+                <LeadQuickViewModal
+                    leadId={quickViewLeadId}
+                    isOpen={!!quickViewLeadId}
+                    onClose={() => setQuickViewLeadId(null)}
+                />
+            )}
         </div>
     );
 };

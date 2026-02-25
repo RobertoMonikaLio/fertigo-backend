@@ -274,7 +274,7 @@ const JobsSkeleton = () => (
 
 const PartnerJobsPage: React.FC = () => {
     const { language } = useAppContext();
-    const t = translations[language]?.partner?.jobs || translations['de'].partner.jobs;
+    const t = (translations as any)[language]?.partner?.jobs || translations['de'].partner.jobs;
 
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState(true);

@@ -266,6 +266,60 @@ const FileUploader: React.FC<{ files: File[]; onFilesChange: (e: React.ChangeEve
 };
 
 
+const getLeadPrice = (service: string): number => {
+    switch (service) {
+        case 'Privatumzug':
+        case 'Umzug':
+            return 35; // Mittelauftrag
+        case 'Firmenumzug':
+            return 50;
+        case 'Möbeltransport':
+            return 20;
+        case 'Klaviertransport':
+            return 50;
+        case 'Umzugsreinigung':
+        case 'Reinigung':
+            return 20;
+        case 'Malerarbeiten':
+            return 30;
+        case 'Sanitär':
+            return 45;
+        case 'Elektriker':
+            return 45;
+        case 'Heizungsinstallation':
+        case 'Klimaanlagen-Service':
+            return 60;
+        case 'Badezimmerumbau':
+            return 80;
+        case 'Küchenbau':
+            return 100;
+        case 'Bodenleger':
+        case 'Plattenleger':
+            return 35;
+        case 'Schreiner':
+        case 'Zimmermannarbeiten':
+            return 40;
+        case 'Dachdecker':
+        case 'Dachreinigung':
+            return 70;
+        case 'Fassadenbau':
+            return 80;
+        case 'Fensterreinigung':
+        case 'Fenstermontage':
+            return 25;
+        case 'Gartenpflege':
+        case 'Gartenbau':
+            return 25;
+        case 'Baureinigung':
+        case 'Gebäudereinigung':
+            return 35;
+        case 'Entsorgung & Räumung':
+            return 30;
+        default:
+            return 30; // Standard Mittelauftrag
+    }
+};
+
 export default function QuoteRequestModal({ isOpen, onClose, initialData = {} }: QuoteRequestModalProps) {
     const { addNewRequest } = useAppContext();
     const [step, setStep] = useState(1);
@@ -536,7 +590,7 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 customerName: customerName,
                 location: location,
                 status: 'Neu',
-                price: 15.00,
+                price: getLeadPrice(formData.service),
                 details: details,
                 description: formData.projectDescription || 'Keine Beschreibung angegeben.',
                 customerInfo: {

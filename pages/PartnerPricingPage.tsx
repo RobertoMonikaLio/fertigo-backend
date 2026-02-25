@@ -5,17 +5,28 @@ import {
 } from '../components/icons';
 
 const pricingData = [
-    { category: 'Malerarbeiten', price: 'CHF 15.00', description: 'Standard Malerarbeiten, Renovationen, Fassaden.' },
-    { category: 'Gipserarbeiten', price: 'CHF 15.00', description: 'Trockenbau, Verputzarbeiten, Stuckaturen.' },
-    { category: 'Bodenleger', price: 'CHF 20.00', description: 'Verlegung von Parkett, Laminat, Vinyl etc.' },
-    { category: 'Reinigung', price: 'CHF 10.00', description: 'Wohnungs-, Büro- und Fensterreinigung.' },
-    { category: 'Umzugsreinigung', price: 'CHF 15.00', description: 'Reinigung mit Abnahmegarantie.' },
-    { category: 'Umzug & Transport', price: 'CHF 25.00', description: 'Privat- und Firmenumzüge, Möbeltransporte.' },
-    { category: 'Gartenpflege', price: 'CHF 15.00', description: 'Heckenschnitt, Rasenpflege, Gartenunterhalt.' },
-    { category: 'Sanitär & Heizung', price: 'CHF 20.00', description: 'Reparaturen, Installationen, Wartung.' },
-    { category: 'Elektriker', price: 'CHF 20.00', description: 'Installationen, Reparaturen, Smart Home.' },
-    { category: 'Schreiner', price: 'CHF 25.00', description: 'Möbel nach Mass, Reparaturen, Innenausbau.' },
-    { category: 'Grosse Projekte (> CHF 10\'000)', price: 'CHF 50.00', description: 'Umfassende Renovationen, Neubau-Projekte etc.' },
+    { category: 'Privatumzug', klein: '25 CHF', mittel: '35 CHF', gross: '45 CHF', premium: '55–60 CHF' },
+    { category: 'Firmenumzug', klein: '40 CHF', mittel: '50 CHF', gross: '70 CHF', premium: '80–90 CHF' },
+    { category: 'Möbeltransport', klein: '10 CHF', mittel: '20 CHF', gross: '30 CHF', premium: '–' },
+    { category: 'Klaviertransport', klein: '30 CHF', mittel: '50 CHF', gross: '70 CHF', premium: '90 CHF' },
+    { category: 'Umzugsreinigung', klein: '12 CHF', mittel: '20 CHF', gross: '30 CHF', premium: '35 CHF' },
+    { category: 'Malerarbeiten', klein: '15 CHF', mittel: '30 CHF', gross: '60 CHF', premium: '70–80 CHF' },
+    { category: 'Sanitär', klein: '25 CHF', mittel: '45 CHF', gross: '70 CHF', premium: '85–100 CHF' },
+    { category: 'Elektriker', klein: '25 CHF', mittel: '45 CHF', gross: '70 CHF', premium: '85–100 CHF' },
+    { category: 'Heizung / Klimaanlage', klein: '40 CHF', mittel: '60 CHF', gross: '80 CHF', premium: '90–100 CHF' },
+    { category: 'Badezimmerumbau', klein: '50 CHF', mittel: '80 CHF', gross: '120 CHF', premium: '140 CHF' },
+    { category: 'Küchenbau', klein: '60 CHF', mittel: '100 CHF', gross: '150 CHF', premium: '180 CHF' },
+    { category: 'Bodenleger / Plattenleger', klein: '15 CHF', mittel: '35 CHF', gross: '60 CHF', premium: '70–80 CHF' },
+    { category: 'Schreiner / Zimmerarbeiten', klein: '15 CHF', mittel: '40 CHF', gross: '70 CHF', premium: '80–90 CHF' },
+    { category: 'Dachdecker / Dachreinigung', klein: '40 CHF', mittel: '70 CHF', gross: '100 CHF', premium: '120 CHF' },
+    { category: 'Fassadenbau / Renovation', klein: '50 CHF', mittel: '80 CHF', gross: '120 CHF', premium: '140–160 CHF' },
+    { category: 'Fensterreinigung / Montage', klein: '12 CHF', mittel: '25 CHF', gross: '40 CHF', premium: '50 CHF' },
+    { category: 'Gartenpflege / Gartenbau', klein: '10 CHF', mittel: '25 CHF', gross: '50 CHF', premium: '60 CHF' },
+    { category: 'Baureinigung / Gebäudereinigung', klein: '15 CHF', mittel: '35 CHF', gross: '70 CHF', premium: '80 CHF' },
+    { category: 'Entsorgung & Räumung', klein: '12 CHF', mittel: '30 CHF', gross: '50 CHF', premium: '60 CHF' },
+    { category: 'Möbelmontage / Kleinreparaturen', klein: '8 CHF', mittel: '15 CHF', gross: '25 CHF', premium: '30 CHF' },
+    { category: 'Smart Home / Technik', klein: '25 CHF', mittel: '50 CHF', gross: '80 CHF', premium: '90–100 CHF' },
+    { category: '24h Notdienst', klein: '40 CHF', mittel: '70 CHF', gross: '100 CHF', premium: '120–150 CHF' },
 ];
 
 const faqs = [
@@ -49,19 +60,31 @@ const PartnerPricingPage: React.FC = () => {
                         <p className="text-slate-600 mb-6">Unsere Preise sind transparent und fair. Sie zahlen nur für die Anfragen, die Sie interessieren. Alle Preise verstehen sich exkl. MwSt.</p>
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-slate-50 text-slate-600 uppercase text-xs">
+                                <thead className="bg-slate-50 text-slate-600 font-bold text-xs uppercase text-center border-b border-slate-200">
                                     <tr>
-                                        <th className="px-6 py-3 font-semibold">Kategorie</th>
-                                        <th className="px-6 py-3 font-semibold">Beschreibung</th>
-                                        <th className="px-6 py-3 font-semibold text-right">Preis pro Lead</th>
+                                        <th className="px-6 py-4 text-left border-r border-slate-200" rowSpan={2}>Kategorie / Gewerbe</th>
+                                        <th className="px-6 py-2 border-b border-slate-200" colSpan={4}>Projektgrösse / Preis pro Lead</th>
+                                    </tr>
+                                    <tr className="bg-slate-100/50">
+                                        <th className="px-4 py-3 font-semibold text-slate-500 border-r border-slate-200 w-1/5 whitespace-nowrap">Kleinauftrag</th>
+                                        <th className="px-4 py-3 font-semibold text-slate-500 border-r border-slate-200 w-1/5 whitespace-nowrap">Mittelauftrag</th>
+                                        <th className="px-4 py-3 font-semibold text-slate-500 border-r border-slate-200 w-1/5 whitespace-nowrap">Großauftrag</th>
+                                        <th className="px-4 py-3 font-semibold text-slate-500 w-1/5 whitespace-nowrap">Premium / Notfall</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
                                     {pricingData.map((item, index) => (
-                                        <tr key={index} className="hover:bg-slate-50/50">
-                                            <td className="px-6 py-4 font-bold text-slate-800">{item.category}</td>
-                                            <td className="px-6 py-4 text-slate-600">{item.description}</td>
-                                            <td className="px-6 py-4 font-extrabold text-lg text-slate-900 text-right">{item.price}</td>
+                                        <tr key={index} className="hover:bg-slate-50/50 group transition-colors">
+                                            <td className="px-6 py-4 font-bold text-slate-800 border-r border-slate-200 bg-white group-hover:bg-slate-50/50">{item.category}</td>
+                                            <td className="px-4 py-4 text-slate-700 text-center border-r border-slate-200">{item.klein}</td>
+                                            <td className="px-4 py-4 text-slate-700 text-center border-r border-slate-200">{item.mittel}</td>
+                                            <td className="px-4 py-4 text-slate-700 text-center border-r border-slate-200">{item.gross}</td>
+                                            <td className="px-4 py-4 text-slate-700 text-center relative overflow-hidden">
+                                                {item.premium !== '–' && (
+                                                    <div className="absolute inset-0 bg-orange-50/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                                )}
+                                                <span className="relative z-10">{item.premium}</span>
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>

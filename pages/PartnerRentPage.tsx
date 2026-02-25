@@ -56,7 +56,7 @@ const MultiImageUploader: React.FC<{
             reader.onload = () => {
                 onChange([...images, reader.result as string]);
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(file as any);
         });
     };
 

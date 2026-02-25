@@ -106,7 +106,6 @@ const Header: React.FC = () => {
         { name: t.home, to: '/' },
         { name: t.services, to: '/services' },
         { name: t.becomePartner, to: '/providers' },
-        { name: t.aboutUs, to: '/ueber-uns' },
         { name: t.vorlagen, to: '/vorlagen' },
         { name: t.contact, to: '/kontakt' },
     ];
@@ -116,7 +115,6 @@ const Header: React.FC = () => {
         { name: t.services, to: '/services', emoji: '🛠️' },
         { name: t.becomePartner, to: '/providers', emoji: '👷' },
         { name: t.vorlagen, to: '/vorlagen', emoji: '💡' },
-        { name: t.aboutUs, to: '/ueber-uns', emoji: '👥' },
         { name: t.contact, to: '/kontakt', emoji: '📬' }
     ];
 
