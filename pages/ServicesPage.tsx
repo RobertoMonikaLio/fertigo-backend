@@ -97,10 +97,29 @@ const getServiceIcon = (serviceName: string): React.ReactNode => {
                 <path d="M3 12h18M12 3v18" />
             </svg>
         ),
-        // Haustechnik
+        // Sanitär, Heizungen & Klima
         'Sanitär': (
             <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+            </svg>
+        ),
+        'Sanitärinstallation': (
+            <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+            </svg>
+        ),
+        'Badezimmerumbau': (
+            <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 12h16a1 1 0 0 1 1 1v3a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4v-3a1 1 0 0 1 1-1z" />
+                <path d="M6 12V5a2 2 0 0 1 2-2h1" />
+                <circle cx="17" cy="6" r="2" />
+            </svg>
+        ),
+        'Badrenovation': (
+            <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 12h16a1 1 0 0 1 1 1v3a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4v-3a1 1 0 0 1 1-1z" />
+                <path d="M6 12V5a2 2 0 0 1 2-2h1" />
+                <circle cx="17" cy="6" r="2" />
             </svg>
         ),
         'Heizungsinstallation': (
@@ -109,16 +128,34 @@ const getServiceIcon = (serviceName: string): React.ReactNode => {
                 <path d="M8 8h8M8 12h8M8 16h8" />
             </svg>
         ),
-        'Elektriker': (
+        'Wärmepumpe Installation': (
             <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor" opacity="0.2" />
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                <rect x="4" y="3" width="16" height="18" rx="2" />
+                <path d="M8 8h8M8 12h8M8 16h8" />
             </svg>
         ),
         'Klimaanlagen-Service': (
             <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="6" width="18" height="10" rx="2" />
                 <path d="M7 20v-4M17 20v-4M12 20v-4M7 10h.01M10 10h.01M13 10h.01M16 10h.01" />
+            </svg>
+        ),
+        'Klimaanlagen Installation': (
+            <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="6" width="18" height="10" rx="2" />
+                <path d="M7 20v-4M17 20v-4M12 20v-4M7 10h.01M10 10h.01M13 10h.01M16 10h.01" />
+            </svg>
+        ),
+        'Lüftungsanlagen': (
+            <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="6" width="18" height="10" rx="2" />
+                <path d="M7 20v-4M17 20v-4M12 20v-4M7 10h.01M10 10h.01M13 10h.01M16 10h.01" />
+            </svg>
+        ),
+        'Elektriker': (
+            <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor" opacity="0.2" />
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
             </svg>
         ),
         // Renovation & Gestaltung
@@ -132,13 +169,6 @@ const getServiceIcon = (serviceName: string): React.ReactNode => {
             <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="9" width="18" height="12" rx="2" />
                 <path d="M3 15h18M9 9V3M15 9V3" />
-            </svg>
-        ),
-        'Badezimmerumbau': (
-            <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 12h16a1 1 0 0 1 1 1v3a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4v-3a1 1 0 0 1 1-1z" />
-                <path d="M6 12V5a2 2 0 0 1 2-2h1" />
-                <circle cx="17" cy="6" r="2" />
             </svg>
         ),
         // Umzug & Transport
@@ -267,13 +297,18 @@ const allServicesData: ServiceItem[] = [
     { name: 'Bodenleger', category: 'Innenausbau', description: 'Verlegung von Parkett, Laminat, Vinyl und Teppich.', icon: getServiceIcon('Bodenleger') },
     { name: 'Plattenleger', category: 'Innenausbau', description: 'Verlegung von Keramik-, Naturstein- und Mosaikplatten.', icon: getServiceIcon('Plattenleger') },
     { name: 'Fenstermontage', category: 'Innenausbau', description: 'Einbau und Austausch von Fenstern und Türen.', icon: getServiceIcon('Fenstermontage') },
-    { name: 'Sanitär', category: 'Haustechnik', description: 'Alle Installationen und Reparaturen rund um Bad und Küche.', icon: getServiceIcon('Sanitär'), popular: true },
-    { name: 'Heizungsinstallation', category: 'Haustechnik', description: 'Installation und Wartung von modernen Heizungssystemen.', icon: getServiceIcon('Heizungsinstallation') },
-    { name: 'Elektriker', category: 'Haustechnik', description: 'Sichere Elektroinstallationen, von der Steckdose bis zum Smart Home.', icon: getServiceIcon('Elektriker'), popular: true },
-    { name: 'Klimaanlagen-Service', category: 'Haustechnik', description: 'Installation und Wartung von Klimaanlagen.', icon: getServiceIcon('Klimaanlagen-Service') },
+    { name: 'Sanitär', category: 'Sanitär, Heizungen & Klima', description: 'Alle Installationen und Reparaturen rund um Bad und Küche.', icon: getServiceIcon('Sanitär'), popular: true },
+    { name: 'Sanitärinstallation', category: 'Sanitär, Heizungen & Klima', description: 'Verlegung, Anpassung und Wartung von Wasser- und Abwasserleitungen.', icon: getServiceIcon('Sanitärinstallation') },
+    { name: 'Heizungsinstallation', category: 'Sanitär, Heizungen & Klima', description: 'Installation und Wartung von modernen Heizungssystemen.', icon: getServiceIcon('Heizungsinstallation') },
+    { name: 'Wärmepumpe Installation', category: 'Sanitär, Heizungen & Klima', description: 'Beratung und fachgerechter Einbau von effizienten Wärmepumpen.', icon: getServiceIcon('Wärmepumpe Installation') },
+    { name: 'Klimaanlagen-Service', category: 'Sanitär, Heizungen & Klima', description: 'Wartung und Service-Arbeiten für Ihre bestehende Klimaanlage.', icon: getServiceIcon('Klimaanlagen-Service') },
+    { name: 'Klimaanlagen Installation', category: 'Sanitär, Heizungen & Klima', description: 'Beratung und Montage passender und moderner Klimaanlagen.', icon: getServiceIcon('Klimaanlagen Installation') },
+    { name: 'Lüftungsanlagen', category: 'Sanitär, Heizungen & Klima', description: 'Planung und Aufbau zuverlässiger Wohnraumlüftungen.', icon: getServiceIcon('Lüftungsanlagen') },
+    { name: 'Badezimmerumbau', category: 'Sanitär, Heizungen & Klima', description: 'Komplettsanierung und Modernisierung Ihres Badezimmers.', icon: getServiceIcon('Badezimmerumbau') },
+    { name: 'Badrenovation', category: 'Sanitär, Heizungen & Klima', description: 'Erneuerung der sanitären Einrichtungen und Badmöbel.', icon: getServiceIcon('Badrenovation') },
+    { name: 'Elektriker', category: 'Sanitär, Heizungen & Klima', description: 'Sichere Elektroinstallationen, von der Steckdose bis zum Smart Home.', icon: getServiceIcon('Elektriker'), popular: true },
     { name: 'Malerarbeiten', category: 'Renovation & Gestaltung', description: 'Frische Farbe für Wände, Decken und Fassaden.', icon: getServiceIcon('Malerarbeiten'), popular: true },
     { name: 'Küchenbau', category: 'Renovation & Gestaltung', description: 'Planung und Montage Ihrer neuen Traumküche.', icon: getServiceIcon('Küchenbau') },
-    { name: 'Badezimmerumbau', category: 'Renovation & Gestaltung', description: 'Komplettsanierung und Modernisierung Ihres Badezimmers.', icon: getServiceIcon('Badezimmerumbau') },
     { name: 'Privatumzug', category: 'Umzug & Transport', description: 'Stressfreier Wohnungswechsel mit erfahrenen Zügelprofis.', icon: getServiceIcon('Privatumzug'), popular: true },
     { name: 'Firmenumzug', category: 'Umzug & Transport', description: 'Effiziente und planmässige Verlagerung Ihres Unternehmens.', icon: getServiceIcon('Firmenumzug') },
     { name: 'Möbeltransport', category: 'Umzug & Transport', description: 'Sicherer Transport für einzelne Möbelstücke oder ganze Ladungen.', icon: getServiceIcon('Möbeltransport') },
@@ -295,7 +330,7 @@ const allServicesData: ServiceItem[] = [
 const categoryOrder = [
     'Bau & Rohbau',
     'Innenausbau',
-    'Haustechnik',
+    'Sanitär, Heizungen & Klima',
     'Renovation & Gestaltung',
     'Umzug & Transport',
     'Reinigung & Pflege',
@@ -305,7 +340,7 @@ const categoryOrder = [
 const categoryGradients: Record<string, string> = {
     'Bau & Rohbau': 'from-amber-500 to-orange-600',
     'Innenausbau': 'from-orange-500 to-red-600',
-    'Haustechnik': 'from-yellow-500 to-amber-600',
+    'Sanitär, Heizungen & Klima': 'from-yellow-500 to-amber-600',
     'Renovation & Gestaltung': 'from-rose-500 to-pink-600',
     'Umzug & Transport': 'from-blue-500 to-indigo-600',
     'Reinigung & Pflege': 'from-cyan-500 to-blue-600',
@@ -316,7 +351,7 @@ const categoryGradients: Record<string, string> = {
 const categoryIcons: Record<string, React.ReactNode> = {
     'Bau & Rohbau': <ColoredBuildingOffice2Icon className="w-full h-full" />,
     'Innenausbau': <ColoredWindowIcon className="w-full h-full" />,
-    'Haustechnik': <ColoredLightbulbIcon className="w-full h-full" />,
+    'Sanitär, Heizungen & Klima': <ColoredLightbulbIcon className="w-full h-full" />,
     'Renovation & Gestaltung': <ColoredPaintRollerIcon className="w-full h-full" />,
     'Umzug & Transport': <ColoredTruckIcon className="w-full h-full" />,
     'Reinigung & Pflege': <ColoredSparklesIcon className="w-full h-full" />,
@@ -455,8 +490,8 @@ const ServicesPage: React.FC = () => {
                                                 const serviceEmojis: Record<string, string> = {
                                                     'Maurerarbeiten': '🧱', 'Zimmermannarbeiten': '🪵', 'Dachdecker': '🏠', 'Fassadenbau': '🏢',
                                                     'Schreiner': '🪚', 'Gipserarbeiten': '🪣', 'Bodenleger': '🪵', 'Plattenleger': '🔲', 'Fenstermontage': '🪟',
-                                                    'Sanitär': '🚿', 'Heizungsinstallation': '🔥', 'Elektriker': '⚡', 'Klimaanlagen-Service': '❄️',
-                                                    'Malerarbeiten': '🎨', 'Küchenbau': '🍳', 'Badezimmerumbau': '🛁',
+                                                    'Sanitär': '🚿', 'Sanitärinstallation': '🚿', 'Heizungsinstallation': '🔥', 'Elektriker': '⚡', 'Klimaanlagen-Service': '❄️', 'Klimaanlagen Installation': '❄️', 'Wärmepumpe Installation': '♨️', 'Lüftungsanlagen': '💨',
+                                                    'Malerarbeiten': '🎨', 'Küchenbau': '🍳', 'Badezimmerumbau': '🛁', 'Badrenovation': '🛁',
                                                     'Privatumzug': '📦', 'Firmenumzug': '🏬', 'Möbeltransport': '🛋️', 'Klaviertransport': '🎹',
                                                     'Entsorgung & Räumung': '🗑️', 'Einlagerung': '📦',
                                                     'Umzugsreinigung': '🧹', 'Gebäudereinigung': '🏢', 'Fensterreinigung': '🪟',
@@ -504,8 +539,8 @@ const ServicesPage: React.FC = () => {
                                                 const serviceEmojis: Record<string, string> = {
                                                     'Maurerarbeiten': '🧱', 'Zimmermannarbeiten': '🪵', 'Dachdecker': '🏠', 'Fassadenbau': '🏢',
                                                     'Schreiner': '🪚', 'Gipserarbeiten': '🪣', 'Bodenleger': '🪵', 'Plattenleger': '🔲', 'Fenstermontage': '🪟',
-                                                    'Sanitär': '🚿', 'Heizungsinstallation': '🔥', 'Elektriker': '⚡', 'Klimaanlagen-Service': '❄️',
-                                                    'Malerarbeiten': '🎨', 'Küchenbau': '🍳', 'Badezimmerumbau': '🛁',
+                                                    'Sanitär': '🚿', 'Sanitärinstallation': '🚿', 'Heizungsinstallation': '🔥', 'Elektriker': '⚡', 'Klimaanlagen-Service': '❄️', 'Klimaanlagen Installation': '❄️', 'Wärmepumpe Installation': '♨️', 'Lüftungsanlagen': '💨',
+                                                    'Malerarbeiten': '🎨', 'Küchenbau': '🍳', 'Badezimmerumbau': '🛁', 'Badrenovation': '🛁',
                                                     'Privatumzug': '📦', 'Firmenumzug': '🏬', 'Möbeltransport': '🛋️', 'Klaviertransport': '🎹',
                                                     'Entsorgung & Räumung': '🗑️', 'Einlagerung': '📦',
                                                     'Umzugsreinigung': '🧹', 'Gebäudereinigung': '🏢', 'Fensterreinigung': '🪟',
@@ -742,15 +777,20 @@ const ServiceIcon: React.FC<{ name: string; className?: string }> = ({ name, cla
         'Bodenleger': <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />,
         'Plattenleger': <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />,
         'Fenstermontage': <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.25V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18V8.25m-18 0V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0021 6v2.25m-18 0h18M5.25 6h.008v.008H5.25V6zM7.5 6h.008v.008H7.5V6zm2.25 0h.008v.008H9.75V6z" />,
-        // Haustechnik
+        // Sanitär, Heizungen & Klima
         'Sanitär': <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />,
+        'Sanitärinstallation': <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />,
         'Heizungsinstallation': <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1.001A3.75 3.75 0 0012 18z" />,
+        'Wärmepumpe Installation': <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1.001A3.75 3.75 0 0012 18z" />,
         'Elektriker': <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />,
         'Klimaanlagen-Service': <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />,
+        'Klimaanlagen Installation': <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />,
+        'Lüftungsanlagen': <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />,
         // Renovation
         'Malerarbeiten': <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />,
         'Küchenbau': <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />,
         'Badezimmerumbau': <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />,
+        'Badrenovation': <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />,
         // Transport
         'Privatumzug': <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />,
         'Firmenumzug': <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />,
