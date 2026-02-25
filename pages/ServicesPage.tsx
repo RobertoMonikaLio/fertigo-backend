@@ -473,99 +473,114 @@ const ServicesPage: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Services Grid - Compact Cards */}
+                    {/* Services Grid - Grouped by Category */}
                     {filteredServices.length > 0 ? (
-                        <>
-                            {/* ===== MOBILE: Kompakte Liste ===== */}
-                            <div className="sm:hidden space-y-2">
-                                {filteredServices.map((service, index) => {
-                                    const serviceEmojis: Record<string, string> = {
-                                        'Maurerarbeiten': '🧱', 'Zimmermannarbeiten': '🪵', 'Dachdecker': '🏠', 'Fassadenbau': '🏢',
-                                        'Schreiner': '🪚', 'Gipserarbeiten': '🪣', 'Bodenleger': '🪵', 'Plattenleger': '🔲', 'Fenstermontage': '🪟',
-                                        'Sanitär': '🚿', 'Heizungsinstallation': '🔥', 'Elektriker': '⚡', 'Klimaanlagen-Service': '❄️',
-                                        'Malerarbeiten': '🎨', 'Küchenbau': '🍳', 'Badezimmerumbau': '🛁',
-                                        'Privatumzug': '📦', 'Firmenumzug': '🏬', 'Möbeltransport': '🛋️', 'Klaviertransport': '🎹',
-                                        'Entsorgung & Räumung': '🗑️', 'Einlagerung': '📦',
-                                        'Umzugsreinigung': '🧹', 'Gebäudereinigung': '🏢', 'Fensterreinigung': '🪟',
-                                        'Baureinigung': '🧽', 'Dachreinigung': '🏠', 'Hauswartung': '🔧',
-                                        'Gartenpflege': '🌿', 'Gartenbau': '🌳', 'Baumpflege': '🌲', 'Zaunbau': '🚧',
+                        <div className="space-y-12 sm:space-y-16">
+                            {categoryOrder.map(category => {
+                                const categoryServices = filteredServices.filter(s => s.category === category);
+                                if (categoryServices.length === 0) return null;
 
-                                    };
-                                    const emoji = serviceEmojis[service.name] || '🔨';
-
-                                    return (
-                                        <button
-                                            key={service.name}
-                                            onClick={() => openQuoteModal({ projectTitle: service.name, service: service.name })}
-                                            className="group w-full bg-white rounded-xl p-3 border border-slate-100 active:border-green-300 active:bg-green-50/50 transition-all text-left flex items-center gap-3"
-                                        >
-                                            {/* Emoji */}
-                                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center flex-shrink-0">
-                                                <span className="text-lg">{emoji}</span>
+                                return (
+                                    <div key={category} className="space-y-4 sm:space-y-6">
+                                        {/* Category Title Header */}
+                                        <div className="flex items-center gap-3 px-1 sm:px-0 mb-4 sm:mb-6">
+                                            <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center text-green-600 shadow-sm">
+                                                <span className="w-5 h-5">{categoryIcons[category]}</span>
                                             </div>
+                                            <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">{category}</h3>
+                                        </div>
 
-                                            {/* Text */}
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex items-center gap-2">
-                                                    <h3 className="font-bold text-slate-900 text-[13px] leading-tight truncate">
-                                                        {service.name}
-                                                    </h3>
-                                                    {service.popular && (
-                                                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[9px] font-bold rounded-full flex-shrink-0">
-                                                            <FireIcon className="w-2.5 h-2.5" /> Beliebt
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                <p className="text-[11px] text-slate-400 truncate mt-0.5">{service.description}</p>
-                                            </div>
+                                        {/* ===== MOBILE: Kompakte Liste ===== */}
+                                        <div className="sm:hidden space-y-2">
+                                            {categoryServices.map((service, index) => {
+                                                const serviceEmojis: Record<string, string> = {
+                                                    'Maurerarbeiten': '🧱', 'Zimmermannarbeiten': '🪵', 'Dachdecker': '🏠', 'Fassadenbau': '🏢',
+                                                    'Schreiner': '🪚', 'Gipserarbeiten': '🪣', 'Bodenleger': '🪵', 'Plattenleger': '🔲', 'Fenstermontage': '🪟',
+                                                    'Sanitär': '🚿', 'Heizungsinstallation': '🔥', 'Elektriker': '⚡', 'Klimaanlagen-Service': '❄️',
+                                                    'Malerarbeiten': '🎨', 'Küchenbau': '🍳', 'Badezimmerumbau': '🛁',
+                                                    'Privatumzug': '📦', 'Firmenumzug': '🏬', 'Möbeltransport': '🛋️', 'Klaviertransport': '🎹',
+                                                    'Entsorgung & Räumung': '🗑️', 'Einlagerung': '📦',
+                                                    'Umzugsreinigung': '🧹', 'Gebäudereinigung': '🏢', 'Fensterreinigung': '🪟',
+                                                    'Baureinigung': '🧽', 'Dachreinigung': '🏠', 'Hauswartung': '🔧',
+                                                    'Gartenpflege': '🌿', 'Gartenbau': '🌳', 'Baumpflege': '🌲', 'Zaunbau': '🚧',
+                                                };
+                                                const emoji = serviceEmojis[service.name] || '🔨';
 
-                                            {/* Arrow */}
-                                            <ArrowRightIcon className="w-4 h-4 text-slate-300 flex-shrink-0" />
-                                        </button>
-                                    );
-                                })}
-                            </div>
+                                                return (
+                                                    <button
+                                                        key={service.name}
+                                                        onClick={() => openQuoteModal({ projectTitle: service.name, service: service.name })}
+                                                        className="group w-full bg-white rounded-xl p-3 border border-slate-100 active:border-green-300 active:bg-green-50/50 transition-all text-left flex items-center gap-3"
+                                                    >
+                                                        {/* Emoji */}
+                                                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center flex-shrink-0">
+                                                            <span className="text-lg">{emoji}</span>
+                                                        </div>
 
-                            {/* ===== DESKTOP: Grid (unverändert) ===== */}
-                            <div className="hidden sm:grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-                                {filteredServices.map((service, index) => {
-                                    const serviceEmojis: Record<string, string> = {
-                                        'Maurerarbeiten': '🧱', 'Zimmermannarbeiten': '🪵', 'Dachdecker': '🏠', 'Fassadenbau': '🏢',
-                                        'Schreiner': '🪚', 'Gipserarbeiten': '🪣', 'Bodenleger': '🪵', 'Plattenleger': '🔲', 'Fenstermontage': '🪟',
-                                        'Sanitär': '🚿', 'Heizungsinstallation': '🔥', 'Elektriker': '⚡', 'Klimaanlagen-Service': '❄️',
-                                        'Malerarbeiten': '🎨', 'Küchenbau': '🍳', 'Badezimmerumbau': '🛁',
-                                        'Privatumzug': '📦', 'Firmenumzug': '🏬', 'Möbeltransport': '🛋️', 'Klaviertransport': '🎹',
-                                        'Entsorgung & Räumung': '🗑️', 'Einlagerung': '📦',
-                                        'Umzugsreinigung': '🧹', 'Gebäudereinigung': '🏢', 'Fensterreinigung': '🪟',
-                                        'Baureinigung': '🧽', 'Dachreinigung': '🏠', 'Hauswartung': '🔧',
-                                        'Gartenpflege': '🌿', 'Gartenbau': '🌳', 'Baumpflege': '🌲', 'Zaunbau': '🚧',
+                                                        {/* Text */}
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="flex items-center gap-2">
+                                                                <h3 className="font-bold text-slate-900 text-[13px] leading-tight truncate">
+                                                                    {service.name}
+                                                                </h3>
+                                                                {service.popular && (
+                                                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[9px] font-bold rounded-full flex-shrink-0">
+                                                                        <FireIcon className="w-2.5 h-2.5" /> Beliebt
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            <p className="text-[11px] text-slate-400 truncate mt-0.5">{service.description}</p>
+                                                        </div>
 
-                                    };
-                                    const emoji = serviceEmojis[service.name] || '🔨';
+                                                        {/* Arrow */}
+                                                        <ArrowRightIcon className="w-4 h-4 text-slate-300 flex-shrink-0" />
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
 
-                                    return (
-                                        <button
-                                            key={service.name}
-                                            onClick={() => openQuoteModal({ projectTitle: service.name, service: service.name })}
-                                            className="group bg-white rounded-2xl p-4 border border-slate-100 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/50 transition-all text-left"
-                                        >
-                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                                                <span className="text-2xl">{emoji}</span>
-                                            </div>
-                                            <h3 className="font-bold text-slate-900 text-sm leading-tight mb-1 group-hover:text-green-600 transition-colors">
-                                                {service.name}
-                                            </h3>
-                                            <p className="text-xs text-slate-400">{service.category}</p>
-                                            {service.popular && (
-                                                <span className="inline-flex items-center gap-1 mt-2 px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded-full">
-                                                    <FireIcon className="w-3 h-3" /> Beliebt
-                                                </span>
-                                            )}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        </>
+                                        {/* ===== DESKTOP: Grid ===== */}
+                                        <div className="hidden sm:grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                                            {categoryServices.map((service, index) => {
+                                                const serviceEmojis: Record<string, string> = {
+                                                    'Maurerarbeiten': '🧱', 'Zimmermannarbeiten': '🪵', 'Dachdecker': '🏠', 'Fassadenbau': '🏢',
+                                                    'Schreiner': '🪚', 'Gipserarbeiten': '🪣', 'Bodenleger': '🪵', 'Plattenleger': '🔲', 'Fenstermontage': '🪟',
+                                                    'Sanitär': '🚿', 'Heizungsinstallation': '🔥', 'Elektriker': '⚡', 'Klimaanlagen-Service': '❄️',
+                                                    'Malerarbeiten': '🎨', 'Küchenbau': '🍳', 'Badezimmerumbau': '🛁',
+                                                    'Privatumzug': '📦', 'Firmenumzug': '🏬', 'Möbeltransport': '🛋️', 'Klaviertransport': '🎹',
+                                                    'Entsorgung & Räumung': '🗑️', 'Einlagerung': '📦',
+                                                    'Umzugsreinigung': '🧹', 'Gebäudereinigung': '🏢', 'Fensterreinigung': '🪟',
+                                                    'Baureinigung': '🧽', 'Dachreinigung': '🏠', 'Hauswartung': '🔧',
+                                                    'Gartenpflege': '🌿', 'Gartenbau': '🌳', 'Baumpflege': '🌲', 'Zaunbau': '🚧',
+                                                };
+                                                const emoji = serviceEmojis[service.name] || '🔨';
+
+                                                return (
+                                                    <button
+                                                        key={service.name}
+                                                        onClick={() => openQuoteModal({ projectTitle: service.name, service: service.name })}
+                                                        className="group bg-white rounded-2xl p-4 border border-slate-100 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/50 transition-all text-left"
+                                                    >
+                                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                                            <span className="text-2xl">{emoji}</span>
+                                                        </div>
+                                                        <h3 className="font-bold text-slate-900 text-sm leading-tight mb-1 group-hover:text-green-600 transition-colors">
+                                                            {service.name}
+                                                        </h3>
+                                                        <p className="text-xs text-slate-400">{service.category}</p>
+                                                        {service.popular && (
+                                                            <span className="inline-flex items-center gap-1 mt-2 px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded-full">
+                                                                <FireIcon className="w-3 h-3" /> Beliebt
+                                                            </span>
+                                                        )}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     ) : (
                         <NoResults searchQuery={searchQuery} onReset={() => { setSearchQuery(''); setSelectedCategory('Alle'); }} />
                     )}
