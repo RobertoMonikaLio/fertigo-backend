@@ -12,7 +12,6 @@ const allServices = [
     'Dachdecker',
     'Dachreinigung',
     'Einlagerung',
-    'Elektriker',
     'Entsorgung & Räumung',
 
     'Fassadenbau',

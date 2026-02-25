@@ -121,7 +121,6 @@ const allServices = [
     'Dachdecker',
     'Dachreinigung',
     'Einlagerung',
-    'Elektriker',
     'Entsorgung & Räumung',
 
     'Fassadenbau',
@@ -306,7 +305,6 @@ export const getLeadPrice = (formData: any): number => {
         'Malerarbeiten': { klein: 15, mittel: 30, gross: 60, premium: 80 },
         'Sanitär': { klein: 25, mittel: 45, gross: 70, premium: 100 },
         'Sanitärinstallation': { klein: 25, mittel: 45, gross: 70, premium: 100 },
-        'Elektriker': { klein: 25, mittel: 45, gross: 70, premium: 100 },
         'Heizungsinstallation': { klein: 40, mittel: 60, gross: 80, premium: 100 },
         'Klimaanlagen Installation': { klein: 40, mittel: 60, gross: 80, premium: 100 },
         'Klimaanlagen-Service': { klein: 40, mittel: 60, gross: 80, premium: 100 },
