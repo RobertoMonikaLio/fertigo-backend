@@ -386,55 +386,31 @@ const ServicesPage: React.FC = () => {
             <div id="services-results" className="bg-slate-50 pt-28 sm:pt-32 lg:pt-40 pb-16 sm:pb-24">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
 
-                    {/* Top Header & Search */}
-                    <div className="mb-8 sm:mb-12 px-1 sm:px-0 flex flex-col md:flex-row md:items-end justify-between gap-6">
-                        <div>
-                            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 mb-2">
-                                {selectedCategory === 'Alle' ? 'Finden Sie den passenden Service' : selectedCategory}
-                            </h2>
-                            <p className="text-slate-500 text-sm sm:text-base max-w-2xl">
-                                Entdecken Sie unser breites Angebot an Handwerker- und Dienstleistungen. Von Renovierung bis Reinigung — finden Sie den passenden Fachbetrieb für Ihr Projekt.
-                            </p>
-                        </div>
-
-                        {/* Search Bar */}
-                        <div className="relative w-full md:w-80 lg:w-96 group flex-shrink-0">
-                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <MagnifyingGlassIcon className="h-5 w-5 text-slate-400 group-focus-within:text-green-500 transition-colors" />
-                            </div>
-                            <input
-                                type="text"
-                                className="block w-full pl-11 pr-10 py-3 bg-white border border-slate-200 rounded-xl shadow-sm text-sm placeholder-slate-400 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
-                                placeholder="Service suchen..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                            {searchQuery && (
-                                <button
-                                    onClick={() => setSearchQuery('')}
-                                    className="absolute inset-y-0 right-3 flex items-center p-1 text-slate-400 hover:text-slate-600"
-                                >
-                                    <XMarkIcon className="h-4 w-4" />
-                                </button>
-                            )}
-                        </div>
+                    {/* Top Header */}
+                    <div className="mb-8 px-1 sm:px-0 text-center max-w-3xl mx-auto">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4 tracking-tight">
+                            Finden Sie den passenden Service
+                        </h2>
+                        <p className="text-slate-600 text-base sm:text-lg font-medium">
+                            Entdecken Sie unser breites Angebot. Von Renovierung bis Reinigung — finden Sie den passenden Fachbetrieb für Ihr Projekt.
+                        </p>
                     </div>
 
 
                     {/* Category Pills - Horizontal Scroll */}
-                    <div className="mb-5 sm:mb-8 -mx-3 sm:-mx-4 px-3 sm:px-4">
-                        <div className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                    <div className="mb-8 sm:mb-12 -mx-4 px-4 sm:mx-0 sm:px-0 flex justify-center">
+                        <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-4 pt-2 px-2 scrollbar-hide snap-x" style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
                             <button
                                 onClick={() => setSelectedCategory('Alle')}
-                                className={`flex-shrink-0 inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all ${selectedCategory === 'Alle'
-                                    ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
-                                    : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600'
+                                className={`snap-center flex-shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all shadow-sm ${selectedCategory === 'Alle'
+                                    ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-green-600/25 shadow-lg scale-105'
+                                    : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600 hover:shadow-md'
                                     }`}
                             >
-                                <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
                                 </svg>
-                                Alle ({allServicesData.length})
+                                <span>Alle Services</span>
                             </button>
                             {categoryOrder.map((category) => {
                                 const count = (servicesByCategory[category] || []).length;
@@ -443,15 +419,13 @@ const ServicesPage: React.FC = () => {
                                     <button
                                         key={category}
                                         onClick={() => setSelectedCategory(category)}
-                                        className={`flex-shrink-0 inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all ${isActive
-                                            ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
-                                            : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600'
+                                        className={`snap-center flex-shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all shadow-sm ${isActive
+                                            ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-green-600/25 shadow-lg scale-105'
+                                            : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600 hover:shadow-md'
                                             }`}
                                     >
-                                        <span className="w-3.5 h-3.5 sm:w-4 sm:h-4">{categoryIcons[category]}</span>
-                                        <span className="hidden sm:inline">{category}</span>
-                                        <span className="sm:hidden">{category.split(' ')[0]}</span>
-                                        <span className="text-[10px] sm:text-xs opacity-60">({count})</span>
+                                        <span className={`w-5 h-5 ${isActive ? 'text-white' : 'text-slate-400 opacity-80'}`}>{categoryIcons[category]}</span>
+                                        <span>{category}</span>
                                     </button>
                                 );
                             })}
