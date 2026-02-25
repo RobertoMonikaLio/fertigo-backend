@@ -382,58 +382,43 @@ const ServicesPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-slate-50 font-sans">
-            {/* ══════════ PREMIUM HERO SECTION ══════════ */}
-            <section className="relative overflow-hidden bg-white pb-20 pt-32 lg:pt-40 lg:pb-28">
-                {/* ── Background Elements ── */}
-                <div className="absolute inset-0 z-0 pointer-events-none">
-                    <div className="absolute inset-0 opacity-[0.3]" style={{ backgroundImage: 'radial-gradient(#e2e8f0 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-                    <div className="absolute top-0 right-[-10%] w-[50vw] h-[50vw] bg-gradient-to-bl from-green-50 to-transparent rounded-full blur-3xl opacity-80" />
-                    <div className="absolute bottom-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-gradient-to-tr from-emerald-50 to-transparent rounded-full blur-3xl opacity-70" />
-                </div>
+            {/* All Services Section - Modern Layout */}
+            <div id="services-results" className="bg-slate-50 pt-28 sm:pt-32 lg:pt-40 pb-16 sm:pb-24">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
 
-                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                    <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-                        {/* Pill badge */}
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 border border-green-200 text-green-700 text-xs sm:text-sm font-bold tracking-wide mb-6">
-                            <ColoredSparklesIcon className="w-4 h-4" />
-                            <span>Über 500 geprüfte Dienstleister</span>
+                    {/* Top Header & Search */}
+                    <div className="mb-8 sm:mb-12 px-1 sm:px-0 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div>
+                            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 mb-2">
+                                {selectedCategory === 'Alle' ? 'Finden Sie den passenden Service' : selectedCategory}
+                            </h2>
+                            <p className="text-slate-500 text-sm sm:text-base max-w-2xl">
+                                Entdecken Sie unser breites Angebot an Handwerker- und Dienstleistungen. Von Renovierung bis Reinigung — finden Sie den passenden Fachbetrieb für Ihr Projekt.
+                            </p>
                         </div>
 
-                        <h1 className="text-4xl sm:text-5xl lg:text-[4rem] font-black text-slate-900 leading-[1.1] tracking-tight mb-6">
-                            Finden Sie den perfekten Service für <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-teal-500 pb-1">Ihr Projekt<svg className="absolute bottom-0 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none"><path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#heroUnderlineGradient)" strokeWidth="4" strokeLinecap="round"></path><defs><linearGradient id="heroUnderlineGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#16a34a"></stop><stop offset="50%" stopColor="#10b981"></stop><stop offset="100%" stopColor="#14b8a6"></stop></linearGradient></defs></svg></span>
-                        </h1>
-                        <p className="text-lg sm:text-xl text-slate-600 leading-relaxed font-medium mb-10">
-                            Von Renovierung über Reinigung bis hin zu komplexen Gartenbau-Projekten. Suchen Sie nach Ihrem Wunsch-Service oder wählen Sie eine Kategorie.
-                        </p>
-
                         {/* Search Bar */}
-                        <div className="relative max-w-2xl mx-auto group">
-                            <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                                <MagnifyingGlassIcon className="h-6 w-6 text-slate-400 group-focus-within:text-green-500 transition-colors" />
+                        <div className="relative w-full md:w-80 lg:w-96 group flex-shrink-0">
+                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <MagnifyingGlassIcon className="h-5 w-5 text-slate-400 group-focus-within:text-green-500 transition-colors" />
                             </div>
                             <input
                                 type="text"
-                                className="block w-full pl-14 pr-6 py-5 bg-white border-2 border-slate-100/80 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-lg placeholder-slate-400 focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-500/10 transition-all"
-                                placeholder="Z. B. Malerarbeiten, Umzug, Reinigung..."
+                                className="block w-full pl-11 pr-10 py-3 bg-white border border-slate-200 rounded-xl shadow-sm text-sm placeholder-slate-400 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
+                                placeholder="Service suchen..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery('')}
-                                    className="absolute inset-y-0 right-4 flex items-center p-2 text-slate-400 hover:text-slate-600"
+                                    className="absolute inset-y-0 right-3 flex items-center p-1 text-slate-400 hover:text-slate-600"
                                 >
-                                    <XMarkIcon className="h-5 w-5" />
+                                    <XMarkIcon className="h-4 w-4" />
                                 </button>
                             )}
                         </div>
                     </div>
-                </div>
-            </section>
-
-            {/* All Services Section - Modern Layout */}
-            <div id="services-results" className="bg-slate-50 pt-10 pb-16 sm:pb-24">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
 
 
                     {/* Category Pills - Horizontal Scroll */}
