@@ -1,7 +1,7 @@
 
 
 import React, { Suspense, lazy, useState, useEffect } from 'react';
-import { HashRouter, Routes, Route, useParams, useLocation, Outlet } from 'react-router-dom';
+import { HashRouter, Routes, Route, useParams, useLocation } from 'react-router-dom';
 // Fix: Renamed useAppStore to useAppContext to match the exported member from AppContext.
 import { useAppContext, AppProvider } from './pages/AppContext';
 
@@ -74,17 +74,22 @@ const LoadingIndicator: React.FC = () => (
 );
 
 // Error Boundary Component
-class ErrorBoundary extends React.Component<any, any> {
-    public state: any;
-    public props: any;
-    public setState: any;
+interface ErrorBoundaryState {
+    hasError: boolean;
+    error: Error | null;
+}
 
-    constructor(props: any) {
-        super(props);
-        this.state = { hasError: false, error: null };
-    }
+interface ErrorBoundaryProps {
+    children: React.ReactNode;
+}
 
-    static getDerivedStateFromError(error: Error) {
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+    state: ErrorBoundaryState = { hasError: false, error: null };
+    // Explizite Typen für TS-Kompatibilität mit ES2022 + useDefineForClassFields:false
+    declare setState: React.Component<ErrorBoundaryProps, ErrorBoundaryState>['setState'];
+    declare props: Readonly<ErrorBoundaryProps>;
+
+    static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
     }
 
@@ -272,7 +277,7 @@ const App: React.FC = () => {
     return (
         <ErrorBoundary>
             <AppProvider>
-                <HashRouter>
+                <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
                     <AppContent />
                 </HashRouter>
             </AppProvider>

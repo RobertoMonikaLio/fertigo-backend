@@ -50,13 +50,13 @@ const MultiImageUploader: React.FC<{
     const fileRef = useRef<HTMLInputElement>(null);
 
     const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(e.target.files || []);
+        const files = Array.from(e.target.files ?? []) as File[];
         files.forEach(file => {
             const reader = new FileReader();
             reader.onload = () => {
                 onChange([...images, reader.result as string]);
             };
-            reader.readAsDataURL(file as any);
+            reader.readAsDataURL(file);
         });
     };
 
@@ -284,7 +284,7 @@ const ListingDetailModal: React.FC<{ item: RentalItem; onClose: () => void; }> =
                     {item.description && (
                         <div className="mb-6">
                             <h3 className="font-black text-slate-800 mb-3">Beschreibung</h3>
-                            <div className="text-slate-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: item.description }} />
+                            <p className="text-slate-600 leading-relaxed whitespace-pre-line">{item.description}</p>
                         </div>
                     )}
                 </div>

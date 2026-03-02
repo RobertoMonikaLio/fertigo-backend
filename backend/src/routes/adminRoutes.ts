@@ -1,5 +1,6 @@
 import express from 'express';
 import { adminLogin, verifyAdmin } from '../controllers/adminController';
+import { protectAdmin } from '../middleware/adminAuthMiddleware';
 import {
     getDashboardStats,
     getAdminPartners,
@@ -17,9 +18,12 @@ import {
 
 const router = express.Router();
 
-// Auth
+// Öffentliche Auth-Routen (kein Token erforderlich)
 router.post('/login', adminLogin);
 router.get('/verify', verifyAdmin);
+
+// Ab hier: Alle Routen erfordern gültigen Admin-Token
+router.use(protectAdmin);
 
 // Dashboard
 router.get('/stats', getDashboardStats);
@@ -46,3 +50,4 @@ router.put('/profile', updateAdminProfile);
 router.put('/password', updateAdminPassword);
 
 export default router;
+
