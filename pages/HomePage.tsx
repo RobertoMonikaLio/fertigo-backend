@@ -145,24 +145,22 @@ const FeaturesSkeleton: React.FC = () => (
 );
 
 const PopularServicesSkeleton: React.FC = () => (
-    <div className="py-20 sm:py-24 bg-slate-50 w-full">
+    <div className="py-24 sm:py-32 bg-white w-full">
         <div className="container mx-auto px-6">
             <div className="animate-pulse text-center mb-12">
-                <div className="h-8 bg-slate-300 rounded-md w-1/2 mx-auto mb-2"></div>
-                <div className="h-4 bg-slate-300 rounded-md w-2/3 mx-auto"></div>
+                <div className="h-10 bg-slate-200 rounded-md w-1/2 mx-auto mb-4"></div>
+                <div className="h-6 bg-slate-100 rounded-md w-2/3 mx-auto"></div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {[...Array(6)].map((_, i) => (
-                    <div key={i} className="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-lg animate-pulse">
-                        <div className="bg-slate-200 h-48"></div>
-                        <div className="p-5">
-                            <div className="flex items-center gap-3 mb-3">
-                                <div className="w-7 h-7 bg-slate-200 rounded-full"></div>
-                                <div className="h-6 bg-slate-200 rounded-md w-1/3"></div>
+                    <div key={i} className="bg-white rounded-[32px] border border-slate-100 overflow-hidden shadow-lg animate-pulse">
+                        <div className="bg-slate-100 h-56"></div>
+                        <div className="p-8 space-y-4">
+                            <div className="flex items-center gap-4">
+                                <div className="w-14 h-14 bg-slate-200 rounded-2xl"></div>
+                                <div className="h-8 bg-slate-200 rounded-md w-1/3"></div>
                             </div>
-                            <div className="h-4 bg-slate-100 rounded-md w-full mb-2"></div>
-                            <div className="h-4 bg-slate-100 rounded-md w-3/4"></div>
-                            <div className="mt-4 h-4 bg-slate-200 rounded-md w-1/4"></div>
+                            <div className="h-5 bg-slate-100 rounded-md w-full"></div>
                         </div>
                     </div>
                 ))}

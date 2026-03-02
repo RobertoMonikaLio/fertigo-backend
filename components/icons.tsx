@@ -282,209 +282,397 @@ export const TwintIcon: React.FC<IconProps> = ({ className }) => (<svg className
 
 export const ColoredPaintRollerIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="paint-roller-g" x1="3" y1="8" x2="21" y2="16" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <rect x="3" y="8" width="18" height="8" rx="2" fill="url(#paint-roller-g)" stroke="#14532D" strokeWidth="2" />
-        <path d="M8 16v3a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-3" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
-        <path d="M16 8V6a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <rect x="3" y="10" width="18" height="6" rx="1.5" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M16 10V6a2 2 0 0 0-2-2h-3a2 2 0 0 0-2 2v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 16v4a2 2 0 0 0 2 2h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M8 10h8" stroke="currentColor" strokeWidth="1" opacity="0.5" />
     </svg>
 );
+
 export const ColoredTruckIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="truck-g" x1="1" y1="5" x2="21" y2="19" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M1 17V6a2 2 0 0 1 2-2h10v14H4a3 3 0 0 1-3-3Z" fill="url(#truck-g)" stroke="#14532D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M13 5h5a2 2 0 0 1 2 2v11a1 1 0 0 1-1 1h-6V5Z" stroke="#14532D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="6.5" cy="18.5" r="2.5" fill="#fff" stroke="#14532D" strokeWidth="2" /><circle cx="16.5" cy="18.5" r="2.5" fill="#fff" stroke="#14532D" strokeWidth="2" />
+        <path d="M1 14V5a2 2 0 0 1 2-2h10v11H1z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M13 8h4l4 3v3h-8V8z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="6" cy="18" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="16" cy="18" r="2.5" stroke="currentColor" strokeWidth="1.5" />
     </svg>
 );
+
+export const ColoredUmzugIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 11a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M3 14h18" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M9 9V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+export const ColoredPrivatumzugIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 11l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V11z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <rect x="9" y="13" width="6" height="6" rx="0.5" stroke="currentColor" strokeWidth="1.5" fill="currentColor" fillOpacity="0.2" />
+        <path d="M9 16h6" stroke="currentColor" strokeWidth="1" />
+    </svg>
+);
+
+export const ColoredFirmenumzugIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 21h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M9 7h2m-2 4h2m2-4h2m-2 4h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M12 21v-4a1 1 0 0 0-1-1H9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+);
+
+export const ColoredMoebelIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 18v-4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M6 12V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v6" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M3 18h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+);
+
+export const ColoredEntsorgungIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 7h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13H6z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M10 11v6M14 11v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M9 7V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+);
+
+export const ColoredEinlagerungIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="3" width="18" height="18" rx="2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M3 9h18M9 3v18" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M12 12l6 6M18 12l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
+    </svg>
+);
+
 export const ColoredSparklesIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="sparkles-g" x1="4" y1="4" x2="20" y2="20" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="m11.164 3.19-1.22 2.492a.5.5 0 0 1-.376.26L7.13 6.447a.5.5 0 0 0-.272.86l2.13 2.077a.5.5 0 0 1 .145.44l-.503 2.924a.5.5 0 0 0 .732.522l2.61-1.372a.5.5 0 0 1 .466 0l2.61 1.372a.5.5 0 0 0 .732-.522l-.503-2.924a.5.5 0 0 1 .145-.44l2.13-2.077a.5.5 0 0 0-.272-.86l-2.438-.505a.5.5 0 0 1-.376-.26L12.836 3.19a.5.5 0 0 0-.894 0Z" stroke="#14532D" strokeWidth="2" fill="url(#sparkles-g)" />
-        <path d="M5 3v4m14-4v4m-9 14v-4" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M19 14l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z" fill="currentColor" fillOpacity="0.5" stroke="currentColor" strokeWidth="1" />
+        <path d="M4 14.5l.5 1.5 1.5.5-1.5.5-.5 1.5-.5-1.5-1.5-.5 1.5-.5.5-1.5z" fill="currentColor" />
     </svg>
 );
+
 export const ColoredWrenchScrewdriverIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="wrench-g" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="#14532D" strokeWidth="2" fill="url(#wrench-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M12 12 6 6" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 12l-6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
 );
+
 export const ColoredLeafIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="leaf-g" x1="2" y1="12" x2="22" y2="12" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z" fill="url(#leaf-g)" stroke="#14532D" strokeWidth="2" />
-        <path d="M12 2a10 10 0 0 0-2 19.5" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <path d="M12 2v20M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 10a4 4 0 0 1 4 4c0 2-2 4-4 4s-4-2-4-4a4 4 0 0 1 4-4z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
 );
+
 export const ColoredPencilIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="pencil-g" x1="4" y1="20" x2="20" y2="4" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M4 20h16M13.5 6.5l4 4L7 21H3v-4l10.5-10.5z" stroke="#14532D" strokeWidth="2" fill="url(#pencil-g)" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M4 20h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M15 5l3 3" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+    </svg>
+);
+
+export const ColoredCleaningIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M8 12l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M16 6l1-1M20 10l1-1M4 18l1-1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
+    </svg>
+);
+
+export const ColoredWindowCleaningIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="16" height="16" rx="2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M4 12h16M12 4v16" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M14 6l4 4M6 14l4 4" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.4" />
+    </svg>
+);
+
+export const ColoredGardenIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 8v8M8 12h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1" opacity="0.3" />
     </svg>
 );
 
 export const ColoredSwatchIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="swatch-g" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="#14532D" strokeWidth="2" fill="url(#swatch-g)" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 21l-7-4M12 21l7-4M12 21V12" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
     </svg>
 );
+
 export const ColoredSquares2X2Icon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="squares-g" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <rect width="9" height="9" x="3" y="3" rx="1" stroke="#14532D" strokeWidth="2" fill="url(#squares-g)" />
-        <rect width="9" height="9" x="3" y="12" rx="1" stroke="#14532D" strokeWidth="2" fill="url(#squares-g)" />
-        <rect width="9" height="9" x="12" y="3" rx="1" stroke="#14532D" strokeWidth="2" fill="url(#squares-g)" />
-        <rect width="9" height="9" x="12" y="12" rx="1" stroke="#14532D" strokeWidth="2" fill="url(#squares-g)" />
+        <rect width="8" height="8" x="3" y="3" rx="1.5" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <rect width="8" height="8" x="13" y="3" rx="1.5" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
+        <rect width="8" height="8" x="3" y="13" rx="1.5" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
+        <rect width="8" height="8" x="13" y="13" rx="1.5" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
     </svg>
 );
+
 export const ColoredLightbulbIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="lightbulb-g" x1="7" y1="2" x2="17" y2="22" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M9 18h6m-3-3v3m-4-5a8 8 0 1 1 8 0c0 2.5-1.5 4.5-3 5.5V15h-2v-1.5c-1.5-1-3-3-3-5.5z" stroke="#14532D" strokeWidth="2" fill="url(#lightbulb-g)" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 21a7 7 0 1 0 0-14 7 7 0 0 0 0 14z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M9 22h6m-3-3v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 7V3M5.636 5.636l2.121 2.121M3 12h2M5.636 18.364l2.121-2.121M18.364 5.636l-2.121 2.121M21 12h-2M18.364 18.364l-2.121-2.121" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
     </svg>
 );
+
 export const ColoredWindowIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="window-g" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <rect x="3" y="3" width="18" height="18" rx="2" stroke="#14532D" strokeWidth="2" fill="url(#window-g)" />
-        <path d="M3 12h18M12 3v18" stroke="#14532D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <rect x="3" y="3" width="18" height="18" rx="2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M3 10h18M12 3v18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
+
 export const ColoredHomeModernIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="home-modern-g" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M3 9.5 12 4l9 5.5M19 13v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6" stroke="#14532D" strokeWidth="2" fill="url(#home-modern-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M12 16h4" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <path d="M3 9.5l9-6 9 6V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.5z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
+
 export const ColoredBuildingStorefrontIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="storefront-g" x1="4" y1="22" x2="20" y2="4" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M4 22h16M4 12V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4M4 22V12a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10" stroke="#14532D" strokeWidth="2" fill="url(#storefront-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M10 16h4M9 6a3 3 0 1 0 6 0" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <path d="M3 21h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M4 21V9l2-4h12l2 4v12" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M9 13h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
 );
+
 export const ColoredBuildingOffice2Icon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="office-g" x1="4" y1="22" x2="20" y2="4" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M9 22h6m-3-3v3m-6-2V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2h-2" stroke="#14532D" strokeWidth="2" fill="url(#office-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M9 6h6m-6 4h6m-6 4h6" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <rect x="5" y="3" width="14" height="18" rx="2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M9 7h2m2 0h2M9 11h2m2 0h2M9 15h2m2 0h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
 );
+
 export const ColoredArchiveBoxIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="archive-g" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <rect x="3" y="3" width="18" height="18" rx="2" stroke="#14532D" strokeWidth="2" fill="url(#archive-g)" />
-        <path d="M9 12h6" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <path d="M3 8h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <rect x="4" y="8" width="16" height="12" rx="2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M10 12h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M8 4h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
     </svg>
 );
+
 export const ColoredTrashIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="trash-g" x1="5" y1="6" x2="19" y2="22" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M5 6h14m-1 16H6a2 2 0 0 1-2-2V8h12v12a2 2 0 0 1-2 2zM9 2h6" stroke="#14532D" strokeWidth="2" fill="url(#trash-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M10 12v4m4-4v4" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <path d="M4 7h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12H6z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M9 11v6M15 11v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.6" />
+        <path d="M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
 );
+
 export const ColoredSunIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="sun-g" x1="12" y1="7" x2="12" y2="17" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <circle cx="12" cy="12" r="5" stroke="#14532D" strokeWidth="2" fill="url(#sun-g)" />
-        <path d="M12 1v2m0 18v2m-9-9h2m18 0h-2m-6.364-6.364 1.414-1.414m12.728 12.728-1.414-1.414M4.929 4.929l1.414 1.414m12.728 12.728 1.414 1.414" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="12" cy="12" r="5" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M12 1v2m0 18v2m-9-9h2m18 0h-2m-6.364-6.364 1.414-1.414m12.728 12.728-1.414-1.414M4.929 4.929l1.414 1.414m12.728 12.728 1.414 1.414" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
 );
+
 export const ColoredToolboxIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="toolbox-g" x1="3" y1="8" x2="21" y2="16" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <rect x="3" y="8" width="18" height="12" rx="2" stroke="#14532D" strokeWidth="2" fill="url(#toolbox-g)" />
-        <path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
-        <path d="M12 14h.01" stroke="#14532D" strokeWidth="3" strokeLinecap="round" />
+        <rect x="3" y="8" width="18" height="12" rx="2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="12" cy="14" r="1.5" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
     </svg>
 );
+
 export const ColoredMapPinIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="mappin-g" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" stroke="#14532D" strokeWidth="2" fill="url(#mappin-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="12" cy="10" r="3" stroke="#14532D" strokeWidth="2" fill="white" />
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="1.5" fill="white" fillOpacity="0.5" />
     </svg>
 );
+
 export const ColoredUserIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="user-g" x1="4" y1="20" x2="20" y2="4" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="#14532D" strokeWidth="2" fill="url(#user-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="12" cy="7" r="4" stroke="#14532D" strokeWidth="2" fill="url(#user-g)" />
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="1.5" fill="currentColor" fillOpacity="0.1" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
+
 export const ColoredMailIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="mail-g" x1="3" y1="4" x2="21" y2="20" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <rect x="3" y="4" width="18" height="16" rx="2" stroke="#14532D" strokeWidth="2" fill="url(#mail-g)" />
-        <path d="m3 6 9 6 9-6" stroke="#14532D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <rect x="3" y="4" width="18" height="16" rx="2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="m3 6 9 6 9-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
+
 export const ColoredPhoneIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="phone-g" x1="1" y1="1" x2="20" y2="20" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="#14532D" strokeWidth="2" fill="url(#phone-g)" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
+
 export const ColoredPartyPopperIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="party-g" x1="4" y1="20" x2="20" y2="4" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M4 20v-5.5a2.5 2.5 0 0 1 2.5-2.5h11a2.5 2.5 0 0 1 2.5 2.5V20" stroke="#14532D" strokeWidth="2" fill="url(#party-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M4 20h16" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
-        <path d="m14 4-2 2-2-2m6 2-2 2-2-2m-2-2 2-2 2 2m-8 6h.01M16 12h.01" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <path d="M4 21l3-3m0 0l3 3m-3-3l-3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M20 4l-9 9 4 4 9-9-4-4z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M18 4l2 2m-4 4l2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
     </svg>
 );
+
 export const ColoredDiggerIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="digger-g" x1="1" y1="5" x2="21" y2="19" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M12 21a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2H4.5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2M12 13V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M2 13h10" stroke="#14532D" strokeWidth="2" fill="url(#digger-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M18 7h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2m-3 0V9" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <path d="M2 13h10v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 13V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M18 10h4v3a2 2 0 0 1-2 2h-2v-5z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
 );
+
 export const ColoredVacuumCleanerIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="vacuum-g" x1="4" y1="20" x2="20" y2="4" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M4 18a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 1-2-2H6a2 2 0 0 1-2-2v-2z" stroke="#14532D" strokeWidth="2" fill="url(#vacuum-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M12 16V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M4 16v-8a2 2 0 0 1 2-2h1" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
-        <circle cx="6" cy="19" r="2" stroke="#14532D" strokeWidth="2" fill="white" />
-        <circle cx="18" cy="19" r="2" stroke="#14532D" strokeWidth="2" fill="white" />
+        <path d="M4 18a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2H4v-2z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 16V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
+
 export const ColoredScaffoldingIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="scaffolding-g" x1="4" y1="22" x2="20" y2="2" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M4 22h4m12 0h-4M10 2h4M10 22V6M14 22V6" stroke="#14532D" strokeWidth="2" fill="url(#scaffolding-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M4 6h16M4 12h16M4 18h16" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <path d="M4 22h16M4 6h16M4 14h16M7 2v20M17 2v20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <rect x="7" y="6" width="10" height="8" fill="currentColor" fillOpacity="0.1" />
     </svg>
 );
+
 export const ColoredCarIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="car-g" x1="1" y1="5" x2="21" y2="19" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C19.7 10.2 19 9 18 9h-2.28c-.35.6-.94 1-1.64 1H8.92c-.7 0-1.29-.4-1.64-1H5c-1 0-1.8.8-1.8 1.8v3.4c0 .5.4.8.8.8h2" stroke="#14532D" strokeWidth="2" fill="url(#car-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M8 17h8m-7-5 1.5-3.5h5L16 12" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
-        <circle cx="7" cy="17" r="2" stroke="#14532D" strokeWidth="2" fill="white" /><circle cx="17" cy="17" r="2" stroke="#14532D" strokeWidth="2" fill="white" />
+        <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C19.7 10.2 19 9 18 9h-2.28c-.35.6-.94 1-1.64 1H8.92c-.7 0-1.29-.4-1.64-1H5c-1 0-1.8.8-1.8 1.8v3.4c0 .5.4.8.8.8h2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="7" cy="17" r="2" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="17" cy="17" r="2" stroke="currentColor" strokeWidth="1.5" />
     </svg>
 );
 
 export const ColoredBriefcaseIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="briefcase-g" x1="3" y1="7" x2="21" y2="17" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <rect x="3" y="7" width="18" height="13" rx="2" stroke="#14532D" strokeWidth="2" fill="url(#briefcase-g)" />
-        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
-        <path d="M3 13h18" stroke="#14532D" strokeWidth="2" strokeLinecap="round" />
+        <rect x="3" y="7" width="18" height="13" rx="2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M3 13h18" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
     </svg>
 );
+
 export const ColoredUsersIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="users-g" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse"><stop stopColor="#4ADE80" /><stop offset="1" stopColor="#16A34A" /></linearGradient></defs>
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="#14532D" strokeWidth="2" fill="url(#users-g)" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="9" cy="7" r="4" stroke="#14532D" strokeWidth="2" fill="url(#users-g)" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="#14532D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.5" fill="currentColor" fillOpacity="0.1" />
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
+export const ColoredShieldCheckIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+
+export const ColoredFireIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2c0 0-1 4.5-3 7.5S4 14 4 17a8 8 0 0 0 16 0c0-6-8-15-8-15z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 14.5c-1.5 0-2.5 1-2.5 2.5s1 2.5 2.5 2.5 2.5-1 2.5-2.5-1-2.5-2.5-2.5z" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+export const ColoredBellIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+export const ColoredCheckCircleIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="m9 12 2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+export const ColoredMagnifyingGlassIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="11" cy="11" r="8" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="m21 21-4.35-4.35" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+export const ColoredClipboardIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <rect x="8" y="2" width="8" height="4" rx="1" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+);
+
+export const ColoredChatBubbleLeftRightIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 9H8.01M12 9H12.01M16 9H16.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+export const ColoredRocketIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.71-2.16 0-3-.84-.71-2.16-.71-3 0zM15 3s-9 3-9 12c0 0 4.5 1 6.5-1M15 3s3 9-3 9c0 0 1 4.5-1 6.5M15 3s6 6 2 10c0 0 1 4.5-1 6.5" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="12" cy="9" r="2" fill="currentColor" fillOpacity="0.3" />
+    </svg>
+);
+
+export const ColoredTrophyIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 9V3h12v6M6 9a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4M6 9H2V5h4M18 9h4V5h-4M12 13v6m-4 4h8" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+export const ColoredShieldIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+export const ColoredBanknotesIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="5" width="20" height="14" rx="2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M18 9h.01M6 15h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+export const ColoredClockIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+export const ColoredLockClosedIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="11" width="14" height="10" rx="2" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="12" cy="16" r="1" fill="currentColor" />
+    </svg>
+);
+
+export const ColoredStarIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+export const ColoredBoltIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+
 
 // --- GENERAL PURPOSE ICONS (Heroicons style) ---
 // Using a consistent style for all basic UI icons improves visual cohesion.

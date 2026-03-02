@@ -1,7 +1,7 @@
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useAppContext } from '../pages/AppContext';
-import { ArrowRightIcon, SwissFlagIcon } from './icons';
+import { ArrowRightIcon, SwissFlagIcon, ColoredPencilIcon, ColoredMagnifyingGlassIcon, ColoredCheckCircleIcon } from './icons';
 import { translations } from './translations';
 
 const RadialJourney: React.FC = () => {
@@ -18,7 +18,7 @@ const RadialJourney: React.FC = () => {
         {
             id: 0,
             number: journey.step1.number,
-            icon: "✍️",
+            icon: <ColoredPencilIcon className="w-10 h-10" />,
             title: journey.step1.title,
             time: journey.step1.time,
             description: journey.step1.description,
@@ -30,7 +30,7 @@ const RadialJourney: React.FC = () => {
         {
             id: 1,
             number: journey.step2.number,
-            icon: "🔍",
+            icon: <ColoredMagnifyingGlassIcon className="w-10 h-10" />,
             title: journey.step2.title,
             time: journey.step2.time,
             description: journey.step2.description,
@@ -42,7 +42,7 @@ const RadialJourney: React.FC = () => {
         {
             id: 2,
             number: journey.step3.number,
-            icon: "✅",
+            icon: <ColoredCheckCircleIcon className="w-10 h-10" />,
             title: journey.step3.title,
             time: journey.step3.time,
             description: journey.step3.description,
@@ -86,79 +86,75 @@ const RadialJourney: React.FC = () => {
                 {/* ===== MOBILE ONLY: Notion-Style Scroll Cards ===== */}
                 <div className="sm:hidden -mx-4">
                     <div className="flex gap-4 pl-4 pr-8 overflow-x-auto snap-x snap-mandatory pb-6 scrollbar-hide">
-                        {steps.map((step, index) => {
-                            const emojis = ['📝', '🔎', '🏆'];
-                            return (
-                                <div
-                                    key={step.id}
-                                    className={`
+                        {steps.map((step, index) => (
+                            <div
+                                key={step.id}
+                                className={`
                                         snap-center flex-shrink-0 w-[80vw]
                                         transition-all duration-700
                                         ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
                                     `}
-                                    style={{ transitionDelay: `${index * 160}ms` }}
-                                >
-                                    <div className="h-full rounded-2xl border border-slate-200 bg-white shadow-sm flex flex-col overflow-hidden">
-                                        {/* Cover gradient area */}
-                                        <div className={`
+                                style={{ transitionDelay: `${index * 160}ms` }}
+                            >
+                                <div className="h-full rounded-2xl border border-slate-200 bg-white shadow-sm flex flex-col overflow-hidden">
+                                    {/* Cover gradient area */}
+                                    <div className={`
                                             h-24 relative
                                             ${index === 0 ? 'bg-gradient-to-r from-green-200 via-green-300 to-emerald-200' : index === 1 ? 'bg-gradient-to-r from-emerald-200 via-emerald-300 to-teal-200' : 'bg-gradient-to-r from-teal-200 via-teal-300 to-cyan-200'}
                                         `}>
-                                            {/* Pattern overlay */}
-                                            <div className="absolute inset-0 opacity-[0.15]" style={{
-                                                backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
-                                                backgroundSize: '16px 16px'
-                                            }} />
-                                        </div>
+                                        {/* Pattern overlay */}
+                                        <div className="absolute inset-0 opacity-[0.15]" style={{
+                                            backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
+                                            backgroundSize: '16px 16px'
+                                        }} />
+                                    </div>
 
-                                        {/* Floating emoji */}
-                                        <div className="relative -mt-7 ml-5 mb-3">
-                                            <div className="w-14 h-14 rounded-xl bg-white shadow-md border border-slate-100 flex items-center justify-center text-3xl">
-                                                {emojis[index]}
-                                            </div>
-                                        </div>
+                                    {/* Floating icon */}
+                                    <div className="relative -mt-7 ml-5 mb-3">
+                                        {step.icon}
+                                    </div>
 
-                                        {/* Content */}
-                                        <div className="px-5 pb-5 flex flex-col flex-1">
-                                            {/* Title row */}
-                                            <h3 className="text-slate-900 font-extrabold text-[19px] leading-tight mb-1">{step.title}</h3>
+                                    {/* Content */}
+                                    <div className="px-5 pb-5 flex flex-col flex-1">
+                                        {/* Title row */}
+                                        <h3 className="text-slate-900 font-extrabold text-[19px] leading-tight mb-1">{step.title}</h3>
 
-                                            {/* Meta tags */}
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <span className={`
+                                        {/* Meta tags */}
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <span className={`
                                                     text-[10px] font-bold px-2 py-0.5 rounded
                                                     ${index === 0 ? 'bg-green-100 text-green-700' : index === 1 ? 'bg-emerald-100 text-emerald-700' : 'bg-teal-100 text-teal-700'}
                                                 `}>
-                                                    Schritt {step.number}
-                                                </span>
-                                                <span className="text-slate-300 text-[10px]">|</span>
-                                                <span className="text-slate-400 text-[10px] font-medium">{step.time}</span>
-                                            </div>
+                                                Schritt {step.number}
+                                            </span>
+                                            <span className="text-slate-300 text-[10px]">|</span>
+                                            <span className="text-slate-400 text-[10px] font-medium">{step.time}</span>
+                                        </div>
 
-                                            {/* Description */}
-                                            <p className="text-slate-500 text-[13px] leading-relaxed mb-4 flex-1">{step.description}</p>
+                                        {/* Description */}
+                                        <p className="text-slate-500 text-[13px] leading-relaxed mb-4 flex-1">{step.description}</p>
 
-                                            {/* Features as checklist */}
-                                            <div className="space-y-2 border-t border-slate-100 pt-3">
-                                                {step.features.map((f, i) => (
-                                                    <div key={i} className="flex items-center gap-2.5">
-                                                        <div className={`
+                                        {/* Features as checklist */}
+                                        <div className="space-y-2 border-t border-slate-100 pt-3">
+                                            {step.features.map((f, i) => (
+                                                <div key={i} className="flex items-center gap-2.5">
+                                                    <div className={`
                                                             w-[18px] h-[18px] rounded flex items-center justify-center flex-shrink-0 border
                                                             ${index === 0 ? 'bg-green-500 border-green-500' : index === 1 ? 'bg-emerald-500 border-emerald-500' : 'bg-teal-500 border-teal-500'}
                                                         `}>
-                                                            <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
-                                                                <path d="M1.5 5L4 7.5L8.5 2.5" />
-                                                            </svg>
-                                                        </div>
-                                                        <span className="text-slate-700 text-[12.5px] font-medium">{f}</span>
+                                                        <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                                                            <path d="M1.5 5L4 7.5L8.5 2.5" />
+                                                        </svg>
                                                     </div>
-                                                ))}
-                                            </div>
+                                                    <span className="text-slate-700 text-[12.5px] font-medium">{f}</span>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
-                            );
-                        })}
+                            </div>
+                        )
+                        )}
                     </div>
 
                     {/* Page indicator */}
@@ -188,16 +184,7 @@ const RadialJourney: React.FC = () => {
                             <div className="relative h-full bg-white rounded-3xl p-6 lg:p-8 border-2 border-green-200 shadow-xl hover:shadow-2xl hover:border-green-300 transition-all duration-300 group">
                                 {/* Icon */}
                                 <div className="text-center mb-6">
-                                    <div className={`
-                                        w-20 h-20 mx-auto rounded-2xl
-                                        flex items-center justify-center text-4xl
-                                        bg-gradient-to-br ${step.bgGradient}
-                                        border-2 border-green-200
-                                        transition-all duration-300
-                                        group-hover:scale-105
-                                    `}>
-                                        {step.icon}
-                                    </div>
+                                    {step.icon}
                                 </div>
 
                                 {/* Content */}

@@ -25,7 +25,7 @@ const NewsletterSection: React.FC = () => {
     };
 
     return (
-        <section ref={ref} className="relative py-12 sm:py-16 lg:py-20 bg-green-600 overflow-hidden">
+        <section ref={ref} className="relative py-12 sm:py-16 lg:py-20 bg-green-600 overflow-hidden hidden sm:block">
 
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
@@ -42,8 +42,8 @@ const NewsletterSection: React.FC = () => {
             <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className={`transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-                    {/* ===== MOBILE ONLY ===== */}
-                    <div className="sm:hidden text-center px-1">
+                    {/* ===== MOBILE ONLY (deaktiviert) ===== */}
+                    <div className="hidden text-center px-1">
                         {/* Mail icon */}
                         <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-white/15 border border-white/20 flex items-center justify-center">
                             <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">

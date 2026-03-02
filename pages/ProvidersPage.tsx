@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
-import { ArrowRightIcon, SwissFlagIcon } from '../components/icons';
+import { ArrowRightIcon, SwissFlagIcon, ColoredMagnifyingGlassIcon, ColoredChatBubbleLeftRightIcon, ColoredCheckCircleIcon, ColoredBanknotesIcon, ColoredLockClosedIcon, ColoredPaintRollerIcon, ColoredBoltIcon, ColoredWrenchScrewdriverIcon, ColoredScaffoldingIcon, ColoredLeafIcon, ColoredVacuumCleanerIcon, ColoredGardenIcon, ColoredHomeModernIcon, ColoredClockIcon } from '../components/icons';
 import { useAppContext } from './AppContext';
 import { translations } from '../components/translations';
 
@@ -23,7 +23,10 @@ const ProvidersPage: React.FC = () => {
         <div className="mx-auto overflow-hidden">
 
             {/* ══════════ HERO REIMAGINED – LIGHT, PREMIUM & TRUST-FOCUSED ══════════ */}
-            <section ref={heroRef} className="relative overflow-hidden bg-slate-50 min-h-[90vh] pb-24 pt-32 lg:pt-40">
+            <section
+                ref={heroRef}
+                className="relative overflow-hidden bg-slate-50 min-h-[80vh] sm:min-h-[90vh] pb-20 sm:pb-24 pt-28 sm:pt-32 lg:pt-40"
+            >
                 {/* ── Background Elements ── */}
                 <div className="absolute inset-0 z-0 pointer-events-none">
                     {/* Subtle grid pattern */}
@@ -34,20 +37,130 @@ const ProvidersPage: React.FC = () => {
                 </div>
 
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                    <div className="grid lg:grid-cols-2 gap-16 lg:gap-12 items-center">
+                    {/* Mobile Hero – kompakte Card-Experience */}
+                    <div
+                        className={`sm:hidden space-y-6 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'} transition-all duration-700`}
+                    >
+                        {/* Badge */}
+                        <div className="inline-flex items-center gap-2 rounded-full bg-white/70 border border-slate-200 px-3 py-1 text-[11px] font-semibold text-slate-700 backdrop-blur">
+                            <SwissFlagIcon className="w-3.5 h-3.5" />
+                            <span>Mehr Aufträge, weniger Aufwand</span>
+                        </div>
+
+                        {/* Headline & Copy */}
+                        <div className="space-y-3">
+                            <h1
+                                className="text-[1.8rem] font-black text-slate-900 leading-[1.15] tracking-tight"
+                                dangerouslySetInnerHTML={{
+                                    __html:
+                                        t.hero?.title
+                                            ?.replace('Leads erhalten.', 'Qualifizierte Aufträge erhalten.')
+                                            .replace(
+                                                'Umsatz steigern.',
+                                                '<br/><span class="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500 pb-1">Umsatz steigern.</span>'
+                                            ) ||
+                                        'Qualifizierte Aufträge erhalten.<br/><span class="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500 pb-1">Umsatz steigern.</span>'
+                                }}
+                            />
+                            <p className="text-sm text-slate-600 leading-relaxed max-w-md">
+                                {t.hero?.description || 'Fertigo bringt Ihnen passende Kundenanfragen – ohne Abo, ohne Provision, direkt auf Ihr Smartphone.'}
+                            </p>
+                        </div>
+
+                        {/* CTA + sekundäre Info */}
+                        <div className="space-y-2">
+                            <Link
+                                to="/register"
+                                className="w-full flex items-center justify-center gap-2.5 bg-slate-900 hover:bg-slate-800 text-white font-black px-6 py-3.5 rounded-xl text-sm shadow-xl shadow-slate-900/25 hover:-translate-y-0.5 transition-all duration-300"
+                            >
+                                {t.hero?.ctaRegister || 'Kostenlos registrieren'}
+                                <ArrowRightIcon className="w-4 h-4 text-green-400" />
+                            </Link>
+                            <p className="text-[11px] text-slate-400 text-center">
+                                Kein Abo · Keine Provision · In wenigen Minuten startklar
+                            </p>
+                        </div>
+
+                        {/* Lead-Vorschau Card */}
+                        <div className="rounded-2xl bg-white border border-slate-200 shadow-lg shadow-slate-900/5 overflow-hidden">
+                            <div className="relative h-40 bg-slate-100">
+                                <img
+                                    src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=800&auto=format&fit=crop"
+                                    alt="Handwerker bei der Arbeit"
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
+                                <div className="absolute bottom-3 left-3 flex items-center gap-2 bg-white/90 px-3 py-1.5 rounded-full shadow">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                                    <span className="text-[11px] font-semibold text-slate-800 uppercase tracking-[0.16em]">
+                                        Neue Anfrage in Ihrer Region
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="p-4 space-y-4">
+                                <div className="flex items-start justify-between gap-3">
+                                    <div>
+                                        <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.18em] mb-1">
+                                            Badezimmer · Sanierung
+                                        </p>
+                                        <p className="text-sm font-bold text-slate-900">
+                                            2-Zimmer-Wohnung in Zürich, Start in 2 Wochen
+                                        </p>
+                                    </div>
+                                    <div className="bg-emerald-50 text-emerald-700 text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                        Live
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-3 text-[11px]">
+                                    <div className="rounded-xl bg-slate-50 border border-slate-100 px-3 py-2">
+                                        <div className="text-slate-400 uppercase tracking-[0.14em] font-semibold mb-0.5">
+                                            Budget
+                                        </div>
+                                        <div className="text-sm font-black text-emerald-600">CHF 12&apos;000</div>
+                                    </div>
+                                    <div className="rounded-xl bg-slate-50 border border-slate-100 px-3 py-2">
+                                        <div className="text-slate-400 uppercase tracking-[0.14em] font-semibold mb-0.5">
+                                            Entfernung
+                                        </div>
+                                        <div className="text-sm font-black text-slate-900">&lt; 20 km</div>
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between text-[11px] text-slate-500">
+                                    <span>Nur geprüfte Kundenanfragen</span>
+                                    <span className="font-semibold text-emerald-600">0% Provision</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Desktop/Tablet Hero – bestehendes Layout */}
+                    <div className="hidden sm:grid lg:grid-cols-2 gap-16 lg:gap-12 items-center">
 
                         {/* ── LEFT: Content ── */}
                         <div className={`transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
 
                             {/* Headline */}
-                            <h1 className="text-4xl lg:text-5xl xl:text-[3.5rem] font-black text-slate-900 leading-[1.1] tracking-tight mb-6" dangerouslySetInnerHTML={{ __html: t.hero?.title?.replace('Leads erhalten.', 'Qualifizierte Aufträge erhalten.').replace('Umsatz steigern.', '<br/><span class="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500 pb-1 sm:pb-2">Umsatz steigern.<svg class="absolute bottom-0 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none"><path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#heroUnderlineGradient)" stroke-width="4" stroke-linecap="round"></path><defs><linearGradient id="heroUnderlineGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#16a34a"></stop><stop offset="50%" stop-color="#10b981"></stop><stop offset="100%" stop-color="#14b8a6"></stop></linearGradient></defs></svg></span>') || 'Qualifizierte Aufträge erhalten.<br/><span class="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500 pb-1 sm:pb-2">Umsatz steigern.<svg class="absolute bottom-0 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none"><path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#heroUnderlineGradient)" stroke-width="4" stroke-linecap="round"></path><defs><linearGradient id="heroUnderlineGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#16a34a"></stop><stop offset="50%" stop-color="#10b981"></stop><stop offset="100%" stop-color="#14b8a6"></stop></linearGradient></defs></svg></span>' }} />
+                            <h1
+                                className="text-3xl sm:text-4xl lg:text-5xl xl:text-[3.5rem] font-black text-slate-900 leading-[1.12] tracking-tight mb-5 sm:mb-6"
+                                dangerouslySetInnerHTML={{
+                                    __html:
+                                        t.hero?.title
+                                            ?.replace('Leads erhalten.', 'Qualifizierte Aufträge erhalten.')
+                                            .replace(
+                                                'Umsatz steigern.',
+                                                '<br/><span class="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500 pb-1 sm:pb-2">Umsatz steigern.<svg class="absolute bottom-0 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none"><path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#heroUnderlineGradient)" stroke-width="4" stroke-linecap="round"></path><defs><linearGradient id="heroUnderlineGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#16a34a"></stop><stop offset="50%" stop-color="#10b981"></stop><stop offset="100%" stop-color="#14b8a6"></stop></linearGradient></defs></svg></span>'
+                                            ) ||
+                                        'Qualifizierte Aufträge erhalten.<br/><span class="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500 pb-1 sm:pb-2">Umsatz steigern.<svg class="absolute bottom-0 left-0 w-full h-2 sm:h-3" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none"><path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#heroUnderlineGradient)" stroke-width="4" stroke-linecap="round"></path><defs><linearGradient id="heroUnderlineGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#16a34a"></stop><stop offset="50%" stop-color="#10b981"></stop><stop offset="100%" stop-color="#14b8a6"></stop></linearGradient></defs></svg></span>'
+                                }}
+                            />
 
-                            <p className="text-lg lg:text-xl text-slate-600 leading-relaxed mb-10 max-w-lg font-medium">
+                            <p className="text-base md:text-lg lg:text-xl text-slate-600 leading-relaxed mb-8 sm:mb-10 max-w-lg font-medium">
                                 {t.hero?.description || 'Fertigo verbindet Sie mit Kunden, die genau Ihren Service brauchen. Ohne Abo-Fallen, ohne Provision – direkt und transparent.'}
                             </p>
 
                             {/* CTAs */}
-                            <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
+                            <div className="flex flex-col sm:flex-row items-center gap-4 mb-6 sm:mb-8">
                                 <Link to="/register" className="w-full sm:w-auto flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-base shadow-xl shadow-slate-900/20 hover:-translate-y-0.5 transition-all duration-300">
                                     {t.hero?.ctaRegister || 'Kostenlos registrieren'}
                                     <ArrowRightIcon className="w-5 h-5 text-green-400" />
@@ -72,15 +185,19 @@ const ProvidersPage: React.FC = () => {
                         </div>
 
                         {/* ── RIGHT: Dynamic Visual Composition ── */}
-                        <div className={`relative lg:h-[600px] flex items-center justify-center transition-all duration-1000 delay-300 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                        <div
+                            className={`relative mt-10 sm:mt-0 lg:h-[600px] flex items-center justify-center transition-all duration-1000 delay-300 ${
+                                heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                            }`}
+                        >
 
                             {/* Subtle Decorative abstract shape behind */}
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-green-500/[0.05] to-emerald-500/[0.05] rotate-12 rounded-[5vw] z-0 pointer-events-none" />
 
                             {/* Main Featured Image/Card */}
-                            <div className="relative z-10 w-full max-w-[420px] rounded-[32px] overflow-hidden bg-white shadow-2xl shadow-green-900/5 border border-slate-100 transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                            <div className="relative z-10 w-full max-w-[380px] sm:max-w-[420px] rounded-[28px] sm:rounded-[32px] overflow-hidden bg-white shadow-2xl shadow-green-900/5 border border-slate-100 transform rotate-1 sm:rotate-2 hover:rotate-0 transition-transform duration-500">
                                 {/* Top Image Header */}
-                                <div className="relative h-64 bg-slate-100">
+                                <div className="relative h-56 sm:h-64 bg-slate-100">
                                     <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1000&auto=format&fit=crop" alt="Craftsman working" className="w-full h-full object-cover" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
 
@@ -163,21 +280,21 @@ const ProvidersPage: React.FC = () => {
                         <div className="flex gap-4 pl-4 pr-8 overflow-x-auto snap-x snap-mandatory pb-6 scrollbar-hide">
                             {[
                                 {
-                                    number: '1', emoji: '🔍', title: t.steps.step1.title,
+                                    number: '1', icon: <ColoredMagnifyingGlassIcon className="w-8 h-8" />, title: t.steps.step1.title,
                                     time: t.steps.step1.time, desc: t.steps.step1.desc,
                                     features: t.steps.step1.features,
                                     gradient: 'from-green-200 via-green-300 to-emerald-200', chipBg: 'bg-green-100 text-green-700', checkBg: 'bg-green-500 border-green-500',
                                     swissValue: t.steps.step1.swiss,
                                 },
                                 {
-                                    number: '2', emoji: '📞', title: t.steps.step2.title,
+                                    number: '2', icon: <ColoredChatBubbleLeftRightIcon className="w-8 h-8" />, title: t.steps.step2.title,
                                     time: t.steps.step2.time, desc: t.steps.step2.desc,
                                     features: t.steps.step2.features,
                                     gradient: 'from-emerald-200 via-emerald-300 to-teal-200', chipBg: 'bg-emerald-100 text-emerald-700', checkBg: 'bg-emerald-500 border-emerald-500',
                                     swissValue: t.steps.step2.swiss,
                                 },
                                 {
-                                    number: '3', emoji: '✅', title: t.steps.step3.title,
+                                    number: '3', icon: <ColoredCheckCircleIcon className="w-8 h-8" />, title: t.steps.step3.title,
                                     time: t.steps.step3.time, desc: t.steps.step3.desc,
                                     features: t.steps.step3.features,
                                     gradient: 'from-teal-200 via-teal-300 to-cyan-200', chipBg: 'bg-teal-100 text-teal-700', checkBg: 'bg-teal-500 border-teal-500',
@@ -197,8 +314,8 @@ const ProvidersPage: React.FC = () => {
                                             }} />
                                         </div>
                                         <div className="relative -mt-7 ml-5 mb-3">
-                                            <div className="w-14 h-14 rounded-xl bg-white shadow-md border border-slate-100 flex items-center justify-center text-3xl">
-                                                {step.emoji}
+                                            <div className="w-14 h-14 rounded-xl bg-white shadow-md border border-slate-100 flex items-center justify-center">
+                                                {step.icon}
                                             </div>
                                         </div>
                                         <div className="px-5 pb-5 flex flex-col flex-1">
@@ -239,21 +356,21 @@ const ProvidersPage: React.FC = () => {
                     <div className="hidden sm:grid md:grid-cols-3 gap-6 lg:gap-8 mb-16">
                         {[
                             {
-                                emoji: '🔍', title: t.steps.step1.title,
+                                icon: <ColoredMagnifyingGlassIcon className="w-10 h-10" />, title: t.steps.step1.title,
                                 desc: t.steps.step1.desc,
                                 features: t.steps.step1.features,
                                 gradient: 'from-green-500 to-emerald-500', bgGradient: 'from-green-50 to-emerald-50',
                                 swissValue: t.steps.step1.swiss,
                             },
                             {
-                                emoji: '📞', title: t.steps.step2.title,
+                                icon: <ColoredChatBubbleLeftRightIcon className="w-10 h-10" />, title: t.steps.step2.title,
                                 desc: t.steps.step2.desc,
                                 features: t.steps.step2.features,
                                 gradient: 'from-emerald-500 to-teal-500', bgGradient: 'from-emerald-50 to-teal-50',
                                 swissValue: t.steps.step2.swiss,
                             },
                             {
-                                emoji: '✅', title: t.steps.step3.title,
+                                icon: <ColoredCheckCircleIcon className="w-10 h-10" />, title: t.steps.step3.title,
                                 desc: t.steps.step3.desc,
                                 features: t.steps.step3.features,
                                 gradient: 'from-teal-500 to-cyan-500', bgGradient: 'from-teal-50 to-cyan-50',
@@ -268,8 +385,8 @@ const ProvidersPage: React.FC = () => {
                                 <div className="relative h-full bg-white rounded-3xl p-6 lg:p-8 border-2 border-green-200 shadow-xl hover:shadow-2xl hover:border-green-300 transition-all duration-300 group">
                                     {/* Icon */}
                                     <div className="text-center mb-6">
-                                        <div className={`w-20 h-20 mx-auto rounded-2xl flex items-center justify-center text-4xl bg-gradient-to-br ${step.bgGradient} border-2 border-green-200 transition-all duration-300 group-hover:scale-105`}>
-                                            {step.emoji}
+                                        <div className={`w-20 h-20 mx-auto rounded-2xl flex items-center justify-center bg-gradient-to-br ${step.bgGradient} border-2 border-green-200 transition-all duration-300 group-hover:scale-105`}>
+                                            {step.icon}
                                         </div>
                                     </div>
 
@@ -334,82 +451,67 @@ const ProvidersPage: React.FC = () => {
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4" dangerouslySetInnerHTML={{ __html: t.benefits.title }} />
                     </div>
 
-                    {/* ===== COMPLETELY DIFFERENT DESIGN: MIDNIGHT BENTO GRID ===== */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-5 max-w-[1400px] mx-auto mb-16 relative z-10 auto-rows-[auto] md:auto-rows-[250px]">
-                        {t.benefits.rows.map((row: any, i: number) => {
-                            // Bento Layout classes for 6 items in a 4-col grid:
-                            // 0: span 2, 1: span 2
-                            // 2: span 1 (tall), 3: span 2, 4: span 1 (tall)
-                            // 5: span 2
-                            const gridClass =
-                                i === 0 ? "md:col-span-2 md:row-span-1" :
-                                    i === 1 ? "md:col-span-2 md:row-span-1" :
-                                        i === 2 ? "md:col-span-1 md:row-span-2" :
-                                            i === 3 ? "md:col-span-2 md:row-span-1" :
-                                                i === 4 ? "md:col-span-1 md:row-span-2" :
-                                                    "md:col-span-2 md:row-span-1";
+                    {/* Neuer Vergleichsbereich: Vorher vs. mit Fertigo */}
+                    <div
+                        className={`space-y-6 md:space-y-8 mb-16 max-w-5xl mx-auto transition-all duration-1000 ${
+                            benefitsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                        }`}
+                    >
+                        {t.benefits.rows.map((row: any, i: number) => (
+                            <div
+                                key={i}
+                                className="relative rounded-3xl bg-white border border-slate-200 shadow-sm md:shadow-md overflow-hidden"
+                            >
+                                {/* Label-Zeile */}
+                                <div className="px-5 py-4 sm:px-6 sm:py-5 border-b border-slate-100 bg-slate-50/60 flex items-center justify-between gap-3">
+                                    <div className="flex items-center gap-2">
+                                        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 text-emerald-700 px-3 py-1 text-[11px] font-semibold tracking-[0.18em] uppercase">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                            {row.label}
+                                        </span>
+                                    </div>
+                                    <span className="hidden sm:inline-flex text-[11px] font-medium text-slate-400 uppercase tracking-[0.18em]">
+                                        Was sich konkret ändert
+                                    </span>
+                                </div>
 
-                            return (
-                                <div
-                                    key={i}
-                                    className={`group relative rounded-[2.5rem] overflow-hidden bg-slate-950 border border-slate-800/80 shadow-[0_10px_40px_rgba(0,0,0,0.08)] hover:border-green-500/40 hover:shadow-[0_0_50px_rgba(34,197,94,0.15)] hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between p-7 sm:p-9 ${gridClass} ${benefitsInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
-                                    style={{ transitionDelay: `${150 + i * 100}ms` }}
-                                >
-                                    {/* Deep Space Background Glow & Noise */}
-                                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 to-slate-950 opacity-80 z-0"></div>
-                                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.04] mix-blend-overlay z-0"></div>
-
-                                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0" />
-                                    <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-green-500/20 rounded-full blur-[80px] group-hover:bg-green-400/40 transition-all duration-700 pointer-events-none z-0" />
-
-                                    {/* Top Row: Category & Icon */}
-                                    <div className="flex justify-between items-start z-10 relative">
-                                        <div className="flex flex-col">
-                                            <span className="text-[10px] font-black text-green-400 uppercase tracking-widest mb-1 flex items-center gap-2">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-green-500 group-hover:animate-ping" />
-                                                {row.label}
-                                            </span>
+                                {/* Vorher / Nachher-Spalten */}
+                                <div className="px-5 sm:px-6 py-5 sm:py-6 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 items-stretch">
+                                    {/* Vorher */}
+                                    <div className="rounded-2xl border border-red-100 bg-red-50/60 px-4 py-4 flex flex-col gap-2">
+                                        <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-red-500">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+                                            Vorher
                                         </div>
-                                        <div className="w-12 h-12 rounded-full bg-slate-900/80 border border-slate-800 flex items-center justify-center text-slate-500 group-hover:text-green-400 group-hover:bg-green-500/20 group-hover:border-green-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-inner">
-                                            {/* Dynamic Icons */}
-                                            {i === 0 ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>
-                                                : i === 1 ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.866 8.21 8.21 0 0 0 3 2.48Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z" /></svg>
-                                                    : i === 2 ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>
-                                                        : i === 3 ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" /></svg>
-                                                            : i === 4 ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" /></svg>
-                                                                : <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" /></svg>}
-                                        </div>
+                                        <p className="text-sm text-red-900/80 leading-relaxed">
+                                            {row.before}
+                                        </p>
                                     </div>
 
-                                    {/* Content Area */}
-                                    <div className="relative z-10 mt-10 flex flex-col justify-end gap-3 flex-1">
-                                        {/* The Old Way (Small, red/gray) */}
-                                        <div className="flex items-center gap-2 opacity-50 group-hover:opacity-40 transition-opacity">
-                                            <svg className="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                                            </svg>
-                                            <span className="text-[11px] font-medium text-slate-400 uppercase tracking-widest line-through decoration-red-900/50">{row.before}</span>
+                                    {/* Mit Fertigo */}
+                                    <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 px-4 py-4 flex flex-col gap-2 shadow-[0_10px_30px_rgba(16,185,129,0.15)]">
+                                        <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-700">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                            Mit Fertigo
                                         </div>
-
-                                        {/* The New Way (Huge, bright pure white) */}
-                                        <div className={`${(i === 2 || i === 4) ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'} font-black text-white group-hover:text-green-50 transition-colors leading-[1.15] tracking-tight`}>
+                                        <p className="text-sm font-semibold text-slate-900 leading-relaxed">
                                             {row.after}
-                                        </div>
+                                        </p>
                                     </div>
                                 </div>
-                            );
-                        })}
+                            </div>
+                        ))}
                     </div>
 
                     {/* Pricing Strip */}
                     <div className={`mt-10 grid grid-cols-3 gap-3 sm:gap-5 transition-all duration-1000 delay-500 ${benefitsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                         {[
-                            { icon: '💰', title: t.benefits.pricing.lead, desc: t.benefits.pricing.leadDesc },
-                            { icon: '🔒', title: t.benefits.pricing.provision, desc: t.benefits.pricing.provisionDesc },
-                            { icon: '🚫', title: t.benefits.pricing.noAbo, desc: t.benefits.pricing.noAboDesc },
+                            { icon: <ColoredBanknotesIcon className="w-8 h-8" />, title: t.benefits.pricing.lead, desc: t.benefits.pricing.leadDesc },
+                            { icon: <ColoredLockClosedIcon className="w-8 h-8" />, title: t.benefits.pricing.provision, desc: t.benefits.pricing.provisionDesc },
+                            { icon: <ColoredClockIcon className="w-8 h-8" />, title: t.benefits.pricing.noAbo, desc: t.benefits.pricing.noAboDesc },
                         ].map((item, i) => (
-                            <div key={i} className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 text-center hover:border-green-200 hover:shadow-sm transition-all duration-300">
-                                <div className="text-2xl sm:text-3xl mb-2">{item.icon}</div>
+                            <div key={i} className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 text-center hover:border-green-200 hover:shadow-sm transition-all duration-300 flex flex-col items-center">
+                                <div className="mb-2">{item.icon}</div>
                                 <h4 className="font-black text-slate-900 text-xs sm:text-sm mb-0.5">{item.title}</h4>
                                 <p className="text-slate-400 text-[10px] sm:text-xs">{item.desc}</p>
                             </div>
@@ -434,21 +536,21 @@ const ProvidersPage: React.FC = () => {
 
                     <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 transition-all duration-1000 delay-200 ${categoriesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                         {[
-                            { emoji: '🎨', name: 'Maler & Gipser', leads: '320+', bg: 'from-orange-50 to-amber-50', border: 'border-orange-100 hover:border-orange-300' },
-                            { emoji: '⚡', name: 'Elektriker', leads: '280+', bg: 'from-yellow-50 to-amber-50', border: 'border-yellow-100 hover:border-yellow-300' },
-                            { emoji: '🔧', name: 'Sanitär & Heizung', leads: '250+', bg: 'from-blue-50 to-cyan-50', border: 'border-blue-100 hover:border-blue-300' },
-                            { emoji: '🏗️', name: 'Bauunternehmen', leads: '210+', bg: 'from-slate-50 to-gray-50', border: 'border-slate-100 hover:border-slate-300' },
-                            { emoji: '🪵', name: 'Schreiner', leads: '190+', bg: 'from-amber-50 to-orange-50', border: 'border-amber-100 hover:border-amber-300' },
-                            { emoji: '🧹', name: 'Reinigung', leads: '350+', bg: 'from-cyan-50 to-teal-50', border: 'border-cyan-100 hover:border-cyan-300' },
-                            { emoji: '🌿', name: 'Garten & Landschaft', leads: '270+', bg: 'from-green-50 to-emerald-50', border: 'border-green-100 hover:border-green-300' },
-                            { emoji: '🏠', name: 'Umzug & Transport', leads: '230+', bg: 'from-indigo-50 to-purple-50', border: 'border-indigo-100 hover:border-indigo-300' },
+                            { icon: <ColoredPaintRollerIcon className="w-8 h-8" />, name: 'Maler & Gipser', leads: '320+', bg: 'from-orange-50 to-amber-50', border: 'border-orange-100 hover:border-orange-300' },
+                            { icon: <ColoredBoltIcon className="w-8 h-8" />, name: 'Elektriker', leads: '280+', bg: 'from-yellow-50 to-amber-50', border: 'border-yellow-100 hover:border-yellow-300' },
+                            { icon: <ColoredWrenchScrewdriverIcon className="w-8 h-8" />, name: 'Sanitär & Heizung', leads: '250+', bg: 'from-blue-50 to-cyan-50', border: 'border-blue-100 hover:border-blue-300' },
+                            { icon: <ColoredScaffoldingIcon className="w-8 h-8" />, name: 'Bauunternehmen', leads: '210+', bg: 'from-slate-50 to-gray-50', border: 'border-slate-100 hover:border-slate-300' },
+                            { icon: <ColoredLeafIcon className="w-8 h-8" />, name: 'Schreiner', leads: '190+', bg: 'from-amber-50 to-orange-50', border: 'border-amber-100 hover:border-amber-300' },
+                            { icon: <ColoredVacuumCleanerIcon className="w-8 h-8" />, name: 'Reinigung', leads: '350+', bg: 'from-cyan-50 to-teal-50', border: 'border-cyan-100 hover:border-cyan-300' },
+                            { icon: <ColoredGardenIcon className="w-8 h-8" />, name: 'Garten & Landschaft', leads: '270+', bg: 'from-green-50 to-emerald-50', border: 'border-green-100 hover:border-green-300' },
+                            { icon: <ColoredHomeModernIcon className="w-8 h-8" />, name: 'Umzug & Transport', leads: '230+', bg: 'from-indigo-50 to-purple-50', border: 'border-indigo-100 hover:border-indigo-300' },
                         ].map((cat, i) => (
                             <div
                                 key={i}
                                 className={`group bg-gradient-to-br ${cat.bg} rounded-2xl p-5 sm:p-6 border-2 ${cat.border} hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}
                             >
                                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white shadow-sm flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
-                                    <span className="text-2xl sm:text-3xl">{cat.emoji}</span>
+                                    {cat.icon}
                                 </div>
                                 <div className="font-black text-slate-900 text-sm sm:text-base mb-1">{cat.name}</div>
                                 <div className="flex items-center gap-1.5">

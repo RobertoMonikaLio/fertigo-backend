@@ -110,12 +110,13 @@ const Header: React.FC = () => {
         { name: t.contact, to: '/kontakt' },
     ];
 
+    // Mobile-Navigation mit Emoji-Icons (nur im Overlay-Menü für Mobile genutzt)
     const mobileNavItems = [
-        { name: t.home, to: '/', emoji: '🏠' },
-        { name: t.services, to: '/services', emoji: '🛠️' },
-        { name: t.becomePartner, to: '/providers', emoji: '👷' },
-        { name: t.vorlagen, to: '/vorlagen', emoji: '💡' },
-        { name: t.contact, to: '/kontakt', emoji: '📬' }
+        { name: t.home, to: '/', icon: <span className="text-2xl" aria-hidden="true">🏠</span> },
+        { name: t.services, to: '/services', icon: <span className="text-2xl" aria-hidden="true">🧰</span> },
+        { name: t.becomePartner, to: '/providers', icon: <span className="text-2xl" aria-hidden="true">🤝</span> },
+        { name: t.vorlagen, to: '/vorlagen', icon: <span className="text-2xl" aria-hidden="true">💡</span> },
+        { name: t.contact, to: '/kontakt', icon: <span className="text-2xl" aria-hidden="true">✉️</span> }
     ];
 
     const handleLanguageChange = (lang: Language) => {
@@ -351,7 +352,7 @@ const Header: React.FC = () => {
                                             }
                                             group-hover:scale-110 drop-shadow-sm
                                         `}>
-                                            <span className="text-2xl drop-shadow-sm leading-none">{item.emoji}</span>
+                                            {item.icon}
                                         </div>
 
                                         {/* Text Section */}

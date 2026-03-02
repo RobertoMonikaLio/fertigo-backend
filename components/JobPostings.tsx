@@ -1,9 +1,9 @@
 
 import React, { useState, useRef } from 'react';
-import { 
-    BriefcaseIcon, PencilIcon, MapPinIcon, ArrowRightIcon, UsersIcon, 
+import {
+    BriefcaseIcon, PencilIcon, MapPinIcon, ArrowRightIcon, UsersIcon,
     CheckCircleIcon, RocketLaunchIcon, BuildingOfficeIcon, ClockIcon, CalendarDaysIcon, ArrowUpTrayIcon,
-    BanknotesIcon, UserIcon, MailIcon, HomeModernIcon, Squares2X2Icon, UserCheckIcon, BuildingOffice2Icon, PencilSquareIcon, TruckIcon,
+    BanknotesIcon, UserIcon, MailIcon, HomeModernIcon, Squares2X2Icon, UserCheckIcon, BuildingOffice2Icon, PencilSquareIcon, ColoredUmzugIcon, TruckIcon,
     BoldIcon, ItalicIcon, ListBulletIcon, XMarkIcon, ChevronDownIcon, EyeIcon
 } from './icons';
 
@@ -34,15 +34,15 @@ const InputField = ({ id, name, label, type = 'text', placeholder, value, onChan
         <div className="relative">
             {icon && <div className="h-5 w-5 text-slate-400 pointer-events-none absolute inset-y-0 left-3.5 flex items-center">{icon}</div>}
             {children ? children : (
-                <input 
-                    type={type} 
-                    name={name} 
-                    id={id} 
-                    className={`w-full rounded-xl border-slate-200 bg-white ${icon ? 'pl-11' : 'px-4'} shadow-sm py-3.5 text-slate-700 transition focus:ring-2 focus:ring-primary-500 focus:border-primary-500 border ${error ? 'border-red-500' : ''}`} 
-                    placeholder={placeholder} 
-                    value={value} 
-                    onChange={onChange} 
-                    required={required} 
+                <input
+                    type={type}
+                    name={name}
+                    id={id}
+                    className={`w-full rounded-xl border-slate-200 bg-white ${icon ? 'pl-11' : 'px-4'} shadow-sm py-3.5 text-slate-700 transition focus:ring-2 focus:ring-primary-500 focus:border-primary-500 border ${error ? 'border-red-500' : ''}`}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={onChange}
+                    required={required}
                     aria-invalid={!!error}
                     aria-describedby={error ? `${id}-error` : undefined}
                 />
@@ -57,11 +57,11 @@ const SelectField = ({ id, name, label, value, onChange, icon, options }: any) =
         <label htmlFor={id} className="block text-sm font-bold text-slate-700 mb-2">{label}</label>
         <div className="relative">
             {icon && <div className="h-5 w-5 text-slate-400 pointer-events-none absolute inset-y-0 left-3.5 flex items-center">{icon}</div>}
-            <select 
-                name={name} 
-                id={id} 
-                value={value} 
-                onChange={onChange} 
+            <select
+                name={name}
+                id={id}
+                value={value}
+                onChange={onChange}
                 className={`w-full rounded-xl border-slate-200 bg-white ${icon ? 'pl-11' : 'px-4'} pr-10 shadow-sm py-3.5 text-slate-700 appearance-none transition focus:ring-2 focus:ring-primary-500 focus:border-primary-500 border`}
             >
                 {options.map((opt: string) => <option key={opt} value={opt}>{opt}</option>)}
@@ -105,12 +105,12 @@ const RichTextEditor = ({ id, name, label, value, onChange, rows = 5, placeholde
         }
 
         const newValue = `${value.substring(0, start)}${replacement}${value.substring(end)}`;
-        
+
         const event = {
             target: { name, value: newValue }
         } as React.ChangeEvent<HTMLTextAreaElement>;
         onChange(event);
-        
+
         setTimeout(() => {
             if (textareaRef.current) {
                 textareaRef.current.focus();
@@ -119,15 +119,15 @@ const RichTextEditor = ({ id, name, label, value, onChange, rows = 5, placeholde
             }
         }, 0);
     };
-    
+
     return (
         <div>
             <label htmlFor={id} className="block text-sm font-bold text-slate-700 mb-2">{label} {required && <span className="text-red-500">*</span>}</label>
             <div className="rounded-xl border border-slate-200 bg-white shadow-sm focus-within:ring-2 focus-within:ring-primary-500 focus-within:border-primary-500 transition overflow-hidden">
                 <div className="px-2 py-1.5 border-b border-slate-100 bg-slate-50 flex items-center gap-1">
-                    <button type="button" onClick={() => applyFormat('bold')} className="p-1.5 rounded hover:bg-slate-200 text-slate-600 transition-colors" aria-label="Fett"><BoldIcon className="w-4 h-4"/></button>
-                    <button type="button" onClick={() => applyFormat('italic')} className="p-1.5 rounded hover:bg-slate-200 text-slate-600 transition-colors" aria-label="Kursiv"><ItalicIcon className="w-4 h-4"/></button>
-                    <button type="button" onClick={() => applyFormat('bullet')} className="p-1.5 rounded hover:bg-slate-200 text-slate-600 transition-colors" aria-label="Aufzählungszeichen"><ListBulletIcon className="w-4 h-4"/></button>
+                    <button type="button" onClick={() => applyFormat('bold')} className="p-1.5 rounded hover:bg-slate-200 text-slate-600 transition-colors" aria-label="Fett"><BoldIcon className="w-4 h-4" /></button>
+                    <button type="button" onClick={() => applyFormat('italic')} className="p-1.5 rounded hover:bg-slate-200 text-slate-600 transition-colors" aria-label="Kursiv"><ItalicIcon className="w-4 h-4" /></button>
+                    <button type="button" onClick={() => applyFormat('bullet')} className="p-1.5 rounded hover:bg-slate-200 text-slate-600 transition-colors" aria-label="Aufzählungszeichen"><ListBulletIcon className="w-4 h-4" /></button>
                 </div>
                 <textarea
                     ref={textareaRef}
@@ -151,11 +151,11 @@ interface JobPostingsProps {
 }
 
 const STEPS = [
-    { id: 1, title: "Basisdaten", icon: <BriefcaseIcon className="w-5 h-5"/> },
-    { id: 2, title: "Details", icon: <ClockIcon className="w-5 h-5"/> },
-    { id: 3, title: "Beschreibung", icon: <PencilSquareIcon className="w-5 h-5"/> },
-    { id: 4, title: "Kontakt", icon: <BuildingOfficeIcon className="w-5 h-5"/> },
-    { id: 5, title: "Vorschau", icon: <EyeIcon className="w-5 h-5"/> },
+    { id: 1, title: "Basisdaten", icon: <BriefcaseIcon className="w-5 h-5" /> },
+    { id: 2, title: "Details", icon: <ClockIcon className="w-5 h-5" /> },
+    { id: 3, title: "Beschreibung", icon: <PencilSquareIcon className="w-5 h-5" /> },
+    { id: 4, title: "Kontakt", icon: <BuildingOfficeIcon className="w-5 h-5" /> },
+    { id: 5, title: "Vorschau", icon: <EyeIcon className="w-5 h-5" /> },
 ];
 
 const JobPostings: React.FC<JobPostingsProps> = ({ onSuccess }) => {
@@ -202,14 +202,14 @@ const JobPostings: React.FC<JobPostingsProps> = ({ onSuccess }) => {
                     <p className="text-slate-500 mt-2 mb-6">
                         Ihr Inserat wird sofort für Tausende von Fachkräften sichtbar sein.
                     </p>
-                    
+
                     <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
                         <div className="flex justify-between items-baseline">
                             <span className="text-slate-600 font-medium">Gebühr für 30 Tage</span>
                             <span className="text-3xl font-black text-slate-900">CHF 29.00</span>
                         </div>
                     </div>
-                    
+
                     <p className="text-xs text-slate-400 mt-4">
                         Der Betrag wird von Ihrem Guthaben oder der hinterlegten Zahlungsmethode abgebucht.
                     </p>
@@ -228,9 +228,9 @@ const JobPostings: React.FC<JobPostingsProps> = ({ onSuccess }) => {
 
     return (
         <section className="bg-slate-50 min-h-screen py-12">
-             {isFeeModalOpen && <FeeConfirmationModal />}
+            {isFeeModalOpen && <FeeConfirmationModal />}
             <div className="container mx-auto px-4 md:px-6">
-                
+
                 {/* Header */}
                 <div className="text-center max-w-3xl mx-auto mb-12">
                     <span className="inline-flex items-center gap-1.5 text-primary-700 font-bold bg-primary-50 border border-primary-100 px-3 py-1 rounded-full text-xs uppercase tracking-wide mb-4">
@@ -253,12 +253,11 @@ const JobPostings: React.FC<JobPostingsProps> = ({ onSuccess }) => {
                                 return (
                                     <div key={step.id} className="flex items-center flex-1 last:flex-none">
                                         <div className={`flex items-center gap-3 ${isActive ? 'opacity-100' : isCompleted ? 'opacity-100' : 'opacity-50'}`}>
-                                            <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
-                                                isActive ? 'bg-primary-600 border-primary-600 text-white shadow-lg shadow-primary-600/30' : 
-                                                isCompleted ? 'bg-green-500 border-green-500 text-white' : 
-                                                'bg-white border-slate-300 text-slate-400'
-                                            }`}>
-                                                {isCompleted ? <CheckCircleIcon className="w-6 h-6"/> : step.icon}
+                                            <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${isActive ? 'bg-primary-600 border-primary-600 text-white shadow-lg shadow-primary-600/30' :
+                                                    isCompleted ? 'bg-green-500 border-green-500 text-white' :
+                                                        'bg-white border-slate-300 text-slate-400'
+                                                }`}>
+                                                {isCompleted ? <CheckCircleIcon className="w-6 h-6" /> : step.icon}
                                             </div>
                                             <span className={`font-bold text-sm ${isActive ? 'text-primary-700' : isCompleted ? 'text-green-600' : 'text-slate-500'}`}>
                                                 {step.title}
@@ -284,7 +283,7 @@ const JobPostings: React.FC<JobPostingsProps> = ({ onSuccess }) => {
 
                         <div className="p-6 md:p-10">
                             <form onSubmit={(e) => e.preventDefault()}>
-                                
+
                                 {/* STEP 1: BASISDATEN */}
                                 {currentStep === 1 && (
                                     <div className="space-y-8 animate-fade-in">
@@ -298,12 +297,12 @@ const JobPostings: React.FC<JobPostingsProps> = ({ onSuccess }) => {
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <InputField id="location" name="location" label="Arbeitsort" placeholder="PLZ, Ort" value={formData.location} onChange={handleChange} required icon={<MapPinIcon />} />
-                                            <SelectField 
-                                                id="category" 
-                                                name="category" 
-                                                label="Kategorie" 
-                                                value={formData.category} 
-                                                onChange={handleChange} 
+                                            <SelectField
+                                                id="category"
+                                                name="category"
+                                                label="Kategorie"
+                                                value={formData.category}
+                                                onChange={handleChange}
                                                 icon={<Squares2X2Icon />}
                                                 options={['Handwerk', 'Bau & Renovation', 'Reinigung & Unterhalt', 'Garten & Landschaft', 'Umzug & Transport', 'Büro & Administration', 'IT & Technik', 'Sonstiges']}
                                             />
@@ -319,42 +318,42 @@ const JobPostings: React.FC<JobPostingsProps> = ({ onSuccess }) => {
                                             <p className="text-slate-500">Definieren Sie die Anforderungen und Konditionen.</p>
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                            <SelectField 
-                                                id="employmentType" 
-                                                name="employmentType" 
-                                                label="Anstellungsart" 
-                                                value={formData.employmentType} 
-                                                onChange={handleChange} 
+                                            <SelectField
+                                                id="employmentType"
+                                                name="employmentType"
+                                                label="Anstellungsart"
+                                                value={formData.employmentType}
+                                                onChange={handleChange}
                                                 icon={<ClockIcon />}
                                                 options={['Vollzeit', 'Teilzeit', 'Temporär', 'Praktikum', 'Freelance']}
                                             />
                                             <InputField id="workload" name="workload" label="Pensum (%)" placeholder="z.B. 80-100" value={formData.workload} onChange={handleChange} />
-                                            <SelectField 
-                                                id="startDate" 
-                                                name="startDate" 
-                                                label="Startdatum" 
-                                                value={formData.startDate} 
-                                                onChange={handleChange} 
+                                            <SelectField
+                                                id="startDate"
+                                                name="startDate"
+                                                label="Startdatum"
+                                                value={formData.startDate}
+                                                onChange={handleChange}
                                                 icon={<CalendarDaysIcon />}
                                                 options={['Ab sofort', 'Nach Vereinbarung', 'Zum Monatserstern']}
                                             />
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <SelectField 
-                                                id="experienceLevel" 
-                                                name="experienceLevel" 
-                                                label="Berufserfahrung" 
-                                                value={formData.experienceLevel} 
-                                                onChange={handleChange} 
+                                            <SelectField
+                                                id="experienceLevel"
+                                                name="experienceLevel"
+                                                label="Berufserfahrung"
+                                                value={formData.experienceLevel}
+                                                onChange={handleChange}
                                                 icon={<UserCheckIcon />}
                                                 options={['Berufseinsteiger', 'Mit Berufserfahrung', 'Senior / Experte', 'Führungskraft']}
                                             />
-                                            <SelectField 
-                                                id="drivingLicense" 
-                                                name="drivingLicense" 
-                                                label="Führerausweis" 
-                                                value={formData.drivingLicense} 
-                                                onChange={handleChange} 
+                                            <SelectField
+                                                id="drivingLicense"
+                                                name="drivingLicense"
+                                                label="Führerausweis"
+                                                value={formData.drivingLicense}
+                                                onChange={handleChange}
                                                 icon={<TruckIcon />}
                                                 options={['Nicht erforderlich', 'Kategorie B (PKW)', 'Kategorie C (LKW)', 'Kategorie D (Bus)', 'Staplerausweis', 'Sonstige']}
                                             />
@@ -387,9 +386,9 @@ const JobPostings: React.FC<JobPostingsProps> = ({ onSuccess }) => {
                                             <InputField id="contactPerson" name="contactPerson" label="Kontaktperson (optional)" placeholder="Max Mustermann" value={formData.contactPerson} onChange={handleChange} icon={<UserIcon />} />
                                             <InputField id="applicationDeadline" name="applicationDeadline" label="Bewerbungsfrist (optional)" type="date" value={formData.applicationDeadline} onChange={handleChange} icon={<CalendarDaysIcon />} />
                                         </div>
-                                        
+
                                         <div className="pt-6 border-t border-slate-100">
-                                            <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2"><BuildingOffice2Icon className="w-5 h-5 text-primary-600"/> Über Ihre Firma (Optional)</h4>
+                                            <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2"><BuildingOffice2Icon className="w-5 h-5 text-primary-600" /> Über Ihre Firma (Optional)</h4>
                                             <div className="space-y-4">
                                                 <InputField id="companyDescription" name="companyDescription" label="Kurzbeschreibung" value={formData.companyDescription} onChange={handleChange}>
                                                     <textarea name="companyDescription" id="companyDescription" rows={3} className="w-full rounded-xl border-slate-200 bg-white shadow-sm py-3 px-4 text-slate-700 border focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="Stellen Sie Ihre Firma kurz vor..." value={formData.companyDescription} onChange={handleChange}></textarea>
@@ -414,21 +413,21 @@ const JobPostings: React.FC<JobPostingsProps> = ({ onSuccess }) => {
                                                 <span className="inline-block px-3 py-1 rounded-full bg-primary-100 text-primary-800 text-xs font-bold mb-4 uppercase tracking-wider">{formData.category}</span>
                                                 <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-2">{formData.jobTitle || 'Stellentitel'}</h2>
                                                 <div className="flex flex-wrap gap-y-2 gap-x-6 text-slate-600 font-medium text-sm">
-                                                    <span className="flex items-center gap-1.5"><BuildingOfficeIcon className="w-4 h-4"/> {formData.companyName || 'Firmenname'}</span>
-                                                    <span className="flex items-center gap-1.5"><MapPinIcon className="w-4 h-4"/> {formData.location || 'Ort'}</span>
-                                                    <span className="flex items-center gap-1.5"><ClockIcon className="w-4 h-4"/> {formData.employmentType}, {formData.workload || '100'}%</span>
+                                                    <span className="flex items-center gap-1.5"><BuildingOfficeIcon className="w-4 h-4" /> {formData.companyName || 'Firmenname'}</span>
+                                                    <span className="flex items-center gap-1.5"><MapPinIcon className="w-4 h-4" /> {formData.location || 'Ort'}</span>
+                                                    <span className="flex items-center gap-1.5"><ClockIcon className="w-4 h-4" /> {formData.employmentType}, {formData.workload || '100'}%</span>
                                                 </div>
                                             </div>
-                                            
+
                                             {/* Preview Body */}
                                             <div className="p-6 md:p-8 space-y-8">
                                                 <div className="prose prose-slate max-w-none">
                                                     <h4 className="text-lg font-bold text-slate-900 mb-2">Ihre Aufgaben</h4>
                                                     <p className="whitespace-pre-wrap">{formData.tasks || 'Keine Aufgaben definiert.'}</p>
-                                                    
+
                                                     <h4 className="text-lg font-bold text-slate-900 mb-2 mt-6">Das bringen Sie mit</h4>
                                                     <p className="whitespace-pre-wrap">{formData.requirements || 'Keine Anforderungen definiert.'}</p>
-                                                    
+
                                                     <h4 className="text-lg font-bold text-slate-900 mb-2 mt-6">Wir bieten</h4>
                                                     <p className="whitespace-pre-wrap">{formData.weOffer || 'Keine Benefits definiert.'}</p>
                                                 </div>
@@ -451,26 +450,26 @@ const JobPostings: React.FC<JobPostingsProps> = ({ onSuccess }) => {
 
                         {/* Actions Footer */}
                         <div className="bg-slate-50 border-t border-slate-200 p-6 flex justify-between items-center">
-                             {currentStep > 1 ? (
-                                <button 
+                            {currentStep > 1 ? (
+                                <button
                                     onClick={prevStep}
                                     className="px-6 py-3 rounded-xl font-bold text-slate-600 hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 transition-all"
                                 >
                                     Zurück
                                 </button>
                             ) : (
-                                <div></div> 
+                                <div></div>
                             )}
-                            
+
                             {currentStep < 5 ? (
-                                <button 
+                                <button
                                     onClick={nextStep}
                                     className="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 transition-all flex items-center gap-2 shadow-lg shadow-slate-900/20 transform active:scale-95"
                                 >
                                     Nächster Schritt <ArrowRightIcon className="w-5 h-5" />
                                 </button>
                             ) : (
-                                <button 
+                                <button
                                     onClick={() => setIsFeeModalOpen(true)}
                                     className="bg-primary-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-primary-700 transition-all flex items-center gap-2 shadow-lg shadow-primary-600/30 transform active:scale-95"
                                 >

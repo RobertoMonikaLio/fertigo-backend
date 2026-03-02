@@ -15,11 +15,7 @@ import { translations } from '../components/translations';
 // --- MOCK DATA & CONFIG ---
 
 const DIENSTE_LIST = [
-    'Bodenleger', 'Entsorgung', 'Fenstermontage',
-    'Fensterreinigung', 'Gartenbau', 'Gartenpflege', 'Gipserarbeiten',
-    'Handwerker Allgemein', 'Küchenbau', 'Malerarbeiten', 'Reinigung',
-    'Räumung', 'Sanitär', 'Schreiner', 'Spezialumzug', 'Transport',
-    'Umzug & Transport', 'Umzugsreinigung'
+    'Alarmanlagen', 'Architektur & Bauplanung', 'Badrenovation', 'Badezimmerumbau', 'Baum schneiden / fällen', 'Baumpflege', 'Baureinigung', 'Bewässerungssysteme', 'Bodenleger', 'Bohrarbeiten', 'Büroreinigung', 'Dachdecker', 'Dachreinigung', 'Deckenbau', 'Einbruchschutz', 'Einlagerung', 'Elektriker', 'Elektriker Notdienst', 'Entsorgung', 'Fassadenbau', 'Fensterbau', 'Fenstermontage', 'Fensterreinigung', 'Firmenumzug', 'Gartenbau', 'Gartenpflege', 'Gebäudereinigung', 'Gipser', 'Gipserarbeiten', 'Handwerker Allgemein', 'Hauswartung', 'Hecken schneiden', 'Heizungen', 'Heizung Notdienst', 'Heizungsinstallation', 'Isolierung / Dämmung', 'IT-Dienstleistungen', 'Kleinreparaturen', 'Klimaanlagen & Lüftungen', 'Klimaanlagen Installation', 'Klimaanlagen-Service', 'Küchenbau', 'Küchenmontage', 'Lampen montieren', 'Laminat verlegen', 'Lüftungsanlagen', 'Malerarbeiten', 'Maurerarbeiten', 'Möbelmontage', 'Möbeltransport', 'Netzwerk / WLAN Installationen', 'Parkett schleifen', 'Parkett verlegen', 'Parkettlegen', 'Plattenleger', 'Polsterreinigung', 'Privatumzug', 'Rasen mähen', 'Rasen verlegen', 'Reinigung', 'Renovationen', 'Reparaturservice', 'Räumung', 'Sanitär', 'Sanitär Notdienst', 'Schlüsseldienst', 'Schlösser austauschen', 'Schreiner', 'Schreinerei', 'Sicherheitssysteme', 'Smart Home Installationen', 'Solaranlagen Montage', 'Spezialumzug', 'Teppichreinigung', 'Terrassenbau', 'Transport', 'Trockenbau', 'Türenmontage', 'TV-Wandmontage', 'Umzugsreinigung', 'Videoüberwachung', 'Vinylboden verlegen', 'Vorhangschienen montieren', 'Wallbox Installation (E-Auto)', 'Winterdienst', 'Wohnungsreinigung', 'Wärmepumpen Installationen', 'Zaunbau', 'Zimmerarbeiten'
 ];
 
 // --- HELPER & SUB-COMPONENTS ---

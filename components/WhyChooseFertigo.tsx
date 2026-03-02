@@ -2,6 +2,14 @@ import React from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useAppContext } from '../pages/AppContext';
 import { translations } from './translations';
+import {
+    ColoredBanknotesIcon,
+    ColoredBoltIcon,
+    ColoredShieldCheckIcon,
+    ColoredClipboardIcon,
+    ColoredLockClosedIcon,
+    ColoredStarIcon
+} from './icons';
 
 const rowsConfig = [
     { competition: '✗', fertigo: '✓', competitionClass: 'text-red-600 bg-red-50', fertigoClass: 'text-green-600 bg-green-50' },
@@ -11,6 +19,15 @@ const rowsConfig = [
     { competition: '✗', fertigo: '✓', competitionClass: 'text-red-600 bg-red-50', fertigoClass: 'text-green-600 bg-green-50' },
     { competition: '✗', fertigo: '✓', competitionClass: 'text-red-600 bg-red-50', fertigoClass: 'text-green-600 bg-green-50' },
 ];
+
+const iconMap: Record<string, React.ReactNode> = {
+    '💰': <ColoredBanknotesIcon className="w-5 h-5 sm:w-7 sm:h-7" />,
+    '⚡': <ColoredBoltIcon className="w-5 h-5 sm:w-7 sm:h-7" />,
+    '🛡️': <ColoredShieldCheckIcon className="w-5 h-5 sm:w-7 sm:h-7" />,
+    '📋': <ColoredClipboardIcon className="w-5 h-5 sm:w-7 sm:h-7" />,
+    '🔒': <ColoredLockClosedIcon className="w-5 h-5 sm:w-7 sm:h-7" />,
+    '⭐': <ColoredStarIcon className="w-5 h-5 sm:w-7 sm:h-7" />,
+};
 
 const WhyChooseFertigo: React.FC = () => {
     const { ref, inView } = useInView({
@@ -73,7 +90,9 @@ const WhyChooseFertigo: React.FC = () => {
                                         <tr key={index}>
                                             <td className="px-3 py-2.5 sm:p-4 text-slate-700">
                                                 <span className="inline-flex items-center gap-2 sm:gap-3">
-                                                    <span className="text-base sm:text-xl">{row.icon}</span>
+                                                    <span className="flex-shrink-0">
+                                                        {iconMap[row.icon] || row.icon}
+                                                    </span>
                                                     <span className="text-xs sm:text-base">{row.text}</span>
                                                 </span>
                                             </td>

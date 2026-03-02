@@ -75,9 +75,7 @@ const PartnerSettingsPage: React.FC = () => {
 
     // ── Services ──
     const allServices = [
-        'Umzug', 'Reinigung', 'Maler', 'Bodenleger', 'Elektriker', 'Sanitär',
-        'Schreiner', 'Gartenpflege', 'Hauswartung', 'Fensterreinigung',
-        'IT-Support', 'Entrümpelung', 'Catering', 'Sicherheitsdienst',
+        'Alarmanlagen', 'Architektur & Bauplanung', 'Badrenovation', 'Badezimmerumbau', 'Baum schneiden / fällen', 'Baumpflege', 'Baureinigung', 'Bewässerungssysteme', 'Bodenleger', 'Bohrarbeiten', 'Büroreinigung', 'Dachdecker', 'Dachreinigung', 'Deckenbau', 'Einbruchschutz', 'Einlagerung', 'Elektriker', 'Elektriker Notdienst', 'Entsorgung', 'Fassadenbau', 'Fensterbau', 'Fenstermontage', 'Fensterreinigung', 'Firmenumzug', 'Gartenbau', 'Gartenpflege', 'Gebäudereinigung', 'Gipser', 'Gipserarbeiten', 'Hauswartung', 'Hecken schneiden', 'Heizungen', 'Heizung Notdienst', 'Heizungsinstallation', 'Isolierung / Dämmung', 'IT-Support', 'Klimaanlagen & Lüftungen', 'Klimaanlagen Installation', 'Klimaanlagen-Service', 'Küchenbau', 'Küchenmontage', 'Lampen montieren', 'Laminat verlegen', 'Lüftungsanlagen', 'Malerarbeiten', 'Maurerarbeiten', 'Möbelmontage', 'Möbeltransport', 'Netzwerk / WLAN Installationen', 'Parkett schleifen', 'Parkett verlegen', 'Parkettlegen', 'Plattenleger', 'Polsterreinigung', 'Privatumzug', 'Rasen mähen', 'Rasen verlegen', 'Reinigung', 'Renovationen', 'Reparaturservice', 'Räumung', 'Sanitär', 'Sanitär Notdienst', 'Schlüsseldienst', 'Schlösser austauschen', 'Schreiner', 'Schreinerei', 'Sicherheitssysteme', 'Smart Home Installationen', 'Solaranlagen Montage', 'Spezialumzug', 'Teppichreinigung', 'Terrassenbau', 'Transport', 'Trockenbau', 'Türenmontage', 'TV-Wandmontage', 'Umzugsreinigung', 'Videoüberwachung', 'Vinylboden verlegen', 'Vorhangschienen montieren', 'Wallbox Installation (E-Auto)', 'Wärmepumpen Installationen', 'Winterdienst', 'Wohnungsreinigung', 'Zaunbau', 'Zimmerarbeiten'
     ];
     const [selectedServices, setSelectedServices] = useState<string[]>(['Umzug', 'Reinigung']);
     const [svcSaving, setSvcSaving] = useState(false);
@@ -181,8 +179,8 @@ const PartnerSettingsPage: React.FC = () => {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-left transition-colors w-full ${activeTab === tab.id
-                                        ? 'bg-primary-50 text-primary-700 border border-primary-200'
-                                        : 'text-slate-600 hover:bg-slate-100 border border-transparent'
+                                    ? 'bg-primary-50 text-primary-700 border border-primary-200'
+                                    : 'text-slate-600 hover:bg-slate-100 border border-transparent'
                                     }`}
                             >
                                 <span className={activeTab === tab.id ? 'text-primary-600' : 'text-slate-400'}>{tab.icon}</span>
@@ -299,8 +297,8 @@ const PartnerSettingsPage: React.FC = () => {
                                         <div className="mt-2 flex gap-1">
                                             {[1, 2, 3, 4].map(i => (
                                                 <div key={i} className={`h-1 flex-1 rounded-full ${newPw.length >= i * 3
-                                                        ? i <= 1 ? 'bg-red-400' : i === 2 ? 'bg-amber-400' : i === 3 ? 'bg-blue-400' : 'bg-emerald-500'
-                                                        : 'bg-slate-100'
+                                                    ? i <= 1 ? 'bg-red-400' : i === 2 ? 'bg-amber-400' : i === 3 ? 'bg-blue-400' : 'bg-emerald-500'
+                                                    : 'bg-slate-100'
                                                     }`} />
                                             ))}
                                         </div>
@@ -350,8 +348,8 @@ const PartnerSettingsPage: React.FC = () => {
                                             key={svc}
                                             onClick={() => toggleService(svc)}
                                             className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-sm font-medium transition-all text-left ${active
-                                                    ? 'bg-primary-50 border-primary-300 text-primary-700 shadow-sm'
-                                                    : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'
+                                                ? 'bg-primary-50 border-primary-300 text-primary-700 shadow-sm'
+                                                : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'
                                                 }`}
                                         >
                                             <span className={`w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors ${active ? 'bg-primary-600 border-primary-600' : 'border-slate-300'
