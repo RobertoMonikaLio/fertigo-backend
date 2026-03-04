@@ -14,6 +14,7 @@ const conversationSchema = new mongoose.Schema({
     projectTitle: { type: String, default: '' },
     leadId: { type: mongoose.Schema.Types.ObjectId, ref: 'Lead' },
     messages: [messageSchema],
+    customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
     unread: { type: Boolean, default: false },
 }, { timestamps: true });
 

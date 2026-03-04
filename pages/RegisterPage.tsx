@@ -436,11 +436,33 @@ const RegisterPage: React.FC = () => {
     };
     const prevStep = () => setCurrentStep(prev => prev - 1);
 
+    const uploadFiles = async (filesToUpload: File[]): Promise<string[]> => {
+        if (!filesToUpload || filesToUpload.length === 0) return [];
+        try {
+            const uploadFormData = new FormData();
+            filesToUpload.forEach(file => uploadFormData.append('files', file));
+            const res = await fetch(`${API_URL}/api/upload/multiple`, {
+                method: 'POST',
+                body: uploadFormData
+            });
+            if (!res.ok) throw new Error('Upload failed');
+            const data = await res.json();
+            return data.map((f: any) => f.url);
+        } catch (err) {
+            console.error("Upload Error:", err);
+            return [];
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (validateStep(4)) {
             setFormState('loading');
             try {
+                // Upload documents first
+                const hrUrls = await uploadFiles(hrFiles);
+                const versicherungUrls = await uploadFiles(versicherungFiles);
+
                 const res = await fetch(`${API_URL}/api/auth/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -455,7 +477,11 @@ const RegisterPage: React.FC = () => {
                         position,
                         companyPhone,
                         companyEmail,
-                        companyAddress
+                        companyAddress,
+                        documents: {
+                            hrExtract: hrUrls[0] || '',
+                            insurance: versicherungUrls[0] || ''
+                        }
                     }),
                 });
 

@@ -155,7 +155,33 @@ const LoginPage: React.FC = () => {
                 return;
             }
 
-            // Both failed
+            // Try customer login
+            const customerRes = await fetch(`${API_URL}/api/customer/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (customerRes.ok) {
+                const data = await customerRes.json();
+                setLoginState('success');
+                localStorage.setItem('fertigo_customer', JSON.stringify({
+                    _id: data._id,
+                    email: data.email,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    token: data.token,
+                    loggedInAt: Date.now(),
+                }));
+                setTimeout(() => {
+                    window.location.hash = '#/kunden/dashboard';
+                    navigate('/kunden/dashboard');
+                    setLoginState('idle');
+                }, 1200);
+                return;
+            }
+
+            // All failed
             setLoginState('error');
             setError(t.invalidCredentials);
             setTimeout(() => setLoginState('idle'), 2000);
@@ -448,14 +474,23 @@ const LoginPage: React.FC = () => {
                     </div>
 
 
-                    {/* Register Button */}
-                    <Link
-                        to="/register"
-                        className="w-full py-4 rounded-2xl font-semibold text-slate-700 border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
-                    >
-                        {t.createAccount}
-                        <ArrowRightIcon className="w-4 h-4" />
-                    </Link>
+                    {/* Register Buttons */}
+                    <div className="space-y-3">
+                        <Link
+                            to="/register"
+                            className="w-full py-4 rounded-2xl font-semibold text-slate-700 border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
+                        >
+                            {t.createAccount}
+                            <ArrowRightIcon className="w-4 h-4" />
+                        </Link>
+                        <Link
+                            to="/kunden/registrieren"
+                            className="w-full py-4 rounded-2xl font-semibold text-primary-600 border-2 border-primary-100 hover:bg-primary-50 transition-all flex items-center justify-center gap-2"
+                        >
+                            Als Kunde registrieren
+                            <ArrowRightIcon className="w-4 h-4" />
+                        </Link>
+                    </div>
                 </div>
             </main>
         </div>

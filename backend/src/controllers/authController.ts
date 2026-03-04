@@ -14,7 +14,7 @@ const generateToken = (id: string) => {
 // @route   POST /api/auth/register
 // @access  Public
 export const registerProvider = async (req: Request, res: Response) => {
-  const { name, email, password, location, services, firstName, lastName, position, companyPhone, companyEmail, companyAddress } = req.body;
+  const { name, email, password, location, services, firstName, lastName, position, companyPhone, companyEmail, companyAddress, documents } = req.body;
 
   try {
     if (!name || !email || !password || !location) {
@@ -52,7 +52,8 @@ export const registerProvider = async (req: Request, res: Response) => {
         uid: '',
         owner: `${firstName} ${lastName}`.trim(),
         position: position || ''
-      }
+      },
+      documents: documents || {}
     });
 
     if (provider) {

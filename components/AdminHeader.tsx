@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDownIcon, BellIcon, UserIcon, ArrowRightIcon, ArrowPathIcon } from './icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface AdminHeaderProps {
   title: string;
@@ -10,8 +10,15 @@ interface AdminHeaderProps {
 }
 
 const AdminHeader: React.FC<AdminHeaderProps> = ({ title, onRefresh }) => {
+  const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+  const handleLogout = () => {
+    localStorage.removeItem('fertigo_admin');
+    setIsUserMenuOpen(false);
+    navigate('/login');
+  };
 
   // Admin-Daten dynamisch aus dem localStorage laden
   const [adminName, setAdminName] = useState('Admin');
@@ -97,14 +104,13 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ title, onRefresh }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/login"
-                    onClick={() => setIsUserMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-2.5 text-slate-700 hover:bg-slate-100 font-medium"
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-slate-700 hover:bg-slate-100 font-medium transition-colors"
                   >
                     <ArrowRightIcon className="w-5 h-5 text-slate-500" />
                     <span>Abmelden</span>
-                  </Link>
+                  </button>
                 </li>
               </ul>
             </div>

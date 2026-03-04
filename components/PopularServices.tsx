@@ -119,11 +119,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 
                 {/* Content Section */}
                 <div className="p-4 sm:p-7 lg:p-9 flex flex-col flex-1 min-h-0">
-                    {/* Title & Icon */}
-                    <div className="flex items-center gap-4 mb-2 sm:mb-4">
-                        <div className={`flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${iconData.bg} border flex items-center justify-center text-2xl sm:text-3xl shadow-sm group-hover:scale-110 transition-transform duration-500`}>
-                            {iconData.emoji}
-                        </div>
+                    {/* Title */}
+                    <div className="mb-2 sm:mb-4">
                         <h3 className="text-lg sm:text-2xl lg:text-3xl font-black text-slate-900 leading-tight">
                             {service.name}
                         </h3>
@@ -145,8 +142,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                                 flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl
                                 font-black text-white text-sm sm:text-base w-full
                                 transition-all duration-300 group/btn
-                                bg-slate-900 hover:bg-slate-800
-                                shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20
+                                bg-green-600 hover:bg-green-700
+                                shadow-xl shadow-green-600/10 hover:shadow-green-600/20
                             `}
                         >
                             <span>{t.ctaButtonLabel}</span>

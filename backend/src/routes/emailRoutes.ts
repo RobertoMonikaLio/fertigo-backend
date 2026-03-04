@@ -2,6 +2,7 @@ import express from 'express';
 import { Resend } from 'resend';
 import bcrypt from 'bcryptjs';
 import Provider from '../models/Provider';
+import VerificationCode from '../models/VerificationCode';
 
 const router = express.Router();
 
@@ -11,9 +12,7 @@ function getResend() {
   return resend;
 }
 
-// In-memory store for verification codes (key: email, value: { code, expiresAt })
-const verificationCodes = new Map<string, { code: string; expiresAt: number }>();
-
+// --- POST /api/email/send-verification ---
 router.post('/send-verification', async (req, res) => {
   try {
     const { email } = req.body;
@@ -22,16 +21,18 @@ router.post('/send-verification', async (req, res) => {
       return res.status(400).json({ message: 'Ungültige E-Mail-Adresse.' });
     }
 
-    // Generate 6-digit code
+    // Delete existing codes for this email
+    await VerificationCode.deleteMany({ email: email.toLowerCase(), type: 'verification' });
+
     const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Store with 10 min expiry
-    verificationCodes.set(email.toLowerCase(), {
+    await VerificationCode.create({
+      email: email.toLowerCase(),
       code,
-      expiresAt: Date.now() + 10 * 60 * 1000,
+      type: 'verification',
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 min
     });
 
-    // Send email via Resend
     const { error } = await getResend().emails.send({
       from: 'Fertigo <noreply@fertigo.ch>',
       to: email,
@@ -72,7 +73,8 @@ router.post('/send-verification', async (req, res) => {
   }
 });
 
-router.post('/verify-code', (req, res) => {
+// --- POST /api/email/verify-code ---
+router.post('/verify-code', async (req, res) => {
   try {
     const { email, code } = req.body;
 
@@ -80,14 +82,17 @@ router.post('/verify-code', (req, res) => {
       return res.status(400).json({ message: 'E-Mail und Code sind erforderlich.' });
     }
 
-    const stored = verificationCodes.get(email.toLowerCase());
+    const stored = await VerificationCode.findOne({
+      email: email.toLowerCase(),
+      type: 'verification',
+    });
 
     if (!stored) {
       return res.status(400).json({ message: 'Kein Code für diese E-Mail gefunden.' });
     }
 
-    if (Date.now() > stored.expiresAt) {
-      verificationCodes.delete(email.toLowerCase());
+    if (new Date() > stored.expiresAt) {
+      await stored.deleteOne();
       return res.status(400).json({ message: 'Der Code ist abgelaufen. Bitte fordern Sie einen neuen an.' });
     }
 
@@ -95,8 +100,7 @@ router.post('/verify-code', (req, res) => {
       return res.status(400).json({ message: 'Der eingegebene Code ist ungültig.' });
     }
 
-    // Code is valid - clean up
-    verificationCodes.delete(email.toLowerCase());
+    await stored.deleteOne();
     res.json({ verified: true });
   } catch (err: any) {
     console.error('Verify code error:', err);
@@ -104,7 +108,7 @@ router.post('/verify-code', (req, res) => {
   }
 });
 
-// Password Reset Routes
+// --- POST /api/email/send-password-reset ---
 router.post('/send-password-reset', async (req, res) => {
   try {
     const { email } = req.body;
@@ -113,16 +117,17 @@ router.post('/send-password-reset', async (req, res) => {
       return res.status(400).json({ message: 'Ungültige E-Mail-Adresse.' });
     }
 
-    // Generate 6-digit code
+    await VerificationCode.deleteMany({ email: email.toLowerCase(), type: 'password_reset' });
+
     const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Store with 10 min expiry
-    verificationCodes.set(`reset_${email.toLowerCase()}`, {
+    await VerificationCode.create({
+      email: email.toLowerCase(),
       code,
-      expiresAt: Date.now() + 10 * 60 * 1000,
+      type: 'password_reset',
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
     });
 
-    // Send email via Resend
     const { error } = await getResend().emails.send({
       from: 'Fertigo <noreply@fertigo.ch>',
       to: email,
@@ -163,6 +168,7 @@ router.post('/send-password-reset', async (req, res) => {
   }
 });
 
+// --- POST /api/email/reset-password ---
 router.post('/reset-password', async (req, res) => {
   try {
     const { email, code, newPassword } = req.body;
@@ -171,14 +177,17 @@ router.post('/reset-password', async (req, res) => {
       return res.status(400).json({ message: 'Alle Felder sind erforderlich.' });
     }
 
-    const stored = verificationCodes.get(`reset_${email.toLowerCase()}`);
+    const stored = await VerificationCode.findOne({
+      email: email.toLowerCase(),
+      type: 'password_reset',
+    });
 
     if (!stored) {
       return res.status(400).json({ message: 'Kein Reset-Code für diese E-Mail gefunden.' });
     }
 
-    if (Date.now() > stored.expiresAt) {
-      verificationCodes.delete(`reset_${email.toLowerCase()}`);
+    if (new Date() > stored.expiresAt) {
+      await stored.deleteOne();
       return res.status(400).json({ message: 'Der Code ist abgelaufen.' });
     }
 
@@ -186,11 +195,9 @@ router.post('/reset-password', async (req, res) => {
       return res.status(400).json({ message: 'Der eingegebene Code ist ungültig.' });
     }
 
-    // Hash new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-    // Update provider password
     const provider = await Provider.findOneAndUpdate(
       { email: email.toLowerCase() },
       { password: hashedPassword },
@@ -201,9 +208,7 @@ router.post('/reset-password', async (req, res) => {
       return res.status(404).json({ message: 'Benutzer nicht gefunden.' });
     }
 
-    // Clean up
-    verificationCodes.delete(`reset_${email.toLowerCase()}`);
-
+    await stored.deleteOne();
     res.json({ message: 'Passwort erfolgreich zurückgesetzt.' });
   } catch (err: any) {
     console.error('Reset password error:', err);

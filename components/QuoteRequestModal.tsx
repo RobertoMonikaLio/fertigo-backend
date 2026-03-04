@@ -55,8 +55,9 @@ const plzToCityMap: { [key: string]: string } = {
 // --- Gemini API Setup ---
 let ai: GoogleGenAI | null = null;
 try {
-    if (process.env.API_KEY) {
-        ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    if (apiKey) {
+        ai = new GoogleGenAI({ apiKey });
     }
 } catch (error) {
     console.error("Failed to initialize GoogleGenAI:", error);
@@ -443,9 +444,21 @@ export default function QuoteRequestModal({ isOpen, onClose, initialData = {} }:
     const [dynamicQuestions, setDynamicQuestions] = useState<any[]>([]);
     const [isGeneratingQuestions, setIsGeneratingQuestions] = useState(false);
     const [mounted, setMounted] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [customerId, setCustomerId] = useState<string | null>(null);
 
     useEffect(() => {
         setMounted(true);
+        const stored = localStorage.getItem('fertigo_customer');
+        if (stored) {
+            try {
+                const data = JSON.parse(stored);
+                setIsLoggedIn(true);
+                setCustomerId(data._id);
+            } catch (e) {
+                console.error("Error parsing customer data", e);
+            }
+        }
         return () => setMounted(false);
     }, []);
 
@@ -476,6 +489,23 @@ export default function QuoteRequestModal({ isOpen, onClose, initialData = {} }:
             delete (newFormData as any).location;
 
             setFormData(newFormData);
+
+            // If logged in, pre-fill customer data
+            const stored = localStorage.getItem('fertigo_customer');
+            if (stored) {
+                try {
+                    const data = JSON.parse(stored);
+                    setFormData(prev => ({
+                        ...prev,
+                        firstName: data.firstName || prev.firstName,
+                        lastName: data.lastName || prev.lastName,
+                        email: data.email || prev.email,
+                        phone: data.phone || prev.phone,
+                        mobile: data.mobile || prev.mobile || data.phone,
+                    }));
+                } catch (e) { }
+            }
+
             setStep(1);
             setIsSuccess(false);
             setDynamicQuestions([]);
@@ -636,13 +666,40 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
         if (!validate(2)) { setStep(2); return; }
         if (!validate(3)) { setStep(3); return; }
 
-        // Send verification code via email and go to verification step
-        setStep(5);
-        setResendCooldown(60);
-        await sendVerificationEmail();
+        if (isLoggedIn) {
+            // Skip verification and create lead immediately
+            await handleFinishCreation();
+        } else {
+            // Send verification code via email and go to verification step
+            setStep(5);
+            setResendCooldown(60);
+            await sendVerificationEmail();
+        }
+    };
+
+    const uploadFiles = async (filesToUpload: File[]): Promise<string[]> => {
+        if (!filesToUpload || filesToUpload.length === 0) return [];
+
+        try {
+            const uploadFormData = new FormData();
+            filesToUpload.forEach(file => uploadFormData.append('files', file));
+
+            const res = await fetch(`${API_URL}/api/upload/multiple`, {
+                method: 'POST',
+                body: uploadFormData,
+            });
+
+            if (!res.ok) throw new Error('Fehler beim Hochladen der Dateien.');
+            const data = await res.json();
+            return data.map((f: any) => f.url);
+        } catch (err) {
+            console.error("File upload failed:", err);
+            return [];
+        }
     };
 
     const handleVerifyCode = async () => {
+        setVerificationError('');
         try {
             const res = await fetch(`${API_URL}/api/email/verify-code`, {
                 method: 'POST',
@@ -656,7 +713,18 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                 return;
             }
 
-            // Code verified - create lead
+            await handleFinishCreation();
+        } catch {
+            setVerificationError('Verbindungsfehler. Bitte versuchen Sie es erneut.');
+        }
+    };
+
+    const handleFinishCreation = async () => {
+        try {
+            // Now upload files if any
+            const fileUrls = await uploadFiles(formData.files);
+
+            // Create lead
             const today = new Date();
             const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
             const formattedDate = `${today.getDate()}. ${monthNames[today.getMonth()]} ${today.getFullYear()}`;
@@ -710,6 +778,8 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
                     mobile: formData.showMobileToProviders ? (formData.mobile || undefined) : undefined,
                 },
                 qualityScore: Math.floor(Math.random() * 30) + 70,
+                files: fileUrls,
+                customerId: customerId || undefined,
             };
 
             // Save to Backend
@@ -735,8 +805,9 @@ Halten Sie alle Fragen klar und einfach verständlich. Projekt-Kategorie: "${for
             setStep(6);
             setIsSuccess(true);
             setTimeout(handleClose, 5000);
-        } catch {
-            setVerificationError('Verbindungsfehler. Bitte versuchen Sie es erneut.');
+        } catch (err) {
+            console.error("Error during finish lead creation:", err);
+            setVerificationError('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
         }
     };
 

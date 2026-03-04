@@ -10,6 +10,9 @@ import Footer from './components/Footer';
 import QuoteRequestModal from './components/QuoteRequestModal';
 import CookieConsent from './components/CookieConsent';
 import { LeadQuickViewModal } from './components/LeadQuickViewModal';
+import AdminRoute from './components/AdminRoute';
+import CustomerRoute from './components/CustomerRoute';
+import PartnerRoute from './components/PartnerRoute';
 
 import VideoIntro from './components/VideoIntro';
 
@@ -38,6 +41,7 @@ const CustomerRequestDetailPage = lazy(() => import('./pages/CustomerRequestDeta
 const CustomerMessagesPage = lazy(() => import('./pages/CustomerMessagesPage'));
 const CustomerSettingsPage = lazy(() => import('./pages/CustomerSettingsPage'));
 const CustomerCompareOffersPage = lazy(() => import('./pages/CustomerCompareOffersPage'));
+const CustomerRegisterPage = lazy(() => import('./pages/CustomerRegisterPage'));
 
 
 // Partner Dashboard Pages
@@ -214,19 +218,19 @@ const AppContent: React.FC = () => {
                         <Route path="/marktplatz/mieten" element={<RentPage />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/register" element={<RegisterPage />} />
+                        <Route path="/kunden/registrieren" element={<CustomerRegisterPage />} />
 
-                        {/* Customer pages */}
-                        <Route element={<CustomerDashboardLayout />}>
+                        {/* Customer pages - Protected */}
+                        <Route element={<CustomerRoute><CustomerDashboardLayout /></CustomerRoute>}>
                             <Route path="/kunden/dashboard" element={<CustomerDashboardPage />} />
                             <Route path="/kunden/anfragen/:requestId" element={<CustomerRequestDetailPageWrapper />} />
-
                             <Route path="/kunden/nachrichten" element={<CustomerMessagesPage />} />
                             <Route path="/kunden/einstellungen" element={<CustomerSettingsPage />} />
                             <Route path="/kunden/vergleich/:requestId" element={<CustomerCompareOffersPage />} />
                         </Route>
 
                         {/* Partner pages with new Layout */}
-                        <Route element={<PartnerDashboardLayout />}>
+                        <Route element={<PartnerRoute><PartnerDashboardLayout /></PartnerRoute>}>
                             <Route path="/partner/dashboard" element={<PartnerDashboardPage />} />
                             <Route path="/partner/requests" element={<PartnerRequestsPage />} />
                             <Route path="/partner/requests/:requestId" element={<PartnerRequestDetailPageWrapper />} />
@@ -242,13 +246,13 @@ const AppContent: React.FC = () => {
                             <Route path="/partner/settings" element={<PartnerSettingsPage />} />
                         </Route>
 
-                        {/* Admin pages */}
-                        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-                        <Route path="/admin/partners" element={<AdminPartnersPage />} />
-                        <Route path="/admin/requests" element={<AdminRequestsPage />} />
-                        <Route path="/admin/users" element={<AdminUsersPage />} />
-                        <Route path="/admin/finance" element={<AdminFinancePage />} />
-                        <Route path="/admin/profile" element={<AdminProfilePage />} />
+                        {/* Admin pages - Protected */}
+                        <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboardPage /></AdminRoute>} />
+                        <Route path="/admin/partners" element={<AdminRoute><AdminPartnersPage /></AdminRoute>} />
+                        <Route path="/admin/requests" element={<AdminRoute><AdminRequestsPage /></AdminRoute>} />
+                        <Route path="/admin/users" element={<AdminRoute><AdminUsersPage /></AdminRoute>} />
+                        <Route path="/admin/finance" element={<AdminRoute><AdminFinancePage /></AdminRoute>} />
+                        <Route path="/admin/profile" element={<AdminRoute><AdminProfilePage /></AdminRoute>} />
 
                         {/* Default Route */}
                         <Route path="*" element={<HomePage />} />

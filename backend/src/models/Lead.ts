@@ -20,6 +20,8 @@ export interface ILead extends Document {
     mobile?: string;
   };
   purchasedBy: string[]; // Array of Partner IDs
+  files?: string[];     // URLs to uploaded images/docs
+  customerId?: string;
 }
 
 const LeadSchema: Schema = new Schema({
@@ -28,8 +30,8 @@ const LeadSchema: Schema = new Schema({
   customerName: { type: String, required: true },
   location: { type: String, required: true },
   date: { type: Date, default: Date.now },
-  status: { 
-    type: String, 
+  status: {
+    type: String,
     enum: ['Neu', 'Kontaktiert', 'Angebot gesendet', 'In Verhandlung', 'Gewonnen', 'Verloren / Abgelehnt'],
     default: 'Neu'
   },
@@ -48,7 +50,9 @@ const LeadSchema: Schema = new Schema({
     phone: String,
     mobile: String
   },
-  purchasedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Provider' }]
+  purchasedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Provider' }],
+  files: [{ type: String }],
+  customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' }
 });
 
 export default mongoose.model<ILead>('Lead', LeadSchema);

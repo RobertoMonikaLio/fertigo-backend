@@ -20,6 +20,10 @@ export interface IProvider extends Document {
     employees: string;
     uid: string;
   };
+  documents?: {
+    hrExtract?: string;
+    insurance?: string;
+  };
 }
 
 const ProviderSchema: Schema = new Schema({
@@ -41,6 +45,10 @@ const ProviderSchema: Schema = new Schema({
     founded: String,
     employees: String,
     uid: String
+  },
+  documents: {
+    hrExtract: String,
+    insurance: String
   }
 }, {
   timestamps: true

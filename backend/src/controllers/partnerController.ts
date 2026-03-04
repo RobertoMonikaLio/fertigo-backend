@@ -250,6 +250,27 @@ export const purchaseLeadAsPartner = async (req: any, res: Response) => {
         await lead.save();
         await transaction.save();
 
+        // Create initial conversation
+        try {
+            await Conversation.create({
+                providerId: providerId,
+                customerName: lead.customerName,
+                customerEmail: lead.customerInfo.email,
+                projectTitle: lead.title,
+                leadId: lead._id,
+                customerId: lead.customerId || undefined,
+                messages: [{
+                    sender: 'partner',
+                    text: `Guten Tag ${lead.customerName}, vielen Dank für Ihre Anfrage. Wir haben Ihr Projekt "${lead.title}" gesehen und freuen uns, Ihnen bald ein Angebot zu unterbreiten.`,
+                    timestamp: new Date()
+                }],
+                unread: true // Mark as unread for the customer
+            });
+        } catch (convErr) {
+            console.error("Could not create initial conversation:", convErr);
+            // Don't fail the whole purchase if conversation creation fails
+        }
+
         res.json({
             success: true,
             balance: provider.balance,

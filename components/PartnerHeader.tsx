@@ -4,7 +4,7 @@ import {
     CreditCardIcon, XMarkIcon, ClipboardDocumentListIcon, AdjustmentsHorizontalIcon,
     BuildingOfficeIcon, ArrowLeftOnRectangleIcon, BuildingOffice2Icon, BriefcaseIcon, BanknotesIcon,
     Squares2X2Icon, UsersIcon, PhoneIcon, QuestionMarkCircleIcon, SparklesIcon, HandshakeIcon, TagIcon,
-    BellIcon, CheckCircleIcon
+    BellIcon, CheckCircleIcon, ChatBubbleLeftRightIcon
 } from './icons';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 
@@ -60,6 +60,7 @@ const SettingsIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 const navLinks = [
     { name: 'Lead-Marktplatz', icon: MarketplaceIcon, href: '/partner/requests' },
+    { name: 'Nachrichten', icon: ChatBubbleLeftRightIcon, href: '/partner/messages' },
     { name: 'Kunden', icon: CustomersIcon, href: '/partner/customers' },
     { name: 'Tools', icon: ToolsIcon, href: '/partner/tools' },
     { name: 'Einstellungen', icon: SettingsIcon, href: '/partner/settings' },
@@ -429,7 +430,7 @@ const PartnerHeader: React.FC = () => {
                                     {provider ? getInitials(provider.name) : '?'}
                                 </div>
                                 <div className="flex flex-col">
-                                    <h2 className="text-xl font-bold text-slate-900 leading-tight">{provider?.name || 'Hier Name'}</h2>
+                                    <h2 className="text-xl font-bold text-slate-900 leading-tight">{provider?.name || 'Laden...'}</h2>
                                     <p className="text-xs font-semibold text-emerald-600">Partner Account</p>
                                 </div>
                             </div>
