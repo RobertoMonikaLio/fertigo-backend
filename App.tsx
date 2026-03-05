@@ -89,9 +89,6 @@ interface ErrorBoundaryProps {
 
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
     state: ErrorBoundaryState = { hasError: false, error: null };
-    // Explizite Typen für TS-Kompatibilität mit ES2022 + useDefineForClassFields:false
-    declare setState: React.Component<ErrorBoundaryProps, ErrorBoundaryState>['setState'];
-    declare props: Readonly<ErrorBoundaryProps>;
 
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };

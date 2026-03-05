@@ -124,7 +124,7 @@ const StatusBadge: React.FC<{ status: string, t: any }> = ({ status, t }) => {
 
 const PartnerDashboardPage: React.FC = () => {
     const { language } = useAppContext();
-    const t = (translations as any)[language]?.partner?.dashboard || translations['de'].partner.dashboard;
+    const t = (translations as any)[language]?.partner?.dashboard || (translations['de'] as any).partner.dashboard;
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

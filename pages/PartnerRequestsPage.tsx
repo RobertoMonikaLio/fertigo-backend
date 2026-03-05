@@ -262,7 +262,7 @@ const SkeletonCard = () => (
 
 const PartnerRequestsPage: React.FC = () => {
     const { language } = useAppContext();
-    const t = (translations[language] as any)?.partner?.requests || (translations['de'] as any).partner.requests;
+    const t = (translations as any)[language]?.partner?.requests || (translations['de'] as any).partner.requests;
 
     const [isPurchasedView, setIsPurchasedView] = useState(false);
     const [loading, setLoading] = useState(true);

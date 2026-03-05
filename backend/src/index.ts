@@ -13,7 +13,9 @@ import customerRoutes from './routes/customerRoutes';
 import uploadRoutes from './routes/uploadRoutes';
 import path from 'path';
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '../.env.local') });
+dotenv.config(); // fallback to .env
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;

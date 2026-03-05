@@ -189,117 +189,116 @@ const Features: React.FC = () => {
                                     key={step.id}
                                     onClick={() => setActiveStep(index)}
                                     className={`relative text-left w-full rounded-2xl p-6 transition-all duration-300 border-2 overflow-hidden group ${isActive
-                                            ?\`border-transparent shadow-lg \${step.activeBg}\`
-                        : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50 shadow-sm'
-                                    }`}
-                                >
-                        {/* Active Border Indicator (Left Edge) */}
-                        <div className={`absolute left-0 top-0 bottom-0 w-1.5 transition-all duration-500 scale-y-0 origin-top \${step.activeBorder} \${isActive ? 'scale-y-100' : ''}`}></div>
-
-                        <div className="flex gap-5 items-start relative z-10">
-                            <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-300 ${isActive ? 'bg-white text-slate-900 shadow-sm' : 'bg-slate-100 text-slate-500 group-hover:bg-white'
-                                }`}>
-                                <div className={isActive ? step.iconColor : ''}>
-                                    {step.tabIcon}
-                                </div>
-                            </div>
-
-                            <div className="flex-1">
-                                <div className="text-sm font-bold tracking-wide uppercase text-slate-400 mb-1">
-                                    {step.label}
-                                </div>
-                                <h3 className={`text-xl font-bold mb-2 transition-colors duration-300 \${isActive ? 'text-slate-900' : 'text-slate-700'}`}>
-                                    {step.title}
-                                </h3>
-
-                                {/* Expandable Content inside Tab */}
-                                <div className={`grid transition-all duration-500 ease-in-out \${isActive ? 'grid-rows-[1fr] opacity-100 mt-3' : 'grid-rows-[0fr] opacity-0'}`}>
-                                    <div className="overflow-hidden">
-                                        <p className="text-slate-600 mb-4 text-sm leading-relaxed">
-                                            {step.subtitle}
-                                        </p>
-                                        <ul className="space-y-2">
-                                            {step.features.map((feature, fIndex) => (
-                                                <li key={fIndex} className="flex items-center gap-2 text-sm text-slate-700 font-medium">
-                                                    <CheckCircleIcon className={`w-4 h-4 \${step.iconColor}`} />
-                                                    {feature}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Progress bar effect on active tab */}
-                        {isActive && !isHovered && (
-                            <div className="absolute bottom-0 left-0 h-1 bg-black/5 w-full">
-                                <div className={`h-full \${step.activeBorder} animate-[progress_5s_linear_infinite]`}></div>
-                            </div>
-                        )}
-                    </button>
-                    );
-                        })}
-                </div>
-
-                {/* Right: Visual Showcase */}
-                <div className="w-full lg:w-7/12 relative min-h-[400px] lg:min-h-[500px]">
-                    <div className="absolute inset-0 bg-slate-50 rounded-[2rem] border border-slate-100 overflow-hidden lg:sticky lg:top-32">
-                        {stepsData.map((step, index) => {
-                            const isActive = activeStep === index;
-                            return (
-                                <div
-                                    key={step.id}
-                                    className={`absolute inset-0 w-full h-full transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] flex items-center justify-center p-8 sm:p-12 \${
-                                            isActive 
-                                                ? 'opacity-100 translate-y-0 scale-100 z-10' 
-                                                : 'opacity-0 translate-y-8 scale-95 z-0 pointer-events-none'
+                                        ? `border-transparent shadow-lg ${step.activeBg}`
+                                        : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50 shadow-sm'
                                         }`}
                                 >
-                                    {/* Radial Gradient Background specific to step */}
-                                    <div className={`absolute inset-0 bg-gradient-to-tr \${step.blobColor} opacity-50`}></div>
+                                    {/* Active Border Indicator (Left Edge) */}
+                                    <div className={`absolute left-0 top-0 bottom-0 w-1.5 transition-all duration-500 scale-y-0 origin-top ${step.activeBorder} ${isActive ? 'scale-y-100' : ''}`}></div>
 
-                                    {/* Glowing Orb */}
-                                    <div className={`absolute w-64 h-64 rounded-full blur-3xl \${step.activeBorder} opacity-10 transform -translate-y-12`}></div>
+                                    <div className="flex gap-5 items-start relative z-10">
+                                        <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-300 ${isActive ? 'bg-white text-slate-900 shadow-sm' : 'bg-slate-100 text-slate-500 group-hover:bg-white'
+                                            }`}>
+                                            <div className={isActive ? step.iconColor : ''}>
+                                                {step.tabIcon}
+                                            </div>
+                                        </div>
 
-                                    <div className="relative w-full max-w-sm aspect-square transform transition-transform duration-700 hover:scale-105">
-                                        {step.icon}
+                                        <div className="flex-1">
+                                            <div className="text-sm font-bold tracking-wide uppercase text-slate-400 mb-1">
+                                                {step.label}
+                                            </div>
+                                            <h3 className={`text-xl font-bold mb-2 transition-colors duration-300 ${isActive ? 'text-slate-900' : 'text-slate-700'}`}>
+                                                {step.title}
+                                            </h3>
+
+                                            {/* Expandable Content inside Tab */}
+                                            <div className={`grid transition-all duration-500 ease-in-out ${isActive ? 'grid-rows-[1fr] opacity-100 mt-3' : 'grid-rows-[0fr] opacity-0'}`}>
+                                                <div className="overflow-hidden">
+                                                    <p className="text-slate-600 mb-4 text-sm leading-relaxed">
+                                                        {step.subtitle}
+                                                    </p>
+                                                    <ul className="space-y-2">
+                                                        {step.features.map((feature, fIndex) => (
+                                                            <li key={fIndex} className="flex items-center gap-2 text-sm text-slate-700 font-medium">
+                                                                <CheckCircleIcon className={`w-4 h-4 ${step.iconColor}`} />
+                                                                {feature}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+
+                                    {/* Progress bar effect on active tab */}
+                                    {isActive && !isHovered && (
+                                        <div className="absolute bottom-0 left-0 h-1 bg-black/5 w-full">
+                                            <div className={`h-full ${step.activeBorder} animate-[progress_5s_linear_infinite]`}></div>
+                                        </div>
+                                    )}
+                                </button>
                             );
                         })}
                     </div>
+
+                    {/* Right: Visual Showcase */}
+                    <div className="w-full lg:w-7/12 relative min-h-[400px] lg:min-h-[500px]">
+                        <div className="absolute inset-0 bg-slate-50 rounded-[2rem] border border-slate-100 overflow-hidden lg:sticky lg:top-32">
+                            {stepsData.map((step, index) => {
+                                const isActive = activeStep === index;
+                                return (
+                                    <div
+                                        key={step.id}
+                                        className={`absolute inset-0 w-full h-full transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] flex items-center justify-center p-8 sm:p-12 ${isActive
+                                                ? 'opacity-100 translate-y-0 scale-100 z-10'
+                                                : 'opacity-0 translate-y-8 scale-95 z-0 pointer-events-none'
+                                            }`}
+                                    >
+                                        {/* Radial Gradient Background specific to step */}
+                                        <div className={`absolute inset-0 bg-gradient-to-tr ${step.blobColor} opacity-50`}></div>
+
+                                        {/* Glowing Orb */}
+                                        <div className={`absolute w-64 h-64 rounded-full blur-3xl ${step.activeBorder} opacity-10 transform -translate-y-12`}></div>
+
+                                        <div className="relative w-full max-w-sm aspect-square transform transition-transform duration-700 hover:scale-105">
+                                            {step.icon}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
                 </div>
+
+                {/* Bottom CTA */}
+                <div className={`mt-20 text-center transition-all duration-1000 delay-300 ease-out ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                    <button
+                        onClick={() => openQuoteModal()}
+                        className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white bg-slate-900 rounded-full overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                    >
+                        <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <span className="relative flex items-center gap-3 text-lg">
+                            {t.cta}
+                            <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                    </button>
+                    <p className="mt-4 text-sm font-medium text-slate-500">
+                        {language === 'fr' ? '100% gratuit et sans engagement.' : '100% kostenlos und unverbindlich.'}
+                    </p>
+                </div>
+
             </div>
 
-            {/* Bottom CTA */}
-            <div className={`mt-20 text-center transition-all duration-1000 delay-300 ease-out \${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                <button
-                    onClick={() => openQuoteModal()}
-                    className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white bg-slate-900 rounded-full overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
-                >
-                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary-600 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <span className="relative flex items-center gap-3 text-lg">
-                        {t.cta}
-                        <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                </button>
-                <p className="mt-4 text-sm font-medium text-slate-500">
-                    {language === 'fr' ? '100% gratuit et sans engagement.' : '100% kostenlos und unverbindlich.'}
-                </p>
-            </div>
-
-        </div>
-
-            {/* Global styles for the progress animation */ }
-    <style dangerouslySetInnerHTML={{
-        __html: `
+            {/* Global styles for the progress animation */}
+            <style dangerouslySetInnerHTML={{
+                __html: `
                 @keyframes progress {
                     0% { width: 0%; }
                     100% { width: 100%; }
                 }
             `}} />
-        </section >
+        </section>
     );
 };
 

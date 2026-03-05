@@ -4,7 +4,8 @@ import LazyLoad from '../components/LazyLoad';
 
 
 // Lazy load components that are likely below the fold
-const RadialJourney = lazy(() => import('../components/RadialJourney'));
+const ThreeStepsPremium = lazy(() => import('../components/ThreeStepsPremium'));
+
 const CompetitorComparison = lazy(() => import('../components/CompetitorComparison'));
 const PopularServices = lazy(() => import('../components/PopularServices'));
 const WhyChooseFertigo = lazy(() => import('../components/WhyChooseFertigo'));
@@ -44,27 +45,29 @@ const StatsSkeleton: React.FC = () => (
     </div>
 );
 
-const RadialJourneySkeleton: React.FC = () => (
-    <div className="py-32 lg:py-48 bg-[#0A0F1E] w-full">
+const ThreeStepsPremiumSkeleton: React.FC = () => (
+    <div className="py-24 sm:py-32 lg:py-48 bg-white w-full">
         <div className="container mx-auto px-6">
-            <div className="animate-pulse text-center mb-24">
-                <div className="h-4 bg-white/10 rounded-full w-48 mx-auto mb-6"></div>
-                <div className="h-16 bg-white/10 rounded-md w-3/4 mx-auto mb-8"></div>
-                <div className="h-6 bg-white/10 rounded-md w-2/3 mx-auto"></div>
+            <div className="animate-pulse text-center mb-24 max-w-4xl mx-auto">
+                <div className="h-10 bg-slate-100 rounded-full w-48 mx-auto mb-8"></div>
+                <div className="h-20 bg-slate-100 rounded-md w-3/4 mx-auto mb-6"></div>
+                <div className="h-6 bg-slate-100 rounded-md w-1/2 mx-auto"></div>
             </div>
-            <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12">
-                <div className="lg:col-span-5 space-y-6">
-                    {[...Array(3)].map((_, i) => (
-                        <div key={i} className="h-28 bg-white/5 rounded-2xl border border-white/10 animate-pulse"></div>
-                    ))}
+            {[...Array(3)].map((_, i) => (
+                <div key={i} className={`flex flex-col ${i % 2 !== 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-16 mb-48`}>
+                    <div className="flex-1 w-full aspect-[4/3] bg-slate-50 rounded-[3rem] animate-pulse"></div>
+                    <div className="flex-1 w-full space-y-8">
+                        <div className="h-2 w-24 bg-slate-100 rounded-full"></div>
+                        <div className="h-16 bg-slate-100 rounded-md w-3/4"></div>
+                        <div className="h-6 bg-slate-100 rounded-md w-full"></div>
+                        <div className="h-6 bg-slate-100 rounded-md w-5/6"></div>
+                    </div>
                 </div>
-                <div className="lg:col-span-7">
-                    <div className="aspect-square bg-white/5 rounded-[40px] border border-white/10 animate-pulse"></div>
-                </div>
-            </div>
+            ))}
         </div>
     </div>
 );
+
 
 const JourneyTimelineSkeleton: React.FC = () => (
     <div className="py-28 sm:py-36 bg-slate-900 w-full">
@@ -271,9 +274,10 @@ const HomePage: React.FC = () => {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
             />
             <Hero />
-            <LazyLoad fallback={<RadialJourneySkeleton />}>
-                <RadialJourney />
+            <LazyLoad fallback={<ThreeStepsPremiumSkeleton />}>
+                <ThreeStepsPremium />
             </LazyLoad>
+
             <LazyLoad fallback={<PopularServicesSkeleton />}>
                 <PopularServices />
             </LazyLoad>
