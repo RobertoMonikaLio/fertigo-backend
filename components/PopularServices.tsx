@@ -270,7 +270,7 @@ const PopularServices: React.FC = () => {
         <section
             ref={ref}
             id="services"
-            className="relative py-14 sm:py-32 lg:py-40 overflow-hidden bg-white"
+            className="relative py-14 sm:py-32 lg:py-40 overflow-hidden bg-gray-100 sm:bg-white"
         >
             <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
@@ -282,21 +282,10 @@ const PopularServices: React.FC = () => {
                     `}
                 >
                     {/* Title */}
-                    <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 mb-4 sm:mb-6 tracking-tight">
-                        <span className="sm:hidden">{t.popularServicesTitlePrefix}<br /></span>
-                        <span className="hidden sm:inline">{t.popularServicesTitlePrefix}{' '}</span>
-                        <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">
+                    <h2 className="text-4xl sm:text-5xl lg:text-5xl font-black text-slate-900 mb-4 sm:mb-6 tracking-tight leading-[1.15]">
+                        {t.popularServicesTitlePrefix}<br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
                             {t.popularServicesTitleHighlight}
-                            <svg className="absolute -bottom-2 sm:-bottom-4 left-0 w-full h-3 sm:h-4" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
-                                <path d="M2 8C30 2 60 10 100 6C140 2 170 10 198 4" stroke="url(#underlineGradient2)" strokeWidth="6" strokeLinecap="round" />
-                                <defs>
-                                    <linearGradient id="underlineGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="#16a34a" />
-                                        <stop offset="50%" stopColor="#10b981" />
-                                        <stop offset="100%" stopColor="#14b8a6" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
                         </span>
                     </h2>
 

@@ -13,7 +13,6 @@ const DatenschutzPage: React.FC = () => {
                     <p>Verantwortlich für die Datenbearbeitung auf der Plattform fertigo.ch ist:</p>
                     <address className="not-italic py-2">
                         <strong>Fertigo</strong><br />
-                        Roberto Steiner<br />
                         Bahnhofstrasse 110<br />
                         6423 Seewen SZ<br />
                         Schweiz

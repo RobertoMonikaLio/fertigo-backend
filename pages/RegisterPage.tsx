@@ -6,7 +6,8 @@ import {
     ArrowUpTrayIcon, TrashIcon, CreditCardIcon, ShieldCheckIcon,
     XMarkIcon, QuestionMarkCircleIcon, ExclamationTriangleIcon,
     TwintIcon, PencilIcon, ArrowTrendingUpIcon, UsersIcon, ArrowLeftIcon,
-    EnvelopeIcon, PhoneIcon, WrenchScrewdriverIcon, DocumentCheckIcon
+    EnvelopeIcon, PhoneIcon, WrenchScrewdriverIcon, DocumentCheckIcon, SwissFlagIcon,
+    SparklesIcon
 } from '../components/icons';
 import { useAppContext } from './AppContext';
 import { translations } from '../components/translations';
@@ -271,8 +272,7 @@ const RegisterPage: React.FC = () => {
     const STEPS = [
         { name: t.steps.company, step: 1, icon: <BuildingOfficeIcon className="w-6 h-6" /> },
         { name: t.steps.account, step: 2, icon: <UserIcon className="w-6 h-6" /> },
-        { name: t.steps.verification, step: 3, icon: <ShieldCheckIcon className="w-6 h-6" /> },
-        { name: t.steps.final, step: 4, icon: <CreditCardIcon className="w-6 h-6" /> },
+        { name: t.steps.final, step: 3, icon: <CreditCardIcon className="w-6 h-6" /> },
     ];
 
     const [currentStep, setCurrentStep] = useState(1);
@@ -289,8 +289,6 @@ const RegisterPage: React.FC = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [position, setPosition] = useState('');
-    const [hrFiles, setHrFiles] = useState<File[]>([]);
-    const [versicherungFiles, setVersicherungFiles] = useState<File[]>([]);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -299,45 +297,7 @@ const RegisterPage: React.FC = () => {
     const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>('idle');
     const [errors, setErrors] = useState<Record<string, string>>({});
 
-    // Email Verification State
-    const [verificationCode, setVerificationCode] = useState('');
-    const [isEmailVerified, setIsEmailVerified] = useState(false);
-    const [verificationError, setVerificationError] = useState('');
-    const [isResending, setIsResending] = useState(false);
-
     const API_URL = import.meta.env.VITE_API_URL;
-
-    const sendVerificationEmail = async () => {
-        setVerificationError('');
-        try {
-            await fetch(`${API_URL}/api/email/send-verification`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email }),
-            });
-        } catch (err) {
-            console.error('Error sending verification:', err);
-        }
-    };
-
-    const handleVerifyCode = async () => {
-        setVerificationError('');
-        try {
-            const res = await fetch(`${API_URL}/api/email/verify-code`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, code: verificationCode }),
-            });
-            const data = await res.json();
-            if (res.ok) {
-                setIsEmailVerified(true);
-            } else {
-                setVerificationError(data.message || t.validation.invalidCode);
-            }
-        } catch (err) {
-            setVerificationError(t.validation.connectionError);
-        }
-    };
 
     const handleUidLookup = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -418,51 +378,25 @@ const RegisterPage: React.FC = () => {
             if (password.length < 8) newErrors.password = t.validation.password;
             if (password !== passwordConfirm) newErrors.passwordConfirm = t.validation.passwordConfirm;
         }
-        if (step === 3) {
-            if (versicherungFiles.length === 0) newErrors.versicherungFiles = t.validation.insurance;
-        }
-        if (step === 4) { if (!agreed) newErrors.agreed = t.validation.agb; }
+        if (step === 3) { if (!agreed) newErrors.agreed = t.validation.agb; }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     }
 
     const nextStep = async () => {
         if (validateStep(currentStep)) {
-            if (currentStep === 2) {
-                await sendVerificationEmail();
-            }
             setCurrentStep(prev => prev + 1);
         }
     };
     const prevStep = () => setCurrentStep(prev => prev - 1);
 
-    const uploadFiles = async (filesToUpload: File[]): Promise<string[]> => {
-        if (!filesToUpload || filesToUpload.length === 0) return [];
-        try {
-            const uploadFormData = new FormData();
-            filesToUpload.forEach(file => uploadFormData.append('files', file));
-            const res = await fetch(`${API_URL}/api/upload/multiple`, {
-                method: 'POST',
-                body: uploadFormData
-            });
-            if (!res.ok) throw new Error('Upload failed');
-            const data = await res.json();
-            return data.map((f: any) => f.url);
-        } catch (err) {
-            console.error("Upload Error:", err);
-            return [];
-        }
-    };
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (validateStep(4)) {
+        if (validateStep(3)) {
             setFormState('loading');
             try {
-                // Upload documents first
-                const hrUrls = await uploadFiles(hrFiles);
-                const versicherungUrls = await uploadFiles(versicherungFiles);
-
                 const res = await fetch(`${API_URL}/api/auth/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -478,10 +412,7 @@ const RegisterPage: React.FC = () => {
                         companyPhone,
                         companyEmail,
                         companyAddress,
-                        documents: {
-                            hrExtract: hrUrls[0] || '',
-                            insurance: versicherungUrls[0] || ''
-                        }
+                        documents: {}
                     }),
                 });
 
@@ -500,19 +431,59 @@ const RegisterPage: React.FC = () => {
     }
 
     const SuccessView: React.FC<{ isMobile?: boolean }> = ({ isMobile }) => {
-        const baseClasses = "flex items-center justify-center p-4 animate-fade-in";
-        const mobileClasses = "min-h-screen bg-slate-50 text-slate-900 flex-col";
-        const desktopClasses = "";
-
         return (
-            <div className={`${baseClasses} ${isMobile ? mobileClasses : ''}`}>
-                <div className={`text-center p-8 sm:p-12 rounded-2xl max-w-lg ${isMobile ? 'bg-white border-2 border-green-200' : 'bg-white shadow-2xl border-2 border-green-200'}`}>
-                    <CheckCircleIcon className="w-20 h-20 text-green-500 mx-auto" />
-                    <h3 className={`mt-6 text-3xl font-bold ${isMobile ? 'text-slate-900' : 'text-slate-900'}`}>{t.form.successTitle}</h3>
-                    <p className={`mt-4 ${isMobile ? 'text-slate-600' : 'text-slate-600'}`}>{t.form.successDesc}</p>
-                    <Link to="/partner/requests" className="mt-10 inline-flex items-center gap-2 bg-primary-600 text-white font-bold px-6 py-3 rounded-lg hover:bg-primary-700 transition-all shadow-md">
-                        {t.form.dashboardLink} <ArrowRightIcon className="w-5 h-5" />
-                    </Link>
+            <div className={`min-h-screen ${isMobile ? 'bg-white' : 'bg-slate-50'} flex items-center justify-center p-6 sm:p-12 overflow-hidden`}>
+                <div className="max-w-2xl w-full text-center relative z-10">
+                    {/* Animated Party / Success Aura */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] aspect-square bg-emerald-100/50 rounded-full blur-[120px] -z-10 animate-pulse"></div>
+
+                    {/* Main Icon Celebration */}
+                    <div className="relative inline-block mb-12">
+                        <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-2xl animate-ping opacity-30"></div>
+                        <div className="w-40 h-40 bg-white border-8 border-emerald-500/10 rounded-[3rem] shadow-2xl flex items-center justify-center relative animate-bounce-slow">
+                            <div className="absolute -top-4 -right-4 w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-xl animate-fade-in delay-500">
+                                <SparklesIcon className="w-7 h-7" />
+                            </div>
+                            <CheckCircleIcon className="w-24 h-24 text-emerald-500 animate-fade-in" />
+                        </div>
+                    </div>
+
+                    {/* Celebration Text Stack */}
+                    <div className="space-y-6 animate-fade-in-up">
+                        <div className="flex justify-center">
+                            <span className="px-4 py-1.5 bg-emerald-50 border border-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-[0.4em] rounded-full shadow-sm">
+                                {language === 'de' ? 'Registrierung Erfolgreich' : language === 'fr' ? 'Inscription Réussie' : language === 'it' ? 'Registrazione Completata' : 'Registration Successful'}
+                            </span>
+                        </div>
+                        <h1 className="text-5xl sm:text-7xl font-black text-slate-900 tracking-tight leading-tight italic">
+                            {language === 'de' ? 'Herzlich willkommen an Bord!' : 'Welcome on Board!'}
+                        </h1>
+                        <p className="max-w-md mx-auto text-lg text-slate-500 font-medium leading-relaxed">
+                            {t.form.successDesc}
+                        </p>
+                    </div>
+
+                    {/* Action Footer */}
+                    <div className="mt-16 animate-fade-in-up delay-[400ms]">
+                        <Link
+                            to="/partner/requests"
+                            className="inline-flex items-center gap-4 bg-slate-900 text-white text-xl font-black px-12 py-5 rounded-[1.5rem] shadow-2xl hover:bg-black hover:-translate-y-1 active:scale-95 transition-all group lg:min-w-[320px] justify-center"
+                        >
+                            <span>{t.form.dashboardLink}</span>
+                            <ArrowRightIcon className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
+                        </Link>
+
+                        <div className="mt-12 flex justify-center gap-8">
+                            <div className="flex items-center gap-2 text-slate-400 font-bold text-xs uppercase tracking-widest">
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                                Live Profil
+                            </div>
+                            <div className="flex items-center gap-2 text-slate-400 font-bold text-xs uppercase tracking-widest">
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                                Sofort Startklar
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -603,182 +574,107 @@ const RegisterPage: React.FC = () => {
                         </form>
                     )}
                     {currentStep === 3 && (
-                        <div className="space-y-6 animate-fade-in">
-                            {/* Header */}
-                            <div className="text-center pb-4 border-b border-slate-200">
-                                <div className="w-14 h-14 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                    <ShieldCheckIcon className="w-7 h-7 text-primary-600" />
-                                </div>
-                                <h1 className="text-2xl font-bold text-slate-900">
-                                    {!isEmailVerified ? 'E-Mail Bestätigung' : 'Dokumente hochladen'}
-                                </h1>
-                                <p className="text-slate-500 mt-1 text-sm">
-                                    {!isEmailVerified ? `Code an ${email} gesendet` : 'Verifizieren Sie Ihr Unternehmen'}
-                                </p>
+                        <div className="space-y-8 animate-fade-in pb-12">
+                            {/* Mobile Header */}
+                            <div className="text-center py-6">
+
+                                <h2 className="text-4xl font-black text-slate-900 tracking-tighter leading-tight italic">{t.summary.title}</h2>
+                                <p className="text-slate-500 font-medium text-sm mt-3">{t.summary.subtitle}</p>
                             </div>
 
-                            {!isEmailVerified ? (
-                                <div className="bg-white p-8 rounded-2xl border-2 border-primary-100 shadow-sm space-y-6">
-                                    <div className="text-center">
-                                        <p className="text-slate-600 mb-6 font-medium">{t.verification.emailDesc.replace('{email}', email)}</p>
+                            {/* Section: Company Card */}
+                            <div className="bg-white rounded-[2rem] border border-slate-200 p-8 shadow-sm relative overflow-hidden">
+                                <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-6">{t.summary.company}</h3>
+                                <div className="space-y-6">
+                                    <div>
+                                        <p className="text-2xl font-black text-slate-900 leading-tight">{companyName}</p>
+                                        <p className="text-[10px] font-black text-primary-600 uppercase mt-2 tracking-widest">{uid || 'CHE-PLATFORM-VERIFIED'}</p>
+                                    </div>
+                                    <div className="pt-6 border-t border-slate-100 flex items-start gap-4">
+                                        <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center flex-shrink-0 text-slate-400">
+                                            <BuildingOfficeIcon className="w-4 h-4" />
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Standort</p>
+                                            <p className="text-slate-600 font-bold text-sm leading-relaxed">{companyAddress},<br />{companyZip} {companyCity}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Section: Services Card */}
+                            <div className="bg-white rounded-[2rem] border border-slate-200 p-8 shadow-sm">
+                                <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-6">{t.summary.services}</h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {selectedServices.map(s => (
+                                        <span key={s} className="px-4 py-2 bg-slate-50 border border-slate-200 text-slate-600 text-[10px] font-black rounded-full italic">{s}</span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Section: Contact Card */}
+                            <div className="bg-white rounded-[2rem] border border-slate-200 p-8 shadow-sm">
+                                <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-6">{t.summary.contact}</h3>
+                                <div className="space-y-6">
+                                    <div>
+                                        <p className="text-2xl font-black text-slate-900 leading-tight mb-1">{firstName} {lastName}</p>
+                                        <span className="inline-flex items-center px-2 py-0.5 bg-primary-50 text-primary-600 rounded text-[10px] font-black uppercase tracking-widest">{position}</span>
+                                    </div>
+                                    <div className="space-y-4 pt-6 border-t border-slate-100">
+                                        <div className="flex items-center gap-4 text-sm font-bold text-slate-600 overflow-hidden">
+                                            <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center flex-shrink-0 text-slate-400"><EnvelopeIcon className="w-4 h-4" /></div>
+                                            <span className="truncate">{email}</span>
+                                        </div>
+                                        <div className="flex items-center gap-4 text-sm font-bold text-slate-600">
+                                            <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center flex-shrink-0 text-slate-400"><PhoneIcon className="w-4 h-4" /></div>
+                                            <span>{companyPhone}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Legal Checkbox */}
+                            <div className="p-6 bg-slate-50/50 rounded-2xl border border-slate-200/60 shadow-sm relative group transition-all hover:bg-slate-50">
+                                <label className="flex items-start gap-4 cursor-pointer">
+                                    <div className="relative pt-1">
                                         <input
-                                            type="text"
-                                            maxLength={6}
-                                            value={verificationCode}
-                                            onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
-                                            className="w-full max-w-[240px] h-16 text-center text-4xl font-bold tracking-[0.5em] border-2 border-slate-200 rounded-xl focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 outline-none transition-all"
-                                            placeholder="000000"
-                                        />
-                                        {verificationError && <p className="text-red-600 text-sm mt-4 font-semibold">{verificationError}</p>}
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={handleVerifyCode}
-                                        disabled={verificationCode.length !== 6}
-                                        className="w-full h-14 bg-primary-600 text-white rounded-xl font-bold text-lg hover:bg-primary-700 disabled:bg-slate-300 transition-all"
-                                    >
-                                        {t.verification.verifyCode}
-                                    </button>
-                                    <div className="text-center">
-                                        <button
-                                            type="button"
-                                            onClick={sendVerificationEmail}
-                                            className="w-full py-2 text-sm font-bold text-slate-500 hover:text-primary-600 transition-colors"
-                                        >
-                                            {t.verification.resendCode}
-                                        </button>
-                                    </div>
-                                </div>
-                            ) : (
-                                <>
-                                    {/* Upload Cards */}
-                                    <div className="space-y-4">
-                                        <VerificationFileUploader
-                                            title={t.verification.insuranceTitle}
-                                            files={versicherungFiles}
-                                            setFiles={setVersicherungFiles}
-                                            helpText={t.verification.insuranceDesc}
-                                            error={errors.versicherungFiles}
-                                            isMobile
-                                            required
-                                            icon={<ShieldCheckIcon className="w-5 h-5" />}
-                                            t={t}
-                                        />
-                                        <VerificationFileUploader
-                                            title={t.verification.hrTitle}
-                                            files={hrFiles}
-                                            setFiles={setHrFiles}
-                                            helpText={t.verification.hrDesc}
-                                            error={errors.hrFiles}
-                                            isMobile
-                                            icon={<BuildingOfficeIcon className="w-5 h-5" />}
-                                            t={t}
+                                            id="agree-final-mobile-audit"
+                                            type="checkbox"
+                                            checked={agreed}
+                                            onChange={(e) => setAgreed(e.target.checked)}
+                                            className="h-8 w-8 rounded-xl border-2 border-slate-300 text-primary-600 transition-all cursor-pointer checked:bg-primary-600 checked:border-primary-600 focus:ring-primary-500"
                                         />
                                     </div>
-
-                                    {/* Success Message */}
-                                    <div className="p-4 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3">
-                                        <CheckCircleIcon className="w-6 h-6 text-green-500 flex-shrink-0" />
-                                        <p className="text-sm text-green-800 font-bold">{t.verification.emailVerified}</p>
+                                    <div className="flex-1">
+                                        <label htmlFor="agree-final-mobile-audit" className="text-xs text-slate-500 font-medium leading-relaxed cursor-pointer group-active:text-slate-900 transition-colors" dangerouslySetInnerHTML={{ __html: t.form.agb }} />
+                                        {errors.agreed && <p className="text-[10px] text-red-500 font-black mt-2 flex items-center gap-1 animate-pulse"><ExclamationTriangleIcon className="w-3.5 h-3.5" /> {errors.agreed}</p>}
                                     </div>
-                                    {/* Info Box */}
-                                    <div className="rounded-xl border border-slate-200 overflow-hidden mt-6">
-                                        <div className="bg-primary-600 px-4 py-3">
-                                            <p className="text-sm font-semibold text-white flex items-center gap-2">
-                                                <QuestionMarkCircleIcon className="w-5 h-5" />
-                                                {t.verification.whyTitle}
-                                            </p>
-                                        </div>
-                                        <div className="bg-white p-4">
-                                            <p className="text-sm text-slate-600">
-                                                {t.verification.whyDesc}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </>
-                            )}
+                                </label>
+                            </div>
                         </div>
-                    )}
-                    {currentStep === 4 && (
-                        <form onSubmit={handleSubmit} className="space-y-6 animate-fade-in">
-                            {/* Header */}
-                            <div className="text-center">
-                                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <CheckCircleIcon className="w-8 h-8 text-green-600" />
-                                </div>
-                                <h1 className="text-2xl font-bold text-slate-900">{t.summary.title}</h1>
-                                <p className="text-slate-500 mt-1 text-sm">{t.summary.subtitle}</p>
-                            </div>
-
-                            {/* Professional Summary Card */}
-                            <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-                                {/* Header */}
-                                <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-4 py-4">
-                                    <p className="text-primary-200 text-xs font-medium uppercase">{t.summary.company}</p>
-                                    <h3 className="text-lg font-bold text-white">{companyName}</h3>
-                                    <p className="text-primary-100 text-xs mt-0.5">{companyZip} {companyCity}</p>
-                                </div>
-
-                                {/* Data */}
-                                <div className="divide-y divide-slate-100 text-sm">
-                                    <div className="px-4 py-3 flex justify-between">
-                                        <span className="text-slate-500">{t.form.emailLabel}</span>
-                                        <span className="font-medium text-slate-900 truncate ml-4">{companyEmail}</span>
-                                    </div>
-                                    <div className="px-4 py-3 flex justify-between">
-                                        <span className="text-slate-500">{t.form.phoneLabel}</span>
-                                        <span className="font-medium text-slate-900">{companyPhone}</span>
-                                    </div>
-                                    <div className="px-4 py-3 flex justify-between">
-                                        <span className="text-slate-500">{t.form.contact}</span>
-                                        <span className="font-medium text-slate-900">{firstName} {lastName}</span>
-                                    </div>
-                                    <div className="px-4 py-3 flex justify-between">
-                                        <span className="text-slate-500">{t.form.position}</span>
-                                        <span className="font-medium text-slate-900">{position}</span>
-                                    </div>
-                                    <div className="px-4 py-3 flex justify-between">
-                                        <span className="text-slate-500">{t.summary.login}</span>
-                                        <span className="font-medium text-slate-900 truncate ml-4">{email}</span>
-                                    </div>
-                                    <div className="px-4 py-3 flex justify-between">
-                                        <span className="text-slate-500">{t.form.servicesLabel}</span>
-                                        <span className="font-medium text-primary-600">{t.summary.servicesSelected.replace('{count}', selectedServices.length.toString())}</span>
-                                    </div>
-                                    <div className="px-4 py-3 flex justify-between">
-                                        <span className="text-slate-500">{t.summary.documents}</span>
-                                        <span className="font-medium text-green-600">{t.summary.docsVerified.replace('{count}', (hrFiles.length + versicherungFiles.length).toString())}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Free Badge */}
-                            <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-5 text-white text-center">
-                                <div className="text-green-100 text-sm mb-1">{t.summary.freeTitle}</div>
-                                <div className="text-3xl font-black">{t.summary.freeValue}</div>
-                                <p className="text-green-200 text-xs mt-2">{t.summary.freeDesc}</p>
-                            </div>
-
-                            {/* Checkbox */}
-                            <label className="flex items-start gap-3 cursor-pointer p-4 bg-slate-50 rounded-xl border border-slate-200">
-                                <input
-                                    type="checkbox"
-                                    checked={agreed}
-                                    onChange={(e) => setAgreed(e.target.checked)}
-                                    className="mt-0.5 h-5 w-5 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
-                                />
-                                <span className="text-sm text-slate-600" dangerouslySetInnerHTML={{ __html: t.form.agb }} />
-                            </label>
-                            {errors.agreed && <p role="alert" className="text-xs text-red-600 flex items-center gap-1"><ExclamationTriangleIcon className="w-4 h-4" /> {errors.agreed}</p>}
-                        </form>
                     )}
                 </main>
 
                 <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-sm border-t border-slate-200 z-20">
                     <div className="flex items-center gap-4">
                         {currentStep > 1 && <button onClick={prevStep} className="font-bold text-slate-700 hover:text-slate-900 px-5 py-3 rounded-lg"><ArrowLeftIcon className="w-5 h-5" /></button>}
-                        {currentStep < 4 && <button onClick={nextStep} className="flex-1 bg-primary-600 text-white font-bold py-3.5 rounded-lg hover:bg-primary-700">{t.form.next}</button>}
-                        {currentStep === 4 && <button onClick={handleSubmit} disabled={formState === 'loading'} className="flex-1 bg-green-600 text-white font-bold py-3.5 rounded-lg hover:bg-green-700 disabled:bg-slate-500">{formState === 'loading' ? t.form.processing : t.form.submit}</button>}
+                        {currentStep < 3 && <button onClick={nextStep} className="flex-1 bg-primary-600 text-white font-bold py-3.5 rounded-lg hover:bg-primary-700">{t.form.next}</button>}
+                        {currentStep === 3 && (
+                            <button
+                                onClick={handleSubmit}
+                                disabled={formState === 'loading'}
+                                className="flex-1 bg-primary-600 text-white font-bold py-3.5 rounded-lg hover:bg-primary-700 flex items-center justify-center gap-3 disabled:grayscale transition-all active:scale-95"
+                            >
+                                {formState === 'loading' ? (
+                                    <SpinnerIcon className="w-5 h-5 animate-spin" />
+                                ) : (
+                                    <>
+                                        <span>{t.form.submit}</span>
+                                        <ArrowRightIcon className="w-5 h-5" />
+                                    </>
+                                )}
+                            </button>
+                        )}
                     </div>
                 </footer>
             </div>
@@ -791,7 +687,7 @@ const RegisterPage: React.FC = () => {
                         <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">{t.subtitle}</p>
                     </div>
 
-                    <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-200/80 p-8 sm:p-12">
+                    <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-200/80 p-8 sm:p-12 transition-all duration-700">
                         <ProgressIndicator currentStep={currentStep} steps={STEPS} t={t} />
                         <div className="min-h-[500px] flex flex-col">
                             {/* Desktop Step Forms are here (same as before) */}
@@ -916,291 +812,101 @@ const RegisterPage: React.FC = () => {
                                 </form>
                             )}
                             {currentStep === 3 && (
-                                <div className="flex flex-col h-full animate-fade-in">
-                                    {/* Header */}
-                                    <div className="text-center mb-8 pb-6 border-b border-slate-200">
-                                        <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary-500/30">
-                                            <ShieldCheckIcon className="w-8 h-8 text-white" />
-                                        </div>
-                                        <h2 className="text-3xl font-bold text-slate-900">
-                                            {!isEmailVerified ? t.verification.emailTitle : t.verification.docTitle}
-                                        </h2>
-                                        <p className="text-slate-500 mt-2 max-w-lg mx-auto">
-                                            {!isEmailVerified ? t.verification.emailDesc.replace('{email}', email) : t.verification.docDesc}
-                                        </p>
+                                <form onSubmit={handleSubmit} className="flex flex-col animate-fade-in max-w-3xl mx-auto space-y-8 pb-12">
+
+
+                                    {/* Summary Title */}
+                                    <div className="text-center mb-8">
+                                        <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter leading-tight mb-4 italic">{t.summary.title}</h2>
+                                        <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto">{t.summary.subtitle}</p>
                                     </div>
 
-                                    {!isEmailVerified ? (
-                                        <div className="max-w-md mx-auto w-full bg-slate-50 p-8 rounded-3xl border-2 border-primary-100 space-y-8 my-4">
-                                            <div className="text-center space-y-4">
-                                                <p className="text-slate-600 font-medium">{t.verification.codeInstruction}</p>
+                                    {/* 1. DATA AUDIT CARD */}
+                                    <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-xl p-8 lg:p-12 space-y-12">
+                                        {/* Section: Company */}
+                                        <div>
+                                            <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-8">{t.summary.company}</h3>
+                                            <div className="sm:grid sm:grid-cols-2 sm:gap-8 space-y-6 sm:space-y-0">
+                                                <div className="space-y-1">
+                                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t.form.companyName}</span>
+                                                    <p className="text-xl font-bold text-slate-900 leading-none">{companyName}</p>
+                                                    <p className="text-xs text-primary-600 font-black mt-1">{uid || 'CHE-VERIFIED-PARTNER'}</p>
+                                                </div>
+                                                <div className="space-y-1">
+                                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Standort</span>
+                                                    <p className="text-slate-600 font-medium leading-relaxed">{companyAddress},<br />{companyZip} {companyCity}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Section: Contact */}
+                                        <div className="pt-8 border-t border-slate-100">
+                                            <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-8">{t.summary.contact}</h3>
+                                            <div className="sm:grid sm:grid-cols-2 sm:gap-8 space-y-6 sm:space-y-0">
+                                                <div className="space-y-1">
+                                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Name</span>
+                                                    <p className="text-xl font-bold text-slate-900 leading-none">{firstName} {lastName}</p>
+                                                    <p className="text-sm text-slate-500 font-medium mt-1">{position}</p>
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Erreichbarkeit</span>
+                                                    <p className="text-slate-600 font-medium truncate flex items-center gap-2"><EnvelopeIcon className="w-4 h-4 text-slate-300" /> {email}</p>
+                                                    <p className="text-slate-600 font-medium flex items-center gap-2"><PhoneIcon className="w-4 h-4 text-slate-300" /> {companyPhone}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Section: Services */}
+                                        <div className="pt-8 border-t border-slate-100">
+                                            <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-8">{t.summary.services}</h3>
+                                            <div className="flex flex-wrap gap-2">
+                                                {selectedServices.map(s => (
+                                                    <span key={s} className="px-5 py-2 bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold rounded-full italic">{s}</span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* 3. AGB CHECKBOX */}
+                                    <div className="p-10 bg-slate-50/50 rounded-[2.5rem] border border-slate-200/60 shadow-sm relative group hover:bg-slate-50 transition-all">
+                                        <label className="flex items-start gap-6 cursor-pointer">
+                                            <div className="relative pt-1">
                                                 <input
-                                                    type="text"
-                                                    maxLength={6}
-                                                    value={verificationCode}
-                                                    onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
-                                                    className="w-full h-20 text-center text-5xl font-black tracking-[0.4em] border-3 border-slate-200 rounded-2xl focus:border-primary-500 focus:ring-8 focus:ring-primary-500/10 outline-none transition-all shadow-inner bg-white"
-                                                    placeholder="000000"
-                                                />
-                                                {verificationError && (
-                                                    <div className="flex items-center justify-center gap-2 text-red-600 bg-red-50 py-2 rounded-lg border border-red-100">
-                                                        <ExclamationTriangleIcon className="w-4 h-4" />
-                                                        <span className="text-sm font-bold">{verificationError}</span>
-                                                    </div>
-                                                )}
-                                            </div>
-
-                                            <div className="space-y-4">
-                                                <button
-                                                    type="button"
-                                                    onClick={handleVerifyCode}
-                                                    disabled={verificationCode.length !== 6}
-                                                    className="w-full py-4.5 bg-primary-600 text-white rounded-2xl font-black text-lg hover:bg-primary-700 disabled:bg-slate-300 transition-all shadow-xl shadow-primary-500/20 active:scale-[0.98]"
-                                                >
-                                                    {t.verification.verifyCode}
-                                                </button>
-
-                                                <button
-                                                    type="button"
-                                                    onClick={sendVerificationEmail}
-                                                    className="w-full py-3 text-sm font-bold text-slate-500 hover:text-primary-600 transition-colors"
-                                                >
-                                                    {t.verification.resendCode}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-6 flex-grow">
-                                            {/* Success Notification */}
-                                            <div className="bg-green-50 border-2 border-green-100 rounded-2xl p-4 flex items-center gap-4 animate-bounce-subtle">
-                                                <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg">
-                                                    <CheckCircleIcon className="w-6 h-6" />
-                                                </div>
-                                                <div>
-                                                    <p className="font-bold text-green-900">{t.verification.emailVerified}</p>
-                                                    <p className="text-xs text-green-700">{t.verification.uploadPrompt}</p>
-                                                </div>
-                                            </div>
-
-                                            {/* Upload Cards */}
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                                <VerificationFileUploader
-                                                    title={t.verification.insuranceTitle}
-                                                    files={versicherungFiles}
-                                                    setFiles={setVersicherungFiles}
-                                                    helpText={t.verification.insuranceDesc}
-                                                    error={errors.versicherungFiles}
-                                                    required
-                                                    icon={<ShieldCheckIcon className="w-5 h-5" />}
-                                                    t={t}
-                                                />
-                                                <VerificationFileUploader
-                                                    title={t.verification.hrTitle}
-                                                    files={hrFiles}
-                                                    setFiles={setHrFiles}
-                                                    helpText={t.verification.hrDesc}
-                                                    error={errors.hrFiles}
-                                                    icon={<BuildingOfficeIcon className="w-5 h-5" />}
-                                                    t={t}
-                                                />
-                                            </div>
-
-                                            {/* Why Verification */}
-                                            <div className="rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-                                                <div className="bg-primary-600 px-5 py-4">
-                                                    <h4 className="font-bold text-white flex items-center gap-3 text-lg">
-                                                        <QuestionMarkCircleIcon className="w-6 h-6" />
-                                                        {t.verification.whyTitle}
-                                                    </h4>
-                                                </div>
-                                                <div className="p-6 bg-white">
-                                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                                        <div className="flex flex-col items-center text-center gap-2">
-                                                            <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center text-primary-600">
-                                                                <ShieldCheckIcon className="w-6 h-6" />
-                                                            </div>
-                                                            <p className="font-bold text-slate-900 leading-tight">{t.verification.benefit1}</p>
-                                                        </div>
-                                                        <div className="flex flex-col items-center text-center gap-2">
-                                                            <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center text-primary-600">
-                                                                <CheckCircleIcon className="w-6 h-6" />
-                                                            </div>
-                                                            <p className="font-bold text-slate-900 leading-tight">{t.verification.benefit2}</p>
-                                                        </div>
-                                                        <div className="flex flex-col items-center text-center gap-2">
-                                                            <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center text-primary-600">
-                                                                <BriefcaseIcon className="w-6 h-6" />
-                                                            </div>
-                                                            <p className="font-bold text-slate-900 leading-tight">{t.verification.benefit3}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <div className="flex justify-between items-center pt-8 mt-auto border-t border-slate-200">
-                                        <button type="button" onClick={prevStep} className="font-bold text-slate-600 hover:text-slate-800 flex items-center gap-2 group">
-                                            <ArrowLeftIcon className="w-4 h-4 transition-transform group-hover:-translate-x-1" /> {t.form.back}
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={nextStep}
-                                            disabled={!isEmailVerified}
-                                            className="bg-primary-600 text-white font-bold py-3.5 px-8 rounded-xl hover:bg-primary-700 disabled:bg-slate-200 disabled:text-slate-400 flex items-center gap-2 shadow-lg shadow-primary-500/20 transition-all hover:shadow-xl active:scale-[0.98]"
-                                        >
-                                            {t.form.next} <ArrowRightIcon className="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-                            {currentStep === 4 && (
-                                <form onSubmit={handleSubmit} className="flex flex-col flex-grow animate-fade-in">
-                                    {/* Header */}
-                                    <div className="text-center mb-8 pb-6 border-b border-slate-200">
-                                        <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-500/30">
-                                            <CheckCircleIcon className="w-10 h-10 text-white" />
-                                        </div>
-                                        <h2 className="text-3xl font-bold text-slate-900">Zusammenfassung</h2>
-                                        <p className="text-slate-500 mt-2">Prüfen Sie Ihre Angaben und schliessen Sie die Registrierung ab</p>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-grow">
-                                        {/* Left Column - Professional Summary */}
-                                        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-                                            {/* Header with Company Name */}
-                                            <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-5">
-                                                <p className="text-primary-200 text-xs font-medium tracking-wider uppercase mb-1">Unternehmen</p>
-                                                <h3 className="text-xl font-bold text-white">{companyName}</h3>
-                                                <p className="text-primary-100 text-sm mt-1">{companyAddress}, {companyZip} {companyCity}</p>
-                                            </div>
-
-                                            {/* Data Sections */}
-                                            <div className="divide-y divide-slate-100">
-                                                {/* Company Contact */}
-                                                <div className="px-6 py-4">
-                                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Kontaktdaten Firma</p>
-                                                    <div className="space-y-2">
-                                                        <div className="flex items-center justify-between">
-                                                            <span className="text-sm text-slate-500">E-Mail</span>
-                                                            <span className="text-sm font-medium text-slate-900">{companyEmail}</span>
-                                                        </div>
-                                                        <div className="flex items-center justify-between">
-                                                            <span className="text-sm text-slate-500">Telefon</span>
-                                                            <span className="text-sm font-medium text-slate-900">{companyPhone}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {/* Account Owner */}
-                                                <div className="px-6 py-4">
-                                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Kontoinhaber</p>
-                                                    <div className="space-y-2">
-                                                        <div className="flex items-center justify-between">
-                                                            <span className="text-sm text-slate-500">Name</span>
-                                                            <span className="text-sm font-medium text-slate-900">{firstName} {lastName}</span>
-                                                        </div>
-                                                        <div className="flex items-center justify-between">
-                                                            <span className="text-sm text-slate-500">Position</span>
-                                                            <span className="text-sm font-medium text-slate-900">{position}</span>
-                                                        </div>
-                                                        <div className="flex items-center justify-between">
-                                                            <span className="text-sm text-slate-500">Login E-Mail</span>
-                                                            <span className="text-sm font-medium text-slate-900">{email}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {/* Services & Documents */}
-                                                <div className="px-6 py-4">
-                                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{t.summary.registration}</p>
-                                                    <div className="space-y-2">
-                                                        <div className="flex items-center justify-between">
-                                                            <span className="text-sm text-slate-500">{t.summary.services}</span>
-                                                            <span className="text-sm font-medium text-primary-600">{t.summary.servicesSelected.replace('{count}', selectedServices.length.toString())}</span>
-                                                        </div>
-                                                        <div className="flex items-center justify-between">
-                                                            <span className="text-sm text-slate-500">{t.summary.documents}</span>
-                                                            <span className="text-sm font-medium text-green-600 flex items-center gap-1">
-                                                                <CheckCircleIcon className="w-4 h-4" />
-                                                                {t.summary.docsVerified.replace('{count}', (hrFiles.length + versicherungFiles.length).toString())}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Right Column - Free & Terms */}
-                                        <div className="space-y-4">
-                                            <h3 className="font-bold text-slate-800 flex items-center gap-2">
-                                                <CheckCircleIcon className="w-5 h-5 text-green-600" />
-                                                {t.summary.freeTitle}
-                                            </h3>
-
-                                            {/* Free Badge Card */}
-                                            <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white relative overflow-hidden">
-                                                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                                                <div className="relative text-center">
-                                                    <div className="text-green-100 text-sm mb-2">{t.summary.freeBadge}</div>
-                                                    <div className="text-5xl font-black">{t.summary.freeValue}</div>
-                                                    <p className="text-green-200 text-sm mt-3">{t.summary.freeSubdesc}</p>
-                                                </div>
-                                            </div>
-
-                                            {/* Benefits */}
-                                            <div className="bg-green-50 rounded-xl p-4 space-y-3">
-                                                <div className="flex items-center gap-3 text-sm">
-                                                    <CheckCircleIcon className="w-5 h-5 text-green-600 flex-shrink-0" />
-                                                    <span className="text-slate-700">{t.summary.benefitImmediate}</span>
-                                                </div>
-                                                <div className="flex items-center gap-3 text-sm">
-                                                    <CheckCircleIcon className="w-5 h-5 text-green-600 flex-shrink-0" />
-                                                    <span className="text-slate-700">{t.summary.benefitUnlimited}</span>
-                                                </div>
-                                                <div className="flex items-center gap-3 text-sm">
-                                                    <CheckCircleIcon className="w-5 h-5 text-green-600 flex-shrink-0" />
-                                                    <span className="text-slate-700">{t.summary.benefitProfile}</span>
-                                                </div>
-                                            </div>
-
-                                            {/* Checkbox */}
-                                            <label className="flex items-start gap-3 cursor-pointer p-4 bg-white rounded-xl border border-slate-200 hover:border-primary-300 transition-colors">
-                                                <input
-                                                    id="agree"
+                                                    id="agree-layout-stacked"
                                                     type="checkbox"
                                                     checked={agreed}
                                                     onChange={(e) => setAgreed(e.target.checked)}
-                                                    className="mt-0.5 h-5 w-5 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+                                                    className="h-8 w-8 rounded-xl border-2 border-slate-300 text-primary-600 focus:ring-primary-500 focus:ring-offset-0 transition-all cursor-pointer checked:bg-primary-600 checked:border-primary-600"
                                                 />
-                                                <span className="text-sm text-slate-600" dangerouslySetInnerHTML={{ __html: t.form.agb }} />
-                                            </label>
-                                            {errors.agreed && <p id="agreed-error" role="alert" className="text-xs text-red-600 flex items-center gap-1"><ExclamationTriangleIcon className="w-4 h-4" /> {errors.agreed}</p>}
-                                        </div>
+                                            </div>
+                                            <div className="flex-1">
+                                                <label htmlFor="agree-layout-stacked" className="text-base text-slate-500 font-medium leading-relaxed cursor-pointer group-hover:text-slate-900 transition-colors" dangerouslySetInnerHTML={{ __html: t.form.agb }} />
+                                                {errors.agreed && <p className="text-sm text-red-500 font-black mt-4 flex items-center gap-2 animate-pulse"><ExclamationTriangleIcon className="w-5 h-5" /> {errors.agreed}</p>}
+                                            </div>
+                                        </label>
                                     </div>
 
-                                    {/* Footer */}
-                                    <div className="flex justify-between items-center pt-8 mt-8 border-t border-slate-200">
-                                        <button type="button" onClick={prevStep} className="font-bold text-slate-600 hover:text-slate-800 flex items-center gap-2">
-                                            <ArrowLeftIcon className="w-4 h-4" /> {t.form.back}
-                                        </button>
+                                    {/* 4. BUTTONS FOOTER */}
+                                    <div className="flex justify-between items-center pt-6 mt-auto">
+                                        <button type="button" onClick={prevStep} className="font-bold text-slate-600 hover:text-slate-800">{t.form.back}</button>
                                         <button
-                                            type="submit"
+                                            onClick={handleSubmit}
                                             disabled={formState === 'loading'}
-                                            className="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold py-4 px-8 rounded-xl hover:from-green-600 hover:to-green-700 disabled:from-slate-400 disabled:to-slate-500 flex items-center gap-3 shadow-lg shadow-green-500/30 text-lg transition-all hover:shadow-xl"
+                                            className="bg-primary-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-primary-700 flex items-center gap-2 disabled:grayscale"
                                         >
                                             {formState === 'loading' ? (
-                                                <><SpinnerIcon className="w-5 h-5 animate-spin" /> {t.form.processing}</>
+                                                <SpinnerIcon className="w-4 h-4 animate-spin" />
                                             ) : (
                                                 <>
                                                     <span>{t.form.submit}</span>
-                                                    <ArrowRightIcon className="w-5 h-5" />
+                                                    <ArrowRightIcon className="w-4 h-4" />
                                                 </>
                                             )}
                                         </button>
                                     </div>
                                 </form>
                             )}
+
                         </div>
                     </div>
                 </div>

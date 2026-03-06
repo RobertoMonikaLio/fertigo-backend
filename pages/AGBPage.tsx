@@ -13,7 +13,6 @@ const AGBPage: React.FC = () => {
                     <p>Diese Plattform wird betrieben von:</p>
                     <address className="not-italic py-2">
                         <strong>Fertigo</strong><br />
-                        Roberto Steiner<br />
                         Bahnhofstrasse 110<br />
                         6423 Seewen SZ<br />
                         Schweiz

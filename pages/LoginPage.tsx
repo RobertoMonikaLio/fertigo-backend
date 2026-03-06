@@ -483,13 +483,7 @@ const LoginPage: React.FC = () => {
                             {t.createAccount}
                             <ArrowRightIcon className="w-4 h-4" />
                         </Link>
-                        <Link
-                            to="/kunden/registrieren"
-                            className="w-full py-4 rounded-2xl font-semibold text-primary-600 border-2 border-primary-100 hover:bg-primary-50 transition-all flex items-center justify-center gap-2"
-                        >
-                            Als Kunde registrieren
-                            <ArrowRightIcon className="w-4 h-4" />
-                        </Link>
+
                     </div>
                 </div>
             </main>

@@ -14,7 +14,6 @@ const ImprintPage: React.FC = () => {
                     <h2 className="text-2xl font-bold text-slate-800 mt-10 mb-4">Kontaktadresse</h2>
                     <address className="not-italic py-2">
                         <strong>Fertigo</strong><br />
-                        Roberto Steiner<br />
                         Bahnhofstrasse 110<br />
                         6423 Seewen SZ<br />
                         Schweiz
