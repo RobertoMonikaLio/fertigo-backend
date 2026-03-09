@@ -102,7 +102,8 @@ const ThreeStepsPremium: React.FC = () => {
                         }`}
                 >
                     <h2 className="mb-6 text-4xl sm:text-5xl lg:text-5xl font-black tracking-tight text-slate-900 leading-[1.15]">
-                        {journey.titlePrefix}{' '}
+                        {journey.titlePrefix}
+                        <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
                             {journey.titleHighlight}
                         </span>

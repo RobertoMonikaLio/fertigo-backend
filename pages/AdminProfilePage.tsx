@@ -79,7 +79,8 @@ const AdminProfilePage: React.FC = () => {
         try {
             setLoading(true);
             setError(null);
-            const token = localStorage.getItem('adminToken');
+            const storedAdmin = localStorage.getItem('fertigo_admin');
+            const token = storedAdmin ? JSON.parse(storedAdmin).token : null;
             const response = await fetch(`${API_URL}/api/admin/profile`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -116,7 +117,8 @@ const AdminProfilePage: React.FC = () => {
     const handleSave = async () => {
         try {
             setSaving(true);
-            const token = localStorage.getItem('adminToken');
+            const storedAdmin = localStorage.getItem('fertigo_admin');
+            const token = storedAdmin ? JSON.parse(storedAdmin).token : null;
             const response = await fetch(`${API_URL}/api/admin/profile`, {
                 method: 'PUT',
                 headers: {
@@ -160,7 +162,8 @@ const AdminProfilePage: React.FC = () => {
 
         try {
             setSaving(true);
-            const token = localStorage.getItem('adminToken');
+            const storedAdmin = localStorage.getItem('fertigo_admin');
+            const token = storedAdmin ? JSON.parse(storedAdmin).token : null;
             const response = await fetch(`${API_URL}/api/admin/password`, {
                 method: 'PUT',
                 headers: {

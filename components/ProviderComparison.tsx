@@ -1,4 +1,5 @@
 import React from 'react';
+import { useInView } from 'react-intersection-observer';
 import { ColoredSparklesIcon, SwissFlagIcon } from './icons';
 
 interface ComparisonRow {
@@ -18,106 +19,124 @@ interface ProviderComparisonProps {
 }
 
 const ProviderComparison: React.FC<ProviderComparisonProps> = ({ t }) => {
+    const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
     const iconMap = ["💼", "👥", "🖥️", "⏰", "💳", "📍", "✅"];
 
     return (
-        <section className="py-16 sm:py-32 relative bg-white overflow-hidden">
-            {/* Background Decor */}
-            <div className="absolute top-0 right-0 w-full sm:w-[500px] h-[300px] sm:h-[500px] bg-green-50/50 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/4" />
+        <section
+            ref={ref}
+            className="py-24 sm:py-32 lg:py-40 relative bg-white overflow-hidden"
+        >
+            {/* ── Background Aesthetics ── */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <div className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px] opacity-50"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-teal-500/5 rounded-full blur-[100px] opacity-50"></div>
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0wIDBoNDB2NDBIMHoiIGZpbGw9Im5vbmUiIC8+CjxwYXRoIGQ9Ik00MCAuNWwtNDAgMCIgc3Ryb2tlPSJyZ2JhKDAsMCwwLDAuMDMpIiBzdHJva2Utd2lkdGg9IjEiIC8+CjxwYXRoIGQ9Ik0uNSAwbDAgNDAiIHN0cm9rZT0icmdiYSgwLDAsMCwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIiAvPgo8L3N2Zz4=')] opacity-50"></div>
+            </div>
 
-            <div className="container mx-auto px-1 sm:px-6 lg:px-8 max-w-5xl relative z-10">
+            <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
-                <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-20 px-4">
-                    <h2 className="text-[2rem] sm:text-5xl font-black text-slate-900 leading-[1.1] mb-5 sm:mb-8" dangerouslySetInnerHTML={{ __html: t.benefits.title }} />
-                    <p className="text-slate-500 text-base sm:text-lg font-medium leading-relaxed">
+                <div className={`text-center max-w-3xl mx-auto mb-16 sm:mb-24 transition-all duration-1000 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                    <span className="inline-block text-emerald-600 font-black text-xs uppercase tracking-[0.2em] mb-4">
+                        Benchmark
+                    </span>
+                    <h2
+                        className="text-4xl sm:text-5xl lg:text-7xl font-black text-slate-900 leading-[1.1] mb-8"
+                        dangerouslySetInnerHTML={{ __html: t.benefits.title }}
+                    />
+                    <p className="text-slate-600 text-lg sm:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
                         Der moderne Weg zur Neukunden-Gewinnung. Effizient, transparent und profitabel.
                     </p>
                 </div>
 
-                {/* Optimized Comparison Table */}
-                <div className="relative bg-white sm:border border-slate-200 sm:rounded-2xl overflow-hidden sm:shadow-2xl">
-                    <table className="w-full text-left border-collapse table-fixed">
-                        <thead className="bg-slate-900 text-white">
-                            <tr>
-                                <th className="px-3 py-4 sm:p-6 font-bold text-[10px] sm:text-lg uppercase tracking-wider w-[35%] sm:w-auto">
-                                    Feature
-                                </th>
-                                <th className="px-2 py-4 sm:p-6 font-bold text-center w-[30%] sm:w-48 bg-red-600 text-white text-[9px] sm:text-sm uppercase tracking-[0.1em] sm:tracking-widest border-x border-slate-700/50">
-                                    ALT
-                                </th>
-                                <th className="px-2 py-4 sm:p-6 font-black text-center w-[35%] sm:w-64 bg-green-600 text-white text-[10px] sm:text-lg">
-                                    FERTIGO
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100">
-                            {t.benefits.rows.map((row, i) => (
-                                <tr key={i} className="group hover:bg-slate-50/40 transition-colors">
-                                    {/* Feature Column Optimized Width/Size */}
-                                    <td className="px-3 py-5 sm:p-6">
-                                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                                            <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-lg sm:text-2xl flex-shrink-0 group-hover:scale-105 transition-transform">
-                                                {iconMap[i] || "✨"}
-                                            </div>
-                                            <span className="text-[9px] sm:text-sm font-black text-slate-500 sm:text-slate-800 uppercase tracking-tighter sm:tracking-widest leading-none sm:leading-tight">
-                                                {row.label}
-                                            </span>
-                                        </div>
-                                    </td>
-
-                                    {/* Competition Spalte - Light Red Background */}
-                                    <td className="px-2 py-5 sm:p-6 text-center bg-red-50/50 italic border-x border-slate-100/50">
-                                        <span className="text-[10px] sm:text-base font-medium text-red-500 line-through decoration-red-300 decoration-1">
-                                            {row.before}
+                {/* Glass Comparison Table */}
+                <div className={`relative transition-all duration-1000 delay-300 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+                    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
+                        <table className="w-full text-left border-collapse table-fixed">
+                            <thead>
+                                <tr className="border-b border-slate-100 bg-slate-50">
+                                    <th className="px-4 py-6 sm:p-8 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] text-slate-400 w-[40%] sm:w-auto">
+                                        Fokus-Bereich
+                                    </th>
+                                    <th className="px-4 py-6 sm:p-8 text-center w-[30%] sm:w-56 bg-rose-50 border-l border-slate-100">
+                                        <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-rose-500">
+                                            Handelsüblich
                                         </span>
-                                    </td>
-
-                                    {/* Fertigo Spalte - Light Green Background */}
-                                    <td className="px-2 py-5 sm:p-6 text-center bg-green-50/70 relative">
-                                        <div className="flex items-center justify-center gap-1 sm:gap-2">
-                                            <ColoredSparklesIcon className="w-3 h-3 text-green-500 hidden sm:block flex-shrink-0" />
-                                            <span className="text-[11px] sm:text-lg font-black text-slate-950 group-hover:text-green-700 transition-colors leading-tight">
-                                                {row.after}
-                                            </span>
-                                        </div>
-                                    </td>
+                                    </th>
+                                    <th className="px-4 py-6 sm:p-8 text-center w-[30%] sm:w-72 bg-emerald-50 border-l border-slate-100 relative overflow-hidden">
+                                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-500"></div>
+                                        <span className="text-[11px] sm:text-lg font-black uppercase tracking-[0.1em] text-emerald-600">
+                                            FERTIGO
+                                        </span>
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100">
+                                {t.benefits.rows.map((row, i) => (
+                                    <tr key={i} className="group hover:bg-slate-50 transition-colors">
+                                        {/* Feature Label */}
+                                        <td className="px-4 py-6 sm:p-8">
+                                            <div className="flex items-center gap-4 sm:gap-6">
+                                                <div className="flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-xl sm:text-3xl shadow-sm group-hover:scale-110 transition-transform duration-500">
+                                                    {iconMap[i] || "✨"}
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="text-xs sm:text-sm font-black text-slate-800 uppercase tracking-widest group-hover:text-emerald-600 transition-colors">
+                                                        {row.label}
+                                                    </span>
+                                                    <div className="h-0.5 w-0 group-hover:w-full bg-emerald-500 transition-all duration-700 mt-1"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        {/* OLD WAY */}
+                                        <td className="px-4 py-6 sm:p-8 text-center bg-rose-50/30 italic align-middle border-l border-slate-100">
+                                            <span className="text-xs sm:text-base font-medium text-slate-500 line-through decoration-rose-300">
+                                                {row.before}
+                                            </span>
+                                        </td>
+
+                                        {/* FERTIGO WAY */}
+                                        <td className="px-4 py-6 sm:p-8 text-center bg-emerald-50/50 align-middle border-l border-slate-100 relative">
+                                            <div className="flex items-center justify-center gap-2">
+                                                <span className="text-[13px] sm:text-xl font-black text-slate-900 group-hover:text-emerald-700 transition-colors tracking-tight">
+                                                    {row.after}
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                {/* Revolutionary New USP Section */}
-                <div className="mt-16 sm:mt-24">
-                    <div className="flex flex-wrap justify-center gap-4 sm:gap-6 px-2">
+                {/* Highlights / Badges Row */}
+                <div className={`mt-20 sm:mt-32 transition-all duration-1000 delay-500 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                    <div className="flex flex-wrap justify-center gap-4 sm:gap-8">
                         {[
-                            { label: "Kein Abo", icon: "🛡️", color: "from-blue-500/10 to-indigo-500/10", text: "text-blue-700", border: "border-blue-100" },
-                            { label: "0% Provision", icon: "💰", color: "from-emerald-500/10 to-green-500/10", text: "text-emerald-700", border: "border-emerald-100" },
-                            { label: "Sofort Leads", icon: "⚡", color: "from-amber-500/10 to-orange-500/10", text: "text-amber-700", border: "border-amber-100" },
-                            { label: "Swiss Made", icon: "🇨🇭", color: "from-red-500/10 to-rose-500/10", text: "text-rose-700", border: "border-rose-100" }
+                            { label: "Kein Abo", icon: "🛡️", color: "from-blue-50 to-indigo-50", border: "border-blue-100", text: "text-blue-700" },
+                            { label: "0% Provision", icon: "💰", color: "from-emerald-50 to-teal-50", border: "border-emerald-100", text: "text-emerald-700" },
+                            { label: "Sofort Leads", icon: "⚡", color: "from-amber-50 to-orange-50", border: "border-amber-100", text: "text-amber-700" },
+                            { label: "Swiss Made", icon: "🇨🇭", color: "from-red-50 to-rose-50", border: "border-red-100", text: "text-red-700" }
                         ].map((item, i) => (
                             <div
                                 key={i}
-                                className={`flex items-center gap-3 px-5 py-3 rounded-full bg-gradient-to-br ${item.color} ${item.border} border backdrop-blur-md shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group`}
+                                className={`flex items-center gap-4 px-6 py-4 rounded-2xl bg-gradient-to-br ${item.color} border ${item.border} shadow-sm hover:scale-105 transition-transform duration-500 group`}
                             >
-                                <span className="text-xl sm:text-2xl group-hover:scale-110 transition-transform duration-300">
-                                    {item.icon}
+                                <span className="text-2xl sm:text-3xl group-hover:rotate-12 transition-transform">{item.icon}</span>
+                                <span className={`text-xs sm:text-sm font-black uppercase tracking-[0.2em] ${item.text}`}>
+                                    {item.label}
                                 </span>
-                                <div className="flex flex-col">
-                                    <span className={`text-[11px] sm:text-sm font-black uppercase tracking-wider ${item.text}`}>
-                                        {item.label}
-                                    </span>
-                                    <div className={`h-0.5 w-0 group-hover:w-full transition-all duration-500 bg-current opacity-30 mt-0.5`} />
-                                </div>
                             </div>
                         ))}
                     </div>
 
-                    {/* Subtle Trust Line */}
-                    <div className="mt-10 flex items-center justify-center gap-4 opacity-40">
-                        <div className="h-px w-12 bg-slate-300" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Trusted by 2'500+ Partners</span>
-                        <div className="h-px w-12 bg-slate-300" />
+                    {/* Trust Footer */}
+                    <div className="mt-16 flex items-center justify-center gap-6 opacity-30">
+                        <div className="h-px w-20 bg-gradient-to-r from-transparent to-slate-200" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">Trusted by 5k+ Partners</span>
+                        <div className="h-px w-20 bg-gradient-to-l from-transparent to-slate-200" />
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
-import { UsersIcon, BanknotesIcon, ArrowTrendingUpIcon, TagIcon, ChartBarIcon } from '../components/icons';
+import { UsersIcon, BanknotesIcon, ArrowTrendingUpIcon, TagIcon, ChartBarIcon, ColoredSparklesIcon } from '../components/icons';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -213,13 +213,15 @@ const AdminDashboardPage: React.FC = () => {
     const [kpiData, setKpiData] = useState<any[]>([]);
     const [categoryData, setCategoryData] = useState<CategoryData[]>([]);
     const [revenueData, setRevenueData] = useState<RevenueMonthData[]>([]);
+    const [recentActivity, setRecentActivity] = useState<{ leadPurchases: any[], registrations: any[] }>({ leadPurchases: [], registrations: [] });
 
     const fetchStats = async () => {
         try {
             setLoading(true);
             setError(null);
 
-            const token = localStorage.getItem('adminToken');
+            const storedAdmin = localStorage.getItem('fertigo_admin');
+            const token = storedAdmin ? JSON.parse(storedAdmin).token : null;
             const response = await fetch(`${API_URL}/api/admin/stats`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -234,7 +236,7 @@ const AdminDashboardPage: React.FC = () => {
             const data = await response.json();
 
             // Build KPI cards from real data
-            const { kpi, categoryData: cats, revenueByMonth } = data;
+            const { kpi, categoryData: cats, revenueByMonth, recentActivity: activities } = data;
 
             const formatNum = (n: number) => n.toLocaleString('de-CH');
             const formatCHF = (n: number) => `CHF ${n.toLocaleString('de-CH', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
@@ -281,6 +283,7 @@ const AdminDashboardPage: React.FC = () => {
             setKpiData(kpis);
             setCategoryData(cats || []);
             setRevenueData(revenueByMonth || []);
+            setRecentActivity(activities || { leadPurchases: [], registrations: [] });
             setLastUpdated(new Date());
         } catch (err: any) {
             console.error('Failed to fetch stats:', err);
@@ -293,8 +296,8 @@ const AdminDashboardPage: React.FC = () => {
     useEffect(() => {
         fetchStats();
 
-        // Auto-refresh every 60 seconds
-        const intervalId = setInterval(fetchStats, 60 * 1000);
+        // Auto-refresh every 15 seconds for "Real-time" feel
+        const intervalId = setInterval(fetchStats, 15 * 1000);
         return () => clearInterval(intervalId);
     }, []);
 
@@ -309,8 +312,16 @@ const AdminDashboardPage: React.FC = () => {
                         <div>
                             <h2 className="text-2xl font-bold text-slate-800">Willkommen zurück, Admin!</h2>
                             <p className="text-slate-500 mt-1">
-                                {loading ? 'Lade Echtzeit-Daten...' : (
-                                    <>Letzte Aktualisierung: {lastUpdated.toLocaleTimeString('de-CH')} &middot; <span className="text-green-600 font-medium">● Live-Daten</span></>
+                                {loading ? (
+                                    <span className="flex items-center gap-2">
+                                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-pulse"></div>
+                                        Lade Echtzeit-Daten...
+                                    </span>
+                                ) : (
+                                    <span className="flex items-center gap-2">
+                                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+                                        Letzte Aktualisierung: {lastUpdated.toLocaleTimeString('de-CH')} &middot; <span className="text-green-600 font-medium tracking-tight">Echtzeit-Daten aktiv</span>
+                                    </span>
                                 )}
                             </p>
                         </div>
@@ -330,16 +341,88 @@ const AdminDashboardPage: React.FC = () => {
 
                         {/* KPI Cards */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {loading ? (
+                            {loading && kpiData.length === 0 ? (
                                 Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
                             ) : (
                                 kpiData.map(item => <KpiCard key={item.label} {...item} />)
                             )}
                         </div>
 
-                        {/* Lower Grid */}
+                        {/* Middle Activity Section */}
                         {!loading && (
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                                {/* Recent Activity */}
+                                <div className="xl:col-span-2 bg-white rounded-xl border border-slate-200/80 shadow-lg overflow-hidden">
+                                    <div className="p-6 border-b border-slate-200/80 bg-slate-50/50 flex justify-between items-center">
+                                        <h2 className="text-lg font-bold text-slate-800 flex items-center gap-3">
+                                            <ColoredSparklesIcon className="w-5 h-5 text-amber-500" />
+                                            <span>Aktuelle Lead-Verkäufe (Live)</span>
+                                        </h2>
+                                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Echtzeit</span>
+                                    </div>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-left">
+                                            <thead>
+                                                <tr className="bg-slate-50/30 text-slate-400 text-[10px] font-black uppercase tracking-widest">
+                                                    <th className="px-6 py-4">Zeit</th>
+                                                    <th className="px-6 py-4">Partner</th>
+                                                    <th className="px-6 py-4">Lead</th>
+                                                    <th className="px-6 py-4 text-right">Umsatz</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-100 text-sm">
+                                                {recentActivity.leadPurchases.length > 0 ? (
+                                                    recentActivity.leadPurchases.map((t, i) => (
+                                                        <tr key={t.id || i} className="hover:bg-slate-50/80 transition-colors animate-fade-in group">
+                                                            <td className="px-6 py-4 font-bold text-slate-400">{t.timeLabel}</td>
+                                                            <td className="px-6 py-4 font-bold text-slate-700 group-hover:text-primary-700">{t.partnerName}</td>
+                                                            <td className="px-6 py-4 text-slate-500 font-medium truncate max-w-[200px]">{t.description}</td>
+                                                            <td className="px-6 py-4 text-right">
+                                                                <span className="bg-green-50 text-green-700 px-3 py-1 rounded-full font-black text-xs">
+                                                                    CHF {Math.abs(t.amount).toLocaleString('de-CH')}
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan={4} className="px-6 py-12 text-center text-slate-300 italic">Keine aktuellen Verkäufe</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* Recent Registrations Short Feed */}
+                                <div className="bg-white rounded-xl border border-slate-200/80 shadow-lg flex flex-col">
+                                    <div className="p-6 border-b border-slate-200/80 bg-slate-50/50">
+                                        <h2 className="text-lg font-bold text-slate-800 flex items-center gap-3">
+                                            <UsersIcon className="w-5 h-5 text-primary-600" />
+                                            <span>Neue Partnerschaften</span>
+                                        </h2>
+                                    </div>
+                                    <div className="p-6 flex-1 space-y-4">
+                                        {recentActivity.registrations.map((p, i) => (
+                                            <div key={p.id || i} className="flex items-center gap-4 text-sm animate-fade-in">
+                                                <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold text-xs ring-4 ring-primary-50">
+                                                    {p.companyName.charAt(0)}
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="font-bold text-slate-800 truncate">{p.companyName}</div>
+                                                    <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{p.timeLabel} &middot; {p.status}</div>
+                                                </div>
+                                                <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Lower Charts Grid */}
+                        {!loading && (
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pb-12">
                                 <RevenueChart data={revenueData} />
                                 <RequestsByCategoryChart data={categoryData} />
                             </div>

@@ -79,7 +79,7 @@ connectDB();
 // Routes with specific limiters
 app.use('/api', apiRoutes);
 app.use('/api/auth', authLimiter, authRoutes);
-app.use('/api/admin', authLimiter, adminRoutes);
+app.use('/api/admin', generalLimiter, adminRoutes);
 app.use('/api/customer', authLimiter, customerRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/email', emailLimiter, emailRoutes);

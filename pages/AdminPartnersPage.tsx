@@ -186,7 +186,8 @@ const AdminPartnersPage: React.FC = () => {
         try {
             setLoading(true);
             setError(null);
-            const token = localStorage.getItem('adminToken');
+            const storedAdmin = localStorage.getItem('fertigo_admin');
+            const token = storedAdmin ? JSON.parse(storedAdmin).token : null;
             const response = await fetch(`${API_URL}/api/admin/partners`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -207,7 +208,8 @@ const AdminPartnersPage: React.FC = () => {
     const handleDeletePartner = async (partnerId: string) => {
         if (!confirm('Sind Sie sicher, dass Sie diesen Partner löschen möchten?')) return;
         try {
-            const token = localStorage.getItem('adminToken');
+            const storedAdmin = localStorage.getItem('fertigo_admin');
+            const token = storedAdmin ? JSON.parse(storedAdmin).token : null;
             const response = await fetch(`${API_URL}/api/admin/partners/${partnerId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }

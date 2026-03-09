@@ -79,14 +79,10 @@ const ContactPage: React.FC = () => {
     return (
         <div className="bg-slate-50 min-h-screen">
             {/* Hero Header */}
-            <div className="bg-slate-900 py-12 sm:py-24">
+            <div className="bg-slate-900 py-10 sm:py-24">
                 <div className="container mx-auto px-6 max-w-6xl">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <div>
-                            <span className="inline-flex items-center gap-2 bg-green-500/10 text-green-400 text-sm font-medium px-4 py-2 rounded-full mb-6">
-                                <span>💬</span>
-                                <span>{t.weAreHere}</span>
-                            </span>
                             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
                                 {t.heroTitlePart1}<br />
                                 <span className="text-primary-400">
@@ -96,30 +92,6 @@ const ContactPage: React.FC = () => {
                             <p className="text-slate-400 text-base sm:text-lg mb-8">
                                 {t.subtitle}
                             </p>
-
-                            {/* Mobile Contact Info Cards (Hidden on Desktop) */}
-                            <div className="grid grid-cols-1 gap-4 lg:hidden mb-8">
-                                <div className="bg-slate-800/50 border border-slate-700/50 p-4 rounded-2xl flex items-center gap-4 backdrop-blur-sm">
-                                    <div className="w-10 h-10 rounded-full bg-primary-500/10 flex items-center justify-center text-primary-400 shrink-0">
-                                        <MailIcon className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-white font-bold text-sm">{t.email}</h3>
-                                        <a href="mailto:support@fertigo.ch" className="text-slate-400 text-sm hover:text-white transition-colors">support@fertigo.ch</a>
-                                    </div>
-                                </div>
-
-                                <div className="bg-slate-800/50 border border-slate-700/50 p-4 rounded-2xl flex items-center gap-4 backdrop-blur-sm">
-                                    <div className="w-10 h-10 rounded-full bg-primary-500/10 flex items-center justify-center text-primary-400 shrink-0">
-                                        <MapPinIcon className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-white font-bold text-sm">{t.address}</h3>
-                                        <p className="text-slate-400 text-sm">Musterstrasse 123<br />8000 Zürich</p>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                         <div className="hidden lg:flex justify-center">
                             <div className="relative">
@@ -137,10 +109,13 @@ const ContactPage: React.FC = () => {
                 </div>
             </div>
 
+            {/* Divider Stripe Top */}
+            <div className="w-full bg-white h-6 sm:h-8 border-y border-slate-300/50"></div>
+
             {/* Form Section */}
-            <div className="container mx-auto px-4 sm:px-6 max-w-4xl -mt-6 sm:-mt-8 relative z-10 pb-20">
-                <div className="bg-white p-5 sm:p-10 rounded-3xl shadow-2xl border border-slate-200">
-                    <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-6">{t.writeMessage}</h2>
+            <div className="container mx-auto px-4 sm:px-6 max-w-4xl mt-10 sm:mt-16 relative z-10 pb-32 sm:pb-40">
+                <div className="bg-white p-6 sm:p-10 rounded-[2rem] sm:rounded-3xl shadow-xl border border-slate-200">
+                    <h2 className="text-2xl font-bold text-slate-800 mb-6">{t.writeMessage}</h2>
                     <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                         <div className="group">
                             <label htmlFor="anrede" className="block mb-1.5 sm:mb-2 text-sm font-semibold sm:font-medium text-slate-700">{t.anrede}</label>
@@ -252,6 +227,9 @@ const ContactPage: React.FC = () => {
                     </form>
                 </div>
             </div>
+
+            {/* Divider Stripe Bottom */}
+            <div className="w-full bg-white h-6 sm:h-8 border-t border-slate-300/50"></div>
         </div>
     );
 };

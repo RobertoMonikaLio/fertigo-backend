@@ -145,7 +145,8 @@ const AdminRequestsPage: React.FC = () => {
         try {
             setLoading(true);
             setError(null);
-            const token = localStorage.getItem('adminToken');
+            const storedAdmin = localStorage.getItem('fertigo_admin');
+            const token = storedAdmin ? JSON.parse(storedAdmin).token : null;
             const response = await fetch(`${API_URL}/api/admin/requests`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -166,7 +167,8 @@ const AdminRequestsPage: React.FC = () => {
     const handleDeleteRequest = async (requestId: string) => {
         if (!confirm('Sind Sie sicher, dass Sie diese Anfrage löschen möchten?')) return;
         try {
-            const token = localStorage.getItem('adminToken');
+            const storedAdmin = localStorage.getItem('fertigo_admin');
+            const token = storedAdmin ? JSON.parse(storedAdmin).token : null;
             const response = await fetch(`${API_URL}/api/admin/requests/${requestId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }

@@ -161,7 +161,8 @@ const AdminFinancePage: React.FC = () => {
         try {
             setLoading(true);
             setError(null);
-            const token = localStorage.getItem('adminToken');
+            const storedAdmin = localStorage.getItem('fertigo_admin');
+            const token = storedAdmin ? JSON.parse(storedAdmin).token : null;
             const response = await fetch(`${API_URL}/api/admin/finance`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });

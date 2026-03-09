@@ -126,6 +126,35 @@ export const getDashboardStats = async (req: Request, res: Response) => {
             ? newPartners30d - newPartnersPrev30d
             : newPartners30d;
 
+        // --- Recent Activity (Real-time) ---
+        const recentLeadPurchasesRaw = await Transaction.find({ type: 'Lead-Kauf' })
+            .sort({ date: -1 })
+            .limit(5)
+            .populate('providerId', 'name companyName')
+            .lean();
+
+        const recentLeadPurchases = recentLeadPurchasesRaw.map((t: any) => ({
+            id: t._id,
+            partnerName: t.providerId?.companyName || t.providerId?.name || 'Unbekannt',
+            description: t.description || 'Lead gekauft',
+            amount: t.amount,
+            date: t.date,
+            timeLabel: new Date(t.date).toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' })
+        }));
+
+        const recentRegistrationsRaw = await Provider.find()
+            .sort({ createdAt: -1 })
+            .limit(5)
+            .lean();
+
+        const recentRegistrations = recentRegistrationsRaw.map((p: any) => ({
+            id: p._id,
+            companyName: p.companyName || 'Interessent',
+            status: p.status || 'Neu',
+            date: p.createdAt,
+            timeLabel: new Date(p.createdAt).toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' })
+        }));
+
         // --- Response ---
         res.json({
             kpi: {
@@ -140,7 +169,11 @@ export const getDashboardStats = async (req: Request, res: Response) => {
                 partnersChange
             },
             categoryData,
-            revenueByMonth
+            revenueByMonth,
+            recentActivity: {
+                leadPurchases: recentLeadPurchases,
+                registrations: recentRegistrations
+            }
         });
 
     } catch (error: any) {

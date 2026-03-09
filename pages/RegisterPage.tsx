@@ -532,7 +532,7 @@ const RegisterPage: React.FC = () => {
                     <p className="font-bold text-slate-500 text-sm">{language === 'de' ? 'Schritt' : language === 'fr' ? 'Étape' : language === 'it' ? 'Passo' : 'Step'} {currentStep} / {STEPS.length}</p>
                 </header>
 
-                <main className="relative z-10 flex-grow overflow-y-auto p-6 pb-28">
+                <main className="relative z-10 flex-grow overflow-y-auto p-6 pb-40">
                     {currentStep === 1 && (
                         <form onSubmit={(e) => { e.preventDefault(); nextStep(); }} className="space-y-6 animate-fade-in">
                             <h1 className="text-3xl font-bold">{t.steps.company}</h1>
@@ -657,12 +657,11 @@ const RegisterPage: React.FC = () => {
                     )}
                 </main>
 
-                <div className="flex justify-between items-center pt-6 mt-auto">
-                    <button type="button" onClick={prevStep} className="font-bold text-slate-700 hover:text-slate-900 px-5 py-3 rounded-lg"><ArrowLeftIcon className="w-5 h-5 flex-shrink-0" /></button>
+                <div className="fixed bottom-0 left-0 right-0 p-6 pb-10 bg-slate-50/95 backdrop-blur-sm border-t border-slate-200 z-20">
                     <button
                         onClick={handleSubmit}
                         disabled={formState === 'loading'}
-                        className="flex-1 bg-primary-600 text-white font-bold h-14 rounded-xl hover:bg-primary-700 flex items-center justify-center gap-3 disabled:grayscale transition-all active:scale-95"
+                        className="w-full bg-primary-600 text-white font-bold h-14 rounded-xl hover:bg-primary-700 flex items-center justify-center gap-3 disabled:grayscale transition-all active:scale-95"
                     >
                         {formState === 'loading' ? (
                             <SpinnerIcon className="w-6 h-6 animate-spin" />

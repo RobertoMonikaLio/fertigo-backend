@@ -65,40 +65,15 @@ const navLinks = [
     { name: 'Einstellungen', icon: SettingsIcon, href: '/partner/settings' },
 ];
 
-interface Notification {
-    id: string;
-    title: string;
-    body: string;
-    time: string;
-    read: boolean;
-    type: 'lead' | 'system' | 'billing';
-}
 
-const INITIAL_NOTIFICATIONS: Notification[] = [
-    { id: '1', title: 'Neuer Lead verfügbar', body: 'Umzug in Zürich · CHF 180', time: 'Vor 5 Min.', read: false, type: 'lead' },
-    { id: '2', title: 'Lead gekauft', body: 'Reinigung in Luzern wurde Ihrem Portfolio hinzugefügt', time: 'Vor 1 Std.', read: false, type: 'lead' },
-    { id: '3', title: 'Guthaben aufgeladen', body: 'CHF 200 wurden Ihrem Konto gutgeschrieben', time: 'Gestern', read: true, type: 'billing' },
-    { id: '4', title: 'System-Update', body: 'Neue Funktionen im Lead-Marktplatz verfügbar', time: 'Vor 2 Tagen', read: true, type: 'system' },
-];
 
 
 const PartnerHeader: React.FC = () => {
     const location = useLocation();
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isNotifOpen, setIsNotifOpen] = useState(false);
     const [provider, setProvider] = useState<Provider | null>(null);
-    const [notifications, setNotifications] = useState<Notification[]>(INITIAL_NOTIFICATIONS);
     const userMenuRef = useRef<HTMLDivElement>(null);
-    const notifRef = useRef<HTMLDivElement>(null);
-
-    const unreadCount = notifications.filter(n => !n.read).length;
-    const markAllRead = () => setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-    const markRead = (id: string) => setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
-    const notifTypeStyle = (type: Notification['type']) =>
-        type === 'lead' ? 'bg-primary-100 text-primary-600' : type === 'billing' ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-500';
-    const notifTypeIcon = (type: Notification['type']) =>
-        type === 'lead' ? <TagIcon className="w-3.5 h-3.5" /> : type === 'billing' ? <BanknotesIcon className="w-3.5 h-3.5" /> : <BellIcon className="w-3.5 h-3.5" />;
 
     const fetchProviderData = async () => {
         try {
@@ -143,7 +118,6 @@ const PartnerHeader: React.FC = () => {
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) setIsUserMenuOpen(false);
-            if (notifRef.current && !notifRef.current.contains(event.target as Node)) setIsNotifOpen(false);
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -252,65 +226,7 @@ const PartnerHeader: React.FC = () => {
                             </div>
                         </Link>
 
-                        {/* Notification Bell */}
-                        <div className="relative hidden lg:block" ref={notifRef}>
-                            <button
-                                onClick={() => { setIsNotifOpen(prev => !prev); setIsUserMenuOpen(false); }}
-                                className="relative flex items-center justify-center w-9 h-9 rounded-full hover:bg-slate-100 transition-colors"
-                                title="Benachrichtigungen"
-                            >
-                                <BellIcon className="w-5 h-5 text-slate-500" />
-                                {unreadCount > 0 && (
-                                    <span className="absolute top-0.5 right-0.5 w-4 h-4 bg-primary-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none">
-                                        {unreadCount}
-                                    </span>
-                                )}
-                            </button>
 
-                            {isNotifOpen && (
-                                <div className="absolute top-full right-0 mt-2 w-96 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 overflow-hidden animate-fade-in">
-                                    <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
-                                        <div className="flex items-center gap-2">
-                                            <BellIcon className="w-4 h-4 text-slate-700" />
-                                            <span className="font-bold text-slate-900 text-sm">Benachrichtigungen</span>
-                                            {unreadCount > 0 && (
-                                                <span className="bg-primary-100 text-primary-700 text-xs font-bold px-2 py-0.5 rounded-full">{unreadCount} neu</span>
-                                            )}
-                                        </div>
-                                        {unreadCount > 0 && (
-                                            <button onClick={markAllRead} className="text-xs font-semibold text-primary-600 hover:text-primary-800 transition-colors flex items-center gap-1">
-                                                <CheckCircleIcon className="w-3.5 h-3.5" />
-                                                Alle gelesen
-                                            </button>
-                                        )}
-                                    </div>
-                                    <div className="divide-y divide-slate-50 max-h-80 overflow-y-auto">
-                                        {notifications.map(n => (
-                                            <button key={n.id} onClick={() => markRead(n.id)}
-                                                className={`w-full flex items-start gap-3 px-5 py-3.5 text-left hover:bg-slate-50 transition-colors ${n.read ? 'opacity-60' : ''}`}
-                                            >
-                                                <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${notifTypeStyle(n.type)}`}>
-                                                    {notifTypeIcon(n.type)}
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="flex items-center gap-2">
-                                                        <p className="text-sm font-semibold text-slate-800 truncate">{n.title}</p>
-                                                        {!n.read && <span className="w-2 h-2 rounded-full bg-primary-500 flex-shrink-0" />}
-                                                    </div>
-                                                    <p className="text-xs text-slate-500 mt-0.5 truncate">{n.body}</p>
-                                                    <p className="text-[10px] text-slate-400 mt-1 font-medium">{n.time}</p>
-                                                </div>
-                                            </button>
-                                        ))}
-                                    </div>
-                                    <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/50">
-                                        <Link to="/partner/requests" onClick={() => setIsNotifOpen(false)} className="text-xs font-semibold text-primary-600 hover:text-primary-800 transition-colors">
-                                            Alle Leads ansehen →
-                                        </Link>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
 
                         <div className="relative" ref={userMenuRef}>
                             <button onClick={() => setIsUserMenuOpen(prev => !prev)} className="flex items-center gap-2 p-1 rounded-full hover:bg-slate-100 transition-colors">
