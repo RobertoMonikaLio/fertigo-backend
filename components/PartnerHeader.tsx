@@ -60,7 +60,6 @@ const SettingsIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 const navLinks = [
     { name: 'Lead-Marktplatz', icon: MarketplaceIcon, href: '/partner/requests' },
-    { name: 'Nachrichten', icon: ChatBubbleLeftRightIcon, href: '/partner/messages' },
     { name: 'Kunden', icon: CustomersIcon, href: '/partner/customers' },
     { name: 'Tools', icon: ToolsIcon, href: '/partner/tools' },
     { name: 'Einstellungen', icon: SettingsIcon, href: '/partner/settings' },
