@@ -265,6 +265,86 @@ const VerificationFileUploader: React.FC<{
     );
 };
 
+const SuccessView: React.FC<{ isMobile?: boolean, t: any, language: string }> = ({ isMobile, t, language }) => {
+    return (
+        <div className={`min-h-screen ${isMobile ? 'bg-white' : 'bg-slate-50'} flex items-center justify-center p-6 sm:p-12 overflow-hidden`}>
+            <div className="max-w-2xl w-full text-center relative z-10">
+                {/* Animated Party / Success Aura */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] aspect-square bg-emerald-100/50 rounded-full blur-[120px] -z-10 animate-pulse"></div>
+
+                {/* Main Icon Celebration */}
+                <div className="relative inline-block mb-12">
+                    <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-2xl animate-ping opacity-30"></div>
+                    <div className="w-40 h-40 bg-white border-8 border-emerald-500/10 rounded-[3rem] shadow-2xl flex items-center justify-center relative animate-bounce-slow">
+                        <div className="absolute -top-4 -right-4 w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-xl animate-fade-in delay-500">
+                            <SparklesIcon className="w-7 h-7" />
+                        </div>
+                        <CheckCircleIcon className="w-24 h-24 text-emerald-500 animate-fade-in" />
+                    </div>
+                </div>
+
+                {/* Celebration Text Stack */}
+                <div className="space-y-6 animate-fade-in-up">
+                    <div className="flex justify-center">
+                        <span className="px-4 py-1.5 bg-emerald-50 border border-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-[0.4em] rounded-full shadow-sm">
+                            {language === 'de' ? 'Registrierung Erfolgreich' : language === 'fr' ? 'Inscription Réussie' : language === 'it' ? 'Registrazione Completata' : 'Registration Successful'}
+                        </span>
+                    </div>
+                    <h1 className="text-5xl sm:text-7xl font-black text-slate-900 tracking-tight leading-tight italic">
+                        {language === 'de' ? 'Herzlich willkommen an Bord!' : 'Welcome on Board!'}
+                    </h1>
+                    <p className="max-w-md mx-auto text-lg text-slate-500 font-medium leading-relaxed">
+                        {t.form.successDesc}
+                    </p>
+                </div>
+
+                {/* Action Footer */}
+                <div className="mt-16 animate-fade-in-up delay-[400ms]">
+                    <Link
+                        to="/partner/requests"
+                        className="inline-flex items-center gap-4 bg-slate-900 text-white text-xl font-black px-12 py-5 rounded-[1.5rem] shadow-2xl hover:bg-black hover:-translate-y-1 active:scale-95 transition-all group lg:min-w-[320px] justify-center"
+                    >
+                        <span>{t.form.dashboardLink}</span>
+                        <ArrowRightIcon className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
+                    </Link>
+
+                    <div className="mt-12 flex justify-center gap-8">
+                        <div className="flex items-center gap-2 text-slate-400 font-bold text-xs uppercase tracking-widest">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                            Live Profil
+                        </div>
+                        <div className="flex items-center gap-2 text-slate-400 font-bold text-xs uppercase tracking-widest">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                            Sofort Startklar
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const MobileInputField = ({ id, name, label, type = 'text', placeholder, value, onChange, required = false, icon, error, children, disabled = false, showToggle = false, isPasswordVisible = false, onToggleVisibility = null }: any) => (
+    <div>
+        <label htmlFor={id} className="block text-sm font-medium mb-1.5 text-slate-700">{label}{required && <span className="text-red-400 ml-1">*</span>}</label>
+        <div className="relative">
+            {icon && <div className="h-5 w-5 text-slate-400 pointer-events-none absolute inset-y-0 left-4 flex items-center">{icon}</div>}
+            {children ? children : (
+                <input type={type} name={name} id={id}
+                    className={`w-full h-14 rounded-xl border-2 bg-white ${icon ? 'pl-12' : 'px-4'} ${showToggle ? 'pr-12' : 'pr-4'} text-slate-900 placeholder-slate-500 font-medium outline-none transition-all ${error ? 'border-red-500' : 'border-slate-300 focus:border-primary-500'}`}
+                    placeholder={placeholder} value={value} onChange={onChange} required={required} disabled={disabled}
+                />
+            )}
+            {showToggle && onToggleVisibility && (
+                <button type="button" onClick={onToggleVisibility} className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600">
+                    {isPasswordVisible ? <EyeSlashIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
+                </button>
+            )}
+        </div>
+        {error && <p role="alert" className="mt-1 text-xs flex items-center gap-1 text-red-600"><ExclamationTriangleIcon className="w-3 h-3" /> {error}</p>}
+    </div>
+);
+
 const RegisterPage: React.FC = () => {
     const { language } = useAppContext();
     const t = (translations[language] as any).partner?.register || (translations['de'] as any).partner.register;
@@ -428,94 +508,16 @@ const RegisterPage: React.FC = () => {
                 setFormState('idle');
             }
         }
-    }
-
-    const SuccessView: React.FC<{ isMobile?: boolean }> = ({ isMobile }) => {
-        return (
-            <div className={`min-h-screen ${isMobile ? 'bg-white' : 'bg-slate-50'} flex items-center justify-center p-6 sm:p-12 overflow-hidden`}>
-                <div className="max-w-2xl w-full text-center relative z-10">
-                    {/* Animated Party / Success Aura */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] aspect-square bg-emerald-100/50 rounded-full blur-[120px] -z-10 animate-pulse"></div>
-
-                    {/* Main Icon Celebration */}
-                    <div className="relative inline-block mb-12">
-                        <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-2xl animate-ping opacity-30"></div>
-                        <div className="w-40 h-40 bg-white border-8 border-emerald-500/10 rounded-[3rem] shadow-2xl flex items-center justify-center relative animate-bounce-slow">
-                            <div className="absolute -top-4 -right-4 w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-xl animate-fade-in delay-500">
-                                <SparklesIcon className="w-7 h-7" />
-                            </div>
-                            <CheckCircleIcon className="w-24 h-24 text-emerald-500 animate-fade-in" />
-                        </div>
-                    </div>
-
-                    {/* Celebration Text Stack */}
-                    <div className="space-y-6 animate-fade-in-up">
-                        <div className="flex justify-center">
-                            <span className="px-4 py-1.5 bg-emerald-50 border border-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-[0.4em] rounded-full shadow-sm">
-                                {language === 'de' ? 'Registrierung Erfolgreich' : language === 'fr' ? 'Inscription Réussie' : language === 'it' ? 'Registrazione Completata' : 'Registration Successful'}
-                            </span>
-                        </div>
-                        <h1 className="text-5xl sm:text-7xl font-black text-slate-900 tracking-tight leading-tight italic">
-                            {language === 'de' ? 'Herzlich willkommen an Bord!' : 'Welcome on Board!'}
-                        </h1>
-                        <p className="max-w-md mx-auto text-lg text-slate-500 font-medium leading-relaxed">
-                            {t.form.successDesc}
-                        </p>
-                    </div>
-
-                    {/* Action Footer */}
-                    <div className="mt-16 animate-fade-in-up delay-[400ms]">
-                        <Link
-                            to="/partner/requests"
-                            className="inline-flex items-center gap-4 bg-slate-900 text-white text-xl font-black px-12 py-5 rounded-[1.5rem] shadow-2xl hover:bg-black hover:-translate-y-1 active:scale-95 transition-all group lg:min-w-[320px] justify-center"
-                        >
-                            <span>{t.form.dashboardLink}</span>
-                            <ArrowRightIcon className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
-                        </Link>
-
-                        <div className="mt-12 flex justify-center gap-8">
-                            <div className="flex items-center gap-2 text-slate-400 font-bold text-xs uppercase tracking-widest">
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
-                                Live Profil
-                            </div>
-                            <div className="flex items-center gap-2 text-slate-400 font-bold text-xs uppercase tracking-widest">
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
-                                Sofort Startklar
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
     };
 
     if (formState === 'success') {
         return (
             <>
-                <div className="lg:hidden"><SuccessView isMobile /></div>
-                <div className="hidden lg:block min-h-screen bg-slate-100"><SuccessView /></div>
+                <div className="lg:hidden"><SuccessView isMobile t={t} language={language} /></div>
+                <div className="hidden lg:block min-h-screen bg-slate-100"><SuccessView t={t} language={language} /></div>
             </>
         );
     }
-
-    const MobileInputField = ({ id, name, label, type = 'text', placeholder, value, onChange, required = false, icon, error, children, disabled = false }: any) => (
-        <div>
-            {/* Fix: Removed redundant ternary check for `isMobile` which was causing an error because it was undefined. The classes were identical anyway. */}
-            <label htmlFor={id} className="block text-sm font-medium mb-1.5 text-slate-700">{label}{required && <span className="text-red-400 ml-1">*</span>}</label>
-            <div className="relative">
-                {icon && <div className="h-5 w-5 text-slate-400 pointer-events-none absolute inset-y-0 left-4 flex items-center">{icon}</div>}
-                {children ? children : (
-                    <input type={type} name={name} id={id}
-                        className={`w-full h-14 rounded-xl border-2 bg-white ${icon ? 'pl-12' : 'px-4'} pr-4 text-slate-900 placeholder-slate-500 font-medium outline-none transition-all ${error ? 'border-red-500' : 'border-slate-300 focus:border-primary-500'}`}
-                        placeholder={placeholder} value={value} onChange={onChange} required={required} disabled={disabled}
-                    />
-                )}
-            </div>
-            {/* Fix: Removed redundant ternary check for `isMobile` which was causing an error because it was undefined. The classes were identical anyway. */}
-            {error && <p role="alert" className="mt-1 text-xs flex items-center gap-1 text-red-600"><ExclamationTriangleIcon className="w-3 h-3" />{error}</p>}
-        </div>
-    );
-
 
     return (
         <>
@@ -569,8 +571,8 @@ const RegisterPage: React.FC = () => {
                             </div>
                             <MobileInputField isMobile id="position-mobile" label={t.form.position} required value={position} onChange={e => setPosition(e.target.value)} error={errors.position} placeholder={t.form.positionPlaceholder} />
                             <MobileInputField isMobile id="email-mobile" label={t.form.email} required value={email} onChange={e => setEmail(e.target.value)} error={errors.email} type="email" />
-                            <MobileInputField isMobile id="password-mobile" label={t.form.password} required value={password} onChange={e => setPassword(e.target.value)} error={errors.password} type={isPasswordVisible ? 'text' : 'password'} />
-                            <MobileInputField isMobile id="passwordConfirm-mobile" label={t.form.passwordConfirm} required value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)} error={errors.passwordConfirm} type="password" />
+                            <MobileInputField id="password-mobile" label={t.form.password} required value={password} onChange={(e: any) => setPassword(e.target.value)} error={errors.password} type={isPasswordVisible ? 'text' : 'password'} showToggle onToggleVisibility={() => setIsPasswordVisible(!isPasswordVisible)} isPasswordVisible={isPasswordVisible} />
+                            <MobileInputField id="passwordConfirm-mobile" label={t.form.passwordConfirm} required value={passwordConfirm} onChange={(e: any) => setPasswordConfirm(e.target.value)} error={errors.passwordConfirm} type="password" />
                         </form>
                     )}
                     {currentStep === 3 && (
@@ -655,28 +657,23 @@ const RegisterPage: React.FC = () => {
                     )}
                 </main>
 
-                <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-sm border-t border-slate-200 z-20">
-                    <div className="flex items-center gap-4">
-                        {currentStep > 1 && <button onClick={prevStep} className="font-bold text-slate-700 hover:text-slate-900 px-5 py-3 rounded-lg"><ArrowLeftIcon className="w-5 h-5" /></button>}
-                        {currentStep < 3 && <button onClick={nextStep} className="flex-1 bg-primary-600 text-white font-bold py-3.5 rounded-lg hover:bg-primary-700">{t.form.next}</button>}
-                        {currentStep === 3 && (
-                            <button
-                                onClick={handleSubmit}
-                                disabled={formState === 'loading'}
-                                className="flex-1 bg-primary-600 text-white font-bold py-3.5 rounded-lg hover:bg-primary-700 flex items-center justify-center gap-3 disabled:grayscale transition-all active:scale-95"
-                            >
-                                {formState === 'loading' ? (
-                                    <SpinnerIcon className="w-5 h-5 animate-spin" />
-                                ) : (
-                                    <>
-                                        <span>{t.form.submit}</span>
-                                        <ArrowRightIcon className="w-5 h-5" />
-                                    </>
-                                )}
-                            </button>
+                <div className="flex justify-between items-center pt-6 mt-auto">
+                    <button type="button" onClick={prevStep} className="font-bold text-slate-700 hover:text-slate-900 px-5 py-3 rounded-lg"><ArrowLeftIcon className="w-5 h-5 flex-shrink-0" /></button>
+                    <button
+                        onClick={handleSubmit}
+                        disabled={formState === 'loading'}
+                        className="flex-1 bg-primary-600 text-white font-bold h-14 rounded-xl hover:bg-primary-700 flex items-center justify-center gap-3 disabled:grayscale transition-all active:scale-95"
+                    >
+                        {formState === 'loading' ? (
+                            <SpinnerIcon className="w-6 h-6 animate-spin" />
+                        ) : (
+                            <>
+                                <span>{t.form.submit}</span>
+                                <ArrowRightIcon className="w-5 h-5" />
+                            </>
                         )}
-                    </div>
-                </footer>
+                    </button>
+                </div>
             </div>
 
             {/* --- DESKTOP VIEW --- */}

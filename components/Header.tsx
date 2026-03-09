@@ -10,10 +10,10 @@ import {
     SpanishFlagIcon, PortugueseFlagIcon, DutchFlagIcon, PolishFlagIcon, TurkishFlagIcon,
     RussianFlagIcon, Bars3Icon, XMarkIcon, ShieldCheckIcon,
     PhoneIcon, CheckCircleIcon, ArrowRightIcon,
-    BriefcaseIcon, UserIcon,
+    BriefcaseIcon, UserIcon, HandshakeIcon, StarIcon,
     ColoredHomeModernIcon, ColoredSquares2X2Icon, ColoredBuildingOffice2Icon,
     ColoredBriefcaseIcon, ColoredLightbulbIcon, ColoredUserIcon,
-    ColoredBuildingStorefrontIcon, ColoredMailIcon, ColoredToolboxIcon, ColoredUsersIcon,
+    ColoredBuildingStorefrontIcon, ColoredMailIcon, ColoredToolboxIcon, ColoredUsersIcon, ColoredShieldCheckIcon, ColoredStarIcon,
     HomeModernIcon, Squares2X2Icon, LightbulbIcon, BuildingStorefrontIcon, EnvelopeIcon
 } from './icons';
 
@@ -254,154 +254,160 @@ const Header: React.FC = () => {
                 </div>
             </header>
 
-            {/* Premium Mobile Menu Overlay - Glass Morphic Card Stack Redesign */}
+            {/* Premium Mobile Menu Overlay - Redesigned for Maximum Visual Impact */}
             <div
-                className={`fixed inset-0 z-[60] flex flex-col bg-slate-50/95 backdrop-blur-xl text-slate-900 transition-all duration-300 ease-in-out lg:hidden ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
+                className={`fixed inset-0 z-[60] flex flex-col bg-slate-50/98 backdrop-blur-2xl text-slate-900 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] lg:hidden ${isMobileMenuOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-10 invisible pointer-events-none'}`}
                 role="dialog"
                 aria-modal="true"
             >
-                {/* Header */}
-                <div className="relative z-20 flex items-center justify-between px-6 py-5 border-b border-slate-200/50 bg-white/50 backdrop-blur-sm">
-                    <Logo className="h-8 w-auto text-primary-600" />
+                {/* Immersive Background Elements */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-primary-200/20 rounded-full blur-[100px] pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-200/20 rounded-full blur-[120px] pointer-events-none" />
 
-                    <div className="flex items-center gap-3">
+                {/* Mobile Header: Solid White Background */}
+                <div className="relative z-20 flex items-center justify-between px-6 py-6 border-b border-slate-200/60 bg-white">
+                    <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2.5">
+                        <Logo className="h-9 w-auto text-primary-600" />
+                        <span className="font-black text-2xl text-slate-900 tracking-tighter">Fertigo<span className="text-primary-600">.</span></span>
+                    </Link>
+
+                    <div className="flex items-center gap-2">
                         {/* Language Selection */}
                         <div className="relative" ref={mobileLangDropdownRef}>
                             <button
                                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                                className="p-2 rounded-full bg-white border border-slate-200 hover:border-primary-200 shadow-sm transition-all flex items-center justify-center"
+                                className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-200 shadow-sm active:scale-90 transition-transform"
                             >
                                 <CurrentFlagIcon className="w-5 h-5 rounded-sm" />
                             </button>
                             {isLangDropdownOpen && (
-                                <div className="absolute top-full right-0 mt-2 w-40 bg-white text-slate-800 border border-slate-100 rounded-xl shadow-xl z-50 animate-fade-in overflow-hidden">
-                                    {supportedLanguages.map(lang => {
-                                        const FlagIcon = {
-                                            de: GermanFlagIcon,
-                                            fr: FrenchFlagIcon,
-                                            it: ItalianFlagIcon,
-                                            en: EnglishFlagIcon,
-                                            es: SpanishFlagIcon,
-                                            pt: PortugueseFlagIcon,
-                                            nl: DutchFlagIcon,
-                                            pl: PolishFlagIcon,
-                                            tr: TurkishFlagIcon,
-                                            ru: RussianFlagIcon,
-                                        }[lang.code];
-
-                                        return (
-                                            <button
-                                                key={lang.code}
-                                                onClick={() => handleLanguageChange(lang.code)}
-                                                className={`w-full text-left px-4 py-2.5 text-xs font-bold uppercase hover:bg-slate-50 flex items-center gap-3 transition-colors ${language === lang.code ? 'text-primary-600 bg-primary-50' : 'text-slate-500'}`}
-                                            >
-                                                <FlagIcon className="w-4 h-4 rounded-[1px] shadow-sm" />
-                                                <span>{lang.label}</span>
-                                                {language === lang.code && <CheckCircleIcon className="w-3.5 h-3.5 ml-auto text-primary-600" />}
-                                            </button>
-                                        );
-                                    })}
+                                <div className="absolute top-full right-0 mt-3 w-48 bg-white text-slate-800 border border-slate-200 rounded-2xl shadow-2xl z-50 py-1 overflow-hidden animate-fade-in">
+                                    <div className="px-4 py-2 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 mb-1">{t.changeLang}</div>
+                                    {supportedLanguages.map(lang => (
+                                        <button
+                                            key={lang.code}
+                                            onClick={() => handleLanguageChange(lang.code)}
+                                            className={`w-full text-left px-4 py-3 text-xs font-bold uppercase hover:bg-slate-50 flex items-center justify-between transition-colors ${language === lang.code ? 'text-primary-600 bg-primary-50' : 'text-slate-500'}`}
+                                        >
+                                            <span>{lang.label}</span>
+                                            {language === lang.code && <div className="w-1.5 h-1.5 rounded-full bg-primary-600" />}
+                                        </button>
+                                    ))}
                                 </div>
                             )}
                         </div>
 
-                        {/* User/Login */}
+                        {/* Login Button */}
                         <Link
                             to="/login"
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="p-2 rounded-full bg-white border border-slate-200 text-slate-600 hover:text-primary-600 hover:border-primary-200 shadow-sm transition-all"
+                            className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-200 shadow-sm text-slate-600 active:scale-90 transition-transform"
                         >
-                            <ColoredUserIcon className="w-6 h-6" />
+                            <ColoredUserIcon className="w-5 h-5" />
                         </Link>
 
+                        {/* Close Button */}
                         <button
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="p-2 rounded-full bg-white hover:bg-slate-100 transition-all border border-slate-200 shadow-sm"
+                            className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-600 active:scale-90 transition-transform"
                         >
-                            <XMarkIcon className="w-6 h-6 text-slate-500" />
+                            <XMarkIcon className="w-6 h-6" />
                         </button>
                     </div>
                 </div>
 
-                {/* Main Navigation - Floating Cards Stack */}
-                <div className="flex-1 overflow-y-auto px-6 py-8">
-                    <nav className="flex flex-col gap-4">
-                        {mobileNavItems.map((item, index) => (
-                            <NavLink
-                                key={item.to}
-                                to={item.to}
-                                end={item.to === '/'}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className="group block"
-                                style={{ animationDelay: `${index * 50}ms` }}
-                            >
-                                {({ isActive }) => (
-                                    <div className={`
-                                        relative flex items-center p-3.5 rounded-2xl border transition-all duration-300
-                                        ${isActive
-                                            ? 'bg-gradient-to-r from-primary-600 to-emerald-500 border-transparent shadow-lg shadow-primary-500/30 scale-[1.02] translate-x-1'
-                                            : 'bg-white border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200'
-                                        }
-                                    `}>
-                                        {/* Icon Container */}
+                {/* Main Content Area */}
+                <div className="flex-1 overflow-y-auto px-6 py-8 no-scrollbar scroll-smooth">
+                    {/* Primary Navigation - Elegant Card Stack */}
+                    <div className="mb-10">
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-5 ml-1">Menu</p>
+                        <nav className="space-y-3">
+                            {mobileNavItems.map((item, index) => (
+                                <NavLink
+                                    key={item.to}
+                                    to={item.to}
+                                    end={item.to === '/'}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="block relative"
+                                >
+                                    {({ isActive }) => (
                                         <div className={`
-                                            w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-300
+                                            group relative flex items-center p-2.5 rounded-xl border transition-all duration-300
                                             ${isActive
-                                                ? 'bg-white/20 backdrop-blur-sm shadow-inner'
-                                                : 'bg-slate-50 border border-slate-100 group-hover:bg-slate-100'
+                                                ? 'bg-slate-900 border-slate-900 shadow-xl shadow-slate-900/10 scale-[1.02]'
+                                                : 'bg-white border-slate-100 shadow-sm active:bg-slate-50 active:scale-98'
                                             }
-                                            group-hover:scale-110 drop-shadow-sm
                                         `}>
-                                            {item.icon}
+                                            <div className={`
+                                                w-9 h-9 flex items-center justify-center rounded-lg text-lg transition-all duration-300
+                                                ${isActive ? 'bg-white/10' : 'bg-slate-50 group-hover:bg-slate-100'}
+                                            `}>
+                                                {item.icon}
+                                            </div>
+                                            <div className="ml-3 flex-1">
+                                                <span className={`block text-sm font-extrabold tracking-tight transition-colors ${isActive ? 'text-white' : 'text-slate-800'}`}>
+                                                    {item.name}
+                                                </span>
+                                            </div>
+                                            <div className={`transition-transform duration-300 ${isActive ? 'translate-x-0 opacity-100' : '-translate-x-2 opacity-0'}`}>
+                                                <ArrowRightIcon className={`w-4 h-4 ${isActive ? 'text-primary-400' : 'text-slate-300'}`} />
+                                            </div>
                                         </div>
+                                    )}
+                                </NavLink>
+                            ))}
+                        </nav>
+                    </div>
 
-                                        {/* Text Section */}
-                                        <div className="ml-4 flex-1">
-                                            <span className={`block text-lg font-bold tracking-tight transition-colors ${isActive ? 'text-white' : 'text-slate-700 group-hover:text-slate-900'}`}>
-                                                {item.name}
-                                            </span>
-                                        </div>
 
-                                        {/* Right Action/Indicator */}
-                                        <div className="flex items-center justify-center w-8 h-8 mr-1">
-                                            {isActive ? (
-                                                <div className="bg-white/20 rounded-full p-1.5 backdrop-blur-sm">
-                                                    <ArrowRightIcon className="w-5 h-5 text-white" />
-                                                </div>
-                                            ) : (
-                                                <ChevronRightIcon className="w-5 h-5 text-slate-300 group-hover:text-slate-400 transition-colors" />
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
-                            </NavLink>
-                        ))}
-                    </nav>
                 </div>
 
-                {/* Footer Actions */}
-                <div className="p-6 bg-white border-t border-slate-200/50 safe-area-pb">
-                    {/* CTA */}
+                {/* Footer Action: Main CTA */}
+                <div className="p-6 bg-white border-t border-slate-200/50 pb-10">
                     <button
                         onClick={handleQuoteButtonClick}
-                        className="w-full h-14 rounded-xl bg-primary-600 text-white font-black uppercase tracking-wide flex items-center justify-center gap-2 hover:bg-primary-700 transition-all shadow-lg active:scale-95 shadow-primary-500/20"
+                        className="group relative w-full h-16 rounded-[20px] bg-primary-600 border-2 border-primary-600 text-white font-black overflow-hidden active:scale-95 transition-all shadow-xl shadow-primary-600/20"
                     >
-                        <span className="text-sm">
-                            {{
-                                de: 'Offerten erhalten 🚀',
-                                fr: 'Recevoir des offres 🚀',
-                                it: 'Ricevi offerte 🚀',
-                                en: 'Get quotes 🚀',
-                                es: 'Recibir presupuestos 🚀',
-                                pt: 'Receber orçamentos 🚀',
-                                nl: 'Ontvang offertes 🚀',
-                                pl: 'Otrzymaj oferty 🚀',
-                                tr: 'Teklif al 🚀',
-                                ru: 'Получить предложения 🚀',
-                            }[language] || `${t.getQuote} 🚀`}
-                        </span>
-                        <ArrowRightIcon className="w-5 h-5" />
+                        {/* Dynamic Gradient Layer */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-400 opacity-0 group-hover:opacity-10 scale-105 transition-opacity" />
+
+                        <div className="relative flex items-center justify-center gap-3">
+                            <span className="text-base uppercase tracking-tight">
+                                {{
+                                    de: 'Kostenlose Offerten',
+                                    fr: 'Offres gratuites',
+                                    it: 'Offerte gratuite',
+                                    en: 'Free Quotes',
+                                    es: 'Presupuestos gratuitos',
+                                    pt: 'Orçamentos gratuitos',
+                                    nl: 'Gratis offertes',
+                                    pl: 'Bezpłatne oferty',
+                                    tr: 'Ücretsiz Teklifler',
+                                    ru: 'Бесплатные предложения',
+                                }[language] || `${t.getQuote}`}
+                            </span>
+                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <ArrowRightIcon className="w-5 h-5 text-white" />
+                            </div>
+                        </div>
                     </button>
+
+                    {/* Quick Trust Badges repositioned */}
+                    {/* High-Impact Trust Badges with Colored Icons */}
+                    <div className="flex items-center justify-center gap-4 mt-5 opacity-90">
+                        <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white rounded-xl shadow-sm border border-slate-100">
+                            <ColoredUsersIcon className="w-4 h-4 text-primary-600" />
+                            <span className="text-[9px] font-bold text-slate-600 uppercase tracking-widest">Trusted</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white rounded-xl shadow-sm border border-slate-100">
+                            <ColoredShieldCheckIcon className="w-4 h-4 text-emerald-600" />
+                            <span className="text-[9px] font-bold text-slate-600 uppercase tracking-widest">Verified</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white rounded-xl shadow-sm border border-slate-100">
+                            <ColoredStarIcon className="w-4 h-4 text-amber-500" />
+                            <span className="text-[9px] font-bold text-slate-600 uppercase tracking-widest">Premium</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

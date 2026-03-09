@@ -134,7 +134,7 @@ const allServicesData: ServiceItem[] = [
     { name: 'Heizungen', category: 'Handwerker', description: 'Installation und Wartung von Heizungssystemen.', icon: getServiceIcon('Heizungen') },
     { name: 'Klimaanlagen & Lüftungen', category: 'Handwerker', description: 'Montage und Wartung von Klima- und Lüftungsanlagen.', icon: getServiceIcon('Klimaanlagen Installation') },
     { name: 'Schreinerei', category: 'Handwerker', description: 'Umfassende Holzbearbeitung und massgefertigte Möbel.', icon: getServiceIcon('Schreinerei') },
-    { name: 'Gipser', category: 'Innen- und Aussenbau & Renovation', description: 'Verputz, Trockenbau und Stuckatur.', icon: getServiceIcon('Gipser') },
+    { name: 'Gipser', category: 'Innen- und Aussenbau & Renovation', description: 'Verputz, Trockenbau and Stuckatur.', icon: getServiceIcon('Gipser') },
     { name: 'Gipserarbeiten', category: 'Innen- und Aussenbau & Renovation', description: 'Umfassende Gipser- und Verputzarbeiten für Innen und Aussen.', icon: getServiceIcon('Gipserarbeiten') },
     { name: 'Malerarbeiten', category: 'Innen- und Aussenbau & Renovation', description: 'Frische Farbe für Wände, Decken und Fassaden.', icon: getServiceIcon('Malerarbeiten'), popular: true },
     { name: 'Trockenbau', category: 'Innen- und Aussenbau & Renovation', description: 'Errichtung von Leichtbauwänden und modernen Raumtrennsystemen.', icon: getServiceIcon('Trockenbau') },
@@ -327,21 +327,21 @@ const ServicesPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-slate-50 font-sans">
             {/* All Services Section - Modern Layout */}
-            <div id="services-results" className="bg-slate-50 pt-16 sm:pt-20 lg:pt-24 pb-16 sm:pb-24">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-4 sm:pt-6 lg:pt-10 pb-32 sm:pb-40 relative overflow-visible">
+            <div id="services-results" className="bg-slate-50 pt-16 sm:pt-20 lg:pt-24 pb-16 sm:pb-24 overflow-hidden">
+                <div className="container mx-auto px-5 sm:px-6 lg:px-8 max-w-7xl pt-4 sm:pt-6 lg:pt-10 pb-32 sm:pb-40 relative">
                     {/* New Premium Hero Section */}
-                    <div className="relative mb-12 sm:mb-20 overflow-visible">
+                    <div className="relative mb-12 sm:mb-20">
                         {/* Decorative background elements */}
                         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-green-100/50 rounded-full blur-3xl opacity-60 animate-pulse" />
                         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 bg-emerald-100/40 rounded-full blur-3xl opacity-50" />
 
-                        <div className="relative text-center max-w-4xl mx-auto px-4 z-10">
+                        <div className="relative text-center max-w-4xl mx-auto z-10">
 
                             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-slate-900 mb-6 tracking-tight leading-[1.1]">
                                 Finden Sie den <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">passenden</span> Service
                             </h1>
 
-                            <p className="text-slate-600 text-lg sm:text-xl font-medium mb-10 max-w-2xl mx-auto leading-relaxed">
+                            <p className="text-slate-600 text-base sm:text-xl font-medium mb-10 max-w-2xl mx-auto leading-relaxed">
                                 Entdecken Sie unser breites Angebot an professionellen Dienstleistungen – von Renovierung bis Reinigung.
                             </p>
 
@@ -349,11 +349,11 @@ const ServicesPage: React.FC = () => {
                     </div>
 
                     {/* Category Pills - Horizontal Scroll */}
-                    <div className="mb-8 sm:mb-12 -mx-4 px-4 sm:mx-0 sm:px-0 flex justify-center">
-                        <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-4 pt-2 px-2 scrollbar-hide snap-x" style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
+                    <div className="mb-8 sm:mb-12 overflow-x-auto no-scrollbar -mx-5 px-5 sm:mx-0 sm:px-0">
+                        <div className="flex gap-2 sm:gap-3 pb-4 pt-2 snap-x">
                             <button
                                 onClick={() => setSelectedCategory('Alle')}
-                                className={`snap-center flex-shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all shadow-sm ${selectedCategory === 'Alle'
+                                className={`snap-start flex-shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all shadow-sm ${selectedCategory === 'Alle'
                                     ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-green-600/25 shadow-lg scale-105'
                                     : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600 hover:shadow-md'
                                     }`}
@@ -362,13 +362,12 @@ const ServicesPage: React.FC = () => {
                                 <span>Alle Services</span>
                             </button>
                             {categoryOrder.map((category) => {
-                                const count = (servicesByCategory[category] || []).length;
                                 const isActive = selectedCategory === category;
                                 return (
                                     <button
                                         key={category}
                                         onClick={() => setSelectedCategory(category)}
-                                        className={`snap-center flex-shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all shadow-sm ${isActive
+                                        className={`snap-start flex-shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all shadow-sm ${isActive
                                             ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-green-600/25 shadow-lg scale-105'
                                             : 'bg-white text-slate-600 border border-slate-200 hover:border-green-300 hover:text-green-600 hover:shadow-md'
                                             }`}
@@ -391,7 +390,7 @@ const ServicesPage: React.FC = () => {
                                 return (
                                     <div key={category} className="space-y-4 sm:space-y-6">
                                         {/* Category Title Header */}
-                                        <div className="flex items-center gap-3 px-1 sm:px-0 mb-4 sm:mb-6">
+                                        <div className="flex items-center gap-3 mb-4 sm:mb-6">
                                             <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center shadow-sm">
                                                 <span className="text-lg">{categoryIcons[category]}</span>
                                             </div>

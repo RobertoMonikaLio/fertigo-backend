@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { ArrowRightIcon, SwissFlagIcon, ColoredMagnifyingGlassIcon, ColoredChatBubbleLeftRightIcon, ColoredCheckCircleIcon, ColoredBanknotesIcon, ColoredLockClosedIcon, ColoredPaintRollerIcon, ColoredBoltIcon, ColoredWrenchScrewdriverIcon, ColoredScaffoldingIcon, ColoredLeafIcon, ColoredVacuumCleanerIcon, ColoredGardenIcon, ColoredHomeModernIcon, ColoredClockIcon, ColoredBriefcaseIcon, ColoredUsersIcon, ColoredWindowIcon, ColoredMapPinIcon, ColoredSparklesIcon } from '../components/icons';
 import { useAppContext } from './AppContext';
 import { translations } from '../components/translations';
+import ProviderComparison from '../components/ProviderComparison';
 
 const ProvidersPage: React.FC = () => {
     const { language } = useAppContext();
@@ -25,15 +26,25 @@ const ProvidersPage: React.FC = () => {
             {/* ══════════ HERO REIMAGINED – LIGHT, PREMIUM & TRUST-FOCUSED ══════════ */}
             <section
                 ref={heroRef}
-                className="relative overflow-hidden bg-slate-50 min-h-[80vh] sm:min-h-[90vh] pb-20 sm:pb-24 pt-28 sm:pt-32 lg:pt-40"
+                className="relative overflow-hidden bg-slate-50 min-h-[85vh] sm:min-h-[90vh] pb-20 sm:pb-24 pt-28 sm:pt-32 lg:pt-40 flex flex-col justify-center"
             >
-                {/* ── Background Elements ── */}
-                <div className="absolute inset-0 z-0 pointer-events-none">
-                    {/* Subtle grid pattern */}
+                {/* ── Desktop Background Elements ── */}
+                <div className="absolute inset-0 z-0 pointer-events-none hidden sm:block">
                     <div className="absolute inset-0 opacity-[0.4]" style={{ backgroundImage: 'radial-gradient(#e2e8f0 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-                    {/* Soft gradient blobs for depth */}
                     <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-gradient-to-bl from-green-50 to-transparent rounded-full blur-3xl opacity-70" />
                     <div className="absolute bottom-[10%] left-[-10%] w-[40vw] h-[40vw] bg-gradient-to-tr from-emerald-50 to-transparent rounded-full blur-3xl opacity-60" />
+                </div>
+
+                {/* ── Mobile Background Image (New Premium UI) ── */}
+                <div className="absolute inset-0 z-0 sm:hidden pointer-events-none">
+                    <img
+                        src="/images/providers-hero-mobile.png"
+                        alt="Craftsman background"
+                        className="w-full h-full object-cover"
+                    />
+                    {/* Gradient Overlay for Text Readability - Sharpness Optimized */}
+                    <div className="absolute inset-0 bg-white/40" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-50/5 via-white/50 to-white" />
                 </div>
 
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -43,7 +54,7 @@ const ProvidersPage: React.FC = () => {
                     >
                         {/* Revolutionary Headline Section */}
                         <div className="mb-8 text-center">
-                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-full px-3 py-1 mb-4">
+                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-full px-3 py-1 -mt-10 mb-6">
                                 <span className="text-2xl">🔥</span>
                                 <span className="text-[11px] font-black text-amber-700 uppercase tracking-[0.2em]">
                                     Top-Rated 2024
@@ -79,31 +90,6 @@ const ProvidersPage: React.FC = () => {
                                 {t.hero?.ctaRegister || 'Kostenlos registrieren'}
                                 <ArrowRightIcon className="w-4 h-4 text-green-400" />
                             </Link>
-                            <p className="text-[11px] text-slate-400 text-center">
-                                Kein Abo · Keine Provision · In wenigen Minuten startklar
-                            </p>
-                        </div>
-
-                        {/* Final Trust Section */}                        <div className="bg-gradient-to-r from-slate-50 to-slate-100 rounded-3xl p-6 text-center">
-                            <div className="flex items-center justify-center gap-4 mb-4">
-                                <div className="flex items-center gap-1">
-                                    <SwissFlagIcon className="w-4 h-4" />
-                                    <span className="text-xs font-black text-slate-700">Schweizer Qualität</span>
-                                </div>
-                                <div className="w-px h-4 bg-slate-300"></div>
-                                <div className="flex items-center gap-1">
-                                    <span className="text-sm">✅</span>
-                                    <span className="text-xs font-black text-slate-700">Geprüfte Kunden</span>
-                                </div>
-                                <div className="w-px h-4 bg-slate-300"></div>
-                                <div className="flex items-center gap-1">
-                                    <span className="text-sm">🛡️</span>
-                                    <span className="text-xs font-black text-slate-700">Datenschutz</span>
-                                </div>
-                            </div>
-                            <p className="text-[11px] text-slate-500 font-medium">
-                                Über 2'500 Schweizer Unternehmen vertrauen Fertigo
-                            </p>
                         </div>
                     </div>
 
@@ -140,21 +126,7 @@ const ProvidersPage: React.FC = () => {
                                 </Link>
                             </div>
 
-                            {/* Key Benefits */}
-                            <ul className="flex flex-col gap-3">
-                                {[
-                                    'Kein Abo',
-                                    'Nur 100% Qualifizierte Leads',
-                                    'Schweizweit Faire Preise'
-                                ].map((item, i) => (
-                                    <li key={i} className="flex items-center gap-3 text-slate-700 font-medium">
-                                        <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                                            <svg className="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                        </div>
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
+                            {/* Key Benefits removed as requested */}
                         </div>
 
                         {/* ── RIGHT: Dynamic Visual Composition ── */}
@@ -221,19 +193,7 @@ const ProvidersPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
-                <style>{`
-                    .animate-float {
-                        animation: float 6s ease-in-out infinite;
-                    }
-                    @keyframes float {
-                        0% { transform: translateY(0px); }
-                        50% { transform: translateY(-15px); }
-                        100% { transform: translateY(0px); }
-                    }
-                `}</style>
             </section>
-
 
             {/* ══════════ 3 SCHRITTE - STYLE WIE HOME PAGE ══════════ */}
             <section ref={stepsRef} className="relative py-12 sm:py-28 lg:py-36 overflow-hidden bg-white">
@@ -413,264 +373,11 @@ const ProvidersPage: React.FC = () => {
             </section>
 
             {/* ══════════ COMPARISON SHOWCASE - WAS SICH ÄNDERT ══════════ */}
-            <section ref={benefitsRef} className="py-24 sm:py-32 relative bg-white overflow-hidden">
-                {/* Subtle Background Elements */}
-                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-bl from-green-50/50 via-emerald-50/20 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-                <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-teal-50/40 to-transparent rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+            <div ref={benefitsRef}>
+                <ProviderComparison t={t} language={language} />
+            </div>
 
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
-
-                    {/* Header */}
-                    <div className={`text-center max-w-3xl mx-auto mb-16 sm:mb-24 transition-all duration-1000 ease-out ${benefitsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 text-sm font-bold text-slate-800 tracking-wide uppercase mb-6">
-                            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                            {t.benefits.badge}
-                        </div>
-                        <h2
-                            className="text-4xl md:text-5xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.15] mb-6"
-                            dangerouslySetInnerHTML={{ __html: t.benefits.title }}
-                        />
-                        <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto mb-4">
-                            Die alten Wege kosten Zeit, Geld und Nerven. So sieht Ihr Alltag aus, wenn Sie mit den modernsten Werkzeugen arbeiten.
-                        </p>
-                    </div>
-
-                        {/* ─── NEW: Faux Slider Comparison (2024 Redesign v2) ─── */}
-                        <div className="sm:hidden">
-                            <div className="text-center mb-10">
-                                <h3 className="text-3xl font-black text-slate-900 mb-2 leading-tight">
-                                    Der direkte Vergleich
-                                </h3>
-                                <p className="text-sm text-slate-600 font-medium max-w-xs mx-auto">
-                                    So revolutioniert Fertigo Ihren Arbeitsalltag.
-                                </p>
-                            </div>
-
-                            <div className="space-y-6">
-                                {t.benefits.rows.map((row: any, i: number) => (
-                                    <div key={i} className="bg-white border border-slate-200/80 rounded-3xl shadow-sm overflow-hidden">
-                                        {/* Card Header */}
-                                        <div className="flex items-center gap-3 p-4 border-b border-slate-100 bg-slate-50/70">
-                                            <div className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-lg">
-                                                {["💼", "👥", "🖥️", "⏰", "💳", "📍", "✅"][i]}
-                                            </div>
-                                            <h4 className="text-sm font-black text-slate-800 uppercase tracking-wider">{row.label}</h4>
-                                        </div>
-                                        
-                                        {/* Faux Slider Body */}
-                                        <div className="relative">
-                                            <div className="flex">
-                                                {/* Before (Left side) */}
-                                                <div className="w-1/2 bg-slate-100/50 p-4">
-                                                    <div className="text-[10px] font-bold text-red-500 mb-1.5 opacity-80">Ohne Fertigo</div>
-                                                    <p className="text-xs font-medium text-slate-500 line-through decoration-red-200 decoration-2">
-                                                        {row.before}
-                                                    </p>
-                                                </div>
-                                                {/* After (Right side) */}
-                                                <div className="w-1/2 bg-green-50/60 p-4">
-                                                    <div className="text-[10px] font-bold text-green-600 mb-1.5 flex items-center gap-1">
-                                                        <ColoredSparklesIcon className="w-3 h-3" />
-                                                        Mit Fertigo
-                                                    </div>
-                                                    <p className="text-xs font-semibold text-green-900">
-                                                        {row.after}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            
-                                            {/* Slider Handle */}
-                                            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none">
-                                                <div className="w-1 h-full bg-white/50" />
-                                                <div className="absolute w-8 h-8 rounded-full bg-white shadow-md border-2 border-slate-200 flex items-center justify-center">
-                                                    <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        {/* Desktop Table View */}
-                        <div className={`hidden sm:block relative max-w-5xl mx-auto transition-all duration-1000 delay-200 ${benefitsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-
-                            {/* Absolute Highlight Column Background (Desktop) */}
-                            <div className="hidden sm:block absolute top-0 bottom-0 left-[33.333333%] w-[33.333333%] bg-red-50/40 rounded-2xl border border-red-100/50 z-0">
-                                <div className="absolute inset-0 bg-gradient-to-b from-red-50/50 to-transparent rounded-[2rem] pointer-events-none" />
-                            </div>
-
-                            <div className="hidden sm:block absolute top-0 bottom-0 right-0 w-[33.333333%] bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(52,211,153,0.3)] ring-1 ring-emerald-100/50 transform scale-y-[1.03] z-0">
-                                <div className="absolute inset-0 bg-gradient-to-b from-emerald-50/50 to-transparent rounded-[2rem] pointer-events-none" />
-                            </div>
-
-                            {/* Column Headers */}
-                            <div className="grid grid-cols-1 sm:grid-cols-12 gap-0 px-4 sm:px-6 mb-8 relative z-10">
-                                <div className="hidden sm:block sm:col-span-4"></div>
-                                <div className="sm:col-span-4 flex flex-col justify-end text-center pb-4 relative z-10">
-                                    <span className="text-sm font-bold text-red-500/70 mb-1 line-through decoration-red-300">Konventionell</span>
-                                    <span className="text-xl font-black text-red-900/80">Ohne Fertigo</span>
-                                </div>
-                                <div className="sm:col-span-4 flex flex-col justify-end text-center pb-4 -mt-6">
-                                    {/* Badge that breaks out of grid slightly */}
-                                    <div className="mx-auto mb-3">
-                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-black uppercase tracking-widest rounded-full shadow-sm shadow-emerald-200">
-                                            <ColoredSparklesIcon className="w-3.5 h-3.5" />
-                                            Die Zukunft
-                                        </span>
-                                    </div>
-                                    <span className="text-2xl font-black text-slate-900">Mit Fertigo</span>
-                                </div>
-                            </div>
-
-                            {/* Rows */}
-                            <div className="relative z-10 border-t border-slate-200/60 sm:border-none flex flex-col pt-4 sm:pt-0 gap-4 sm:gap-0">
-                                {t.benefits.rows.map((row: any, i: number) => {
-                                    const isFirst = i === 0;
-                                    const isLast = i === t.benefits.rows.length - 1;
-
-                                    return (
-                                        <div key={i} className={`group grid grid-cols-1 sm:grid-cols-12 items-center sm:min-h-[96px] transition-colors relative
-                                            ${!isLast ? 'sm:border-b sm:border-slate-200/60' : ''}
-                                            bg-white sm:bg-transparent rounded-2xl sm:rounded-none border border-slate-100 sm:border-transparent shadow-sm sm:shadow-none
-                                        `}>
-
-                                            {/* Label Area */}
-                                            <div className="sm:col-span-4 flex items-center gap-4 py-4 sm:py-6 px-4 sm:px-6 border-b border-slate-100/80 sm:border-b-0">
-                                                <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-xl group-hover:bg-white group-hover:shadow-sm group-hover:scale-105 transition-all flex-shrink-0">
-                                                    {i === 0 && "💼"}
-                                                    {i === 1 && "👥"}
-                                                    {i === 2 && "🖥️"}
-                                                    {i === 3 && "⏰"}
-                                                    {i === 4 && "💳"}
-                                                    {i === 5 && "📍"}
-                                                    {i > 5 && "✅"}
-                                                </div>
-                                                <span className="text-sm font-black text-slate-800 uppercase tracking-widest leading-snug">{row.label}</span>
-                                            </div>
-
-                                            {/* Values Data */}
-                                            <div className="sm:col-span-8 flex flex-col sm:grid sm:grid-cols-2 gap-2 sm:gap-0 pb-5 sm:pb-0 px-4 sm:px-0 h-full items-center relative z-10">
-                                                {/* Before */}
-                                                <div className="w-full sm:w-auto col-span-1 flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-center p-3 sm:p-0 bg-red-50/40 sm:bg-transparent rounded-xl sm:rounded-none border border-red-100/50 sm:border-none relative">
-                                                    <div className="sm:hidden text-[10px] font-black uppercase text-red-500/80 mb-1">Ohne Fertigo</div>
-                                                    <span className="text-sm font-medium text-red-600/70 line-through decoration-red-300 group-hover:decoration-red-400 group-hover:text-red-700/80 transition-colors">
-                                                        {row.before}
-                                                    </span>
-                                                </div>
-
-                                                {/* Mobile Arrow */}
-                                                <div className="sm:hidden flex justify-center w-full -my-2 relative z-20">
-                                                    <div className="bg-white rounded-full p-1 border border-slate-100 shadow-sm">
-                                                        <svg className="w-3.5 h-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                                                        </svg>
-                                                    </div>
-                                                </div>
-
-                                                {/* After */}
-                                                <div className="w-full sm:w-auto col-span-1 flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-center p-4 sm:p-0 bg-emerald-50/80 sm:bg-transparent rounded-xl sm:rounded-none border border-emerald-100/60 sm:border-none relative transition-colors shadow-sm sm:shadow-none shadow-emerald-100/50">
-                                                    <div className="sm:hidden text-[10px] font-black uppercase text-emerald-600 mb-1 flex items-center gap-1">
-                                                        <ColoredSparklesIcon className="w-3 h-3" /> Mit Fertigo
-                                                    </div>
-                                                    <div className="flex items-center gap-2 transform group-hover:translate-x-1 transition-transform">
-                                                        <div className="hidden sm:flex w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
-                                                        <span className="text-lg sm:text-lg font-black text-emerald-950 sm:text-slate-900 group-hover:text-emerald-700 transition-colors pointer-events-none">
-                                                            {row.after}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
-                    {/* Pricing Core Pillars (Bottom Strip) */}
-                    <div className={`mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto transition-all duration-1000 delay-500 ${benefitsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                        {/* 1 */}
-                        <div className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] transition-all group">
-                            <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center mb-4 text-emerald-600 group-hover:scale-110 transition-transform">
-                                <span className="text-2xl">🎯</span>
-                            </div>
-                            <h4 className="font-extrabold text-slate-900 text-lg mb-1">{t.benefits.pricing.lead}</h4>
-                            <p className="text-sm text-slate-500 font-medium text-center">{t.benefits.pricing.leadDesc}</p>
-                        </div>
-                        {/* 2 */}
-                        <div className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] transition-all group">
-                            <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mb-4 text-blue-600 group-hover:scale-110 transition-transform">
-                                <span className="text-2xl">💰</span>
-                            </div>
-                            <h4 className="font-extrabold text-slate-900 text-lg mb-1">{t.benefits.pricing.provision}</h4>
-                            <p className="text-sm text-slate-500 font-medium text-center">{t.benefits.pricing.provisionDesc}</p>
-                        </div>
-                        {/* 3 */}
-                        <div className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] transition-all group">
-                            <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center mb-4 text-orange-600 group-hover:scale-110 transition-transform">
-                                <span className="text-2xl">⏳</span>
-                            </div>
-                            <h4 className="font-extrabold text-slate-900 text-lg mb-1">{t.benefits.pricing.noAbo}</h4>
-                            <p className="text-sm text-slate-500 font-medium text-center">{t.benefits.pricing.noAboDesc}</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ══════════ PARTNER VORTEILE - MOBILE ONLY ══════════ */}
-            <section className={`sm:hidden py-16 bg-gradient-to-br from-blue-50 via-white to-indigo-50 transition-all duration-700`}>
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-                    {/* Mobile Header */}
-                    <div className="text-center mb-8">
-                        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full px-4 py-2 mb-6 shadow-xl shadow-blue-600/40">
-                            <span className="text-2xl">🎯</span>
-                            <span className="text-[11px] font-black uppercase tracking-[0.2em]">
-                                Warum Fertigo?
-                            </span>
-                        </div>
-                        <h2 className="text-[2.2rem] font-black text-slate-900 mb-4 leading-tight">
-                            Die Vorteile<br />
-                            <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-500">
-                                die überzeugen
-                            </span>
-                        </h2>
-                        <div className="bg-gradient-to-r from-blue-100 to-indigo-100 rounded-3xl p-6 border border-blue-200 shadow-xl">
-                            <p className="text-lg font-black text-blue-900">
-                                💼 Alles, was Sie als Partner brauchen
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Partner Benefits Cards */}
-                    <div className="space-y-6 mb-12">
-                        {[
-                            {
-                                icon: '💰',
-                                title: t.benefits.pricing.lead,
-                                desc: t.benefits.pricing.leadDesc
-                            },
-                            {
-                                icon: '🔒',
-                                title: t.benefits.pricing.provision,
-                                desc: t.benefits.pricing.provisionDesc
-                            },
-                            {
-                                icon: '⏰',
-                                title: t.benefits.pricing.noAbo,
-                                desc: t.benefits.pricing.noAboDesc
-                            }
-                        ].map((item, i) => (
-                            <div key={i} className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 text-center hover:border-green-200 hover:shadow-sm transition-all duration-300 flex flex-col items-center">
-                                <div className="mb-2">{item.icon}</div>
-                                <h4 className="font-black text-slate-900 text-xs sm:text-sm mb-0.5">{item.title}</h4>
-                                <p className="text-slate-400 text-[10px] sm:text-xs">{item.desc}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-        </div>
+        </div >
     );
 };
 
